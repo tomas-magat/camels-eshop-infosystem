@@ -4,11 +4,9 @@ Infosystém pozostávajúci z 5 modulov, riadiacich základné biznis procesy s�
 
 ## Modules
 
-- Sklad
-- Cenotvorba
-- Interná databáza
-- Štatistika
-- Predajný portál
+(modules1.png)
+(modules2.png)
+(modules3.png)
 
 ## Structure
 
