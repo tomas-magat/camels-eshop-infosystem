@@ -8,4 +8,4 @@
 1. Make changes to the code locally
 2. Stage changes (`git add .`)
 3. Commit changes (`git commit -m "<what has changed>"`)
-4. 'Share' your changes on the Github (`git push`)
+4. Publish your changes on the Github (`git push`)
