@@ -4,9 +4,9 @@ Infosystém pozostávajúci z 5 modulov, riadiacich základné biznis procesy s�
 
 ## Modules
 
-(modules1.png)
-(modules2.png)
-(modules3.png)
+!(modules1.png)
+!(modules2.png)
+!(modules3.png)
 
 ## Structure
 
