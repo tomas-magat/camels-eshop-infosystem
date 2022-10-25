@@ -16,3 +16,4 @@
 2. Stage changes `git add .`
 3. Commit changes `git commit -m "<what has changed>"`
 4. Publish your changes on the Github `git push`
+5. Repeat
