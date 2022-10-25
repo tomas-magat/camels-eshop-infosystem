@@ -12,7 +12,8 @@
  
 ## Working with git
 
-1. Make changes to the code locally
-2. Stage changes `git add .`
-3. Commit changes `git commit -m "<what has changed>"`
-4. Publish your changes on the Github `git push`
+1. Take recent code from Github `git pull`
+2. Make changes to the code locally
+3. Stage changes `git add .`
+4. Commit changes `git commit -m "<what has changed>"`
+5. Publish your changes on the Github `git push`
