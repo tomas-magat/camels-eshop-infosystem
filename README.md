@@ -1,6 +1,6 @@
 # Information system of the Camels E-shop
 
-Infosystém pozostávajúci z 5 modulov, riadiacich základné administratívne činnosti E
+Infosystém pozostávajúci z 5 modulov, riadiacich základné administratívne činnosti E-shopu
 
 ## Modules
 
