@@ -8,8 +8,6 @@ def read_file(filename):
     """Simplify reading data from a specified 
        filename and get it in a list form."""
 
-    data = []
-
     filepath = get_filepath(filename, '.txt')
 
     with open(filepath, 'r') as file:
