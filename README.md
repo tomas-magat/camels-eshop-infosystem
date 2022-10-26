@@ -1,6 +1,6 @@
 # Information system of the Camels E-shop
 
-[Zadanie](zadanie.pdf)
+[Zadanie](assets/zadanie.pdf)
 
 ## Downloading and intializing git
 
@@ -20,4 +20,4 @@
 
 ## Module and datafile structure 
 
-![](STRUCTURE.png)
+![](assets/STRUCTURE.png)
