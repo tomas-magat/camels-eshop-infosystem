@@ -17,3 +17,7 @@
 3. Stage changes `git add .`
 4. Commit changes `git commit -m "<what has changed>"`
 5. Publish your changes on the Github `git push`
+
+## Module and datafile structure 
+
+![](STRUCTURE.png)
