@@ -15,7 +15,7 @@
 1. Take recent code from Github `git pull`
 2. Make changes to the code locally
 3. Stage changes `git add .`
-4. Commit changes `git commit -m "<what has changed>"`
+4. Commit changes `git commit -am "<what has changed>"`
 5. Publish your changes on the Github `git push`
 
 ## Module and datafile structure 
