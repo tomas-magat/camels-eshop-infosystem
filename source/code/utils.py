@@ -1,5 +1,4 @@
 import random
-from telnetlib import NEW_ENVIRON
 from ENV_VARS import *
 
 
