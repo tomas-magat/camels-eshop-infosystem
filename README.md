@@ -30,6 +30,7 @@
 10. Click 'confirm merge' and 'delete old branch' buttons
 > In your terminal
 11. Switch to the main branch `git checkout main`
+12. Sync your code with github `git pull`
 
 
 ## Module and datafile structure 
