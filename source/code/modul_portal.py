@@ -2,7 +2,9 @@ from utils import *
 
 
 goods = read_file('tovar')
-id = random_id('N')
+goods.append(['2121', 'hocico', 'hocico.jpg'])
 
-lock_file('TOVAR.txt')
-print(is_locked('TOVAR'))
+if not is_locked('tovar'):
+    lock_file('tovar')
+    save_to_file('tovar', goods)
+    unlock_file('tovar')

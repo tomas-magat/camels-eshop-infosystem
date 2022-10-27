@@ -1,9 +1,11 @@
 import os
 import platform
 
-os.chdir('..')
-os.chdir('..')
 rootpath = os.getcwd()
+if rootpath == 'code':
+    os.chdir('..')
+    os.chdir('..')
+
 
 PATH = os.path.abspath(rootpath)
 SYSTEM = platform.system()
