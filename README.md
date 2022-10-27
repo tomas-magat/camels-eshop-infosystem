@@ -25,10 +25,11 @@
 6. Push your changes to the Github `git push`
 > On the github website:
 7. Click 'compare & pull request' button that appeared on the top of the github page
-8. Click 'merge' button
-
-#### Clear workspace after work (after pushing all changes)
-10. Switch to the main branch `git checkout main`
+8. Click 'create pull request' button
+9. Click 'merge pull request' button on the following page
+10. Click 'confirm merge' and 'delete old branch' buttons
+> In your terminal
+11. Switch to the main branch `git checkout main`
 
 
 ## Module and datafile structure 
