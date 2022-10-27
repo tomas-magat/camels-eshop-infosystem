@@ -30,7 +30,7 @@
 8. Click 'create pull request' button
 9. Click 'merge pull request' button on the following page
 10. Click 'confirm merge' and 'delete old branch' buttons
-> In your terminal
+> In your terminal:
 11. Switch to the main branch `git checkout main`
 12. Sync your code with github `git pull`
 
