@@ -14,7 +14,7 @@
 
 *Follow these steps:*
 
-#### Create new branch for new changes
+#### Create new branch for new changes (in your terminal)
 1. Take recent code from Github `git pull`
 2. Create branch `git checkout -b <name of the new the branch>`
 
