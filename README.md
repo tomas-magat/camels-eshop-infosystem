@@ -12,11 +12,24 @@
  
 ## Working with git
 
+#### Create new branch for new changes
 1. Take recent code from Github `git pull`
-2. Make changes to the code locally
-3. Stage changes `git add .`
-4. Commit changes `git commit -am "<what has changed>"`
-5. Publish your changes on the Github `git push`
+2. Create branch `git checkout -b <name of the new the branch>`
+
+#### Making changes (do this until you're finished with changing the code)
+3. Make changes to the code locally
+4. Stage changes `git add .`
+5. Commit changes `git commit -am "<what has changed>"`
+
+#### Publishing changes on Github
+6. Push your changes to the Github `git push`
+> On the github website:
+> 7. Click 'compare and merge pull request' button that appeared on the top of the github page
+> 8. Click merge
+
+#### Clear workspace after work (after pushing all changes)
+10. SWitch to the main branch `git checkout main`
+
 
 ## Module and datafile structure 
 
