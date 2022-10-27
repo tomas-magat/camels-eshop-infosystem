@@ -12,7 +12,7 @@
  
 ## Working with git
 
-- *Follow these steps*
+*Follow these steps:*
 
 #### Create new branch for new changes
 1. Take recent code from Github `git pull`
