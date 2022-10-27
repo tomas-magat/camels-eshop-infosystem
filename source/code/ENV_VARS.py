@@ -1,5 +1,9 @@
 import os
 import platform
 
-PATH = os.path.abspath('camels-eshop-infosystem')
+os.chdir('..')
+os.chdir('..')
+rootpath = os.getcwd()
+
+PATH = os.path.abspath(rootpath)
 SYSTEM = platform.system()
