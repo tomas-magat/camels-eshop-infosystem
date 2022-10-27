@@ -20,4 +20,4 @@
 
 ## Module and datafile structure 
 
-![](assets/STRUCTURE.png)
+![](assets/STRUCTURE_2.png)
