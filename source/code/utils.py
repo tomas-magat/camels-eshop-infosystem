@@ -1,4 +1,5 @@
 import random
+from telnetlib import NEW_ENVIRON
 from ENV_VARS import *
 
 
@@ -11,31 +12,22 @@ def read_file(filename):
     filepath = get_filepath(filename, '.txt')
 
     with open(filepath, 'r') as file:
-        data = [line.rstrip('\n') for line in file.readlines()]
-        data[0] = int(data[0])
-        
-        for i, line in enumerate(data[1:]):
-            datapoint = line.split(';')
-            data[i+1] = datapoint
-            
+        lines = file.readlines()
+        data = scsv_to_list(lines[1:])
+                    
     return data
 
 
-def get_filepath(filename, ending='.txt'):
-    """Get absolute path of data txt file. 
-       Supports also filenames without extension."""
+def save_to_file(filename, data):
+    """Simplify saving data entries in format [[],[],...]."""
 
-    file_format = filename.split('.')
+    update_version(filename)
 
-    if len(file_format) > 1:
-        if file_format[1] != 'txt':
-            print("'filename' must be valid txt filename")
-            return
-
-    filename = file_format[0].upper() + ending 
-    filepath = os.path.join(PATH, 'source', 'data', filename)
-
-    return filepath
+    filepath = get_filepath(filename, '.txt')
+    scsv_data = list_to_scsv(data)
+    
+    with open(filepath, 'w') as file:
+        file.writelines(scsv_data)
 
 
 # ID Generating
@@ -72,3 +64,74 @@ def is_locked(filename):
     filepath = get_filepath(filename, '_LOCK.txt')
     return os.path.exists(filepath)
 
+
+# File versions
+
+def update_version(filename):
+    """Simplify incrementing version number in
+       a filename_VERZIA.txt file."""
+    
+    filepath = get_filepath(filename, '_VERZIA.txt')
+
+    with open(filepath, 'r+') as file:
+        line = file.read().rstrip('\n')
+        version = int(line)+1 if line.isdigit() else 1
+        
+        file.seek(0)
+        file.truncate()
+        file.write(str(version))
+
+
+# Data converting
+
+def list_to_scsv(data):
+    """
+    Converts data in format:
+    [[val,val2],...] 
+    
+    to valid semi-colon separated values in a list:
+    ['length', 'val;val', ...]
+    """
+
+    length = len(data)
+    scsv_data = [str(length)+'\n']
+
+    for item in data:
+        datapoint = ';'.join(item) + '\n'
+        scsv_data.append(datapoint)
+
+    return scsv_data
+
+
+def scsv_to_list(data):
+    """
+    Converts data in semi-colon separated format:
+    ['length', 'val;val', ...]
+    
+    to list:
+    [[val,val2],...]
+    """
+    
+    for i, line in enumerate(data):
+        datapoint = line.rstrip('\n').split(';')
+        data[i] = datapoint
+
+    return data
+    
+
+# PATH generating
+
+def get_filepath(filename, ending='.txt'):
+    """Get absolute path of data txt file. 
+       Supports also filenames without extension."""
+
+    file_format = filename.split('.')
+
+    if len(file_format) > 1 and file_format[1] != 'txt':
+        print("'filename' must be valid txt filename")
+        return
+
+    filename = file_format[0].upper() + ending 
+    filepath = os.path.join(PATH, 'source', 'data', filename)
+
+    return filepath
