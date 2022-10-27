@@ -24,7 +24,7 @@
 #### Publishing changes on Github
 6. Push your changes to the Github `git push`
 > On the github website:
-7. Click 'compare and merge pull request' button that appeared on the top of the github page
+7. Click 'compare & pull request' button that appeared on the top of the github page
 8. Click 'merge' button
 
 #### Clear workspace after work (after pushing all changes)
