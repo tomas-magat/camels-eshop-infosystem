@@ -12,6 +12,11 @@ def read_file(filename):
 
     with open(filepath, 'r') as file:
         data = [line.rstrip('\n') for line in file.readlines()]
+        data[0] = int(data[0])
+        
+        for i, line in enumerate(data[1:]):
+            datapoint = line.split(';')
+            data[i+1] = datapoint
             
     return data
 
