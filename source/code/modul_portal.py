@@ -1,38 +1,19 @@
-import threading
-import time
-
 from utils import *
 
 
 goods = read_file('tovar')
+version = get_version('tovar')
 
-# Continuous updating of 'goods' variable
+
+# Update 'goods' variable every 3 seconds
 def update_goods():
-    global goods
-
-    last_version = get_version('tovar')
+    global goods, version
     
-    while True:
-        time.sleep(3)
-        current_version = get_version('tovar')
+    current_version = get_version('tovar')
 
-        if current_version != last_version:
-            goods = read_file('tovar')
-            last_version = current_version
-        
+    if current_version != version:
+        print('y')
+        goods = read_file('tovar')
+        version = current_version
 
-goods_thread = threading.Thread(target=update_goods)
-goods_thread.start()
-
-
-goods.append(['2121', 'hocico', 'hocico.jpg'])
-
-if not is_locked('tovar'):
-    lock_file('tovar')
-    save_to_file('tovar', goods)
-    unlock_file('tovar')
-
-
-
-
-    
+run_periodically(update_goods, 3)

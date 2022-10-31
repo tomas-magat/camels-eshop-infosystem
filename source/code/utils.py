@@ -1,4 +1,7 @@
 import random
+import threading
+import time
+
 from ENV_VARS import *
 
 
@@ -89,6 +92,25 @@ def get_version(filename):
     with open(filepath, 'r') as file:
         version = int(file.read().rstrip('\n'))
         return version
+
+
+# Background periodical function calling
+
+def run_periodically(function, delay=5):
+    """Use threading and time.sleep() to run function
+       with delay while not affecting the runtime of app."""
+
+    background_thread = threading.Thread(target=
+        lambda: callback(function, delay))
+    background_thread.start()
+
+
+def callback(function, delay):
+    """Run function forever with delays between each run."""
+
+    while True:
+        function()
+        time.sleep(delay)
 
 
 # Data converting
