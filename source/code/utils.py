@@ -81,6 +81,16 @@ def update_version(filename):
         file.write(str(version))
 
 
+def get_version(filename):
+    """Return version integer from [filename]_VERZIA.txt."""
+
+    filepath = get_filepath(filename, '_VERZIA.txt')
+
+    with open(filepath, 'r') as file:
+        version = int(file.read().rstrip('\n'))
+        return version
+
+
 # Data converting
 
 def list_to_scsv(data):
