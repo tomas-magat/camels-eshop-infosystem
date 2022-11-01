@@ -19,7 +19,7 @@
 2. Create branch `git checkout -b <name of the new the branch>`
 
 #### Making changes (repeat these steps until you're finished with changing the code)
-3. Make changes to the code locally
+3. Make changes to the code
 4. Stage changes `git add .`
 5. Commit changes `git commit -am "<what has changed>"`
 
