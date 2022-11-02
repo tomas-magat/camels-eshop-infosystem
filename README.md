@@ -6,8 +6,8 @@
 
 1. [Download git](https://git-scm.com/) and follow installation guide
 2. In your local project folder open [command prompt](https://www.youtube.com/watch?v=bgSSJQolR0E)
-3. Enter command `git config --global user.name "<your github username>"`
-4. Next enter `git config --global user.email "<your e-mail>"`
+3. Enter command `git config --global user.name "your github username"`
+4. Next enter `git config --global user.email "your e-mail"`
 5. Clone this repository `git clone https://github.com/tomas-magat/camels-eshop-infosystem.git`
  
 ## Working with git
@@ -16,15 +16,15 @@
 
 #### Create new branch for new changes (in your terminal)
 1. Take recent code from Github `git pull`
-2. Create branch `git checkout -b <name of the new the branch>`
+2. Create branch `git checkout -b name-of-the-new-branch`
 
 #### Making changes (repeat these steps until you're finished with changing the code)
 3. Make changes to the code
 4. Stage changes `git add .`
-5. Commit changes `git commit -am "<what has changed>"`
+5. Commit changes `git commit -am "Describe what has changed"`
 
 #### Publishing changes on Github
-6. Push your changes to the Github `git push`
+6. Push your changes to the Github `git push --set-upstream origin name-of-the-branch-you-created`
 > On the github website:
 7. Click 'compare & pull request' button that appeared on the top of the github page
 8. Click 'create pull request' button
