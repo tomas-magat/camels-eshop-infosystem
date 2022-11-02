@@ -1,4 +1,7 @@
 import random
+import threading
+import time
+
 from ENV_VARS import *
 
 
@@ -6,11 +9,11 @@ from ENV_VARS import *
 
 def read_file(filename):
     """Simplify reading data from a specified 
-       filename and get it in a list form."""
+       filename and return it in a 2D list format."""
 
     filepath = get_filepath(filename, '.txt')
 
-    with open(filepath, 'r') as file:
+    with open(filepath, 'r', encoding='utf-8') as file:
         lines = file.readlines()
         data = scsv_to_list(lines[1:])
                     
@@ -18,14 +21,16 @@ def read_file(filename):
 
 
 def save_to_file(filename, data):
-    """Simplify saving data entries in format [[],[],...]."""
+    """Convert data entry to semi-colon separated 
+       values and save it to [filename].txt.
+       Update version number of the saved [filename]."""
 
     update_version(filename)
 
     filepath = get_filepath(filename, '.txt')
     scsv_data = list_to_scsv(data)
     
-    with open(filepath, 'w') as file:
+    with open(filepath, 'w', encoding='utf-8') as file:
         file.writelines(scsv_data)
 
 
@@ -44,12 +49,12 @@ def lock_file(filename):
     """Simplify locking files that are currently in use."""
 
     filepath = get_filepath(filename, '_LOCK.txt')
-    open(filepath, 'w').close()
+    open(filepath, 'w', encoding='utf-8').close()
 
 
 def unlock_file(filename):
     """Simplify unlocking files that are currently not
-       in use (delete lock file)."""
+       in use (delete lock file if it exists)."""
 
     filepath = get_filepath(filename, '_LOCK.txt')
 
@@ -72,7 +77,7 @@ def update_version(filename):
     
     filepath = get_filepath(filename, '_VERZIA.txt')
 
-    with open(filepath, 'r+') as file:
+    with open(filepath, 'r+', encoding='utf-8') as file:
         line = file.read().rstrip('\n')
         version = int(line)+1 if line.isdigit() else 1
         
@@ -81,14 +86,43 @@ def update_version(filename):
         file.write(str(version))
 
 
+def get_version(filename):
+    """Return version integer from [filename]_VERZIA.txt."""
+
+    filepath = get_filepath(filename, '_VERZIA.txt')
+
+    with open(filepath, 'r', encoding='utf-8') as file:
+        version = int(file.read().rstrip('\n'))
+        return version
+
+
+# Background periodical function calling
+
+def run_periodically(function, delay=5):
+    """Use threading and time.sleep() to run function
+       with delay while not affecting the runtime of app."""
+
+    background_thread = threading.Thread(target=
+        lambda: callback(function, delay))
+    background_thread.start()
+
+
+def callback(function, delay):
+    """Run function forever with delays between each run."""
+
+    while True:
+        function()
+        time.sleep(delay)
+
+
 # Data converting
 
 def list_to_scsv(data):
     """
-    Converts data in format:
+    Converts data in 2D list format:
     [[val,val2],...] 
     
-    to valid semi-colon separated values in a list:
+    to semi-colon separated values in a list:
     ['length', 'val;val', ...]
     """
 
@@ -107,7 +141,7 @@ def scsv_to_list(data):
     Converts data in semi-colon separated format:
     ['length', 'val;val', ...]
     
-    to list:
+    to 2D list:
     [[val,val2],...]
     """
     
@@ -122,7 +156,7 @@ def scsv_to_list(data):
 
 def get_filepath(filename, ending='.txt'):
     """Get absolute path of data txt file. 
-       Supports also filenames without extension."""
+       Supports also [filename] without extension."""
 
     file_format = filename.split('.')
 

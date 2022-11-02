@@ -2,9 +2,18 @@ from utils import *
 
 
 goods = read_file('tovar')
-goods.append(['2121', 'hocico', 'hocico.jpg'])
+version = get_version('tovar')
 
-if not is_locked('tovar'):
-    lock_file('tovar')
-    save_to_file('tovar', goods)
-    unlock_file('tovar')
+
+# Update 'goods' variable every 3 seconds
+def update_goods():
+    global goods, version
+    
+    current_version = get_version('tovar')
+
+    if current_version != version:
+        print('y')
+        goods = read_file('tovar')
+        version = current_version
+
+run_periodically(update_goods, 3)
