@@ -37,7 +37,7 @@
 
 ## Framework
 
-*PyQt5*
+*We're using PyQt5*
 
 #### Install PyQt5
 Framework for graphical user interface desktop apps in python
