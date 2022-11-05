@@ -1,5 +1,7 @@
 from utils import *
 
+from PyQt5.QtWidgets import QApplication, QWidget
+
 
 goods = read_file('tovar')
 version = get_version('tovar')
