@@ -1,6 +1,6 @@
-from utils import *
-
 from PyQt5.QtWidgets import QApplication, QWidget
+
+from utils import *
 
 
 goods = read_file('tovar')

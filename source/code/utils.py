@@ -8,8 +8,10 @@ from ENV_VARS import *
 # Working with files
 
 def read_file(filename):
-    """Simplify reading data from a specified 
-       filename and return it in a 2D list format."""
+    """
+    Simplify reading data from a specified 
+    filename and return it in a 2D list format.
+    """
 
     filepath = get_filepath(filename, '.txt')
 
@@ -21,9 +23,11 @@ def read_file(filename):
 
 
 def save_to_file(filename, data):
-    """Convert data entry to semi-colon separated 
-       values and save it to [filename].txt.
-       Update version number of the saved [filename]."""
+    """
+    Convert data entry to semi-colon separated 
+    values and save it to [filename].txt.
+    Update version number of the saved [filename].
+    """
 
     update_version(filename)
 
@@ -37,8 +41,10 @@ def save_to_file(filename, data):
 # ID Generating
 
 def random_id(type='N'):
-    """Simplify generating random ids in format:
-       [type]XXXXXXXXXX (type = 'N'/'P')"""
+    """
+    Simplify generating random ids in format:
+    [type]XXXXXXXXXX (type = 'N'/'P')
+    """
     
     return type + str(random.randint(1000000000, 9999999999))
 
@@ -53,8 +59,10 @@ def lock_file(filename):
 
 
 def unlock_file(filename):
-    """Simplify unlocking files that are currently not
-       in use (delete lock file if it exists)."""
+    """
+    Simplify unlocking files that are currently not
+    in use (delete lock file if it exists).
+    """
 
     filepath = get_filepath(filename, '_LOCK.txt')
 
@@ -72,8 +80,10 @@ def is_locked(filename):
 # File versions
 
 def update_version(filename):
-    """Simplify incrementing version number in
-       a filename_VERZIA.txt file."""
+    """
+    Simplify incrementing version number in
+    a filename_VERZIA.txt file.
+    """
     
     filepath = get_filepath(filename, '_VERZIA.txt')
 
@@ -99,8 +109,10 @@ def get_version(filename):
 # Background periodical function calling
 
 def run_periodically(function, delay=5):
-    """Use threading and time.sleep() to run function
-       with delay while not affecting the runtime of app."""
+    """
+    Use threading and time.sleep() to run function
+    with delay while not affecting the runtime of app.
+    """
 
     background_thread = threading.Thread(target=
         lambda: callback(function, delay))
@@ -155,8 +167,10 @@ def scsv_to_list(data):
 # PATH generating
 
 def get_filepath(filename, ending='.txt'):
-    """Get absolute path of data txt file. 
-       Supports also [filename] without extension."""
+    """
+    Get absolute path of data txt file. 
+    Supports also [filename] without extension.
+    """
 
     file_format = filename.split('.')
 
