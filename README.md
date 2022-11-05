@@ -1,4 +1,4 @@
-# Information system of the Camels E-shop
+# Information system of the E-shop
 
 [Zadanie](assets/zadanie.pdf)
 
