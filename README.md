@@ -40,12 +40,10 @@
 *We're using PyQt5*
 
 #### Install PyQt5
-Framework for graphical user interface desktop apps in python
 - Install: `pip install -r requirements.txt`
 - [PyQt5 tutorial](https://www.pythonguis.com/pyqt5-tutorial/)
 
 #### Install Qt Designer
-Tool for designing and creating GUI for desktop applications
 - [Download](https://build-system.fman.io/qt-designer-download)
 - [Tutorial](https://www.pythonguis.com/tutorials/qt-designer-gui-layout/)
 
