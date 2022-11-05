@@ -37,7 +37,7 @@
 
 ## Framework
 
-*We're using PyQt5*
+*PyQt5*
 
 1. Install PyQt5  `pip install -r requirements.txt`
 2. [Download](https://build-system.fman.io/qt-designer-download) and install Qt designer (tool)  
