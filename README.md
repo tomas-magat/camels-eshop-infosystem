@@ -1,4 +1,4 @@
-# Information system of the Camels E-shop
+# Information system of the E-shop
 
 [Zadanie](assets/zadanie.pdf)
 
@@ -35,7 +35,7 @@
 12. Sync your code with github `git pull`
 
 
-## Framework
+## Setting-up the framework
 
 *PyQt5*
 
