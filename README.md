@@ -35,7 +35,7 @@
 12. Sync your code with github `git pull`
 
 
-## Framework
+## Setting-up the framework
 
 *PyQt5*
 
