@@ -39,13 +39,11 @@
 
 *We're using PyQt5*
 
-#### Install PyQt5
-- Install: `pip install -r requirements.txt`
-- [PyQt5 tutorial](https://www.pythonguis.com/pyqt5-tutorial/)
+1. Install PyQt5  `pip install -r requirements.txt`
+2. [Download](https://build-system.fman.io/qt-designer-download) and install Qt designer (tool)  
 
-#### Install Qt Designer
-- [Download](https://build-system.fman.io/qt-designer-download)
-- [Tutorial](https://www.pythonguis.com/tutorials/qt-designer-gui-layout/)
+- [PyQt5 tutorial](https://www.pythonguis.com/pyqt5-tutorial/)
+- [Qt Designer tutorial](https://www.pythonguis.com/tutorials/qt-designer-gui-layout/)
 
 
 ## Module and datafile structure 
