@@ -35,6 +35,13 @@
 12. Sync your code with github `git pull`
 
 
+## Framework
+
+*PyQt5*
+
+#### Install requirements
+`pip install requirements.txt`
+
 ## Module and datafile structure 
 
 ![](assets/STRUCTURE_2.png)
