@@ -1,3 +1,4 @@
+# Simplify working with data files
 import os
 
 from .ENV_VARS import *

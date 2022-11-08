@@ -1,3 +1,6 @@
+# This is the main file which imports all modules and
+# after executing displays an App window
+
 import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow

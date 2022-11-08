@@ -1,4 +1,4 @@
-# UI Simplified
+# UI Commands Simplified
 class UI_Commands:
     def __init__(self, ui):
         self.ui = ui

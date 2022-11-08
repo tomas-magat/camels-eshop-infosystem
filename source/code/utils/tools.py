@@ -1,10 +1,10 @@
+# Other utility tools for easier implementing
 import random
 import threading
 import time
 
 
 # ID Generating
-
 def random_id(type='N'):
     """
     Simplify generating random ids in format:
@@ -15,7 +15,6 @@ def random_id(type='N'):
 
 
 # Background periodical function calling
-
 def run_periodically(function, delay=5):
     """
     Use threading and time.sleep() to run function
