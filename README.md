@@ -41,7 +41,7 @@
 2. [Download](https://build-system.fman.io/qt-designer-download) and install Qt designer (tool)  
 
 - [PyQt5 tutorial](https://www.pythonguis.com/pyqt5-tutorial/)
-- [Qt Designer tutorial](https://www.pythonguis.com/tutorials/qt-designer-gui-layout/)
+- [Qt Designer tutorial](https://realpython.com/qt-designer-python/)
 
 
 ## Module and datafile structure 
