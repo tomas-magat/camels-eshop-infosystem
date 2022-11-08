@@ -47,14 +47,14 @@
 ## Basic workflow
 
 #### Changing the 'look' (GUI) of the app
-1. In Qt Designer open file 'source\code\main.ui'
+1. In Qt Designer open file `source\code\main.ui`
 2. Make changes and save
-3. Open cmd in '..\source\code>' and type command `pyuic5 -x main.ui -o main_ui.py`
+3. Open cmd in `..\source\code>` and type command `pyuic5 -x main.ui -o main_ui.py`
 
 #### Changing the window behaviour (button presses...)
-1. Open 'source\code\modules\[your_module].py'
+1. Open `source\code\modules\[your_module].py`
 2. Change the module class
-3. Test the changes by running 'source\code\app.py'
+3. Test the changes by running app.py
 
 
 ## Module and datafile structure 
