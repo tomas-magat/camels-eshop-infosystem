@@ -166,9 +166,9 @@ class Ui_MainWindow(object):
         self.label_4.setScaledContents(False)
         self.label_4.setAlignment(QtCore.Qt.AlignCenter)
         self.label_4.setObjectName("label_4")
-        self.pushButton = QtWidgets.QPushButton(self.index)
-        self.pushButton.setGeometry(QtCore.QRect(120, 180, 80, 80))
-        self.pushButton.setStyleSheet("QPushButton {\n"
+        self.cenotvorba_button = QtWidgets.QPushButton(self.index)
+        self.cenotvorba_button.setGeometry(QtCore.QRect(120, 180, 80, 80))
+        self.cenotvorba_button.setStyleSheet("QPushButton {\n"
 "    background: rgb(0, 170, 255);\n"
 "    border: none;\n"
 "    border-radius: 4px;\n"
@@ -185,15 +185,15 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(0, 170, 255);\n"
 "    border-radius: 4px;\n"
 "}")
-        self.pushButton.setText("")
+        self.cenotvorba_button.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("../../assets/icons/price-tag.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton.setIcon(icon2)
-        self.pushButton.setIconSize(QtCore.QSize(40, 40))
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton_2 = QtWidgets.QPushButton(self.index)
-        self.pushButton_2.setGeometry(QtCore.QRect(240, 180, 80, 80))
-        self.pushButton_2.setStyleSheet("QPushButton {\n"
+        self.cenotvorba_button.setIcon(icon2)
+        self.cenotvorba_button.setIconSize(QtCore.QSize(40, 40))
+        self.cenotvorba_button.setObjectName("cenotvorba_button")
+        self.statistika_button = QtWidgets.QPushButton(self.index)
+        self.statistika_button.setGeometry(QtCore.QRect(240, 180, 80, 80))
+        self.statistika_button.setStyleSheet("QPushButton {\n"
 "    background: rgb(0, 170, 255);\n"
 "    border: none;\n"
 "    border-radius: 4px;\n"
@@ -210,15 +210,15 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(0, 170, 255);\n"
 "    border-radius: 4px;\n"
 "}")
-        self.pushButton_2.setText("")
+        self.statistika_button.setText("")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("../../assets/icons/statistics.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_2.setIcon(icon3)
-        self.pushButton_2.setIconSize(QtCore.QSize(40, 40))
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_3 = QtWidgets.QPushButton(self.index)
-        self.pushButton_3.setGeometry(QtCore.QRect(360, 180, 80, 80))
-        self.pushButton_3.setStyleSheet("QPushButton {\n"
+        self.statistika_button.setIcon(icon3)
+        self.statistika_button.setIconSize(QtCore.QSize(40, 40))
+        self.statistika_button.setObjectName("statistika_button")
+        self.sklad_button = QtWidgets.QPushButton(self.index)
+        self.sklad_button.setGeometry(QtCore.QRect(360, 180, 80, 80))
+        self.sklad_button.setStyleSheet("QPushButton {\n"
 "    background: rgb(0, 170, 255);\n"
 "    border: none;\n"
 "    border-radius: 4px;\n"
@@ -235,12 +235,12 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(0, 170, 255);\n"
 "    border-radius: 4px;\n"
 "}")
-        self.pushButton_3.setText("")
+        self.sklad_button.setText("")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap("../../assets/icons/locker.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_3.setIcon(icon4)
-        self.pushButton_3.setIconSize(QtCore.QSize(40, 40))
-        self.pushButton_3.setObjectName("pushButton_3")
+        self.sklad_button.setIcon(icon4)
+        self.sklad_button.setIconSize(QtCore.QSize(40, 40))
+        self.sklad_button.setObjectName("sklad_button")
         self.label_6 = QtWidgets.QLabel(self.index)
         self.label_6.setGeometry(QtCore.QRect(580, 270, 121, 31))
         self.label_6.setStyleSheet("font-family: \"Myanmar Text\";\n"
@@ -259,9 +259,9 @@ class Ui_MainWindow(object):
         self.label.setScaledContents(True)
         self.label.setAlignment(QtCore.Qt.AlignJustify|QtCore.Qt.AlignVCenter)
         self.label.setObjectName("label")
-        self.pushButton_5 = QtWidgets.QPushButton(self.index)
-        self.pushButton_5.setGeometry(QtCore.QRect(600, 180, 80, 80))
-        self.pushButton_5.setStyleSheet("QPushButton {\n"
+        self.databaza_button = QtWidgets.QPushButton(self.index)
+        self.databaza_button.setGeometry(QtCore.QRect(600, 180, 80, 80))
+        self.databaza_button.setStyleSheet("QPushButton {\n"
 "    background: rgb(0, 170, 255);\n"
 "    border: none;\n"
 "    border-radius: 4px;\n"
@@ -278,15 +278,15 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(0, 170, 255);\n"
 "    border-radius: 4px;\n"
 "}")
-        self.pushButton_5.setText("")
+        self.databaza_button.setText("")
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap("../../assets/icons/online-shop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_5.setIcon(icon5)
-        self.pushButton_5.setIconSize(QtCore.QSize(40, 40))
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.pushButton_4 = QtWidgets.QPushButton(self.index)
-        self.pushButton_4.setGeometry(QtCore.QRect(480, 180, 80, 80))
-        self.pushButton_4.setStyleSheet("QPushButton {\n"
+        self.databaza_button.setIcon(icon5)
+        self.databaza_button.setIconSize(QtCore.QSize(40, 40))
+        self.databaza_button.setObjectName("databaza_button")
+        self.portal_button = QtWidgets.QPushButton(self.index)
+        self.portal_button.setGeometry(QtCore.QRect(480, 180, 80, 80))
+        self.portal_button.setStyleSheet("QPushButton {\n"
 "    background: rgb(0, 170, 255);\n"
 "    border: none;\n"
 "    border-radius: 4px;\n"
@@ -303,12 +303,12 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(0, 170, 255);\n"
 "    border-radius: 4px;\n"
 "}")
-        self.pushButton_4.setText("")
+        self.portal_button.setText("")
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap("../../assets/icons/shopping-bag.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_4.setIcon(icon6)
-        self.pushButton_4.setIconSize(QtCore.QSize(40, 40))
-        self.pushButton_4.setObjectName("pushButton_4")
+        self.portal_button.setIcon(icon6)
+        self.portal_button.setIconSize(QtCore.QSize(40, 40))
+        self.portal_button.setObjectName("portal_button")
         self.label_5 = QtWidgets.QLabel(self.index)
         self.label_5.setGeometry(QtCore.QRect(460, 270, 121, 51))
         self.label_5.setStyleSheet("QLabel {\n"

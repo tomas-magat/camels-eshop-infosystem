@@ -2,63 +2,58 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
-import utils
 from main_ui import Ui_MainWindow
+from utils.ui_commands import UI_Commands
+from modules import *
 
 
 class MainWindow:
     def __init__(self):
+        # Setup the window
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
 
-        self.ui.stackedWidget.setCurrentWidget(self.ui.index)
+        self.commands = UI_Commands(self.ui)
+        # Set default screen to index
+        self.commands.change_screen(self.ui.index)
 
-        self.ui.pushButton.clicked.connect(self.price)
-        self.ui.pushButton_2.clicked.connect(self.stats)
-        self.ui.pushButton_3.clicked.connect(self.storage)
-        self.ui.pushButton_4.clicked.connect(self.portal)
-        self.ui.pushButton_5.clicked.connect(self.database)
+        # Initialize modul portal
+        self.portal = modul_portal.Portal(self.ui)
+        # Track button clicks for index screen (module buttons)
+        self.commands.button_click(self.ui.cenotvorba_button, self.price)
+        self.commands.button_click(self.ui.statistika_button, self.stats)
+        self.commands.button_click(self.ui.sklad_button, self.storage)
+        self.commands.button_click(self.ui.databaza_button, self.database)
 
-        self.ui.home.clicked.connect(self.index)
-        self.ui.home_2.clicked.connect(self.index)
-        self.ui.home_3.clicked.connect(self.index)
-        self.ui.home_4.clicked.connect(self.index)
-        self.ui.home_5.clicked.connect(self.index)
+        # Track all home button clicks
+        self.home_buttons = [
+            self.ui.home,
+            self.ui.home_2,
+            self.ui.home_3,
+            self.ui.home_4,
+            self.ui.home_5,
+        ]
+        self.commands.multiple_button_click(self.home_buttons, self.index)
 
-        # self.goods = utils.read_file('tovar')
-        # self.version = utils.get_version('tovar')
-
-        # # Update 'goods' variable every 3 seconds
-        # utils.run_periodically(self.update_goods, 3)
-
-    def update_goods(self):
-        current_version = utils.get_version('tovar')
-
-        if current_version != self.version:
-            self.goods = utils.read_file('tovar')
-            self.version = current_version
-
+    # Show the main window
     def show(self):
         self.main_win.show()
 
     def price(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.cenotvorba)
+        self.commands.change_screen(self.ui.cenotvorba)
 
     def stats(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.statistika)
+        self.commands.change_screen(self.ui.statistika)
 
     def storage(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.sklad)
-
-    def portal(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.portal)
+        self.commands.change_screen(self.ui.sklad)
 
     def database(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.databaza)
+        self.commands.change_screen(self.ui.databaza)
 
     def index(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.index)
+        self.commands.change_screen(self.ui.index)
 
 
 if __name__ == '__main__':

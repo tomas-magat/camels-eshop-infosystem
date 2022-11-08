@@ -393,7 +393,7 @@ font-weight: bold;
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="cenotvorba_button">
       <property name="geometry">
        <rect>
         <x>120</x>
@@ -435,7 +435,7 @@ QPushButton:pressed {
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="statistika_button">
       <property name="geometry">
        <rect>
         <x>240</x>
@@ -477,7 +477,7 @@ QPushButton:pressed {
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="sklad_button">
       <property name="geometry">
        <rect>
         <x>360</x>
@@ -572,7 +572,7 @@ font-weight: bold;
        <set>Qt::AlignJustify|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_5">
+     <widget class="QPushButton" name="databaza_button">
       <property name="geometry">
        <rect>
         <x>600</x>
@@ -614,7 +614,7 @@ QPushButton:pressed {
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="portal_button">
       <property name="geometry">
        <rect>
         <x>480</x>
