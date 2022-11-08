@@ -51,7 +51,7 @@
 2. Make changes and save
 3. Open cmd in `..\source\code>` and type command `pyuic5 -x main.ui -o main_ui.py`
 
-#### Changing the window behaviour (button presses...)
+#### Changing the window behaviour (button press...)
 1. Open `source\code\modules\[your_module].py`
 2. Change the module class
 3. Test the changes by running app.py
