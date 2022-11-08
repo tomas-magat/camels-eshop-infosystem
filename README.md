@@ -41,6 +41,7 @@
 
 1. Install PyQt5  `pip install -r requirements.txt`
 2. [Download](https://build-system.fman.io/qt-designer-download) and install Qt designer (tool)  
+3. Generate .py file from .ui file (made in Qt designer) `pyuic5 -x filename.ui -o filename.py`
 
 - [PyQt5 tutorial](https://www.pythonguis.com/pyqt5-tutorial/)
 - [Qt Designer tutorial](https://www.pythonguis.com/tutorials/qt-designer-gui-layout/)
