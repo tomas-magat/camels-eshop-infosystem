@@ -8,7 +8,9 @@ rootpath = os.getcwd()
 if rootpath == 'code':
     os.chdir('..')
     os.chdir('..')
+    PATH = rootpath
+else:
+    PATH = os.path.abspath('camels-eshop-infosystem')
 
 
-PATH = os.path.abspath(rootpath)
 SYSTEM = platform.system()

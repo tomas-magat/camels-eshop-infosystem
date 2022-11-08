@@ -18,7 +18,7 @@ def read_file(filename):
     with open(filepath, 'r', encoding='utf-8') as file:
         lines = file.readlines()
         data = scsv_to_list(lines[1:])
-                    
+
     return data
 
 
@@ -33,7 +33,7 @@ def save_to_file(filename, data):
 
     filepath = get_filepath(filename, '.txt')
     scsv_data = list_to_scsv(data)
-    
+
     with open(filepath, 'w', encoding='utf-8') as file:
         file.writelines(scsv_data)
 
@@ -45,7 +45,7 @@ def random_id(type='N'):
     Simplify generating random ids in format:
     [type]XXXXXXXXXX (type = 'N'/'P')
     """
-    
+
     return type + str(random.randint(1000000000, 9999999999))
 
 
@@ -84,13 +84,13 @@ def update_version(filename):
     Simplify incrementing version number in
     a filename_VERZIA.txt file.
     """
-    
+
     filepath = get_filepath(filename, '_VERZIA.txt')
 
     with open(filepath, 'r+', encoding='utf-8') as file:
         line = file.read().rstrip('\n')
         version = int(line)+1 if line.isdigit() else 1
-        
+
         file.seek(0)
         file.truncate()
         file.write(str(version))
@@ -114,8 +114,8 @@ def run_periodically(function, delay=5):
     with delay while not affecting the runtime of app.
     """
 
-    background_thread = threading.Thread(target=
-        lambda: callback(function, delay))
+    background_thread = threading.Thread(
+        target=lambda: callback(function, delay))
     background_thread.start()
 
 
@@ -133,7 +133,7 @@ def list_to_scsv(data):
     """
     Converts data in 2D list format:
     [[val,val2],...] 
-    
+
     to semi-colon separated values in a list:
     ['length', 'val;val', ...]
     """
@@ -152,17 +152,17 @@ def scsv_to_list(data):
     """
     Converts data in semi-colon separated format:
     ['length', 'val;val', ...]
-    
+
     to 2D list:
     [[val,val2],...]
     """
-    
+
     for i, line in enumerate(data):
         datapoint = line.rstrip('\n').split(';')
         data[i] = datapoint
 
     return data
-    
+
 
 # PATH generating
 
@@ -178,7 +178,7 @@ def get_filepath(filename, ending='.txt'):
         print("'filename' must be valid txt filename")
         return
 
-    filename = file_format[0].upper() + ending 
+    filename = file_format[0].upper() + ending
     filepath = os.path.join(PATH, 'source', 'data', filename)
 
     return filepath
