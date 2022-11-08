@@ -49,7 +49,7 @@
 #### Changing the 'look' (GUI) of the app
 1. In Qt Designer open file 'source\code\main.ui'
 2. Make changes and save
-3. Open cmd in '..\source\code>' and type command `pyuic5 -x main.ui -o main_ui.py
+3. Open cmd in '..\source\code>' and type command `pyuic5 -x main.ui -o main_ui.py`
 
 #### Changing the window behaviour (button presses...)
 1. Open 'source\code\modules\[your_module].py'
