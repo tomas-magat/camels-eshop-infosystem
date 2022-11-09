@@ -1,13 +1,14 @@
 # UI Commands Simplified
+
 class UI_Commands:
+
     def __init__(self, ui):
         self.ui = ui
 
     def change_screen(self, screen):
         """
-        Changes current screen on the main window by using 
-        UI.stackedWidget.setCurrentWidget() function to given 
-        screen name (Defaults to index).
+        Switch the current screen on the app window to 
+        given screen name (redirect).
         """
 
         self.ui.stackedWidget.setCurrentWidget(screen)

@@ -4,9 +4,15 @@ import os
 from .ENV_VARS import *
 
 
-class File:
+class DataFile:
 
     def __init__(self, filename):
+        """
+        Required parameter: filename (string, lower or
+        uppercase, supports also filename without extension).
+        Get absolute path for the file using get_filepath().
+        """
+
         self.filename = filename
         self.filepath = self.get_filepath()
 

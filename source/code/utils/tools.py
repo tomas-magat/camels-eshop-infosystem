@@ -1,24 +1,23 @@
-# Other utility tools for easier implementing
+# Other often used functions
 import random
 import threading
 import time
 
 
-# ID Generating
 def random_id(type='N'):
     """
-    Simplify generating random ids in format:
+    Generate id with type and 10 random digits:
     [type]XXXXXXXXXX (type = 'N'/'P')
     """
 
-    return type + str(random.randint(1000000000, 9999999999))
+    sequence = [str(random.randint(0, 9)) for _ in range(10)]
+    return type+''.join(sequence)
 
 
-# Background periodical function calling
 def run_periodically(function, delay=5):
     """
     Use threading and time.sleep() to run function
-    with delay while not affecting the runtime of app.
+    with delay while not affecting the runtime of an app.
     """
 
     background_thread = threading.Thread(

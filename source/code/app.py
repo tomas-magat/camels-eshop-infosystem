@@ -1,6 +1,5 @@
 # This is the main file which imports all modules and
 # after executing displays an App window
-
 import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -11,14 +10,19 @@ from modules import *
 
 
 class MainWindow:
+
     def __init__(self):
-        # Setup the window
+        """
+        Setup the window, set the default screen 
+        to index, track home button clicks
+        and initialize modules.
+        """
+
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
 
         self.commands = UI_Commands(self.ui)
-        # Set default screen to index
         self.commands.change_screen(self.ui.index)
 
         # Initialize modul portal
@@ -39,8 +43,10 @@ class MainWindow:
         ]
         self.commands.multiple_button_click(self.home_buttons, self.index)
 
-    # Show the main window
+
     def show(self):
+        """Show the main App UI window."""
+
         self.main_win.show()
 
     def price(self):
