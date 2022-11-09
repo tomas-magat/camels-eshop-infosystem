@@ -57,7 +57,7 @@
 3. Test the changes by running app.py
 
 
-## Module and datafile structure 
+## Module structure and datafile format
 
 ![](assets/docs/STRUCTURE_2.png)
 
