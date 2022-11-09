@@ -60,3 +60,5 @@
 ## Module and datafile structure 
 
 ![](assets/STRUCTURE_2.png)
+
+![](assets/FILEMAP.png)
