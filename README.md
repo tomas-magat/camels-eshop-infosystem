@@ -1,6 +1,6 @@
 # Information system of the E-shop
 
-[Zadanie](assets/zadanie.pdf)
+[Zadanie](assets/docs/zadanie.pdf)
 
 ## Downloading and intializing git
 
