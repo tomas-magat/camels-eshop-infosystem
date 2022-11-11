@@ -51,9 +51,6 @@ class MainWindow:
     def price(self):
         self.commands.change_screen(self.ui.cenotvorba)
 
-    def stats(self):
-        self.commands.change_screen(self.ui.statistika)
-
     def storage(self):
         self.commands.change_screen(self.ui.sklad)
 

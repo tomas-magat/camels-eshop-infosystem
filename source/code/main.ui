@@ -27,13 +27,19 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../Downloads/camel.png</normaloff>../../../Downloads/camel.png</iconset>
+    <normaloff>../../assets/icons/camel.png</normaloff>../../assets/icons/camel.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
   </property>
   <property name="locale">
    <locale language="Slovak" country="Slovakia"/>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QStackedWidget" name="stackedWidget">
@@ -46,7 +52,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QCommandLinkButton" name="home">
@@ -134,7 +140,7 @@ font-weight: bold;
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>132</width>
+         <width>374</width>
          <height>1042</height>
         </rect>
        </property>
