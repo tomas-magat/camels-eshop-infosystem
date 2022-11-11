@@ -27,9 +27,9 @@ class MainWindow:
 
         # Initialize modul portal
         self.portal = modul_portal.Portal(self.ui)
+        self.statistika = modul_statistika.Statistika(self.ui)
         # Track button clicks for index screen (module buttons)
         self.commands.button_click(self.ui.cenotvorba_button, self.price)
-        self.commands.button_click(self.ui.statistika_button, self.stats)
         self.commands.button_click(self.ui.sklad_button, self.storage)
         self.commands.button_click(self.ui.databaza_button, self.database)
 
