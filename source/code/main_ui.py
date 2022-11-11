@@ -114,6 +114,18 @@ class Ui_MainWindow(object):
         self.lineEdit = QtWidgets.QLineEdit(self.portal)
         self.lineEdit.setGeometry(QtCore.QRect(80, 59, 391, 31))
         self.lineEdit.setObjectName("lineEdit")
+        self.testGraph = QtWidgets.QGraphicsView(self.portal)
+        self.testGraph.setGeometry(QtCore.QRect(490, 60, 256, 351))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.testGraph.sizePolicy().hasHeightForWidth())
+        self.testGraph.setSizePolicy(sizePolicy)
+        self.testGraph.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.testGraph.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.testGraph.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.testGraph.setDragMode(QtWidgets.QGraphicsView.NoDrag)
+        self.testGraph.setObjectName("testGraph")
         self.screens.addWidget(self.portal)
         self.databaza = QtWidgets.QWidget()
         self.databaza.setObjectName("databaza")
@@ -363,6 +375,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralContainer)
 
         self.retranslateUi(MainWindow)
+        self.screens.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
