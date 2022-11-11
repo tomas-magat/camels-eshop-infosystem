@@ -25,7 +25,7 @@ class MainWindow:
         self.commands = UI_Commands(self.ui)
         self.commands.change_screen(self.ui.index)
 
-        # Initialize modul portal
+        # Initialize modul portal and statistika
         self.portal = modul_portal.Portal(self.ui)
         self.statistika = modul_statistika.Statistika(self.ui)
         # Track button clicks for index screen (module buttons)
@@ -42,7 +42,6 @@ class MainWindow:
             self.ui.home_5,
         ]
         self.commands.multiple_button_click(self.home_buttons, self.index)
-
 
     def show(self):
         """Show the main App UI window."""

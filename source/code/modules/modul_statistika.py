@@ -6,7 +6,7 @@ from utils import tools
 class Statistika:
 
     def __init__(self, ui):
-        
+
         self.ui = ui
         self.commands = UI_Commands(self.ui)
 
@@ -21,9 +21,6 @@ class Statistika:
 
         # Update 'goods' variable every 3 seconds
         # tools.run_periodically(self.update_goods, 3)
-
-
-
 
     def switch_screen(self):
         """Redirect to this statistika screen."""

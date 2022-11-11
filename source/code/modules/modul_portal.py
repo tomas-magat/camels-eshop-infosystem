@@ -1,4 +1,4 @@
-# Modul Portal - 
+# Modul Portal -
 # Lists catalog of available products, has an option
 # to search by code/name and to filter products.
 # After ordering the selected items in given amounts,
@@ -16,7 +16,7 @@ class Portal:
         This class handles evrything done on the portal
         screen (button clicks, file loading...).
         """
-        
+
         self.ui = ui
         self.commands = UI_Commands(self.ui)
 
@@ -24,7 +24,7 @@ class Portal:
         self.commands.button_click(
             self.ui.portal_button, self.switch_screen)
 
-        # Read file 'tovar.txt'
+        # Read file 'tovar.txt' - not in prototype
         # self.tovar = DataFile('tovar')
         # self.goods = self.tovar.read()
         # self.version = self.tovar.get_version()
@@ -32,19 +32,17 @@ class Portal:
         # Update 'goods' variable every 3 seconds
         # tools.run_periodically(self.update_goods, 3)
 
-
     def update_goods(self):
         """
         Update 'goods' variable if version of the tovar.txt
         datafile has changed.
         """
-        
+
         current_version = self.tovar.get_version()
 
         if current_version != self.version:
             self.goods = self.tovar.read()
             self.version = current_version
-
 
     def switch_screen(self):
         """Redirect to this portal screen."""
