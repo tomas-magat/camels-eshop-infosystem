@@ -16,159 +16,206 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 450)
         MainWindow.setMinimumSize(QtCore.QSize(800, 450))
-        MainWindow.setMaximumSize(QtCore.QSize(800, 450))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../Downloads/camel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../assets/icons/camel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setStyleSheet("")
-        MainWindow.setLocale(QtCore.QLocale(QtCore.QLocale.Slovak, QtCore.QLocale.Slovakia))
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
-        self.stackedWidget.setGeometry(QtCore.QRect(0, 0, 801, 451))
-        self.stackedWidget.setObjectName("stackedWidget")
+        self.centralContainer = QtWidgets.QWidget(MainWindow)
+        self.centralContainer.setObjectName("centralContainer")
+        self.screens = QtWidgets.QStackedWidget(self.centralContainer)
+        self.screens.setGeometry(QtCore.QRect(0, 0, 801, 452))
+        self.screens.setObjectName("screens")
         self.portal = QtWidgets.QWidget()
         self.portal.setObjectName("portal")
-        self.home = QtWidgets.QCommandLinkButton(self.portal)
-        self.home.setGeometry(QtCore.QRect(20, 20, 41, 41))
-        self.home.setStyleSheet(":hover {\n"
+        self.homeArrow = QtWidgets.QCommandLinkButton(self.portal)
+        self.homeArrow.setGeometry(QtCore.QRect(20, 20, 41, 41))
+        self.homeArrow.setStyleSheet(":hover {\n"
 "    border: none;\n"
 "}")
-        self.home.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("../../assets/icons/left-arrow.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.home.setIcon(icon1)
-        self.home.setObjectName("home")
-        self.label_7 = QtWidgets.QLabel(self.portal)
-        self.label_7.setGeometry(QtCore.QRect(320, 10, 161, 31))
-        self.label_7.setStyleSheet("font-family: \"Myanmar Text\";\n"
+        self.homeArrow.setIcon(icon1)
+        self.homeArrow.setObjectName("homeArrow")
+        self.portalHeading = QtWidgets.QLabel(self.portal)
+        self.portalHeading.setGeometry(QtCore.QRect(320, 10, 161, 31))
+        self.portalHeading.setStyleSheet("font-family: \"Myanmar Text\";\n"
 "font-size: 14px;\n"
 "font-weight: bold;\n"
 "")
-        self.label_7.setTextFormat(QtCore.Qt.AutoText)
-        self.label_7.setScaledContents(False)
-        self.label_7.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_7.setObjectName("label_7")
-        self.stackedWidget.addWidget(self.portal)
+        self.portalHeading.setAlignment(QtCore.Qt.AlignCenter)
+        self.portalHeading.setObjectName("portalHeading")
+        self.portalScrollArea = QtWidgets.QScrollArea(self.portal)
+        self.portalScrollArea.setGeometry(QtCore.QRect(80, 100, 391, 311))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.portalScrollArea.sizePolicy().hasHeightForWidth())
+        self.portalScrollArea.setSizePolicy(sizePolicy)
+        self.portalScrollArea.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.portalScrollArea.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.portalScrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.portalScrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.portalScrollArea.setObjectName("portalScrollArea")
+        self.portalScrollContents = QtWidgets.QWidget()
+        self.portalScrollContents.setGeometry(QtCore.QRect(0, 0, 374, 1042))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(90)
+        sizePolicy.setHeightForWidth(self.portalScrollContents.sizePolicy().hasHeightForWidth())
+        self.portalScrollContents.setSizePolicy(sizePolicy)
+        self.portalScrollContents.setObjectName("portalScrollContents")
+        self.gridLayout = QtWidgets.QGridLayout(self.portalScrollContents)
+        self.gridLayout.setObjectName("gridLayout")
+        self.label_12 = QtWidgets.QLabel(self.portalScrollContents)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_12.sizePolicy().hasHeightForWidth())
+        self.label_12.setSizePolicy(sizePolicy)
+        self.label_12.setMinimumSize(QtCore.QSize(0, 200))
+        self.label_12.setObjectName("label_12")
+        self.gridLayout.addWidget(self.label_12, 0, 0, 1, 1)
+        self.label_13 = QtWidgets.QLabel(self.portalScrollContents)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_13.sizePolicy().hasHeightForWidth())
+        self.label_13.setSizePolicy(sizePolicy)
+        self.label_13.setMinimumSize(QtCore.QSize(0, 200))
+        self.label_13.setObjectName("label_13")
+        self.gridLayout.addWidget(self.label_13, 1, 0, 1, 1)
+        self.label_14 = QtWidgets.QLabel(self.portalScrollContents)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_14.sizePolicy().hasHeightForWidth())
+        self.label_14.setSizePolicy(sizePolicy)
+        self.label_14.setMinimumSize(QtCore.QSize(0, 200))
+        self.label_14.setObjectName("label_14")
+        self.gridLayout.addWidget(self.label_14, 2, 0, 1, 1)
+        self.label_15 = QtWidgets.QLabel(self.portalScrollContents)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_15.sizePolicy().hasHeightForWidth())
+        self.label_15.setSizePolicy(sizePolicy)
+        self.label_15.setMinimumSize(QtCore.QSize(0, 200))
+        self.label_15.setObjectName("label_15")
+        self.gridLayout.addWidget(self.label_15, 3, 0, 1, 1)
+        self.label_16 = QtWidgets.QLabel(self.portalScrollContents)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_16.sizePolicy().hasHeightForWidth())
+        self.label_16.setSizePolicy(sizePolicy)
+        self.label_16.setMinimumSize(QtCore.QSize(0, 200))
+        self.label_16.setObjectName("label_16")
+        self.gridLayout.addWidget(self.label_16, 4, 0, 1, 1)
+        self.portalScrollArea.setWidget(self.portalScrollContents)
+        self.lineEdit = QtWidgets.QLineEdit(self.portal)
+        self.lineEdit.setGeometry(QtCore.QRect(80, 59, 391, 31))
+        self.lineEdit.setObjectName("lineEdit")
+        self.screens.addWidget(self.portal)
         self.databaza = QtWidgets.QWidget()
         self.databaza.setObjectName("databaza")
-        self.home_5 = QtWidgets.QCommandLinkButton(self.databaza)
-        self.home_5.setGeometry(QtCore.QRect(20, 20, 41, 41))
-        self.home_5.setStyleSheet(":hover {\n"
+        self.homeArrow5 = QtWidgets.QCommandLinkButton(self.databaza)
+        self.homeArrow5.setGeometry(QtCore.QRect(20, 20, 41, 41))
+        self.homeArrow5.setStyleSheet(":hover {\n"
 "    border: none;\n"
 "}")
-        self.home_5.setText("")
-        self.home_5.setIcon(icon1)
-        self.home_5.setObjectName("home_5")
-        self.label_8 = QtWidgets.QLabel(self.databaza)
-        self.label_8.setGeometry(QtCore.QRect(320, 10, 161, 31))
-        self.label_8.setStyleSheet("font-family: \"Myanmar Text\";\n"
+        self.homeArrow5.setIcon(icon1)
+        self.homeArrow5.setObjectName("homeArrow5")
+        self.databazaHeading = QtWidgets.QLabel(self.databaza)
+        self.databazaHeading.setGeometry(QtCore.QRect(320, 10, 161, 31))
+        self.databazaHeading.setStyleSheet("font-family: \"Myanmar Text\";\n"
 "font-size: 14px;\n"
 "font-weight: bold;\n"
 "")
-        self.label_8.setTextFormat(QtCore.Qt.AutoText)
-        self.label_8.setScaledContents(False)
-        self.label_8.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_8.setObjectName("label_8")
-        self.stackedWidget.addWidget(self.databaza)
+        self.databazaHeading.setAlignment(QtCore.Qt.AlignCenter)
+        self.databazaHeading.setObjectName("databazaHeading")
+        self.screens.addWidget(self.databaza)
         self.cenotvorba = QtWidgets.QWidget()
         self.cenotvorba.setObjectName("cenotvorba")
-        self.home_3 = QtWidgets.QCommandLinkButton(self.cenotvorba)
-        self.home_3.setGeometry(QtCore.QRect(20, 20, 41, 41))
-        self.home_3.setStyleSheet(":hover {\n"
+        self.homeArrow3 = QtWidgets.QCommandLinkButton(self.cenotvorba)
+        self.homeArrow3.setGeometry(QtCore.QRect(20, 20, 41, 41))
+        self.homeArrow3.setStyleSheet(":hover {\n"
 "    border: none;\n"
 "}")
-        self.home_3.setText("")
-        self.home_3.setIcon(icon1)
-        self.home_3.setObjectName("home_3")
-        self.label_9 = QtWidgets.QLabel(self.cenotvorba)
-        self.label_9.setGeometry(QtCore.QRect(320, 10, 161, 31))
-        self.label_9.setStyleSheet("font-family: \"Myanmar Text\";\n"
+        self.homeArrow3.setIcon(icon1)
+        self.homeArrow3.setObjectName("homeArrow3")
+        self.cenotvorbaHeading = QtWidgets.QLabel(self.cenotvorba)
+        self.cenotvorbaHeading.setGeometry(QtCore.QRect(320, 10, 161, 31))
+        self.cenotvorbaHeading.setStyleSheet("font-family: \"Myanmar Text\";\n"
 "font-size: 14px;\n"
 "font-weight: bold;\n"
 "")
-        self.label_9.setTextFormat(QtCore.Qt.AutoText)
-        self.label_9.setScaledContents(False)
-        self.label_9.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_9.setObjectName("label_9")
-        self.stackedWidget.addWidget(self.cenotvorba)
+        self.cenotvorbaHeading.setAlignment(QtCore.Qt.AlignCenter)
+        self.cenotvorbaHeading.setObjectName("cenotvorbaHeading")
+        self.screens.addWidget(self.cenotvorba)
         self.sklad = QtWidgets.QWidget()
         self.sklad.setObjectName("sklad")
-        self.home_4 = QtWidgets.QCommandLinkButton(self.sklad)
-        self.home_4.setGeometry(QtCore.QRect(20, 20, 41, 41))
-        self.home_4.setStyleSheet(":hover {\n"
+        self.homeArrow4 = QtWidgets.QCommandLinkButton(self.sklad)
+        self.homeArrow4.setGeometry(QtCore.QRect(20, 20, 41, 41))
+        self.homeArrow4.setStyleSheet(":hover {\n"
 "    border: none;\n"
 "}")
-        self.home_4.setText("")
-        self.home_4.setIcon(icon1)
-        self.home_4.setObjectName("home_4")
-        self.label_10 = QtWidgets.QLabel(self.sklad)
-        self.label_10.setGeometry(QtCore.QRect(320, 10, 161, 31))
-        self.label_10.setStyleSheet("font-family: \"Myanmar Text\";\n"
+        self.homeArrow4.setIcon(icon1)
+        self.homeArrow4.setObjectName("homeArrow4")
+        self.skladHeading = QtWidgets.QLabel(self.sklad)
+        self.skladHeading.setGeometry(QtCore.QRect(320, 10, 161, 31))
+        self.skladHeading.setStyleSheet("font-family: \"Myanmar Text\";\n"
 "font-size: 14px;\n"
 "font-weight: bold;\n"
 "")
-        self.label_10.setTextFormat(QtCore.Qt.AutoText)
-        self.label_10.setScaledContents(False)
-        self.label_10.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_10.setObjectName("label_10")
-        self.stackedWidget.addWidget(self.sklad)
+        self.skladHeading.setAlignment(QtCore.Qt.AlignCenter)
+        self.skladHeading.setObjectName("skladHeading")
+        self.screens.addWidget(self.sklad)
         self.statistika = QtWidgets.QWidget()
         self.statistika.setObjectName("statistika")
-        self.home_2 = QtWidgets.QCommandLinkButton(self.statistika)
-        self.home_2.setGeometry(QtCore.QRect(20, 20, 41, 41))
-        self.home_2.setStyleSheet(":hover {\n"
+        self.homeArrow2 = QtWidgets.QCommandLinkButton(self.statistika)
+        self.homeArrow2.setGeometry(QtCore.QRect(20, 20, 41, 41))
+        self.homeArrow2.setStyleSheet(":hover {\n"
 "    border: none;\n"
 "}")
-        self.home_2.setText("")
-        self.home_2.setIcon(icon1)
-        self.home_2.setObjectName("home_2")
-        self.label_11 = QtWidgets.QLabel(self.statistika)
-        self.label_11.setGeometry(QtCore.QRect(320, 10, 161, 31))
-        self.label_11.setStyleSheet("font-family: \"Myanmar Text\";\n"
+        self.homeArrow2.setIcon(icon1)
+        self.homeArrow2.setObjectName("homeArrow2")
+        self.statistikaHeading = QtWidgets.QLabel(self.statistika)
+        self.statistikaHeading.setGeometry(QtCore.QRect(320, 10, 161, 31))
+        self.statistikaHeading.setStyleSheet("font-family: \"Myanmar Text\";\n"
 "font-size: 14px;\n"
 "font-weight: bold;\n"
 "")
-        self.label_11.setTextFormat(QtCore.Qt.AutoText)
-        self.label_11.setScaledContents(False)
-        self.label_11.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_11.setObjectName("label_11")
-        self.stackedWidget.addWidget(self.statistika)
+        self.statistikaHeading.setAlignment(QtCore.Qt.AlignCenter)
+        self.statistikaHeading.setObjectName("statistikaHeading")
+        self.screens.addWidget(self.statistika)
         self.index = QtWidgets.QWidget()
         self.index.setObjectName("index")
-        self.label_3 = QtWidgets.QLabel(self.index)
-        self.label_3.setGeometry(QtCore.QRect(220, 270, 121, 31))
-        self.label_3.setStyleSheet("font-family: \"Myanmar Text\";\n"
+        self.statistikaLabel = QtWidgets.QLabel(self.index)
+        self.statistikaLabel.setGeometry(QtCore.QRect(220, 270, 121, 31))
+        self.statistikaLabel.setStyleSheet("font-family: \"Myanmar Text\";\n"
 "font-size: 14px;\n"
 "font-weight: bold;\n"
 "")
-        self.label_3.setTextFormat(QtCore.Qt.AutoText)
-        self.label_3.setScaledContents(False)
-        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_3.setObjectName("label_3")
-        self.label_2 = QtWidgets.QLabel(self.index)
-        self.label_2.setGeometry(QtCore.QRect(100, 270, 121, 31))
-        self.label_2.setStyleSheet("font-family: \"Myanmar Text\";\n"
+        self.statistikaLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.statistikaLabel.setObjectName("statistikaLabel")
+        self.cenotvorbaLabel = QtWidgets.QLabel(self.index)
+        self.cenotvorbaLabel.setGeometry(QtCore.QRect(100, 270, 121, 31))
+        self.cenotvorbaLabel.setStyleSheet("font-family: \"Myanmar Text\";\n"
 "font-size: 14px;\n"
 "font-weight: bold;\n"
 "")
-        self.label_2.setTextFormat(QtCore.Qt.AutoText)
-        self.label_2.setScaledContents(False)
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_2.setObjectName("label_2")
-        self.label_4 = QtWidgets.QLabel(self.index)
-        self.label_4.setGeometry(QtCore.QRect(340, 270, 121, 31))
-        self.label_4.setStyleSheet("font-family: \"Myanmar Text\";\n"
+        self.cenotvorbaLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.cenotvorbaLabel.setObjectName("cenotvorbaLabel")
+        self.skladLabel = QtWidgets.QLabel(self.index)
+        self.skladLabel.setGeometry(QtCore.QRect(340, 270, 121, 31))
+        self.skladLabel.setStyleSheet("font-family: \"Myanmar Text\";\n"
 "font-size: 14px;\n"
 "font-weight: bold;\n"
 "")
-        self.label_4.setTextFormat(QtCore.Qt.AutoText)
-        self.label_4.setScaledContents(False)
-        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_4.setObjectName("label_4")
-        self.cenotvorba_button = QtWidgets.QPushButton(self.index)
-        self.cenotvorba_button.setGeometry(QtCore.QRect(120, 180, 80, 80))
-        self.cenotvorba_button.setStyleSheet("QPushButton {\n"
+        self.skladLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.skladLabel.setObjectName("skladLabel")
+        self.cenotvorbaButton = QtWidgets.QPushButton(self.index)
+        self.cenotvorbaButton.setGeometry(QtCore.QRect(120, 180, 80, 80))
+        self.cenotvorbaButton.setStyleSheet("QPushButton {\n"
 "    background: rgb(0, 170, 255);\n"
 "    border: none;\n"
 "    border-radius: 4px;\n"
@@ -185,15 +232,14 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(0, 170, 255);\n"
 "    border-radius: 4px;\n"
 "}")
-        self.cenotvorba_button.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("../../assets/icons/price-tag.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.cenotvorba_button.setIcon(icon2)
-        self.cenotvorba_button.setIconSize(QtCore.QSize(40, 40))
-        self.cenotvorba_button.setObjectName("cenotvorba_button")
-        self.statistika_button = QtWidgets.QPushButton(self.index)
-        self.statistika_button.setGeometry(QtCore.QRect(240, 180, 80, 80))
-        self.statistika_button.setStyleSheet("QPushButton {\n"
+        self.cenotvorbaButton.setIcon(icon2)
+        self.cenotvorbaButton.setIconSize(QtCore.QSize(40, 40))
+        self.cenotvorbaButton.setObjectName("cenotvorbaButton")
+        self.statistikaButton = QtWidgets.QPushButton(self.index)
+        self.statistikaButton.setGeometry(QtCore.QRect(240, 180, 80, 80))
+        self.statistikaButton.setStyleSheet("QPushButton {\n"
 "    background: rgb(0, 170, 255);\n"
 "    border: none;\n"
 "    border-radius: 4px;\n"
@@ -210,15 +256,14 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(0, 170, 255);\n"
 "    border-radius: 4px;\n"
 "}")
-        self.statistika_button.setText("")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("../../assets/icons/statistics.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.statistika_button.setIcon(icon3)
-        self.statistika_button.setIconSize(QtCore.QSize(40, 40))
-        self.statistika_button.setObjectName("statistika_button")
-        self.sklad_button = QtWidgets.QPushButton(self.index)
-        self.sklad_button.setGeometry(QtCore.QRect(360, 180, 80, 80))
-        self.sklad_button.setStyleSheet("QPushButton {\n"
+        self.statistikaButton.setIcon(icon3)
+        self.statistikaButton.setIconSize(QtCore.QSize(40, 40))
+        self.statistikaButton.setObjectName("statistikaButton")
+        self.skladButton = QtWidgets.QPushButton(self.index)
+        self.skladButton.setGeometry(QtCore.QRect(360, 180, 80, 80))
+        self.skladButton.setStyleSheet("QPushButton {\n"
 "    background: rgb(0, 170, 255);\n"
 "    border: none;\n"
 "    border-radius: 4px;\n"
@@ -235,33 +280,28 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(0, 170, 255);\n"
 "    border-radius: 4px;\n"
 "}")
-        self.sklad_button.setText("")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap("../../assets/icons/locker.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.sklad_button.setIcon(icon4)
-        self.sklad_button.setIconSize(QtCore.QSize(40, 40))
-        self.sklad_button.setObjectName("sklad_button")
-        self.label_6 = QtWidgets.QLabel(self.index)
-        self.label_6.setGeometry(QtCore.QRect(580, 270, 121, 31))
-        self.label_6.setStyleSheet("font-family: \"Myanmar Text\";\n"
+        self.skladButton.setIcon(icon4)
+        self.skladButton.setIconSize(QtCore.QSize(40, 40))
+        self.skladButton.setObjectName("skladButton")
+        self.databazaLabel = QtWidgets.QLabel(self.index)
+        self.databazaLabel.setGeometry(QtCore.QRect(580, 270, 121, 31))
+        self.databazaLabel.setStyleSheet("font-family: \"Myanmar Text\";\n"
 "font-size: 14px;\n"
 "font-weight: bold;\n"
 "")
-        self.label_6.setTextFormat(QtCore.Qt.AutoText)
-        self.label_6.setScaledContents(False)
-        self.label_6.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_6.setObjectName("label_6")
-        self.label = QtWidgets.QLabel(self.index)
-        self.label.setGeometry(QtCore.QRect(360, 20, 81, 80))
-        self.label.setText("")
-        self.label.setTextFormat(QtCore.Qt.PlainText)
-        self.label.setPixmap(QtGui.QPixmap("../../assets/icons/camel.png"))
-        self.label.setScaledContents(True)
-        self.label.setAlignment(QtCore.Qt.AlignJustify|QtCore.Qt.AlignVCenter)
-        self.label.setObjectName("label")
-        self.databaza_button = QtWidgets.QPushButton(self.index)
-        self.databaza_button.setGeometry(QtCore.QRect(600, 180, 80, 80))
-        self.databaza_button.setStyleSheet("QPushButton {\n"
+        self.databazaLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.databazaLabel.setObjectName("databazaLabel")
+        self.camelLogo = QtWidgets.QLabel(self.index)
+        self.camelLogo.setGeometry(QtCore.QRect(360, 20, 81, 80))
+        self.camelLogo.setPixmap(QtGui.QPixmap("../../assets/icons/camel.png"))
+        self.camelLogo.setScaledContents(True)
+        self.camelLogo.setAlignment(QtCore.Qt.AlignJustify|QtCore.Qt.AlignVCenter)
+        self.camelLogo.setObjectName("camelLogo")
+        self.databazaButton = QtWidgets.QPushButton(self.index)
+        self.databazaButton.setGeometry(QtCore.QRect(600, 180, 80, 80))
+        self.databazaButton.setStyleSheet("QPushButton {\n"
 "    background: rgb(0, 170, 255);\n"
 "    border: none;\n"
 "    border-radius: 4px;\n"
@@ -278,15 +318,14 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(0, 170, 255);\n"
 "    border-radius: 4px;\n"
 "}")
-        self.databaza_button.setText("")
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap("../../assets/icons/online-shop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.databaza_button.setIcon(icon5)
-        self.databaza_button.setIconSize(QtCore.QSize(40, 40))
-        self.databaza_button.setObjectName("databaza_button")
-        self.portal_button = QtWidgets.QPushButton(self.index)
-        self.portal_button.setGeometry(QtCore.QRect(480, 180, 80, 80))
-        self.portal_button.setStyleSheet("QPushButton {\n"
+        self.databazaButton.setIcon(icon5)
+        self.databazaButton.setIconSize(QtCore.QSize(40, 40))
+        self.databazaButton.setObjectName("databazaButton")
+        self.portalButton = QtWidgets.QPushButton(self.index)
+        self.portalButton.setGeometry(QtCore.QRect(480, 180, 80, 80))
+        self.portalButton.setStyleSheet("QPushButton {\n"
 "    background: rgb(0, 170, 255);\n"
 "    border: none;\n"
 "    border-radius: 4px;\n"
@@ -303,47 +342,51 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(0, 170, 255);\n"
 "    border-radius: 4px;\n"
 "}")
-        self.portal_button.setText("")
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap("../../assets/icons/shopping-bag.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.portal_button.setIcon(icon6)
-        self.portal_button.setIconSize(QtCore.QSize(40, 40))
-        self.portal_button.setObjectName("portal_button")
-        self.label_5 = QtWidgets.QLabel(self.index)
-        self.label_5.setGeometry(QtCore.QRect(460, 270, 121, 51))
-        self.label_5.setStyleSheet("QLabel {\n"
+        self.portalButton.setIcon(icon6)
+        self.portalButton.setIconSize(QtCore.QSize(40, 40))
+        self.portalButton.setObjectName("portalButton")
+        self.portalLabel = QtWidgets.QLabel(self.index)
+        self.portalLabel.setGeometry(QtCore.QRect(460, 270, 121, 51))
+        self.portalLabel.setStyleSheet("QLabel {\n"
 "    font-family: \"Myanmar Text\";\n"
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    line-height: 80;\n"
 "}\n"
 "")
-        self.label_5.setLineWidth(1)
-        self.label_5.setTextFormat(QtCore.Qt.AutoText)
-        self.label_5.setScaledContents(False)
-        self.label_5.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_5.setWordWrap(True)
-        self.label_5.setObjectName("label_5")
-        self.stackedWidget.addWidget(self.index)
-        MainWindow.setCentralWidget(self.centralwidget)
+        self.portalLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.portalLabel.setWordWrap(True)
+        self.portalLabel.setObjectName("portalLabel")
+        self.screens.addWidget(self.index)
+        MainWindow.setCentralWidget(self.centralContainer)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(5)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Camels Infornation System"))
-        self.label_7.setText(_translate("MainWindow", "PREDAJNÝ PORTÁL"))
-        self.label_8.setText(_translate("MainWindow", "INTERNÁ DATABÁZA"))
-        self.label_9.setText(_translate("MainWindow", "CENOTVORBA"))
-        self.label_10.setText(_translate("MainWindow", "SKLAD"))
-        self.label_11.setText(_translate("MainWindow", "ŠTATISTIKA"))
-        self.label_3.setText(_translate("MainWindow", "ŠTATISTIKA"))
-        self.label_2.setText(_translate("MainWindow", "CENOTVORBA"))
-        self.label_4.setText(_translate("MainWindow", "SKLAD"))
-        self.label_6.setText(_translate("MainWindow", "DATABÁZA"))
-        self.label_5.setText(_translate("MainWindow", "PREDAJNÝ PORTÁL"))
+        self.portalHeading.setText(_translate("MainWindow", "PREDAJNÝ PORTÁL"))
+        self.label_12.setText(_translate("MainWindow", "ITEM NAME"))
+        self.label_13.setText(_translate("MainWindow", "ITEM NAME"))
+        self.label_14.setText(_translate("MainWindow", "ITEM NAME"))
+        self.label_15.setText(_translate("MainWindow", "ITEM NAME"))
+        self.label_16.setText(_translate("MainWindow", "ITEM NAME"))
+        self.lineEdit.setPlaceholderText(_translate("MainWindow", "Vyhľadať produkt"))
+        self.databazaHeading.setText(_translate("MainWindow", "INTERNÁ DATABÁZA"))
+        self.cenotvorbaHeading.setText(_translate("MainWindow", "CENOTVORBA"))
+        self.skladHeading.setText(_translate("MainWindow", "SKLAD"))
+        self.statistikaHeading.setText(_translate("MainWindow", "ŠTATISTIKA"))
+        self.statistikaLabel.setText(_translate("MainWindow", "ŠTATISTIKA"))
+        self.cenotvorbaLabel.setText(_translate("MainWindow", "CENOTVORBA"))
+        self.skladLabel.setText(_translate("MainWindow", "SKLAD"))
+        self.cenotvorbaButton.setToolTip(_translate("MainWindow", "Otvoriť cenotvorbu"))
+        self.databazaLabel.setText(_translate("MainWindow", "DATABÁZA"))
+        self.camelLogo.setToolTip(_translate("MainWindow", "Camels"))
+        self.databazaButton.setToolTip(_translate("MainWindow", "Otvoriť databázu"))
+        self.portalLabel.setText(_translate("MainWindow", "PREDAJNÝ PORTÁL"))
 
 
 if __name__ == "__main__":

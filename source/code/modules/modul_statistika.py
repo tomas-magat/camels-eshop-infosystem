@@ -12,7 +12,7 @@ class Statistika:
 
         # Track button clicks
         self.commands.button_click(
-            self.ui.statistika_button, self.switch_screen)
+            self.ui.statistikaButton, self.switch_screen)
 
         # Read file 'tovar.txt'
         # self.tovar = DataFile('tovar')

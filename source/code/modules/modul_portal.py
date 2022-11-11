@@ -22,7 +22,7 @@ class Portal:
 
         # Track button clicks
         self.commands.button_click(
-            self.ui.portal_button, self.switch_screen)
+            self.ui.portalButton, self.switch_screen)
 
         # Read file 'tovar.txt' - not in prototype
         # self.tovar = DataFile('tovar')

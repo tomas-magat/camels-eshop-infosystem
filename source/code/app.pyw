@@ -29,17 +29,17 @@ class MainWindow:
         self.portal = modul_portal.Portal(self.ui)
         self.statistika = modul_statistika.Statistika(self.ui)
         # Track button clicks for index screen (module buttons)
-        self.commands.button_click(self.ui.cenotvorba_button, self.price)
-        self.commands.button_click(self.ui.sklad_button, self.storage)
-        self.commands.button_click(self.ui.databaza_button, self.database)
+        self.commands.button_click(self.ui.cenotvorbaButton, self.price)
+        self.commands.button_click(self.ui.skladButton, self.storage)
+        self.commands.button_click(self.ui.databazaButton, self.database)
 
         # Track all home button clicks
         self.home_buttons = [
-            self.ui.home,
-            self.ui.home_2,
-            self.ui.home_3,
-            self.ui.home_4,
-            self.ui.home_5,
+            self.ui.homeArrow,
+            self.ui.homeArrow2,
+            self.ui.homeArrow3,
+            self.ui.homeArrow4,
+            self.ui.homeArrow5,
         ]
         self.commands.multiple_button_click(self.home_buttons, self.index)
 

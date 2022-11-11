@@ -11,7 +11,7 @@ class UI_Commands:
         given screen name (redirect).
         """
 
-        self.ui.stackedWidget.setCurrentWidget(screen)
+        self.ui.screens.setCurrentWidget(screen)
 
     def button_click(self, button, command):
         """After button clicked execute given command."""
