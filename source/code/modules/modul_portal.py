@@ -20,7 +20,6 @@ class Portal:
         self.ui = ui
         self.commands = UI_Commands(self.ui)
 
-        # Track button clicks
         self.commands.button_click(
             self.ui.portalButton, self.switch_screen)
 
@@ -56,5 +55,8 @@ class Portal:
 
         x = [i for i in range(10)]
         y = [i/2 for i in range(10)]
-        self.commands.plot_graph(self.ui.testGraph, x,
-                                 y, '-r', y, x, 'bo', title='Test')
+        self.commands.plot_graph(
+            x, y, '-r', 
+            y, x, 'bo', 
+            graphics_view=self.ui.testGraph,
+            title='Test')
