@@ -30,7 +30,7 @@ class UI_Commands:
         for button in buttons:
             button.clicked.connect(command)
 
-    def plot_graph(self, graphics_view, *args, size=(3, 3), title='', grid=True):
+    def plot_graph(self, *args, graphics_view=None, size=(4, 3), title='', grid=True):
         """Show matplotlib graph on 'canvas' (graphics_view)."""
 
         figure = self.create_graph(size, title, grid, args)
@@ -54,7 +54,7 @@ class UI_Commands:
         grid (bool) = shows grid in the graph background
         """
 
-        figure = Figure(figsize=size)
+        figure = Figure(figsize=size, dpi=60)
         axes = figure.gca()
         axes.set_title(title)
 
