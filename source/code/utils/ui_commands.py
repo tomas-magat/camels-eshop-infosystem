@@ -2,6 +2,8 @@
 from PyQt5.QtWidgets import QGraphicsScene
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+import pyqtgraph as pg
+from pyqtgraph import PlotWidget, plot
 
 
 class UI_Commands:
@@ -62,3 +64,10 @@ class UI_Commands:
         axes.grid(grid)
 
         return figure
+        
+    def create_pyqtgraph(self, widget, x, y):
+        self.graphWidget = pg.PlotWidget()
+        self.graphWidget.plot(x,y)
+        scene = QGraphicsScene()
+        widget.setScene(scene)
+        scene.addWidget(self.graphWidget)
