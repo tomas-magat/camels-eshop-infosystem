@@ -27,15 +27,20 @@ class Statistika:
         """Redirect to this statistika screen."""
 
         self.commands.change_screen(self.ui.statistika)
-    
+
     def statistika_test(self):
+        # data
         x = [i for i in range(10)]
         y = [i/2 for i in range(10)]
-        self.commands.plot_graph(self.ui.statistikaTestGraf, x,
-                                 y, '-r', y, x, 'bo', title='Test')
+
+        # Tu musis vytvorit matplotlib graf (vola sa to fig / figure)
+        # a dat to ako parameter do tejto funkcie:
+        #
+        # self.commands.plot_graph(self.ui.statistikaTestGraf, <fig>)
+
     def graph(self):
 
         hour = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         temperature = [30, 32, 34, 32, 33, 31, 29, 32, 35, 45]
-        self.commands.create_pyqtgraph(self.ui.statistikaTestGraf, hour, temperature)
-        
+        self.commands.create_pyqtgraph(
+            self.ui.statistikaTestGraf, hour, temperature)

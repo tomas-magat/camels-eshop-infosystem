@@ -1,7 +1,6 @@
 # UI Commands Simplified
 from PyQt5.QtWidgets import QGraphicsScene
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget, plot
 
@@ -30,44 +29,26 @@ class UI_Commands:
         for button in buttons:
             button.clicked.connect(command)
 
-    def plot_graph(self, *args, graphics_view=None, size=(4, 3), title='', grid=True):
-        """Show matplotlib graph on 'canvas' (graphics_view)."""
+    def plot_graph(self, graphics_view, figure, size=60):
+        """Add matplotlib graph to 'UI canvas' (graphics_view)."""
 
-        figure = self.create_graph(size, title, grid, args)
+        figure.set_dpi(size)
 
         canvas = FigureCanvas(figure)
+
         scene = QGraphicsScene()
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
 
-    @staticmethod
-    def create_graph(size, title, grid, *args):
-        """
-        Create matplotlib figure with specified parameters:
-
-        Arguments:
-        data (list of lists) = list of [x, y, color] values
-
-        Default arguments:
-        size (tuple) = (x, y) size of the graph
-        title (str) = title on the top of the graph
-        grid (bool) = shows grid in the graph background
-        """
-
-        figure = Figure(figsize=size, dpi=60)
-        axes = figure.gca()
-        axes.set_title(title)
-
-        for i in range(len(args[0])//3):
-            axes.plot(args[0][i*3], args[0][i*3+1], args[0][i*3+2])
-
-        axes.grid(grid)
-
-        return figure
-        
     def create_pyqtgraph(self, widget, x, y):
+        """
+        Create simple graph with x and y data using 
+        pyqtgraph PlotWidget and add it to UI graphicsScene.
+        """
+
         self.graphWidget = pg.PlotWidget()
-        self.graphWidget.plot(x,y)
+        self.graphWidget.plot(x, y)
+
         scene = QGraphicsScene()
         widget.setScene(scene)
         scene.addWidget(self.graphWidget)
