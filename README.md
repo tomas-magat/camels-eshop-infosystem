@@ -59,4 +59,4 @@
 ## Module structure and datafile format
 
 ![](assets/docs/STRUCTURE_2.png)
-![](assets/docs/FILEMAP.png)
+![](assets/docs/FILEMAP_2.png)
