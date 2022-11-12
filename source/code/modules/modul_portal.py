@@ -59,4 +59,7 @@ class Portal:
             x, y, '-r', 
             y, x, 'bo', 
             graphics_view=self.ui.testGraph,
-            title='Test')
+            title='Test',
+            size=(6, 5),
+            grid=False
+        )
