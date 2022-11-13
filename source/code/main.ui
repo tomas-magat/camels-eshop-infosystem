@@ -34,7 +34,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QCommandLinkButton" name="homeArrow">
@@ -121,6 +121,25 @@ font-weight: bold;
         </sizepolicy>
        </property>
        <layout class="QGridLayout" name="gridLayout">
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_16">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>200</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>ITEM NAME</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_12">
           <property name="sizePolicy">
@@ -180,25 +199,6 @@ font-weight: bold;
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="label_15">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>ITEM NAME</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_16">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -301,6 +301,65 @@ font-weight: bold;
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QGraphicsView" name="testGraph_2">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>60</y>
+        <width>256</width>
+        <height>351</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">testGraph_2{
+	backround:rgb(255, 0, 0)
+}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="dragMode">
+       <enum>QGraphicsView::NoDrag</enum>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>59</y>
+        <width>391</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Vyhľadať produkt</string>
+      </property>
+     </widget>
+     <widget class="QScrollBar" name="verticalScrollBar">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>100</y>
+        <width>21</width>
+        <height>311</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
       </property>
      </widget>
     </widget>

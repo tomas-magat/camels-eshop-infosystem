@@ -144,6 +144,10 @@ class Ui_MainWindow(object):
 "")
         self.databazaHeading.setAlignment(QtCore.Qt.AlignCenter)
         self.databazaHeading.setObjectName("databazaHeading")
+        self.pushButton = QtWidgets.QPushButton(self.databaza)
+        self.pushButton.setGeometry(QtCore.QRect(80, 190, 200, 100))
+        self.pushButton.setStyleSheet("color:rgb(170, 0, 0)")
+        self.pushButton.setObjectName("pushButton")
         self.screens.addWidget(self.databaza)
         self.cenotvorba = QtWidgets.QWidget()
         self.cenotvorba.setObjectName("cenotvorba")
@@ -375,7 +379,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralContainer)
 
         self.retranslateUi(MainWindow)
-        self.screens.setCurrentIndex(0)
+        self.screens.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -389,6 +393,7 @@ class Ui_MainWindow(object):
         self.label_16.setText(_translate("MainWindow", "ITEM NAME"))
         self.lineEdit.setPlaceholderText(_translate("MainWindow", "Vyhľadať produkt"))
         self.databazaHeading.setText(_translate("MainWindow", "INTERNÁ DATABÁZA"))
+        self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.cenotvorbaHeading.setText(_translate("MainWindow", "CENOTVORBA"))
         self.skladHeading.setText(_translate("MainWindow", "SKLAD"))
         self.statistikaHeading.setText(_translate("MainWindow", "ŠTATISTIKA"))
