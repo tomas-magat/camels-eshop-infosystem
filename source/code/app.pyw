@@ -45,7 +45,6 @@ class MainWindow:
 
     def show(self):
         """Show the main App UI window."""
-
         self.ui.show()
 
     def price(self):
