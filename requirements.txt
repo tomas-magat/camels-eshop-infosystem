@@ -4,3 +4,4 @@ python-dotenv==0.21.*
 qt5-tools==5.15.*
 pyqt5-plugins==5.15.*
 PyQt5-tools==5.15.*
+pyqtgraph==0.13.1

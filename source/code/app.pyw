@@ -1,11 +1,13 @@
 # This is the main file which imports all modules and
 # after executing displays an App window
 import sys
+import os
 
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication
+from PyQt5 import uic
 
-from main_ui import Ui_MainWindow
 from utils.ui_commands import UI_Commands
+from utils.ENV_VARS import PATH
 from modules import *
 
 
@@ -18,9 +20,7 @@ class MainWindow:
         and initialize modules.
         """
 
-        self.main_win = QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.main_win)
+        self.ui = uic.loadUi(os.path.join(PATH, 'source', 'code', 'main.ui'))
 
         self.commands = UI_Commands(self.ui)
         self.commands.change_screen(self.ui.index)
@@ -46,7 +46,7 @@ class MainWindow:
     def show(self):
         """Show the main App UI window."""
 
-        self.main_win.show()
+        self.ui.show()
 
     def price(self):
         self.commands.change_screen(self.ui.cenotvorba)
