@@ -34,7 +34,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QCommandLinkButton" name="homeArrow">
@@ -104,165 +104,6 @@ color: rgb(125, 125, 125);</string>
         <height>25</height>
        </size>
       </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <widget class="QWidget" name="portalScrollContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>374</width>
-         <height>1042</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>90</verstretch>
-        </sizepolicy>
-       </property>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_16">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>ITEM NAME</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_12">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>ITEM NAME</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_13">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>ITEM NAME</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_14">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>ITEM NAME</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_15">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>ITEM NAME</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit">
-      <property name="geometry">
-       <rect>
-        <x>80</x>
-        <y>59</y>
-        <width>391</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="placeholderText">
-       <string>Vyhľadať produkt</string>
-      </property>
-     </widget>
-     <widget class="QGraphicsView" name="testGraph">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
-        <y>60</y>
-        <width>256</width>
-        <height>351</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustToContents</enum>
-      </property>
-      <property name="dragMode">
-       <enum>QGraphicsView::NoDrag</enum>
-      </property>
-     </widget>
-    </widget>
      </widget>
      <widget class="QWidget" name="item" native="true">
       <property name="geometry">
@@ -397,65 +238,6 @@ font-weight: bold;
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QGraphicsView" name="testGraph_2">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
-        <y>60</y>
-        <width>256</width>
-        <height>351</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">testGraph_2{
-	backround:rgb(255, 0, 0)
-}</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustToContents</enum>
-      </property>
-      <property name="dragMode">
-       <enum>QGraphicsView::NoDrag</enum>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_2">
-      <property name="geometry">
-       <rect>
-        <x>80</x>
-        <y>59</y>
-        <width>391</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="placeholderText">
-       <string>Vyhľadať produkt</string>
-      </property>
-     </widget>
-     <widget class="QScrollBar" name="verticalScrollBar">
-      <property name="geometry">
-       <rect>
-        <x>450</x>
-        <y>100</y>
-        <width>21</width>
-        <height>311</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
       </property>
      </widget>
     </widget>
@@ -707,13 +489,11 @@ font-weight: bold;
 	border: none;
     border-radius: 4px;
 }
-
 QPushButton:hover {
 	background: rgb(10, 174, 255);
 	border: 2px solid rgb(0, 170, 255);
     border-radius: 4px;
 }
-
 QPushButton:pressed {
 	background:rgb(0, 142, 213);
 	border: 2px solid rgb(0, 170, 255);
@@ -746,13 +526,11 @@ QPushButton:pressed {
 	border: none;
     border-radius: 4px;
 }
-
 QPushButton:hover {
 	background: rgb(10, 174, 255);
 	border: 2px solid rgb(0, 170, 255);
     border-radius: 4px;
 }
-
 QPushButton:pressed {
 	background:rgb(0, 142, 213);
 	border: 2px solid rgb(0, 170, 255);
@@ -785,13 +563,11 @@ QPushButton:pressed {
 	border: none;
     border-radius: 4px;
 }
-
 QPushButton:hover {
 	background: rgb(10, 174, 255);
 	border: 2px solid rgb(0, 170, 255);
     border-radius: 4px;
 }
-
 QPushButton:pressed {
 	background:rgb(0, 142, 213);
 	border: 2px solid rgb(0, 170, 255);
@@ -871,13 +647,11 @@ font-weight: bold;
 	border: none;
     border-radius: 4px;
 }
-
 QPushButton:hover {
 	background: rgb(10, 174, 255);
 	border: 2px solid rgb(0, 170, 255);
     border-radius: 4px;
 }
-
 QPushButton:pressed {
 	background:rgb(0, 142, 213);
 	border: 2px solid rgb(0, 170, 255);
@@ -910,13 +684,11 @@ QPushButton:pressed {
 	border: none;
     border-radius: 4px;
 }
-
 QPushButton:hover {
 	background: rgb(10, 174, 255);
 	border: 2px solid rgb(0, 170, 255);
     border-radius: 4px;
 }
-
 QPushButton:pressed {
 	background:rgb(0, 142, 213);
 	border: 2px solid rgb(0, 170, 255);
