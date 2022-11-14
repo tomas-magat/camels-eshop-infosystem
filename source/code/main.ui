@@ -489,13 +489,11 @@ font-weight: bold;
 	border: none;
     border-radius: 4px;
 }
-
 QPushButton:hover {
 	background: rgb(10, 174, 255);
 	border: 2px solid rgb(0, 170, 255);
     border-radius: 4px;
 }
-
 QPushButton:pressed {
 	background:rgb(0, 142, 213);
 	border: 2px solid rgb(0, 170, 255);
@@ -528,13 +526,11 @@ QPushButton:pressed {
 	border: none;
     border-radius: 4px;
 }
-
 QPushButton:hover {
 	background: rgb(10, 174, 255);
 	border: 2px solid rgb(0, 170, 255);
     border-radius: 4px;
 }
-
 QPushButton:pressed {
 	background:rgb(0, 142, 213);
 	border: 2px solid rgb(0, 170, 255);
@@ -567,13 +563,11 @@ QPushButton:pressed {
 	border: none;
     border-radius: 4px;
 }
-
 QPushButton:hover {
 	background: rgb(10, 174, 255);
 	border: 2px solid rgb(0, 170, 255);
     border-radius: 4px;
 }
-
 QPushButton:pressed {
 	background:rgb(0, 142, 213);
 	border: 2px solid rgb(0, 170, 255);
@@ -653,13 +647,11 @@ font-weight: bold;
 	border: none;
     border-radius: 4px;
 }
-
 QPushButton:hover {
 	background: rgb(10, 174, 255);
 	border: 2px solid rgb(0, 170, 255);
     border-radius: 4px;
 }
-
 QPushButton:pressed {
 	background:rgb(0, 142, 213);
 	border: 2px solid rgb(0, 170, 255);
@@ -692,13 +684,11 @@ QPushButton:pressed {
 	border: none;
     border-radius: 4px;
 }
-
 QPushButton:hover {
 	background: rgb(10, 174, 255);
 	border: 2px solid rgb(0, 170, 255);
     border-radius: 4px;
 }
-
 QPushButton:pressed {
 	background:rgb(0, 142, 213);
 	border: 2px solid rgb(0, 170, 255);
