@@ -3,7 +3,7 @@
 import sys
 import os
 
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QPushButton
 from PyQt5 import uic
 
 from utils.ui_commands import UI_Commands
