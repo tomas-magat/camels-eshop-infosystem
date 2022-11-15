@@ -21,6 +21,11 @@ class Portal:
         self.commands.button_click(
             self.ui.portalButton, self.switch_screen)
 
+        self.commands.delete_button_click(self.ui.cancelItemButton_6)
+        self.commands.delete_button_click(self.ui.cancelItemButton_7)
+        self.commands.delete_button_click(self.ui.cancelItemButton_8)
+        self.commands.delete_button_click(self.ui.cancelItemButton_9)
+
         # Read file 'tovar.txt' - not in prototype
         # self.tovar = DataFile('tovar')
         # self.goods = self.tovar.read()

@@ -90,9 +90,6 @@ padding-left: 5px;</string>
         <height>51</height>
        </rect>
       </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
       <property name="styleSheet">
        <string notr="true">border: none;
 color: rgb(125, 125, 125);</string>
@@ -717,31 +714,12 @@ color: rgb(113, 113, 113);</string>
          <height>311</height>
         </rect>
        </property>
-       <widget class="QCommandLinkButton" name="cancelItemButton_2">
-        <property name="geometry">
-         <rect>
-          <x>320</x>
-          <y>80</y>
-          <width>41</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">:hover {
-	border: none;
-}</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>../../assets/icons/close.png</normaloff>../../assets/icons/close.png</iconset>
-        </property>
-       </widget>
        <widget class="QWidget" name="item_8" native="true">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>140</y>
-          <width>310</width>
+          <width>351</width>
           <height>61</height>
          </rect>
         </property>
@@ -888,32 +866,43 @@ color:rgb(255, 0, 0);</string>
           <number>2</number>
          </property>
         </widget>
-       </widget>
-       <widget class="QCommandLinkButton" name="cancelItemButton_3">
-        <property name="geometry">
-         <rect>
-          <x>320</x>
-          <y>150</y>
-          <width>41</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">:hover {
-	border: none;
-}</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>../../assets/icons/close.png</normaloff>../../assets/icons/close.png</iconset>
-        </property>
+        <widget class="QCommandLinkButton" name="cancelItemButton_8">
+         <property name="geometry">
+          <rect>
+           <x>315</x>
+           <y>15</y>
+           <width>31</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="toolTip">
+          <string>delete item</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none;
+</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../assets/icons/close.png</normaloff>../../assets/icons/close.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>10</width>
+           <height>10</height>
+          </size>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="item_7" native="true">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>70</y>
-          <width>310</width>
+          <width>351</width>
           <height>61</height>
          </rect>
         </property>
@@ -1060,32 +1049,43 @@ color:rgb(255, 0, 0);</string>
           <number>2</number>
          </property>
         </widget>
-       </widget>
-       <widget class="QCommandLinkButton" name="cancelItemButton_4">
-        <property name="geometry">
-         <rect>
-          <x>320</x>
-          <y>220</y>
-          <width>41</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">:hover {
-	border: none;
-}</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>../../assets/icons/close.png</normaloff>../../assets/icons/close.png</iconset>
-        </property>
+        <widget class="QCommandLinkButton" name="cancelItemButton_7">
+         <property name="geometry">
+          <rect>
+           <x>315</x>
+           <y>15</y>
+           <width>31</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="toolTip">
+          <string>delete item</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none;
+</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../assets/icons/close.png</normaloff>../../assets/icons/close.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>10</width>
+           <height>10</height>
+          </size>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="item_6" native="true">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>310</width>
+          <width>351</width>
           <height>61</height>
          </rect>
         </property>
@@ -1232,32 +1232,43 @@ color:rgb(255, 0, 0);</string>
           <number>2</number>
          </property>
         </widget>
-       </widget>
-       <widget class="QCommandLinkButton" name="cancelItemButton">
-        <property name="geometry">
-         <rect>
-          <x>320</x>
-          <y>10</y>
-          <width>41</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">:hover {
-	border: none;
-}</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>../../assets/icons/close.png</normaloff>../../assets/icons/close.png</iconset>
-        </property>
+        <widget class="QCommandLinkButton" name="cancelItemButton_6">
+         <property name="geometry">
+          <rect>
+           <x>315</x>
+           <y>15</y>
+           <width>31</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="toolTip">
+          <string>delete item</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none;
+</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../assets/icons/close.png</normaloff>../../assets/icons/close.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>10</width>
+           <height>10</height>
+          </size>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="item_9" native="true">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>210</y>
-          <width>310</width>
+          <width>351</width>
           <height>61</height>
          </rect>
         </property>
@@ -1404,6 +1415,36 @@ color:rgb(255, 0, 0);</string>
           <number>2</number>
          </property>
         </widget>
+        <widget class="QCommandLinkButton" name="cancelItemButton_9">
+         <property name="geometry">
+          <rect>
+           <x>315</x>
+           <y>15</y>
+           <width>31</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="toolTip">
+          <string>delete item</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none;
+</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../assets/icons/close.png</normaloff>../../assets/icons/close.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>10</width>
+           <height>10</height>
+          </size>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>
@@ -1418,7 +1459,7 @@ color:rgb(255, 0, 0);</string>
       </property>
       <property name="styleSheet">
        <string notr="true">border: none;
-font-size: 23px;
+font-size: 20px;
 color: rgb(136, 136, 136);</string>
       </property>
       <property name="text">
@@ -1439,7 +1480,7 @@ color: rgb(136, 136, 136);</string>
       </property>
       <property name="styleSheet">
        <string notr="true">border: none;
-font-size: 23px;
+font-size: 20px;
 color:rgb(255, 0, 0);</string>
       </property>
       <property name="text">
@@ -1466,6 +1507,46 @@ border-color: rgb(136, 136, 136);</string>
       </property>
       <property name="text">
        <string>PAY</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_63">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>20</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: none;
+font-size: 17px;
+color: rgb(136, 136, 136);</string>
+      </property>
+      <property name="text">
+       <string>Cashier name</string>
+      </property>
+      <property name="margin">
+       <number>2</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>730</x>
+        <y>20</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(143, 143, 143);</string>
+      </property>
+      <property name="pixmap">
+       <pixmap>../../assets/icons/user.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
