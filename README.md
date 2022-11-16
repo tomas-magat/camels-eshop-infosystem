@@ -21,7 +21,7 @@
 #### Making changes (repeat these steps until you're finished with changing the code)
 3. Make changes to the code
 4. Stage changes `git add .`
-5. Commit changes `git commit -am "Describe what has changed"`
+5. Commit changes `git commit -am "Describe what has been changed"`
 
 #### Publishing changes on Github
 6. Push your changes to the Github `git push --set-upstream origin name-of-the-branch-you-created`
