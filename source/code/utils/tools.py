@@ -31,3 +31,9 @@ def callback(function, delay):
     while True:
         function()
         time.sleep(delay)
+
+
+def str_price(price: float, amount: int):
+    """Return string of total price for given amount with EUR sign."""
+
+    return str(round(price*amount, 2))+"€"

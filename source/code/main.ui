@@ -279,7 +279,7 @@ color: rgb(125, 125, 125);</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
                  <item>
-                  <widget class="ItemCard" name="itemCard_2">
+                  <widget class="QFrame" name="itemCard_2">
                    <property name="minimumSize">
                     <size>
                      <width>200</width>
@@ -380,7 +380,7 @@ color: rgb(125, 125, 125);</string>
                        <item>
                         <widget class="QPushButton" name="pushButton_2">
                          <property name="text">
-                          <string>PushButton</string>
+                          <string>Add to cart</string>
                          </property>
                         </widget>
                        </item>
@@ -447,11 +447,17 @@ color: rgb(125, 125, 125);</string>
           <property name="spacing">
            <number>10</number>
           </property>
+          <property name="leftMargin">
+           <number>20</number>
+          </property>
+          <property name="rightMargin">
+           <number>20</number>
+          </property>
           <item>
            <widget class="QLabel" name="cartIcon">
             <property name="maximumSize">
              <size>
-              <width>40</width>
+              <width>31</width>
               <height>30</height>
              </size>
             </property>
@@ -507,7 +513,7 @@ font-size: 15px;</string>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -540,161 +546,7 @@ font-size: 15px;</string>
                 <height>329</height>
                </rect>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_11">
-               <item>
-                <widget class="QFrame" name="cartItem">
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <widget class="QWidget" name="">
-                  <property name="geometry">
-                   <rect>
-                    <x>0</x>
-                    <y>0</y>
-                    <width>281</width>
-                    <height>43</height>
-                   </rect>
-                  </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_3">
-                   <item>
-                    <widget class="QWidget" name="itemInfo" native="true">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <layout class="QVBoxLayout" name="verticalLayout_12">
-                      <property name="spacing">
-                       <number>0</number>
-                      </property>
-                      <property name="leftMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>0</number>
-                      </property>
-                      <item>
-                       <widget class="QWidget" name="cartItemName" native="true">
-                        <widget class="QLabel" name="label">
-                         <property name="geometry">
-                          <rect>
-                           <x>6</x>
-                           <y>0</y>
-                           <width>131</width>
-                           <height>20</height>
-                          </rect>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">color: rgb(223, 223, 223);</string>
-                         </property>
-                         <property name="text">
-                          <string>Item Name</string>
-                         </property>
-                        </widget>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QWidget" name="cartItemPrice" native="true">
-                        <layout class="QHBoxLayout" name="horizontalLayout_4">
-                         <property name="spacing">
-                          <number>20</number>
-                         </property>
-                         <property name="leftMargin">
-                          <number>6</number>
-                         </property>
-                         <property name="topMargin">
-                          <number>0</number>
-                         </property>
-                         <property name="rightMargin">
-                          <number>0</number>
-                         </property>
-                         <property name="bottomMargin">
-                          <number>0</number>
-                         </property>
-                         <item>
-                          <widget class="QLabel" name="label_2">
-                           <property name="styleSheet">
-                            <string notr="true">color: rgb(223, 223, 223);</string>
-                           </property>
-                           <property name="text">
-                            <string>2 ks x 15.99</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QLabel" name="label_3">
-                           <property name="styleSheet">
-                            <string notr="true">color: rgb(223, 223, 223);</string>
-                           </property>
-                           <property name="text">
-                            <string>29.98 €</string>
-                           </property>
-                           <property name="alignment">
-                            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                   <item alignment="Qt::AlignRight">
-                    <widget class="QWidget" name="cancelSection" native="true">
-                     <property name="minimumSize">
-                      <size>
-                       <width>40</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <widget class="QPushButton" name="cancelButton">
-                      <property name="geometry">
-                       <rect>
-                        <x>15</x>
-                        <y>15</y>
-                        <width>10</width>
-                        <height>10</height>
-                       </rect>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">border: none;
-color: rgb(125, 125, 125);</string>
-                      </property>
-                      <property name="icon">
-                       <iconset>
-                        <normaloff>../../assets/icons/x-button.png</normaloff>../../assets/icons/x-button.png</iconset>
-                      </property>
-                      <property name="iconSize">
-                       <size>
-                        <width>10</width>
-                        <height>10</height>
-                       </size>
-                      </property>
-                     </widget>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </widget>
-               </item>
-              </layout>
+              <layout class="QVBoxLayout" name="verticalLayout_11"/>
              </widget>
             </widget>
            </item>
@@ -707,20 +559,40 @@ color: rgb(125, 125, 125);</string>
               </size>
              </property>
              <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
+              <enum>QFrame::NoFrame</enum>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+              <enum>QFrame::Plain</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_10">
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
               <property name="leftMargin">
-               <number>60</number>
+               <number>20</number>
               </property>
               <property name="rightMargin">
-               <number>60</number>
+               <number>20</number>
               </property>
               <item>
-               <widget class="QPushButton" name="pushButton">
+               <widget class="QLabel" name="totalPrice">
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(212, 212, 212);
+font-size: 15px;</string>
+                </property>
+                <property name="text">
+                 <string>Spolu: 0 €</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="buyButton">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">background-color: rgb(213, 213, 213);</string>
                 </property>
@@ -1279,14 +1151,6 @@ QPushButton:pressed {
    </widget>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>ItemCard</class>
-   <extends>QFrame</extends>
-   <header>modules/modul_portal</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

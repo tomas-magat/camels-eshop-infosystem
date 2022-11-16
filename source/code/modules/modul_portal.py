@@ -7,6 +7,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
+from utils import tools
 
 
 class Portal:
@@ -19,11 +20,14 @@ class Portal:
 
         self.ui = ui
         self.commands = UI_Commands(self.ui)
+        self.total_price = 0
 
         self.commands.button_click(
             self.ui.portalButton, self.switch_screen)
-        self.commands.button_click(
-            self.ui.add, self.add_item)
+
+        for i in range(5):
+            ItemCard(self.ui, self, self.ui.shirtsCatalog, "test" +
+                     str(i), "Test "+str(i), "0000")
 
         # Read file 'tovar.txt' - not in prototype
         # self.tovar = DataFile('tovar')
@@ -50,24 +54,37 @@ class Portal:
 
         self.commands.change_screen(self.ui.portal)
 
-    def add_item(self):
-        """Add item card to catalog."""
+    def update_price(self, amount):
+        """Update total price of a cart."""
 
-        ItemCard(self.ui, self.ui.shirtsContents,
-                 "testItem", "TEST ITEM", "4444")
+        self.total_price += amount
+        self.ui.totalPrice.setText(
+            "Spolu: "+str(round(self.total_price, 2))+" €")
 
 
 class ItemCard(QtWidgets.QFrame):
 
-    def __init__(self, ui, parent, name: str, display_name: str, code: str):
+    def __init__(self, ui, page, parent, name: str, display_name: str, code: str):
         super(ItemCard, self).__init__(parent)
 
         self.ui = ui
+        self.page = page
+        self.commands = UI_Commands(self.ui)
         self.name = name
         self.display_name = display_name
         self.code = code
 
         self.draw_ui()
+
+    def add_to_cart(self):
+        """Add item to the cart section after add button pressed."""
+
+        self.amount = self.spinBox.value()
+        if self.amount > 0:
+            price = 15.99
+            CartItem(self.ui, self.page, self.ui.contentsSection, self.name,
+                     self.display_name, price, self.amount)
+            self.page.update_price(price*self.amount)
 
     def draw_ui(self):
         self.setMinimumSize(QtCore.QSize(200, 60))
@@ -113,6 +130,7 @@ class ItemCard(QtWidgets.QFrame):
         self.buttonLayout.setObjectName(self.name+"ButtonLayout")
         self.addButton = QtWidgets.QPushButton("Add to cart")
         self.addButton.setObjectName(self.name+"AddButton")
+        self.commands.button_click(self.addButton, self.add_to_cart)
         self.buttonLayout.addWidget(self.addButton)
         self.mainLayout.addWidget(self.itemButton)
         self.ui.verticalLayout_3.addWidget(self)
@@ -120,10 +138,12 @@ class ItemCard(QtWidgets.QFrame):
 
 class CartItem(QtWidgets.QFrame):
 
-    def __init__(self, ui, parent, name: str, display_name: str, price: float, amount: int):
-        super(ItemCard, self).__init__(parent)
+    def __init__(self, ui, page, parent, name: str, display_name: str, price: float, amount: int):
+        super(CartItem, self).__init__(parent)
 
         self.ui = ui
+        self.page = page
+        self.commands = UI_Commands(self.ui)
         self.name = "cart"+name
         self.display_name = display_name
         self.price = price
@@ -131,19 +151,21 @@ class CartItem(QtWidgets.QFrame):
 
         self.draw_ui()
 
+    def delete_item(self):
+        """Delete this item from cart."""
+
+        self.deleteLater()
+        self.page.update_price(-self.price*self.amount)
+
     def draw_ui(self):
-        self.cartItem = QtWidgets.QFrame(self.cartContents)
-        self.cartItem.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.cartItem.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.cartItem.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.cartItem.setObjectName("cartItem")
-        self.widget1 = QtWidgets.QWidget(self.cartItem)
-        self.widget1.setGeometry(QtCore.QRect(0, 0, 281, 43))
-        self.widget1.setObjectName("widget1")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.widget1)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.itemInfo = QtWidgets.QWidget(self.widget1)
+        self.setMaximumSize(QtCore.QSize(16777215, 40))
+        self.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.setObjectName(self.name)
+        self.mainLayout = QtWidgets.QHBoxLayout(self)
+        self.mainLayout.setContentsMargins(0, 0, 0, 0)
+        self.mainLayout.setObjectName(self.name+"Layout")
+        self.itemInfo = QtWidgets.QWidget(self)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -151,49 +173,52 @@ class CartItem(QtWidgets.QFrame):
         sizePolicy.setHeightForWidth(
             self.itemInfo.sizePolicy().hasHeightForWidth())
         self.itemInfo.setSizePolicy(sizePolicy)
-        self.itemInfo.setObjectName("itemInfo")
-        self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.itemInfo)
-        self.verticalLayout_12.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_12.setSpacing(0)
-        self.verticalLayout_12.setObjectName("verticalLayout_12")
-        self.cartItemName = QtWidgets.QWidget(self.itemInfo)
-        self.cartItemName.setObjectName("cartItemName")
-        self.label = QtWidgets.QLabel(self.cartItemName)
+        self.itemInfo.setObjectName(self.name+"Info")
+        self.infoLayout = QtWidgets.QVBoxLayout(self.itemInfo)
+        self.infoLayout.setContentsMargins(0, 0, 0, 0)
+        self.infoLayout.setSpacing(0)
+        self.infoLayout.setObjectName(self.name+"InfoLayout")
+        self.itemName = QtWidgets.QWidget(self.itemInfo)
+        self.itemName.setObjectName(self.name+"ItemName")
+        self.label = QtWidgets.QLabel(self.display_name, self.itemName)
         self.label.setGeometry(QtCore.QRect(6, 0, 131, 20))
         self.label.setStyleSheet("color: rgb(223, 223, 223);")
-        self.label.setObjectName("label")
-        self.verticalLayout_12.addWidget(self.cartItemName)
-        self.cartItemPrice = QtWidgets.QWidget(self.itemInfo)
-        self.cartItemPrice.setObjectName("cartItemPrice")
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.cartItemPrice)
-        self.horizontalLayout_4.setContentsMargins(6, 0, 0, 0)
-        self.horizontalLayout_4.setSpacing(20)
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.label_2 = QtWidgets.QLabel(self.cartItemPrice)
-        self.label_2.setStyleSheet("color: rgb(223, 223, 223);")
-        self.label_2.setObjectName("label_2")
-        self.horizontalLayout_4.addWidget(self.label_2)
-        self.label_3 = QtWidgets.QLabel(self.cartItemPrice)
-        self.label_3.setStyleSheet("color: rgb(223, 223, 223);")
-        self.label_3.setAlignment(
+        self.label.setObjectName(self.name+"Label")
+        self.infoLayout.addWidget(self.itemName)
+        self.itemPrice = QtWidgets.QWidget(self.itemInfo)
+        self.itemPrice.setObjectName(self.name+"itemPrice")
+        self.priceLayout = QtWidgets.QHBoxLayout(self.itemPrice)
+        self.priceLayout.setContentsMargins(6, 0, 0, 0)
+        self.priceLayout.setSpacing(20)
+        self.priceLayout.setObjectName(self.name+"PriceLayout")
+        self.priceLabel = QtWidgets.QLabel(
+            str(self.amount)+" ks x "+str(self.price))
+        self.priceLabel.setStyleSheet("color: rgb(223, 223, 223);")
+        self.priceLabel.setObjectName(self.name+"PriceLabel")
+        self.priceLayout.addWidget(self.priceLabel)
+        self.sumPrice = QtWidgets.QLabel(
+            tools.str_price(self.price, self.amount))
+        self.sumPrice.setStyleSheet("color: rgb(223, 223, 223);")
+        self.sumPrice.setAlignment(
             QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
-        self.label_3.setObjectName("label_3")
-        self.horizontalLayout_4.addWidget(self.label_3)
-        self.verticalLayout_12.addWidget(self.cartItemPrice)
-        self.horizontalLayout_3.addWidget(self.itemInfo)
-        self.cancelSection = QtWidgets.QWidget(self.widget1)
-        self.cancelSection.setMinimumSize(QtCore.QSize(40, 0))
-        self.cancelSection.setObjectName("cancelSection")
-        self.searchButton_2 = QtWidgets.QPushButton(self.cancelSection)
-        self.searchButton_2.setGeometry(QtCore.QRect(15, 15, 10, 10))
-        self.searchButton_2.setStyleSheet("border: none;\n"
-                                          "color: rgb(125, 125, 125);")
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(
+        self.sumPrice.setObjectName(self.name+"SumPrice")
+        self.priceLayout.addWidget(self.sumPrice)
+        self.infoLayout.addWidget(self.itemPrice)
+        self.mainLayout.addWidget(self.itemInfo)
+        self.cancelSection = QtWidgets.QWidget(self)
+        self.cancelSection.setMinimumSize(QtCore.QSize(40, 40))
+        self.cancelSection.setObjectName(self.name+"CancelSection")
+        self.cancelButton = QtWidgets.QPushButton(self.cancelSection)
+        self.cancelButton.setGeometry(QtCore.QRect(10, 10, 20, 20))
+        self.cancelButton.setStyleSheet(
+            "border: none; color: rgb(125, 125, 125);")
+        crossIcon = QtGui.QIcon()
+        crossIcon.addPixmap(QtGui.QPixmap(
             "../../assets/icons/x-button.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.searchButton_2.setIcon(icon3)
-        self.searchButton_2.setIconSize(QtCore.QSize(10, 10))
-        self.searchButton_2.setObjectName("searchButton_2")
-        self.horizontalLayout_3.addWidget(
+        self.cancelButton.setIcon(crossIcon)
+        self.cancelButton.setIconSize(QtCore.QSize(10, 10))
+        self.cancelButton.setObjectName(self.name+"CancelButton")
+        self.commands.button_click(self.cancelButton, self.delete_item)
+        self.mainLayout.addWidget(
             self.cancelSection, 0, QtCore.Qt.AlignRight)
-        self.verticalLayout_11.addWidget(self.cartItem)
+        self.ui.verticalLayout_11.addWidget(self)

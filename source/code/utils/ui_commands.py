@@ -32,7 +32,8 @@ class UI_Commands:
     def delete_button_click(self, button):
         """After button clicked remove its parent."""
 
-        button.clicked.connect(lambda: button.parentWidget().deleteLater())
+        button.clicked.connect(
+            lambda: button.parentWidget().deleteLater())
 
     def plot_graph(self, graphics_view, figure, size=60):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""
