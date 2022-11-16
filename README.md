@@ -21,7 +21,7 @@
 #### Making changes (repeat these steps until you're finished with changing the code)
 3. Make changes to the code
 4. Stage changes `git add .`
-5. Commit changes `git commit -am "Describe what has changed"`
+5. Commit changes `git commit -am "Describe what has been changed"`
 
 #### Publishing changes on Github
 6. Push your changes to the Github `git push --set-upstream origin name-of-the-branch-you-created`
@@ -41,19 +41,23 @@
 2. [Download](https://build-system.fman.io/qt-designer-download) and install Qt designer (tool)  
 
 - [PyQt5 tutorial](https://www.pythonguis.com/pyqt5-tutorial/)
-- [Qt Designer tutorial](https://realpython.com/qt-designer-python/)
+- [Qt Designer manual](https://doc.qt.io/archives/qt-4.8/designer-manual.html)
 
 
-## Basic workflow
+## Basic Workflow
 
-#### Changing the 'look' (GUI) of the app
+#### Creating module interface in QtDesigner
 1. In Qt Designer open file `source\code\main.ui`
-2. Make changes and save
+2. Using object inspector on the right side of Qt Designer click on your module screen
+3. Define layout (using containers, frames, widgets and layouts)
+4. Add elements to the frames (PushButtons, Labels...)
+5. Change element properties (using property editor in the right side of Qt Designer) 
+6. Customize the stylesheet of the element (CSS)
 
-#### Changing the window behaviour (button press...)
+## Changing the window behaviour (button press...)
 1. Open `source\code\modules\[your_module].py`
-2. Change the module class
-3. Test the changes by running app.pyw
+2. Using `ui_commands.py` module assign command to element (button_clicked()...)
+3. Test the changes by running `app.pyw`
 
 
 ## Module structure and datafile format
