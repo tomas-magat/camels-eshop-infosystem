@@ -36,4 +36,4 @@ def callback(function, delay):
 def str_price(price: float, amount: int):
     """Return string of total price for given amount with EUR sign."""
 
-    return str(round(price*amount, 2))+"€"
+    return ("%.2f" % (price*amount))+" €"

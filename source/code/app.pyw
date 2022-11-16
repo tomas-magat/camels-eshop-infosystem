@@ -41,7 +41,7 @@ class MainWindow:
             self.ui.homeArrow4,
             self.ui.homeArrow5,
         ]
-        self.commands.multiple_button_click(self.home_buttons, self.index)
+        self.commands.buttons_click(self.home_buttons, self.index)
 
     def show(self):
         """Show the main App UI window."""

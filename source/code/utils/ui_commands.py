@@ -1,5 +1,5 @@
 # UI Commands Simplified
-from PyQt5.QtWidgets import QGraphicsScene
+from PyQt5.QtWidgets import QGraphicsScene, QWidget, QGraphicsView
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget, plot
@@ -10,7 +10,7 @@ class UI_Commands:
     def __init__(self, ui):
         self.ui = ui
 
-    def change_screen(self, screen):
+    def change_screen(self, screen: QWidget):
         """
         Switch the current screen on the app window to 
         given screen name (redirect).
@@ -23,7 +23,7 @@ class UI_Commands:
 
         button.clicked.connect(command)
 
-    def multiple_button_click(self, buttons=[],  command=None):
+    def buttons_click(self, buttons: list,  command):
         """After any of the given buttons clicked execute command."""
 
         for button in buttons:
@@ -35,7 +35,7 @@ class UI_Commands:
         button.clicked.connect(
             lambda: button.parentWidget().deleteLater())
 
-    def plot_graph(self, graphics_view, figure, size=60):
+    def plot_graph(self, graphics_view: QGraphicsView, figure, size=60):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""
 
         figure.set_dpi(size)
@@ -46,7 +46,7 @@ class UI_Commands:
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
 
-    def create_pyqtgraph(self, widget, x, y):
+    def create_pyqtgraph(self, widget: QGraphicsView, x, y):
         """
         Create simple graph with x and y data using 
         pyqtgraph PlotWidget and add it to UI graphicsScene.

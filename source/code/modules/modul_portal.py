@@ -59,7 +59,7 @@ class Portal:
 
         self.total_price += amount
         self.ui.totalPrice.setText(
-            "Spolu: "+str(round(self.total_price, 2))+" €")
+            "Spolu: "+tools.str_price(self.total_price, 1))
 
 
 class ItemCard(QtWidgets.QFrame):
