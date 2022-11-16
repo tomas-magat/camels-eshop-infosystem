@@ -56,8 +56,8 @@
 
 ## Changing the window behaviour (button press...)
 1. Open `source\code\modules\[your_module].py`
-2. Using ui_commands module assign command to element (button_clicked()...)
-3. Test the changes by running app.pyw
+2. Using `ui_commands.py` module assign command to element (button_clicked()...)
+3. Test the changes by running `app.pyw`
 
 
 ## Module structure and datafile format
