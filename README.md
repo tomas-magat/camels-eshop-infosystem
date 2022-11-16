@@ -44,15 +44,19 @@
 - [Qt Designer tutorial](https://realpython.com/qt-designer-python/)
 
 
-## Basic workflow
+## Basic Workflow
 
-#### Changing the 'look' (GUI) of the app
+#### Creating module interface in QtDesigner
 1. In Qt Designer open file `source\code\main.ui`
-2. Make changes and save
+2. Using object inspector on the right side of Qt Designer click on your module screen
+3. Define layout (using containers, frames, widgets and layouts)
+4. Add elements to the frames (PushButtons, Labels...)
+5. Change element properties (using property editor in the right side of Qt Designer) 
+6. Customize the stylesheet of the element (CSS)
 
-#### Changing the window behaviour (button press...)
+## Changing the window behaviour (button press...)
 1. Open `source\code\modules\[your_module].py`
-2. Change the module class
+2. Using UI_Commands assign command to element (button_clicked()...)
 3. Test the changes by running app.pyw
 
 
