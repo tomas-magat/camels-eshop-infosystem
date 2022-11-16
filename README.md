@@ -41,7 +41,7 @@
 2. [Download](https://build-system.fman.io/qt-designer-download) and install Qt designer (tool)  
 
 - [PyQt5 tutorial](https://www.pythonguis.com/pyqt5-tutorial/)
-- [Qt Designer tutorial](https://doc.qt.io/archives/qt-4.8/designer-manual.html)
+- [Qt Designer manual](https://doc.qt.io/archives/qt-4.8/designer-manual.html)
 
 
 ## Basic Workflow
