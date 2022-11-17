@@ -30,20 +30,20 @@
     <normaloff>../../assets/icons/camel.png</normaloff>../../assets/icons/camel.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:rgb(232, 232, 232);</string>
+   <string notr="true">background-color: rgb(248, 248, 248);</string>
   </property>
   <widget class="QWidget" name="centralContainer">
    <widget class="QStackedWidget" name="screens">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>9</y>
-      <width>782</width>
-      <height>432</height>
+      <x>0</x>
+      <y>0</y>
+      <width>801</width>
+      <height>451</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="portal">
      <property name="sizePolicy">
@@ -273,8 +273,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>477</width>
-                  <height>357</height>
+                  <width>479</width>
+                  <height>359</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
