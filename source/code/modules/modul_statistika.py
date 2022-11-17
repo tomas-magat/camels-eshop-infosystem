@@ -2,7 +2,7 @@ from utils.file import DataFile
 from utils.ui_commands import UI_Commands
 from utils import tools
 import matplotlib.pyplot as plt
-import random
+
 
 class Statistika:
 
@@ -35,11 +35,13 @@ class Statistika:
         y1 = [i**2 for i in range(10)]
         m = [4,5,2]
         # fig, ax = plt.subplot_mosaic([['upleft', 'upright'], ['lowleft', 'lowright']])
+        plt.style.use(['seaborn-v0_8-notebook'])
         fig, (a1, a2) = plt.subplots(1,2)
         # a1 = fig.add_subplot(1,2,1)
         # a2 = fig.add_subplot(1,2,2)
         c = ['a','b','c']
         a1.bar(c, m)
+        a1.margins(0.2, 0.2)
         # a1.plot(x,y)
         # a1.plot(x,y1)
         a2.plot(x,y)
