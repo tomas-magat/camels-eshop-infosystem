@@ -39,7 +39,7 @@ class MainWindow:
             self.ui.homeArrow2,
             self.ui.homeArrow3,
             self.ui.homeArrow4,
-            #self.ui.homeArrow5,
+            self.ui.homeArrow5,
         ]
         self.commands.buttons_click(self.home_buttons, self.index)
 
@@ -65,3 +65,4 @@ if __name__ == '__main__':
     main_win = MainWindow()
     main_win.show()
     sys.exit(app.exec_())
+
