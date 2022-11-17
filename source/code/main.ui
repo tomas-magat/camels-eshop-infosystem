@@ -43,7 +43,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="portal">
      <property name="sizePolicy">
@@ -926,7 +926,7 @@ color: rgb(125, 125, 125);</string>
          </property>
         </item>
        </widget>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="addItem">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -964,7 +964,7 @@ color: rgb(125, 125, 125);</string>
        </widget>
        <zorder>itemList</zorder>
        <zorder>listWidget</zorder>
-       <zorder>pushButton</zorder>
+       <zorder>addItem</zorder>
       </widget>
      </widget>
      <widget class="QWidget" name="right_database" native="true">
