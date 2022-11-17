@@ -3,7 +3,7 @@
 import sys
 import os
 
-from PyQt5.QtWidgets import QApplication, QPushButton
+from PyQt5.QtWidgets import QApplication
 from PyQt5 import uic
 
 from utils.ui_commands import UI_Commands
@@ -65,4 +65,3 @@ if __name__ == '__main__':
     main_win = MainWindow()
     main_win.show()
     sys.exit(app.exec_())
-
