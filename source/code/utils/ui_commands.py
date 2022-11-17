@@ -1,8 +1,7 @@
 # UI Commands Simplified
 from PyQt5.QtWidgets import QGraphicsScene, QWidget, QGraphicsView
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-import pyqtgraph as pg
-from pyqtgraph import PlotWidget, plot
+
 
 
 class UI_Commands:
@@ -45,16 +44,3 @@ class UI_Commands:
         scene = QGraphicsScene()
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
-
-    def create_pyqtgraph(self, widget: QGraphicsView, x, y):
-        """
-        Create simple graph with x and y data using 
-        pyqtgraph PlotWidget and add it to UI graphicsScene.
-        """
-
-        self.graphWidget = pg.PlotWidget()
-        self.graphWidget.plot(x, y)
-
-        scene = QGraphicsScene()
-        widget.setScene(scene)
-        scene.addWidget(self.graphWidget)
