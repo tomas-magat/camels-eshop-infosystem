@@ -8,7 +8,7 @@ class UI_Commands:
     def __init__(self, ui):
         self.ui = ui
 
-    def change_screen(self, screen: QWidget):
+    def redirect(self, screen: QWidget):
         """
         Switch the current screen on the app window to 
         given screen name (redirect).

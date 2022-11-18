@@ -23,7 +23,7 @@ class MainWindow:
         self.ui = uic.loadUi(os.path.join(PATH, 'source', 'code', 'main.ui'))
 
         self.commands = UI_Commands(self.ui)
-        self.commands.change_screen(self.ui.index)
+        self.commands.redirect(self.ui.index)
 
         # Initialize modul portal and statistika
         self.portal = modul_portal.Portal(self.ui)
@@ -48,16 +48,16 @@ class MainWindow:
         self.ui.show()
 
     def price(self):
-        self.commands.change_screen(self.ui.cenotvorba)
+        self.commands.redirect(self.ui.cenotvorba)
 
     def storage(self):
-        self.commands.change_screen(self.ui.sklad)
+        self.commands.redirect(self.ui.sklad)
 
     def database(self):
-        self.commands.change_screen(self.ui.databaza)
+        self.commands.redirect(self.ui.databaza)
 
     def index(self):
-        self.commands.change_screen(self.ui.index)
+        self.commands.redirect(self.ui.index)
 
 
 if __name__ == '__main__':

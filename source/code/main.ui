@@ -46,12 +46,6 @@
      <number>1</number>
     </property>
     <widget class="QWidget" name="portal">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
      <widget class="QWidget" name="left" native="true">
       <property name="geometry">
        <rect>
@@ -60,12 +54,6 @@
         <width>501</width>
         <height>451</height>
        </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
@@ -211,10 +199,10 @@ color: rgb(125, 125, 125);</string>
           </sizepolicy>
          </property>
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <enum>QFrame::Plain</enum>
          </property>
          <widget class="QTabWidget" name="itemCategories">
           <property name="geometry">
@@ -228,7 +216,7 @@ color: rgb(125, 125, 125);</string>
           <property name="currentIndex">
            <number>0</number>
           </property>
-          <widget class="QWidget" name="tab">
+          <widget class="QWidget" name="shirtsCategory">
            <attribute name="title">
             <string>Tričká</string>
            </attribute>
@@ -265,6 +253,16 @@ color: rgb(125, 125, 125);</string>
              </property>
              <item>
               <widget class="QScrollArea" name="shirtsCatalog">
+               <property name="styleSheet">
+                <string notr="true">QScrollBar:vertical {
+	width: 20px;
+	border-radius: 5px;
+	background-color: rgb(218, 218, 218);
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
                <property name="widgetResizable">
                 <bool>true</bool>
                </property>
@@ -277,127 +275,14 @@ color: rgb(125, 125, 125);</string>
                   <height>359</height>
                  </rect>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_3">
-                 <item>
-                  <widget class="QFrame" name="itemCard_2">
-                   <property name="minimumSize">
-                    <size>
-                     <width>200</width>
-                     <height>60</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>60</height>
-                    </size>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::Box</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Plain</enum>
-                   </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_2">
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <property name="leftMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QWidget" name="itemPreview_2" native="true">
-                      <property name="maximumSize">
-                       <size>
-                        <width>60</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_8">
-                       <item>
-                        <widget class="QLabel" name="label_9">
-                         <property name="text">
-                          <string>item preview</string>
-                         </property>
-                         <property name="wordWrap">
-                          <bool>true</bool>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QWidget" name="itemName_2" native="true">
-                      <layout class="QVBoxLayout" name="verticalLayout_7">
-                       <item>
-                        <widget class="QLabel" name="label_10">
-                         <property name="text">
-                          <string>ITEM NAME  #code</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QWidget" name="itemCount_2" native="true">
-                      <property name="maximumSize">
-                       <size>
-                        <width>60</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_5">
-                       <item>
-                        <widget class="QSpinBox" name="spinBox_8">
-                         <property name="styleSheet">
-                          <string notr="true"/>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QWidget" name="addButton_2" native="true">
-                      <property name="maximumSize">
-                       <size>
-                        <width>80</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_6">
-                       <item>
-                        <widget class="QPushButton" name="pushButton_2">
-                         <property name="text">
-                          <string>Add to cart</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                </layout>
+                <layout class="QVBoxLayout" name="verticalLayout_3"/>
                </widget>
               </widget>
              </item>
             </layout>
            </widget>
           </widget>
-          <widget class="QWidget" name="tab_2">
+          <widget class="QWidget" name="pantsCategory">
            <attribute name="title">
             <string>Nohavice</string>
            </attribute>
@@ -1046,6 +931,34 @@ color: rgb(125, 125, 125);</string>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <widget class="QPushButton" name="image">
+               <property name="minimumSize">
+                <size>
+                 <width>247</width>
+                 <height>247</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border:none;</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../../assets/images/tricko.jpg</normaloff>../../assets/images/tricko.jpg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>247</width>
+                 <height>247</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
@@ -1199,18 +1112,30 @@ font-weight: bold;
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QGraphicsView" name="statistikaTestGraf">
+     <widget class="QWidget" name="grafSection" native="true">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>50</y>
-        <width>611</width>
-        <height>331</height>
+        <x>-1</x>
+        <y>59</y>
+        <width>801</width>
+        <height>391</height>
        </rect>
       </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_17">
+       <property name="leftMargin">
+        <number>60</number>
+       </property>
+       <property name="rightMargin">
+        <number>60</number>
+       </property>
+       <item>
+        <widget class="QGraphicsView" name="statistikaTestGraf">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="index">

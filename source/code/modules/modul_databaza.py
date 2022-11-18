@@ -1,7 +1,10 @@
+import os
+import shutil
+
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
-from utils import tools
+from utils.ENV_VARS import PATH
 
 
 class Databaza:
@@ -27,28 +30,27 @@ class Databaza:
     def switch_screen(self):
         """Redirect to this databaza screen."""
 
-        self.commands.change_screen(self.ui.databaza)
+        self.commands.redirect(self.ui.databaza)
 
     def add_item(self):
         """Display empty item details to enter new."""
 
         ItemDetails(self.ui, self, self.ui.right_database,
-                    '', '', '', add_button=True)
+                    '', '', add_button=True)
 
-    def change_item(self, index):
+    def change_item(self):
         """Display item details and option to modify them."""
 
         text = self.ui.listWidget.currentItem().text().split()
         code = text[0].lstrip("#")
-        name = text[-1]
-        image_path = "../../../assets/images/image.png"
+        name = ''.join(text[1:]) if len(text) > 1 else code
         ItemDetails(self.ui, self, self.ui.right_database,
-                    name, code, image_path)
+                    name, code)
 
 
 class ItemDetails(QtWidgets.QFrame):
 
-    def __init__(self, ui, page, parent, display_name: str, code: str, image_path: str, add_button=False):
+    def __init__(self, ui, page, parent, display_name: str, code: str, image_path="", add_button=False):
         super(ItemDetails, self).__init__(parent)
 
         self.ui = ui
@@ -74,6 +76,36 @@ class ItemDetails(QtWidgets.QFrame):
                     self.ui.listWidget.addItem(self.new_text)
                 else:
                     self.ui.listWidget.currentItem().setText(self.new_text)
+
+    def pick_image(self):
+        file = QtWidgets.QFileDialog.getOpenFileName(
+            self, "Open File", "", "Images (*);; WEBP (*.webp);; JPG (*.jpg;*.jpeg;*.jpe;*jfif);; PNG (*.png)")
+
+        if file:
+            self.image_path = file[0]
+            self.filename = self.image_path.split("/", maxsplit=256)[-1]
+            self.save_image()
+            self.update_image()
+
+    def save_image(self):
+        source_path = self.image_path
+        new_path = os.path.join(PATH, 'assets', 'images')
+        try:
+            shutil.copy(source_path, new_path)
+        except:
+            pass
+        self.image_path = os.path.join(new_path, self.filename)
+
+    def update_image(self):
+        self.image.setMinimumSize(QtCore.QSize(247, 247))
+        self.image.setStyleSheet(
+            "background-color: transparent;")
+        self.image.setText("")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(self.image_path),
+                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.image.setIcon(icon3)
+        self.image.setIconSize(QtCore.QSize(247, 247))
 
     def draw_ui(self):
         self.setObjectName(self.name)
@@ -111,6 +143,19 @@ class ItemDetails(QtWidgets.QFrame):
             self.itemImageSection.sizePolicy().hasHeightForWidth())
         self.itemImageSection.setSizePolicy(sizePolicy)
         self.itemImageSection.setObjectName(self.name+"ImageSection")
+        self.imageLayout = QtWidgets.QVBoxLayout(self.itemImageSection)
+        self.imageLayout.setObjectName("imageLayout")
+        self.image = QtWidgets.QPushButton(self.itemImageSection)
+        self.image.setStyleSheet("border:none;")
+        if not self.adding and self.image_path != '':
+            self.update_image()
+        else:
+            self.image.setStyleSheet(
+                "background-color: rgb(58, 95, 214); color: rgb(235, 235, 235)")
+            self.image.setText("Vyberte obrázok")
+        self.commands.button_click(self.image, self.pick_image)
+        self.image.setObjectName(self.name+"image")
+        self.imageLayout.addWidget(self.image)
         self.mainLayout.addWidget(self.itemImageSection)
         self.saveButtonSection = QtWidgets.QWidget(self)
         self.saveButtonSection.setObjectName(self.name+"ButtonSection")
