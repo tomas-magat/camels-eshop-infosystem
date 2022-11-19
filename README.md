@@ -40,15 +40,15 @@
 ## Theme
 
 Colors: [Palette](https://coolors.co/palette/cad2c5-84a98c-52796f-354f52-2f3e46)
-- white: #f8f8f8;
-- ash-gray: #cad2c5;
-- dark-sea-green: #84a98c;
-- hookers-green: #52796f;
-- dark-slate-gray: #354f52;
-- charcoal: #2f3e46;
-- black: #000000;
+- white: #f8f8f8
+- ash-gray: #cad2c5
+- dark-sea-green: #84a98c
+- hookers-green: #52796f
+- dark-slate-gray: #354f52
+- charcoal: #2f3e46
+- black: #000000
 
-Font: Myanmar Text, Bold
+Font: Myanmar Text, Bold / Default font (MS Shell Dlg 2, Bold)
 
 
 ## Basic Workflow
