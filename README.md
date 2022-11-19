@@ -39,7 +39,8 @@
 
 ## Theme
 
-[Colors](https://coolors.co/palette/cad2c5-84a98c-52796f-354f52-2f3e46)
+Colors: [Pallette](https://coolors.co/palette/cad2c5-84a98c-52796f-354f52-2f3e46)
+Font: Myanmar Text, Bold
 
 ## Basic Workflow
 
