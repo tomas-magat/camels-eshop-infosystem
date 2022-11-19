@@ -22,6 +22,13 @@
     <height>450</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Myanmar Text</family>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Camels Infornation System</string>
   </property>
@@ -30,7 +37,7 @@
     <normaloff>../../assets/icons/camel.png</normaloff>../../assets/icons/camel.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(248, 248, 248);</string>
+   <string notr="true">background-color: #cad2c5;</string>
   </property>
   <widget class="QWidget" name="centralContainer">
    <widget class="QStackedWidget" name="screens">
@@ -43,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -147,6 +154,9 @@
                 <height>20</height>
                </rect>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(248, 248, 248);</string>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -213,6 +223,9 @@ color: rgb(125, 125, 125);</string>
             <height>381</height>
            </rect>
           </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="currentIndex">
            <number>0</number>
           </property>
@@ -228,6 +241,9 @@ color: rgb(125, 125, 125);</string>
               <width>481</width>
               <height>361</height>
              </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(248, 248, 248);</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -302,7 +318,7 @@ color: rgb(125, 125, 125);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(35, 37, 50);</string>
+       <string notr="true">background-color: #2f3e46;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="spacing">
@@ -346,8 +362,11 @@ color: rgb(125, 125, 125);</string>
               <height>30</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(202, 210, 197);</string>
+            </property>
             <property name="pixmap">
-             <pixmap>../../assets/icons/cart.png</pixmap>
+             <pixmap>../../assets/icons/shopping-cart.png</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -359,8 +378,13 @@ color: rgb(125, 125, 125);</string>
           </item>
           <item>
            <widget class="QLabel" name="cashierName">
+            <property name="font">
+             <font>
+              <pointsize>-1</pointsize>
+             </font>
+            </property>
             <property name="styleSheet">
-             <string notr="true">color: rgb(212, 212, 212);
+             <string notr="true">color: #cad2c5;
 font-size: 15px;</string>
             </property>
             <property name="text">
@@ -378,6 +402,9 @@ font-size: 15px;</string>
               <width>40</width>
               <height>40</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(202, 210, 197);</string>
             </property>
             <property name="pixmap">
              <pixmap>../../assets/icons/user.png</pixmap>
@@ -458,8 +485,13 @@ font-size: 15px;</string>
               </property>
               <item>
                <widget class="QLabel" name="totalPrice">
+                <property name="font">
+                 <font>
+                  <pointsize>-1</pointsize>
+                 </font>
+                </property>
                 <property name="styleSheet">
-                 <string notr="true">color: rgb(212, 212, 212);
+                 <string notr="true">color: #cad2c5;
 font-size: 15px;</string>
                 </property>
                 <property name="text">
@@ -478,11 +510,35 @@ font-size: 15px;</string>
                   <height>16777215</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>MS Shell Dlg 2</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="styleSheet">
-                 <string notr="true">background-color: rgb(213, 213, 213);</string>
+                 <string notr="true">#buyButton {
+	border: 5px solid #cad2c5; 
+	border-radius: 12px;
+	background-color: #cad2c5;
+	color: #2f3e46;
+}
+#buyButton:hover {
+	border-color: #84a98c; 
+	background-color: #84a98c;
+}
+#buyButton:pressed {
+	border-color: #84a98c; 
+	background-color: #84a98c;
+}</string>
                 </property>
                 <property name="text">
-                 <string>BUY</string>
+                 <string>Buy</string>
                 </property>
                </widget>
               </item>
@@ -1027,49 +1083,7 @@ font-weight: bold;
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="sklad">
-     <widget class="QCommandLinkButton" name="homeArrow4">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>41</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">:hover {
-	border: none;
-}</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>../../assets/icons/left-arrow.png</normaloff>../../assets/icons/left-arrow.png</iconset>
-      </property>
-     </widget>
-     <widget class="QLabel" name="skladHeading">
-      <property name="geometry">
-       <rect>
-        <x>320</x>
-        <y>10</y>
-        <width>161</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 14px;
-font-weight: bold;
-</string>
-      </property>
-      <property name="text">
-       <string>SKLAD</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </widget>
+    <widget class="QWidget" name="sklad"/>
     <widget class="QWidget" name="statistika">
      <widget class="QCommandLinkButton" name="homeArrow2">
       <property name="geometry">
@@ -1115,24 +1129,29 @@ font-weight: bold;
      <widget class="QWidget" name="grafSection" native="true">
       <property name="geometry">
        <rect>
-        <x>-1</x>
-        <y>59</y>
+        <x>0</x>
+        <y>60</y>
         <width>801</width>
         <height>391</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_17">
-       <property name="leftMargin">
-        <number>60</number>
-       </property>
-       <property name="rightMargin">
-        <number>60</number>
-       </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
-        <widget class="QGraphicsView" name="statistikaTestGraf">
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
+        <widget class="QWidget" name="widget_2" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_21">
+          <item>
+           <widget class="QGraphicsView" name="graphicsView"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_17">
+          <item>
+           <widget class="QGraphicsView" name="statistikaTestGraf"/>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -1150,7 +1169,7 @@ font-weight: bold;
       </property>
       <property name="styleSheet">
        <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 14px;
+font-size: 15px;
 font-weight: bold;
 </string>
       </property>
@@ -1172,7 +1191,7 @@ font-weight: bold;
       </property>
       <property name="styleSheet">
        <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 14px;
+font-size: 15px;
 font-weight: bold;
 </string>
       </property>
@@ -1194,7 +1213,7 @@ font-weight: bold;
       </property>
       <property name="styleSheet">
        <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 14px;
+font-size: 15px;
 font-weight: bold;
 </string>
       </property>
@@ -1219,18 +1238,18 @@ font-weight: bold;
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-	background: rgb(0, 170, 255);
+	background: #84a98c;
 	border: none;
     border-radius: 4px;
 }
 QPushButton:hover {
-	background: rgb(10, 174, 255);
-	border: 2px solid rgb(0, 170, 255);
+	background: #52796f;
+	border: 2px solid #52796f;
     border-radius: 4px;
 }
 QPushButton:pressed {
-	background:rgb(0, 142, 213);
-	border: 2px solid rgb(0, 170, 255);
+	background: #52796f;
+	border: 2px solid #52796f;
     border-radius: 4px;
 }</string>
       </property>
@@ -1256,18 +1275,18 @@ QPushButton:pressed {
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-	background: rgb(0, 170, 255);
+	background: #84a98c;
 	border: none;
     border-radius: 4px;
 }
 QPushButton:hover {
-	background: rgb(10, 174, 255);
-	border: 2px solid rgb(0, 170, 255);
+	background: #52796f;
+	border: 2px solid #52796f;
     border-radius: 4px;
 }
 QPushButton:pressed {
-	background:rgb(0, 142, 213);
-	border: 2px solid rgb(0, 170, 255);
+	background: #52796f;
+	border: 2px solid #52796f;
     border-radius: 4px;
 }</string>
       </property>
@@ -1293,18 +1312,18 @@ QPushButton:pressed {
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-	background: rgb(0, 170, 255);
+	background: #84a98c;
 	border: none;
     border-radius: 4px;
 }
 QPushButton:hover {
-	background: rgb(10, 174, 255);
-	border: 2px solid rgb(0, 170, 255);
+	background: #52796f;
+	border: 2px solid #52796f;
     border-radius: 4px;
 }
 QPushButton:pressed {
-	background:rgb(0, 142, 213);
-	border: 2px solid rgb(0, 170, 255);
+	background: #52796f;
+	border: 2px solid #52796f;
     border-radius: 4px;
 }</string>
       </property>
@@ -1330,7 +1349,7 @@ QPushButton:pressed {
       </property>
       <property name="styleSheet">
        <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 14px;
+font-size: 15px;
 font-weight: bold;
 </string>
       </property>
@@ -1377,18 +1396,18 @@ font-weight: bold;
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-	background: rgb(0, 170, 255);
+	background: #84a98c;
 	border: none;
     border-radius: 4px;
 }
 QPushButton:hover {
-	background: rgb(10, 174, 255);
-	border: 2px solid rgb(0, 170, 255);
+	background: #52796f;
+	border: 2px solid #52796f;
     border-radius: 4px;
 }
 QPushButton:pressed {
-	background:rgb(0, 142, 213);
-	border: 2px solid rgb(0, 170, 255);
+	background: #52796f;
+	border: 2px solid #52796f;
     border-radius: 4px;
 }</string>
       </property>
@@ -1414,18 +1433,18 @@ QPushButton:pressed {
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-	background: rgb(0, 170, 255);
+	background: #84a98c;
 	border: none;
     border-radius: 4px;
 }
 QPushButton:hover {
-	background: rgb(10, 174, 255);
-	border: 2px solid rgb(0, 170, 255);
+	background: #52796f;
+	border: 2px solid #52796f;
     border-radius: 4px;
 }
 QPushButton:pressed {
-	background:rgb(0, 142, 213);
-	border: 2px solid rgb(0, 170, 255);
+	background: #52796f;
+	border: 2px solid #52796f;
     border-radius: 4px;
 }</string>
       </property>
@@ -1450,12 +1469,9 @@ QPushButton:pressed {
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QLabel {
-	font-family: &quot;Myanmar Text&quot;;
-	font-size: 14px;
-	font-weight: bold;
-	line-height: 80;
-}
+       <string notr="true">font-family: &quot;Myanmar Text&quot;;
+font-size: 15px;
+font-weight: bold;
 </string>
       </property>
       <property name="text">

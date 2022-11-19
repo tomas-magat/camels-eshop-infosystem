@@ -61,7 +61,7 @@ class Portal:
         """Creates n new item cards in the portal screen catalog."""
 
         for i in range(n):
-            ItemCard(self.ui, self, self.ui.shirtsCatalog, "test" +
+            ItemCard(self, self.ui.shirtsCatalog, "test" +
                      str(i), "Test "+str(i), "0000")
 
     def button_clicks(self):
@@ -73,12 +73,15 @@ class Portal:
 
 class ItemCard(QtWidgets.QFrame):
 
-    def __init__(self, ui, page, parent, name: str, display_name: str, code: str):
+    def __init__(self, page, parent, name: str,
+                 display_name: str, code: str):
+
         super(ItemCard, self).__init__(parent)
 
-        self.ui = ui
         self.page = page
-        self.commands = UI_Commands(self.ui)
+        self.ui = self.page.ui
+        self.commands = self.page.commands
+
         self.name = name
         self.display_name = display_name
         self.code = code
@@ -89,10 +92,12 @@ class ItemCard(QtWidgets.QFrame):
         """Add item to the cart section after add button pressed."""
 
         self.amount = self.spinBox.value()
+
         if self.amount > 0:
             price = 15.99
-            CartItem(self.ui, self.page, self.ui.contentsSection, self.name,
+            CartItem(self.page, self.ui.contentsSection, self.name,
                      self.display_name, price, self.amount)
+
             self.page.update_price(price*self.amount)
 
     def draw_ui(self):
@@ -147,12 +152,15 @@ class ItemCard(QtWidgets.QFrame):
 
 class CartItem(QtWidgets.QFrame):
 
-    def __init__(self, ui, page, parent, name: str, display_name: str, price: float, amount: int):
+    def __init__(self, page, parent, name: str,
+                 display_name: str, price: float, amount: int):
+
         super(CartItem, self).__init__(parent)
 
-        self.ui = ui
         self.page = page
-        self.commands = UI_Commands(self.ui)
+        self.ui = self.page.ui
+        self.commands = self.page.commands
+
         self.name = "cart"+name
         self.display_name = display_name
         self.price = price

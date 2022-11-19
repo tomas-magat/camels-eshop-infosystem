@@ -37,6 +37,22 @@
 - [Qt Designer manual](https://doc.qt.io/archives/qt-4.8/designer-manual.html)
 
 
+## Theme
+
+Colors: [Palette](https://coolors.co/palette/cad2c5-84a98c-52796f-354f52-2f3e46)
+- white: #f8f8f8
+- ash-gray: #cad2c5
+- dark-sea-green: #84a98c
+- hookers-green: #52796f
+- dark-slate-gray: #354f52
+- charcoal: #2f3e46
+- black: #000000
+
+Font: 
+- Myanmar Text, Bold (Normal-size: 10px, Heading: 15px)
+- Default font (MS Shell Dlg 2, Bold)
+
+
 ## Basic Workflow
 
 #### Creating module interface in QtDesigner
@@ -45,7 +61,7 @@
 3. Define layout (using containers, frames, widgets and layouts)
 4. Add elements to the frames (PushButtons, Labels...)
 5. Change element properties (using property editor in the right side of Qt Designer) 
-6. Customize the stylesheet of the element (CSS)
+6. Customize the stylesheet of the element (Using [CSS Properties](https://www.youtube.com/watch?v=508C8dX9_og))
 
 ## Changing the window behaviour (button press...)
 1. Open `source\code\modules\[your_module].py`

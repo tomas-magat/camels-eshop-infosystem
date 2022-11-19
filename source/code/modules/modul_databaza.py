@@ -35,56 +35,67 @@ class Databaza:
     def add_item(self):
         """Display empty item details to enter new."""
 
-        ItemDetails(self.ui, self, self.ui.right_database,
+        ItemDetails(self, self.ui.right_database,
                     '', '', add_button=True)
 
     def change_item(self):
         """
         Display item details on the right side of the
-        databaza screen allow user to modify them.
+        databaza screen and allow user to modify them.
         """
 
         text = self.ui.listWidget.currentItem().text().split()
         print(text)
         code = text[0].lstrip("#")
         name = ''.join(text[1:]) if len(text) > 1 else code
-        ItemDetails(self.ui, self, self.ui.right_database,
-                    name, code)
+        ItemDetails(self, self.ui.right_database, name, code)
 
 
 
 class ItemDetails(QtWidgets.QFrame):
 
-    def __init__(self, ui, page, parent, display_name: str, code: str, image_path="", add_button=False):
+    def __init__(self, page, parent, display_name: str, code: str,
+                 image_path="", add_button=False):
+
         super(ItemDetails, self).__init__(parent)
 
-        self.ui = ui
         self.page = page
-        self.commands = UI_Commands(self.ui)
+        self.ui = self.page.ui
+        self.commands = self.page.commands
+
         self.name = "itemDetails"
         self.display_name = display_name
         self.image_path = image_path
         self.code = code
+
         self.adding = add_button
-        self.button_text = "Pridať produkt" if add_button else "Uložiť zmeny"
+        self.button_text = "Pridať produkt" if self.adding else "Uložiť zmeny"
 
         self.draw_ui()
 
     def update_list(self):
-        self.text = self.lineEdit.text()
-        self.new_code = self.lineEdit_2.text()
+        """Update listWidget with currently entered values."""
 
-        if self.text != "" and self.new_code != "":
-            self.new_text = "#"+self.new_code+" "+self.text
-            if self.new_text != self.ui.listWidget.currentItem().text():
+        new_name = self.lineEdit.text()
+        new_code = self.lineEdit_2.text()
+
+        if new_name != "" and new_code != "":
+            new_text = "#"+new_code+" "+new_name
+            old_text = self.ui.listWidget.currentItem().text()
+
+            if new_text != old_text:
                 if self.adding:
-                    self.ui.listWidget.addItem(self.new_text)
+                    self.ui.listWidget.addItem(new_text)
                 else:
-                    self.ui.listWidget.currentItem().setText(self.new_text)
+                    self.ui.listWidget.currentItem().setText(new_text)
 
     def pick_image(self):
+        """Let user select image and save it."""
+
         file = QtWidgets.QFileDialog.getOpenFileName(
-            self, "Open File", "", "Images (*);; WEBP (*.webp);; JPG (*.jpg;*.jpeg;*.jpe;*jfif);; PNG (*.png)")
+            self, "Open File", "",
+            "Images (*);; WEBP (*.webp);; JPG (*.jpg;*.jpeg;*.jpe;*jfif);; PNG (*.png)"
+        )
 
         if file:
             self.image_path = file[0]
@@ -93,15 +104,21 @@ class ItemDetails(QtWidgets.QFrame):
             self.update_image()
 
     def save_image(self):
-        source_path = self.image_path
-        new_path = os.path.join(PATH, 'assets', 'images')
+        """Copy selected image to the assets/images/ directory."""
+
+        source = self.image_path
+        dist = os.path.join(PATH, 'assets', 'images', self.filename)
+
         try:
-            shutil.copy(source_path, new_path)
+            shutil.copy(source, dist)
         except:
             pass
-        self.image_path = os.path.join(new_path, self.filename)
+
+        self.image_path = dist
 
     def update_image(self):
+        """Update currently displayed image."""
+
         self.image.setMinimumSize(QtCore.QSize(247, 247))
         self.image.setStyleSheet(
             "background-color: transparent;")
