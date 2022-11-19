@@ -16,7 +16,7 @@
 
 #### Create new branch for new changes (in your terminal)
 1. Take recent code from Github `git pull`
-2. Create branch `git checkout -b name-of-the-new-branch`
+2. Change branch `git checkout branch-name`
 
 #### Making changes (repeat these steps until you're finished with changing the code)
 3. Make changes to the code
@@ -24,15 +24,8 @@
 5. Commit changes `git commit -am "Describe what has been changed"`
 
 #### Publishing changes on Github
-6. Push your changes to the Github `git push --set-upstream origin name-of-the-branch-you-created`
-> On the github website:
-7. Click 'compare & pull request' button that appeared on the top of the github page
-8. Click 'create pull request' button
-9. Click 'merge pull request' button on the following page
-10. Click 'confirm merge' and 'delete old branch' buttons
-> In your terminal:
-11. Switch to the main branch `git checkout main`
-12. Sync your code with github `git pull`
+6. Push your changes to the branch on Github `git push --set-upstream origin branch-name`
+7. Sync your code with github `git pull`
 
 
 ## Installing PyQt5 and Qt Designer
