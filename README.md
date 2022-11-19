@@ -45,7 +45,7 @@
 3. Define layout (using containers, frames, widgets and layouts)
 4. Add elements to the frames (PushButtons, Labels...)
 5. Change element properties (using property editor in the right side of Qt Designer) 
-6. Customize the stylesheet of the element (CSS)
+6. Customize the stylesheet of the element (Using [CSS Properties](https://www.youtube.com/watch?v=508C8dX9_og))
 
 ## Changing the window behaviour (button press...)
 1. Open `source\code\modules\[your_module].py`
