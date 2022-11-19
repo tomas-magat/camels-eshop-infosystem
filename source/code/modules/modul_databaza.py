@@ -39,7 +39,10 @@ class Databaza:
                     '', '', add_button=True)
 
     def change_item(self):
-        """Display item details and option to modify them."""
+        """
+        Display item details on the right side of the
+        databaza screen allow user to modify them.
+        """
 
         text = self.ui.listWidget.currentItem().text().split()
         code = text[0].lstrip("#")
