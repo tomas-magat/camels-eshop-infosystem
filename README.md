@@ -40,11 +40,13 @@
 ## Theme
 
 Colors: [Palette](https://coolors.co/palette/cad2c5-84a98c-52796f-354f52-2f3e46)
+- white: #f8f8f8;
 - ash-gray: #cad2c5ff;
-- dark-sea-green: #84a98cff;
-- hookers-green: #52796fff;
-- dark-slate-gray: #354f52ff;
-- charcoal: #2f3e46ff;
+- dark-sea-green: #84a98c;
+- hookers-green: #52796f;
+- dark-slate-gray: #354f52;
+- charcoal: #2f3e46;
+- black: #000000;
 
 Font: Myanmar Text, Bold
 
