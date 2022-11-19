@@ -14,14 +14,14 @@ def random_id(type='N'):
     return type+''.join(sequence)
 
 
-def run_periodically(function, delay=5):
+def run_periodically(function, period=5):
     """
     Use threading and time.sleep() to run function
     with delay while not affecting the runtime of an app.
     """
 
     background_thread = threading.Thread(
-        target=lambda: callback(function, delay))
+        target=lambda: callback(function, period))
     background_thread.start()
 
 
@@ -36,4 +36,4 @@ def callback(function, delay):
 def str_price(price: float, amount: int):
     """Return string of total price for given amount with EUR sign."""
 
-    return ("%.2f" % (price*amount))+" €"
+    return ("%.2f" % abs(price*amount))+" €"

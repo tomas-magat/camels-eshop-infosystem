@@ -1,7 +1,7 @@
 # Modul Portal -
 # Lists catalog of available products, has an option
 # to search by code/name and to filter products.
-# After ordering the selected items in given amounts,
+# After buying the selected items in given amounts,
 # creates file uctenka_[id_transakcie].txt.
 
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -22,12 +22,8 @@ class Portal:
         self.commands = UI_Commands(self.ui)
         self.total_price = 0
 
-        self.commands.button_click(
-            self.ui.portalButton, self.switch_screen)
-
-        for i in range(5):
-            ItemCard(self.ui, self, self.ui.shirtsCatalog, "test" +
-                     str(i), "Test "+str(i), "0000")
+        self.create_item_cards(6)
+        self.button_clicks()
 
         # Read file 'tovar.txt' - not in prototype
         # self.tovar = DataFile('tovar')
@@ -52,14 +48,27 @@ class Portal:
     def switch_screen(self):
         """Redirect to this portal screen."""
 
-        self.commands.change_screen(self.ui.portal)
+        self.commands.redirect(self.ui.portal)
 
-    def update_price(self, amount):
+    def update_price(self, value):
         """Update total price of a cart."""
 
-        self.total_price += amount
+        self.total_price += value
         self.ui.totalPrice.setText(
             "Spolu: "+tools.str_price(self.total_price, 1))
+
+    def create_item_cards(self, n):
+        """Creates n new item cards in the portal screen catalog."""
+
+        for i in range(n):
+            ItemCard(self.ui, self, self.ui.shirtsCatalog, "test" +
+                     str(i), "Test "+str(i), "0000")
+
+    def button_clicks(self):
+        """All button click commands of portal screen here."""
+
+        self.commands.button_click(
+            self.ui.portalButton, self.switch_screen)
 
 
 class ItemCard(QtWidgets.QFrame):

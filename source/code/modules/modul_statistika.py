@@ -26,7 +26,7 @@ class Statistika:
     def switch_screen(self):
         """Redirect to this statistika screen."""
 
-        self.commands.change_screen(self.ui.statistika)
+        self.commands.redirect(self.ui.statistika)
 
     def statistika_test(self):
         # data
@@ -40,21 +40,21 @@ class Statistika:
         # a2 = fig.add_subplot(1,2,2)
         fig = plt.figure()
         # fig.set_facecolor('grey')
-        c = ['a','b','c']
-        m = [4,5,2]
+        c = ['a', 'b', 'c']
+        m = [4, 5, 2]
         a1 = plt.subplot(321)
         a1.bar(c, m)
         a1.margins(0.2, 0.2)
         # a1.set_facecolor('grey')
         a2 = plt.subplot(323)
-        a2.set_xlabel('x-label')#, fontsize=fontsize)
-        a2.set_ylabel('y-label')#, fontsize=fontsize)
-        a2.set_title('Title')#, fontsize=fontsize)
+        a2.set_xlabel('x-label')  # , fontsize=fontsize)
+        a2.set_ylabel('y-label')  # , fontsize=fontsize)
+        a2.set_title('Title')  # , fontsize=fontsize)
         # a2.set_facecolor('grey')
         # a1.plot(x,y)
         # a1.plot(x,y1)
-        a2.plot(x,y)
-        a2.plot(x,y1)
+        a2.plot(x, y)
+        a2.plot(x, y1)
         a3 = plt.subplot(325)
         a3.bar(c, m)
         # a3.set_facecolor('grey')
@@ -63,4 +63,3 @@ class Statistika:
         plt.tight_layout(pad=2, w_pad=5, h_pad=1)
 
         self.commands.plot_graph(self.ui.statistikaTestGraf, fig)
-

@@ -3,7 +3,7 @@
 import sys
 import os
 
-from PyQt5.QtWidgets import QApplication, QPushButton
+from PyQt5.QtWidgets import QApplication
 from PyQt5 import uic
 
 from utils.ui_commands import UI_Commands
@@ -23,15 +23,15 @@ class MainWindow:
         self.ui = uic.loadUi(os.path.join(PATH, 'source', 'code', 'main.ui'))
 
         self.commands = UI_Commands(self.ui)
-        self.commands.change_screen(self.ui.index)
+        self.commands.redirect(self.ui.index)
 
         # Initialize modul portal and statistika
         self.portal = modul_portal.Portal(self.ui)
+        self.databaza = modul_databaza.Databaza(self.ui)
         self.statistika = modul_statistika.Statistika(self.ui)
         # Track button clicks for index screen (module buttons)
         self.commands.button_click(self.ui.cenotvorbaButton, self.price)
         self.commands.button_click(self.ui.skladButton, self.storage)
-        self.commands.button_click(self.ui.databazaButton, self.database)
 
         # Track all home button clicks
         self.home_buttons = [
@@ -48,16 +48,16 @@ class MainWindow:
         self.ui.show()
 
     def price(self):
-        self.commands.change_screen(self.ui.cenotvorba)
+        self.commands.redirect(self.ui.cenotvorba)
 
     def storage(self):
-        self.commands.change_screen(self.ui.sklad)
+        self.commands.redirect(self.ui.sklad)
 
     def database(self):
-        self.commands.change_screen(self.ui.databaza)
+        self.commands.redirect(self.ui.databaza)
 
     def index(self):
-        self.commands.change_screen(self.ui.index)
+        self.commands.redirect(self.ui.index)
 
 
 if __name__ == '__main__':
@@ -65,4 +65,3 @@ if __name__ == '__main__':
     main_win = MainWindow()
     main_win.show()
     sys.exit(app.exec_())
-

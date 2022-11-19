@@ -3,13 +3,12 @@ from PyQt5.QtWidgets import QGraphicsScene, QWidget, QGraphicsView
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
-
 class UI_Commands:
 
     def __init__(self, ui):
         self.ui = ui
 
-    def change_screen(self, screen: QWidget):
+    def redirect(self, screen: QWidget):
         """
         Switch the current screen on the app window to 
         given screen name (redirect).
@@ -44,3 +43,19 @@ class UI_Commands:
         scene = QGraphicsScene()
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
+
+    def list_item_selected(self, list_widget, command):
+        """
+        Works with QListWidget. After clicking on
+        item in QListWidget execute given command.
+        Command must be a function that takes 1 argument: 
+        int (index of the item that was selected)
+        """
+
+        list_widget.currentRowChanged.connect(command)
+
+    def clear_layout(self, layout):
+        """Clear all items from existing layout object."""
+
+        for i in reversed(range(layout.count())):
+            layout.itemAt(i).widget().setParent(None)
