@@ -59,7 +59,7 @@ class Databaza:
 class ItemDetails(QtWidgets.QFrame):
 
     def __init__(self, page, parent, display_name: str, code: str,
-                 image_path="", add_button=False): 
+                 image_path="", add_button=False):
 
         super(ItemDetails, self).__init__(parent)
 
@@ -178,7 +178,7 @@ class ItemDetails(QtWidgets.QFrame):
             self.update_image()
         else:
             self.image.setStyleSheet(
-                "background-color: rgb(58, 95, 214); color: rgb(235, 235, 235)")
+                "background-color: #cad2c5; color: rgb(0, 0, 0)")
             self.image.setText("Vyberte obrázok")
         self.commands.button_click(self.image, self.pick_image)
         self.image.setObjectName(self.name+"image")
@@ -189,8 +189,8 @@ class ItemDetails(QtWidgets.QFrame):
         self.buttonLayout = QtWidgets.QVBoxLayout(self.saveButtonSection)
         self.buttonLayout.setObjectName(self.name+"ButtonLayout")
         self.pushButton = QtWidgets.QPushButton(self.button_text)
-        self.pushButton.setStyleSheet("background-color: rgb(58, 95, 214);\n"
-                                      "color: rgb(235, 235, 235)")
+        self.pushButton.setStyleSheet("background-color: #cad2c5;\n"
+                                      "color: rgb(0, 0, 0)")
         self.pushButton.setObjectName(self.name+"SaveButton")
         self.commands.button_click(self.pushButton, self.update_list)
         self.buttonLayout.addWidget(self.pushButton)
