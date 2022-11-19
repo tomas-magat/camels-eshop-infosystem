@@ -22,6 +22,9 @@ class Databaza:
             self.ui.databazaButton, self.switch_screen)
 
         self.commands.button_click(
+            self.ui.deleteItem, self.delete_item)
+
+        self.commands.button_click(
             self.ui.addItem, self.add_item)
 
         self.commands.list_item_selected(
@@ -50,7 +53,8 @@ class Databaza:
         name = ''.join(text[1:]) if len(text) > 1 else code
         ItemDetails(self, self.ui.right_database, name, code)
 
-
+    def delete_item(self):
+        self.ui.listWidget.takeItem(self.ui.listWidget.currentRow())
 
 class ItemDetails(QtWidgets.QFrame):
 
