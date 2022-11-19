@@ -39,7 +39,6 @@ class MainWindow:
             self.ui.homeArrow,
             self.ui.homeArrow2,
             self.ui.homeArrow3,
-            self.ui.homeArrow4,
             self.ui.homeArrow5,
         ]
         self.commands.buttons_click(self.home_buttons, self.index)
