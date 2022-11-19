@@ -43,7 +43,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -478,11 +478,35 @@ font-size: 15px;</string>
                   <height>16777215</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Malgun Gothic</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="styleSheet">
-                 <string notr="true">background-color: rgb(213, 213, 213);</string>
+                 <string notr="true">#buyButton {
+	border: 5px solid  rgb(0, 0, 255); 
+	border-radius: 12px;
+	background-color: rgb(0, 0, 255);
+	color: rgb(255, 255, 255);
+}
+#buyButton:hover {
+	border-color: rgb(0, 0, 230); 
+	background-color:  rgb(0, 0, 230);
+}
+#buyButton:pressed {
+	border-color: rgb(16, 16, 172); 
+	background-color:  rgb(16, 16, 172);
+}</string>
                 </property>
                 <property name="text">
-                 <string>BUY</string>
+                 <string>Buy</string>
                 </property>
                </widget>
               </item>

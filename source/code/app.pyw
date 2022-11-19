@@ -53,12 +53,6 @@ class MainWindow:
     def storage(self):
         self.commands.redirect(self.ui.sklad)
 
-    def database(self):
-        self.commands.redirect(self.ui.databaza)
-
-    def index(self):
-        self.commands.redirect(self.ui.index)
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
