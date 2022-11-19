@@ -59,7 +59,7 @@ class Databaza:
 class ItemDetails(QtWidgets.QFrame):
 
     def __init__(self, page, parent, display_name: str, code: str,
-                 image_path="", add_button=False):
+                 image_path="", add_button=False): 
 
         super(ItemDetails, self).__init__(parent)
 
