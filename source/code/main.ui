@@ -654,6 +654,12 @@ font-size: 15px;</string>
                 <height>20</height>
                </rect>
               </property>
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(248, 248, 248);</string>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -720,9 +726,31 @@ color: rgb(125, 125, 125);</string>
             <height>341</height>
            </rect>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(248, 248, 248);</string>
+          </property>
           <item>
            <property name="text">
-            <string>tricko</string>
+            <string>New Item</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="background">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>102</red>
+              <green>102</green>
+              <blue>102</blue>
+             </color>
+            </brush>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
            </property>
            <property name="font">
             <font>
@@ -732,47 +760,7 @@ color: rgb(125, 125, 125);</string>
           </item>
           <item>
            <property name="text">
-            <string>nohavice</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>ciapka</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>teplaky</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>mikina</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>tenisky</string>
+            <string>New Item</string>
            </property>
            <property name="font">
             <font>
@@ -793,6 +781,41 @@ color: rgb(125, 125, 125);</string>
           <item>
            <property name="text">
             <string>New Item</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
            </property>
           </item>
           <item>
@@ -885,6 +908,9 @@ color: rgb(125, 125, 125);</string>
             <height>28</height>
            </rect>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(132, 169, 140);</string>
+          </property>
           <property name="text">
            <string>Add item</string>
           </property>
@@ -898,6 +924,9 @@ color: rgb(125, 125, 125);</string>
             <height>341</height>
            </rect>
           </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="widgetResizable">
            <bool>true</bool>
           </property>
@@ -910,6 +939,9 @@ color: rgb(125, 125, 125);</string>
              <height>337</height>
             </rect>
            </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
           </widget>
          </widget>
          <widget class="QPushButton" name="deleteItem">
@@ -921,8 +953,13 @@ color: rgb(125, 125, 125);</string>
             <height>28</height>
            </rect>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(132, 169, 140);
+
+</string>
+          </property>
           <property name="text">
-           <string>delete item</string>
+           <string>Delete item</string>
           </property>
          </widget>
          <zorder>itemList</zorder>
@@ -943,7 +980,7 @@ color: rgb(125, 125, 125);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(35, 37, 50);</string>
+       <string notr="true">background-color: #2f3e46;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_12">
        <item>
@@ -961,7 +998,8 @@ color: rgb(125, 125, 125);</string>
              <item>
               <widget class="QLineEdit" name="lineEdit">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(255, 255, 255);</string>
+                <string notr="true">background-color: rgb(255, 255, 255);
+color: #2f3e46;</string>
                </property>
                <property name="text">
                 <string>item name</string>
@@ -983,7 +1021,8 @@ color: rgb(125, 125, 125);</string>
              <item>
               <widget class="QLineEdit" name="lineEdit_2">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(255, 255, 255);</string>
+                <string notr="true">background-color: rgb(255, 255, 255);
+color: #2f3e46;</string>
                </property>
                <property name="text">
                 <string>#0000</string>
@@ -1037,8 +1076,10 @@ color: rgb(125, 125, 125);</string>
              <item>
               <widget class="QPushButton" name="pushButton">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(58, 95, 214);
-color: rgb(235, 235, 235)</string>
+                <string notr="true">border: 5px solid #cad2c5; 
+border-radius: 12px;
+background-color: #cad2c5;
+color: #2f3e46;</string>
                </property>
                <property name="text">
                 <string>save changes</string>
