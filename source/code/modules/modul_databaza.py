@@ -178,7 +178,8 @@ class ItemDetails(QtWidgets.QFrame):
             self.update_image()
         else:
             self.image.setStyleSheet(
-                "background-color: #cad2c5; color: rgb(0, 0, 0)")
+                "background-color: #cad2c5; color: rgb(0, 0, 0); "
+                "border: 5px solid #cad2c5; border-radius: 12px;")
             self.image.setText("Vyberte obrázok")
         self.commands.button_click(self.image, self.pick_image)
         self.image.setObjectName(self.name+"image")
@@ -189,8 +190,10 @@ class ItemDetails(QtWidgets.QFrame):
         self.buttonLayout = QtWidgets.QVBoxLayout(self.saveButtonSection)
         self.buttonLayout.setObjectName(self.name+"ButtonLayout")
         self.pushButton = QtWidgets.QPushButton(self.button_text)
-        self.pushButton.setStyleSheet("background-color: #cad2c5;\n"
-                                      "color: rgb(0, 0, 0)")
+        self.pushButton.setStyleSheet("background-color: #cad2c5;"
+                                      "color: rgb(0, 0, 0);"
+                                      "border-radius: 12px;"
+                                      "border: 5px solid #cad2c5;")
         self.pushButton.setObjectName(self.name+"SaveButton")
         self.commands.button_click(self.pushButton, self.update_list)
         self.buttonLayout.addWidget(self.pushButton)

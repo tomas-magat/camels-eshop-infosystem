@@ -731,7 +731,26 @@ color: rgb(125, 125, 125);</string>
           </property>
           <item>
            <property name="text">
-            <string>tricko</string>
+            <string>New Item</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="background">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>102</red>
+              <green>102</green>
+              <blue>102</blue>
+             </color>
+            </brush>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
            </property>
            <property name="font">
             <font>
@@ -741,47 +760,7 @@ color: rgb(125, 125, 125);</string>
           </item>
           <item>
            <property name="text">
-            <string>nohavice</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>ciapka</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>teplaky</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>mikina</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>tenisky</string>
+            <string>New Item</string>
            </property>
            <property name="font">
             <font>
@@ -802,6 +781,41 @@ color: rgb(125, 125, 125);</string>
           <item>
            <property name="text">
             <string>New Item</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
            </property>
           </item>
           <item>
