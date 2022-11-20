@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -287,8 +287,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>479</width>
-                  <height>359</height>
+                  <width>477</width>
+                  <height>357</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -455,7 +455,7 @@ font-size: 15px;</string>
                 <x>0</x>
                 <y>0</y>
                 <width>299</width>
-                <height>329</height>
+                <height>328</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -906,8 +906,8 @@ color: rgb(125, 125, 125);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>479</width>
-             <height>339</height>
+             <width>477</width>
+             <height>337</height>
             </rect>
            </property>
           </widget>
@@ -1097,8 +1097,101 @@ font-weight: bold;
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="sklad"/>
+    <widget class="QWidget" name="sklad">
+     <widget class="QCommandLinkButton" name="homeArrow4">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">:hover {
+	border: none;
+}</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../assets/icons/left-arrow.png</normaloff>../../assets/icons/left-arrow.png</iconset>
+      </property>
+     </widget>
+    </widget>
     <widget class="QWidget" name="statistika">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="geometry">
+       <rect>
+        <x>-3</x>
+        <y>-3</y>
+        <width>806</width>
+        <height>456</height>
+       </rect>
+      </property>
+      <property name="tabPosition">
+       <enum>QTabWidget::East</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>50</width>
+        <height>50</height>
+       </size>
+      </property>
+      <widget class="QWidget" name="tab_statistika_1">
+       <attribute name="title">
+        <string>Tab 1</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_statistika_2">
+       <attribute name="title">
+        <string>simple statistics</string>
+       </attribute>
+       <widget class="QWidget" name="najviac_najmenej" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>759</width>
+          <height>265</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QGraphicsView" name="najviac_graph">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="trzba_naklady" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>263</y>
+          <width>758</width>
+          <height>185</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QGraphicsView" name="trzba_naklady_graph">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
      <widget class="QCommandLinkButton" name="homeArrow2">
       <property name="geometry">
        <rect>
@@ -1117,58 +1210,6 @@ font-weight: bold;
        <iconset>
         <normaloff>../../assets/icons/left-arrow.png</normaloff>../../assets/icons/left-arrow.png</iconset>
       </property>
-     </widget>
-     <widget class="QLabel" name="statistikaHeading">
-      <property name="geometry">
-       <rect>
-        <x>320</x>
-        <y>10</y>
-        <width>161</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 14px;
-font-weight: bold;
-</string>
-      </property>
-      <property name="text">
-       <string>ŠTATISTIKA</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QWidget" name="grafSection" native="true">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>60</y>
-        <width>801</width>
-        <height>391</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
-       <item>
-        <widget class="QWidget" name="widget_2" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_21">
-          <item>
-           <widget class="QGraphicsView" name="graphicsView"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QWidget" name="widget" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_17">
-          <item>
-           <widget class="QGraphicsView" name="statistikaTestGraf"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="index">
