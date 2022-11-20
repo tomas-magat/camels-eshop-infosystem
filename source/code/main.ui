@@ -1196,13 +1196,13 @@ font-weight: bold;
              <property name="alignment">
               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
              </property>
-             <widget class="QCommandLinkButton" name="homeArrow4">
+             <widget class="QCommandLinkButton" name="homeArrow_2">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
                 <width>41</width>
-                <height>41</height>
+                <height>40</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1315,6 +1315,11 @@ color: rgb(125, 125, 125);</string>
           <property name="currentIndex">
            <number>0</number>
           </property>
+          <widget class="QWidget" name="chybaCategory">
+           <attribute name="title">
+            <string>Chýba</string>
+           </attribute>
+          </widget>
           <widget class="QWidget" name="shirtsCategory_2">
            <attribute name="title">
             <string>Tričká</string>
