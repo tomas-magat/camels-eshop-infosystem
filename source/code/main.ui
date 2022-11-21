@@ -1319,6 +1319,70 @@ color: rgb(125, 125, 125);</string>
            <attribute name="title">
             <string>Chýba</string>
            </attribute>
+           <widget class="QFrame" name="chyba">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>481</width>
+              <height>471</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(248, 248, 248);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_17">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="chybaCatalog">
+               <property name="styleSheet">
+                <string notr="true">QScrollArea:vertical {
+	width: 20px;
+	border-radius: 5px;
+	background-color: rgb(218, 218, 218);
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="chybaContents">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>481</width>
+                  <height>471</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_18"/>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
           <widget class="QWidget" name="shirtsCategory_2">
            <attribute name="title">
@@ -1393,6 +1457,70 @@ color: rgb(125, 125, 125);</string>
            <attribute name="title">
             <string>Nohavice</string>
            </attribute>
+           <widget class="QFrame" name="pants_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>481</width>
+              <height>361</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(248, 248, 248);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_19">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="pantsCatalog_2">
+               <property name="styleSheet">
+                <string notr="true">QScrollArea:vertical {
+	width: 20px;
+	border-radius: 5px;
+	background-color: rgb(218, 218, 218);
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="pantsContents_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>481</width>
+                  <height>361</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_20"/>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </widget>
         </widget>
@@ -1428,7 +1556,7 @@ color: rgb(125, 125, 125);</string>
         <number>0</number>
        </property>
        <item>
-        <widget class="QFrame" name="header_7">
+        <widget class="QFrame" name="header_2">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -1446,7 +1574,7 @@ color: rgb(125, 125, 125);</string>
            <number>20</number>
           </property>
           <item>
-           <widget class="QLabel" name="cartIcon_7">
+           <widget class="QLabel" name="cartIcon_2">
             <property name="maximumSize">
              <size>
               <width>31</width>
@@ -1468,7 +1596,7 @@ color: rgb(125, 125, 125);</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="cashierName_7">
+           <widget class="QLabel" name="cashierName_2">
             <property name="font">
              <font>
               <pointsize>-1</pointsize>
@@ -1487,7 +1615,7 @@ font-size: 15px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="userIcon_7">
+           <widget class="QLabel" name="userIcon_2">
             <property name="maximumSize">
              <size>
               <width>40</width>
@@ -1509,7 +1637,7 @@ font-size: 15px;</string>
         </widget>
        </item>
        <item>
-        <widget class="QWidget" name="cart_7" native="true">
+        <widget class="QWidget" name="cart_2" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -1530,7 +1658,7 @@ font-size: 15px;</string>
             <number>0</number>
            </property>
            <item>
-            <widget class="QScrollArea" name="contentsSection_7">
+            <widget class="QScrollArea" name="contentsSection_2">
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>
@@ -1540,7 +1668,7 @@ font-size: 15px;</string>
              <property name="widgetResizable">
               <bool>true</bool>
              </property>
-             <widget class="QWidget" name="cartContents_7">
+             <widget class="QWidget" name="cartContents_2">
               <property name="geometry">
                <rect>
                 <x>0</x>
@@ -1554,7 +1682,7 @@ font-size: 15px;</string>
             </widget>
            </item>
            <item>
-            <widget class="QFrame" name="buySection_7">
+            <widget class="QFrame" name="buySection_2">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -1575,7 +1703,7 @@ font-size: 15px;</string>
                <number>20</number>
               </property>
               <item>
-               <widget class="QLabel" name="totalPrice_7">
+               <widget class="QLabel" name="totalPrice_2">
                 <property name="font">
                  <font>
                   <pointsize>-1</pointsize>
@@ -1594,7 +1722,7 @@ font-size: 15px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="buyButton_7">
+               <widget class="QPushButton" name="buyButton_2">
                 <property name="maximumSize">
                  <size>
                   <width>80</width>
@@ -1785,17 +1913,17 @@ font-size: 15px;</string>
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">#buyButton_7 {
+                 <string notr="true">#buyButton_2 {
 	border: 5px solid #cad2c5; 
 	border-radius: 12px;
 	background-color: #cad2c5;
 	color: #2f3e46;
 }
-#buyButton_7:hover {
+#buyButton_2:hover {
 	border-color: #84a98c; 
 	background-color: #84a98c;
 }
-#buyButton_7:pressed {
+#buyButton_2:pressed {
 	border-color: #84a98c; 
 	background-color: #84a98c;
 }</string>
@@ -1841,7 +1969,7 @@ font-size: 15px;</string>
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
