@@ -54,6 +54,12 @@ class Sklad:
         for i in range(n):
             ItemCard(self, self.ui.shirtsCatalog_2, "test" +
                      str(i), "Test "+str(i), "0000")
+        for i in range(n):
+            ItemCard(self, self.ui.chybaCatalog, "test" +
+                     str(i), "Test "+str(i), "0000")
+        for i in range(n):
+            ItemCard(self, self.ui.pantsCatalog_2, "test" +
+                     str(i), "Test "+str(i), "0000")
 
     def button_clicks(self):
         """All button click commands of portal screen here."""

@@ -1325,7 +1325,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>471</height>
+              <height>361</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -1356,7 +1356,7 @@ color: rgb(125, 125, 125);</string>
              <item>
               <widget class="QScrollArea" name="chybaCatalog">
                <property name="styleSheet">
-                <string notr="true">QScrollArea:vertical {
+                <string notr="true">QScrollBar:vertical {
 	width: 20px;
 	border-radius: 5px;
 	background-color: rgb(218, 218, 218);
@@ -1373,8 +1373,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>471</height>
+                  <width>479</width>
+                  <height>359</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_18"/>
@@ -1653,7 +1653,7 @@ font-size: 15px;</string>
             <height>391</height>
            </rect>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_33">
+          <layout class="QVBoxLayout" name="verticalLayout_21">
            <property name="spacing">
             <number>0</number>
            </property>
