@@ -22,6 +22,9 @@ class Databaza:
             self.ui.databazaButton, self.switch_screen)
 
         self.commands.button_click(
+            self.ui.deleteItem, self.delete_item)
+
+        self.commands.button_click(
             self.ui.addItem, self.add_item)
 
         self.commands.list_item_selected(
@@ -45,10 +48,13 @@ class Databaza:
         """
 
         text = self.ui.listWidget.currentItem().text().split()
+        print(text)
         code = text[0].lstrip("#")
         name = ''.join(text[1:]) if len(text) > 1 else code
         ItemDetails(self, self.ui.right_database, name, code)
 
+    def delete_item(self):
+        self.ui.listWidget.takeItem(self.ui.listWidget.currentRow())
 
 class ItemDetails(QtWidgets.QFrame):
 
@@ -127,6 +133,7 @@ class ItemDetails(QtWidgets.QFrame):
         self.image.setIcon(icon3)
         self.image.setIconSize(QtCore.QSize(247, 247))
 
+
     def draw_ui(self):
         self.setObjectName(self.name)
         self.mainLayout = QtWidgets.QVBoxLayout(self)
@@ -171,7 +178,8 @@ class ItemDetails(QtWidgets.QFrame):
             self.update_image()
         else:
             self.image.setStyleSheet(
-                "background-color: rgb(58, 95, 214); color: rgb(235, 235, 235)")
+                "background-color: #cad2c5; color: rgb(0, 0, 0); "
+                "border: 5px solid #cad2c5; border-radius: 12px;")
             self.image.setText("Vyberte obrázok")
         self.commands.button_click(self.image, self.pick_image)
         self.image.setObjectName(self.name+"image")
@@ -182,8 +190,10 @@ class ItemDetails(QtWidgets.QFrame):
         self.buttonLayout = QtWidgets.QVBoxLayout(self.saveButtonSection)
         self.buttonLayout.setObjectName(self.name+"ButtonLayout")
         self.pushButton = QtWidgets.QPushButton(self.button_text)
-        self.pushButton.setStyleSheet("background-color: rgb(58, 95, 214);\n"
-                                      "color: rgb(235, 235, 235)")
+        self.pushButton.setStyleSheet("background-color: #cad2c5;"
+                                      "color: rgb(0, 0, 0);"
+                                      "border-radius: 12px;"
+                                      "border: 5px solid #cad2c5;")
         self.pushButton.setObjectName(self.name+"SaveButton")
         self.commands.button_click(self.pushButton, self.update_list)
         self.buttonLayout.addWidget(self.pushButton)
