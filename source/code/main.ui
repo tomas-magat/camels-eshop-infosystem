@@ -1347,6 +1347,14 @@ QPushButton:pressed {
         <height>31</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Myanmar Text</family>
+        <pointsize>-1</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true">font-family: &quot;Myanmar Text&quot;;
 font-size: 15px;
