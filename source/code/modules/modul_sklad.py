@@ -37,9 +37,9 @@ class Sklad:
             self.version = current_version
 
     def switch_screen(self):
-        """Redirect to this portal screen."""
+        """Redirect to this sklad screen."""
 
-        self.commands.redirect(self.ui.portal)
+        self.commands.redirect(self.ui.sklad)
 
     def update_price(self, value):
         """Update total price of a cart."""
@@ -85,7 +85,7 @@ class ItemCard(QtWidgets.QFrame):
         self.amount = self.spinBox.value()
 
         if self.amount > 0:
-            price = 15.99
+            price = 5.99
             CartItem(self.page, self.ui.contentsSection_2, self.name,
                      self.display_name, price, self.amount)
 
@@ -138,7 +138,7 @@ class ItemCard(QtWidgets.QFrame):
         self.commands.button_click(self.addButton, self.add_to_cart)
         self.buttonLayout.addWidget(self.addButton)
         self.mainLayout_2.addWidget(self.itemButton)
-        self.ui.verticalLayout_5.addWidget(self)
+        self.ui.verticalLayout_8.addWidget(self)
 
 class CartItem(QtWidgets.QFrame):
 
@@ -169,9 +169,9 @@ class CartItem(QtWidgets.QFrame):
         self.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.setFrameShadow(QtWidgets.QFrame.Plain)
         self.setObjectName(self.name)
-        self.mainLayout = QtWidgets.QHBoxLayout(self)
-        self.mainLayout.setContentsMargins(0, 0, 0, 0)
-        self.mainLayout.setObjectName(self.name+"Layout")
+        self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
+        self.mainLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.mainLayout_2.setObjectName(self.name+"Layout")
         self.itemInfo = QtWidgets.QWidget(self)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
@@ -211,7 +211,7 @@ class CartItem(QtWidgets.QFrame):
         self.sumPrice.setObjectName(self.name+"SumPrice")
         self.priceLayout.addWidget(self.sumPrice)
         self.infoLayout.addWidget(self.itemPrice)
-        self.mainLayout.addWidget(self.itemInfo)
+        self.mainLayout_2.addWidget(self.itemInfo)
         self.cancelSection = QtWidgets.QWidget(self)
         self.cancelSection.setMinimumSize(QtCore.QSize(40, 40))
         self.cancelSection.setObjectName(self.name+"CancelSection")
@@ -226,6 +226,6 @@ class CartItem(QtWidgets.QFrame):
         self.cancelButton.setIconSize(QtCore.QSize(10, 10))
         self.cancelButton.setObjectName(self.name+"CancelButton")
         self.commands.button_click(self.cancelButton, self.delete_item)
-        self.mainLayout.addWidget(
+        self.mainLayout_2.addWidget(
             self.cancelSection, 0, QtCore.Qt.AlignRight)
-        self.ui.verticalLayout_12.addWidget(self)
+        self.ui.verticalLayout_34.addWidget(self)
