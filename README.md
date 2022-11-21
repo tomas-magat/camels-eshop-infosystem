@@ -69,7 +69,7 @@ Font:
 3. Test the changes by running `app.pyw`
 
 
-## Commands nad utils sheet
+## Commands and utils sheet
 
 ![](assets/docs/COMMANDS.png)
 
