@@ -287,8 +287,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>477</width>
-                  <height>357</height>
+                  <width>98</width>
+                  <height>28</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -454,8 +454,8 @@ font-size: 15px;</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>328</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -1021,8 +1021,8 @@ color: rgb(125, 125, 125);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>477</width>
-             <height>337</height>
+             <width>479</width>
+             <height>339</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -1185,17 +1185,10 @@ color: #2f3e46;</string>
      <widget class="QWidget" name="cenotvorbaLayout" native="true">
       <property name="geometry">
        <rect>
-<<<<<<< HEAD
-        <x>10</x>
-        <y>10</y>
-        <width>41</width>
-        <height>41</height>
-=======
         <x>0</x>
         <y>0</y>
         <width>801</width>
         <height>451</height>
->>>>>>> 0291ef6710fce367a5abc84f242fb09f921d2dbc
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -1274,8 +1267,8 @@ color: #2f3e46;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>719</width>
-               <height>358</height>
+               <width>496</width>
+               <height>58</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -1597,7 +1590,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="chybaCategory">
            <attribute name="title">
@@ -1658,7 +1651,7 @@ color: rgb(125, 125, 125);</string>
                   <x>0</x>
                   <y>0</y>
                   <width>481</width>
-                  <height>361</height>
+                  <height>471</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_18"/>
@@ -1725,8 +1718,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>477</width>
-                  <height>357</height>
+                  <width>98</width>
+                  <height>28</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_8"/>
@@ -1736,7 +1729,7 @@ color: rgb(125, 125, 125);</string>
             </layout>
            </widget>
           </widget>
-          <widget class="Topanky" name="pantsCategory_2">
+          <widget class="QWidget" name="pantsCategory_2">
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
@@ -2170,7 +2163,7 @@ font-size: 15px;</string>
                 <x>0</x>
                 <y>0</y>
                 <width>299</width>
-                <height>328</height>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
@@ -2876,14 +2869,6 @@ font-weight: bold;
    </widget>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Topanky</class>
-   <extends>QWidget</extends>
-   <header>topanky</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
