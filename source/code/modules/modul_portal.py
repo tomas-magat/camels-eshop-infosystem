@@ -61,7 +61,7 @@ class Portal:
         """Creates n new item cards in the portal screen catalog."""
 
         for i in range(n):
-            ItemCard(self, self.ui.shirtsContents, "test" +
+            ItemCard(self, self.ui.verticalLayout_3, "test" +
                      str(i), "Test "+str(i), "0000")
 
     def button_clicks(self):
@@ -97,7 +97,7 @@ class ItemCard(QtWidgets.QFrame):
 
         if self.amount > 0:
             price = 15.99
-            CartItem(self.page, self.ui.contentsSection, self.name,
+            CartItem(self.page, self.ui.verticalLayout_11, self.name,
                      self.display_name, price, self.amount)
 
             self.page.update_price(price*self.amount)
