@@ -54,22 +54,22 @@ class Sklad:
 
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_20, "test" +
-                     str(i), "Test "+str(i), "0000")
+                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov")
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_18, "test" +
-                     str(i), "Test "+str(i), "0000")
+                     str(i), "Test "+str(i), "0000", "Na sklade 2 kusy")
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_37, "test" +
-                     str(i), "Test "+str(i), "0000")
+                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov")
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_28, "test" +
-                     str(i), "Test "+str(i), "0000")
+                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov")
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_31, "test" +
-                     str(i), "Test "+str(i), "0000")
+                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov")
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_35, "test" +
-                     str(i), "Test "+str(i), "0000")
+                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov")
 
     def button_clicks(self):
         """All button click commands of portal screen here."""
@@ -81,7 +81,7 @@ class Sklad:
 class ItemCard(QtWidgets.QFrame):
 
     def __init__(self, page, layout, name: str,
-                 display_name: str, code: str):
+                 display_name: str, code: str, count:str):
 
         super(ItemCard, self).__init__(layout.parent())
 
@@ -94,6 +94,7 @@ class ItemCard(QtWidgets.QFrame):
         self.name = name
         self.display_name = display_name
         self.code = code
+        self.count= count
 
         self.draw_ui()
 
@@ -133,8 +134,10 @@ class ItemCard(QtWidgets.QFrame):
         self.itemName.setObjectName(self.name+"Name")
         self.nameLayout = QtWidgets.QVBoxLayout(self.itemName)
         self.nameLayout.setObjectName(self.name+"NameLayout")
-        self.itemLabel = QtWidgets.QLabel(self.display_name+" #"+self.code)
+        self.itemLabel = QtWidgets.QLabel(self.display_name+"  #"+self.code+
+                                        "    Cena: 5,99€   " + self.count)
         self.itemLabel.setObjectName(self.name+"ItemLabel")
+        self.itemLabel.setStyleSheet("background-color: red")
         self.nameLayout.addWidget(self.itemLabel)
         self.mainLayout_2.addWidget(self.itemName)
         self.itemCount = QtWidgets.QWidget(self)
