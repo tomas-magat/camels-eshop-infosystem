@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -150,7 +150,7 @@
                <rect>
                 <x>12</x>
                 <y>10</y>
-                <width>371</width>
+                <width>281</width>
                 <height>20</height>
                </rect>
               </property>
@@ -194,6 +194,29 @@ color: rgb(125, 125, 125);</string>
                </size>
               </property>
              </widget>
+             <widget class="QPushButton" name="pushButton_4">
+              <property name="geometry">
+               <rect>
+                <x>305</x>
+                <y>10</y>
+                <width>71</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Sort by price</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../../assets/icons/up_down_arrow.png</normaloff>../../assets/icons/up_down_arrow.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>12</width>
+                <height>12</height>
+               </size>
+              </property>
+             </widget>
             </widget>
            </item>
           </layout>
@@ -227,7 +250,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="shirtsCategory">
            <attribute name="title">
@@ -287,8 +310,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>477</width>
-                  <height>357</height>
+                  <width>479</width>
+                  <height>359</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -396,21 +419,28 @@ font-size: 15px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="userIcon">
-            <property name="maximumSize">
+           <widget class="QPushButton" name="pushButton_5">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: none;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>../../assets/icons/user.png</normaloff>../../assets/icons/user.png</iconset>
+            </property>
+            <property name="iconSize">
              <size>
               <width>40</width>
               <height>40</height>
              </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(202, 210, 197);</string>
-            </property>
-            <property name="pixmap">
-             <pixmap>../../assets/icons/user.png</pixmap>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -455,7 +485,7 @@ font-size: 15px;</string>
                 <x>0</x>
                 <y>0</y>
                 <width>299</width>
-                <height>328</height>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -591,7 +621,7 @@ font-size: 15px;</string>
      <widget class="QCommandLinkButton" name="homeArrow6">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>10</x>
         <y>10</y>
         <width>41</width>
         <height>41</height>
@@ -634,6 +664,9 @@ QLineEdit:hover {
 }</string>
       </property>
       <property name="text">
+       <string/>
+      </property>
+      <property name="placeholderText">
        <string>Enter name:</string>
       </property>
      </widget>
@@ -1590,7 +1623,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="chybaCategory">
            <attribute name="title">
@@ -1602,7 +1635,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>471</height>
+              <height>361</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -1635,7 +1668,7 @@ color: rgb(125, 125, 125);</string>
                <property name="styleSheet">
                 <string notr="true">QScrollArea:vertical {
 	width: 20px;
-	border-radius: 5px;
+	border-radius: 5px solid rgb(255, 0, 0);
 	background-color: rgb(218, 218, 218);
 }</string>
                </property>
@@ -1651,8 +1684,15 @@ color: rgb(125, 125, 125);</string>
                   <x>0</x>
                   <y>0</y>
                   <width>481</width>
-                  <height>471</height>
+                  <height>361</height>
                  </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QScrollArea:vertical {
+	width: 20px;
+	border-radius: 5px solid rgb(255, 0, 0);
+	background-color:rgb(255, 0, 0);
+}</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_18"/>
                </widget>

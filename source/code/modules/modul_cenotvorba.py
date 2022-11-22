@@ -21,7 +21,6 @@ class Cenotvorba:
             ItemPriceCard(self, self.ui.verticalLayout_25, "test" +
                      str(i), "Test "+str(i), "0000", (5.99, 6.59))
 
-
 class ItemPriceCard(QtWidgets.QFrame):
 
     def __init__(self, page, layout, name: str,
@@ -32,6 +31,7 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.page = page
         self.ui = self.page.ui
         self.commands = self.page.commands
+        #print(layout.parent().objectName)
 
         self.parent_layout = layout
 
@@ -39,7 +39,7 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.display_name = display_name
         self.code = code
         self.buy_price = price[0]
-        self.self_price = price[1]
+        self.sell_price = price[1]
 
         self.draw_ui()
         
@@ -47,7 +47,7 @@ class ItemPriceCard(QtWidgets.QFrame):
     def draw_ui(self):
         self.setGeometry(QtCore.QRect(10, 140, 701, 60))
         self.setMaximumSize(QtCore.QSize(16777215, 60))
-        self.setShape(QtWidgets.Q.Box)
+        self.setFrameShape(QtWidgets.QFrame.Box)
         self.setObjectName(self.name)
         self.mainLayout = QtWidgets.QHBoxLayout(self)
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
@@ -57,7 +57,7 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.widget_4.setMinimumSize(QtCore.QSize(60, 0))
         self.widget_4.setMaximumSize(QtCore.QSize(60, 16777215))
         self.widget_4.setObjectName(self.name+"widget_4")
-        self.label_2 = QtWidgets.QLabel(self.widget_4)
+        self.label_2 = QtWidgets.QLabel('image')
         self.label_2.setGeometry(QtCore.QRect(10, 10, 43, 13))
         self.label_2.setObjectName(self.name+"label_2")
         self.mainLayout.addWidget(self.widget_4)
@@ -67,7 +67,7 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.widget_5.setObjectName(self.name+"widget_5")
         self.verticalLayout_24 = QtWidgets.QVBoxLayout(self.widget_5)
         self.verticalLayout_24.setObjectName(self.name+"verticalLayout_24")
-        self.label_3 = QtWidgets.QLabel(self.widget_5)
+        self.label_3 = QtWidgets.QLabel('item')
         self.label_3.setObjectName(self.name+"label_3")
         self.verticalLayout_24.addWidget(self.label_3)
         self.mainLayout.addWidget(self.widget_5)
@@ -80,19 +80,19 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.widget_6.setObjectName(self.name+"widget_6")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.widget_6)
         self.horizontalLayout_6.setObjectName(self.name+"horizontalLayout_6")
-        self.label_4 = QtWidgets.QLabel(self.widget_6)
+        self.label_4 = QtWidgets.QLabel('predajna')
         self.label_4.setObjectName(self.name+"label_4")
         self.horizontalLayout_6.addWidget(self.label_4)
         self.lineEdit_4 = QtWidgets.QLineEdit(self.widget_6)
         self.lineEdit_4.setObjectName(self.name+"lineEdit_4")
-        self.lineEdit_4.setText(str(self.buy_price))
+        self.lineEdit_4.setText(str(self.sell_price))
         self.horizontalLayout_6.addWidget(self.lineEdit_4)
-        self.label_5 = QtWidgets.QLabel(self.widget_6)
+        self.label_5 = QtWidgets.QLabel('kupna')
         self.label_5.setObjectName(self.name+"label_5")
         self.horizontalLayout_6.addWidget(self.label_5)
         self.lineEdit_5 = QtWidgets.QLineEdit(self.widget_6)
         self.lineEdit_5.setObjectName(self.name+"lineEdit_5")
-        self.lineEdit_4.setText(str(self.sell_price))
+        self.lineEdit_5.setText(str(self.buy_price))
         self.horizontalLayout_6.addWidget(self.lineEdit_5)
         self.mainLayout.addWidget(self.widget_6)
         self.parent_layout.addWidget(self)
