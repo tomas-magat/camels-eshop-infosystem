@@ -18,7 +18,7 @@ class Cenotvorba:
 
     def loadfile(self):
         for i in range(5):
-            ItemPriceCard(self, self.ui.verticalLayout_25, "test" +
+            ItemPriceCard(self, self.ui.verticalLayout_24, "test" +
                      str(i), "Test "+str(i), "0000", (5.99, 6.59))
 
 
