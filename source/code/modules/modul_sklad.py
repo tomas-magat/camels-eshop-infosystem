@@ -59,7 +59,16 @@ class Sklad:
             ItemCard(self, self.ui.verticalLayout_18, "test" +
                      str(i), "Test "+str(i), "0000")
         for i in range(n):
-            ItemCard(self, self.ui.verticalLayout_8, "test" +
+            ItemCard(self, self.ui.verticalLayout_37, "test" +
+                     str(i), "Test "+str(i), "0000")
+        for i in range(n):
+            ItemCard(self, self.ui.verticalLayout_28, "test" +
+                     str(i), "Test "+str(i), "0000")
+        for i in range(n):
+            ItemCard(self, self.ui.verticalLayout_31, "test" +
+                     str(i), "Test "+str(i), "0000")
+        for i in range(n):
+            ItemCard(self, self.ui.verticalLayout_35, "test" +
                      str(i), "Test "+str(i), "0000")
 
     def button_clicks(self):
