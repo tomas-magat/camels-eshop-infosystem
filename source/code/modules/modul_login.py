@@ -16,14 +16,22 @@ class Login:
 
         self.button_clicks()
 
-    def switch_to_portal(self):
+    def switch_to_portal_login(self):
+        text = self.ui.lineEdit_3.text()
+        print(text)
+        # TODO save to global variable
         self.commands.redirect(self.ui.portal)
+
+    def switch_to_portal(self): 
+        self.commands.redirect(self.ui.portal)
+
+        
 
     def button_clicks(self):
         """All button click commands of login screen here."""
         
         self.commands.button_click(
-            self.ui.pushButton_2, self.switch_to_portal)
+            self.ui.pushButton_2, self.switch_to_portal_login)
         
         self.commands.button_click(
             self.ui.homeArrow6, self.switch_to_portal)
