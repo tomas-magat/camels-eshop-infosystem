@@ -287,8 +287,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>477</width>
-                  <height>357</height>
+                  <width>98</width>
+                  <height>28</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -454,8 +454,8 @@ font-size: 15px;</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>328</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -1021,8 +1021,8 @@ color: rgb(125, 125, 125);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>477</width>
-             <height>337</height>
+             <width>479</width>
+             <height>339</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -1267,8 +1267,13 @@ color: #2f3e46;</string>
               <rect>
                <x>0</x>
                <y>0</y>
+<<<<<<< HEAD
                <width>717</width>
                <height>356</height>
+=======
+               <width>496</width>
+               <height>58</height>
+>>>>>>> 3311b6d93069d47ae6190829d614541463bfcc6b
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -1590,7 +1595,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="chybaCategory">
            <attribute name="title">
@@ -1718,8 +1723,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>477</width>
-                  <height>357</height>
+                  <width>98</width>
+                  <height>28</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_8"/>
@@ -1729,7 +1734,7 @@ color: rgb(125, 125, 125);</string>
             </layout>
            </widget>
           </widget>
-          <widget class="Topanky" name="pantsCategory_2">
+          <widget class="QWidget" name="pantsCategory_2">
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
@@ -2163,7 +2168,7 @@ font-size: 15px;</string>
                 <x>0</x>
                 <y>0</y>
                 <width>299</width>
-                <height>328</height>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
@@ -3051,14 +3056,6 @@ font-weight: bold;
    </widget>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Topanky</class>
-   <extends>QWidget</extends>
-   <header>topanky</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
