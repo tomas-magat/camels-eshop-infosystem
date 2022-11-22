@@ -115,6 +115,8 @@ class ItemCard(QtWidgets.QFrame):
         self.setMaximumSize(QtCore.QSize(16777215, 60))
         self.setFrameShape(QtWidgets.QFrame.Box)
         self.setFrameShadow(QtWidgets.QFrame.Plain)
+        if self.parent_layout==self.ui.verticalLayout_18:
+            self.setStyleSheet("background-color: rgb(255,64,64)")
         self.setObjectName(self.name)
         self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
         self.mainLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -128,6 +130,11 @@ class ItemCard(QtWidgets.QFrame):
         self.itemImage = QtWidgets.QLabel("image preview")
         self.itemImage.setWordWrap(True)
         self.itemImage.setObjectName(self.name+"Image")
+        self.itemImage.setStyleSheet("QLabel"
+                                    "{" 
+                                    "background-color: white;"
+                                    "padding-left: 1px"
+                                    "}")
         self.previewLayout.addWidget(self.itemImage)
         self.mainLayout_2.addWidget(self.itemPreview)
         self.itemName = QtWidgets.QWidget(self)
@@ -137,8 +144,6 @@ class ItemCard(QtWidgets.QFrame):
         self.itemLabel = QtWidgets.QLabel(self.display_name+"  #"+self.code+
                                         "    Cena: 5,99€   " + self.count)
         self.itemLabel.setObjectName(self.name+"ItemLabel")
-        if self.parent_layout==self.ui.verticalLayout_18:
-            self.itemLabel.setStyleSheet("background-color: red")
         self.nameLayout.addWidget(self.itemLabel)
         self.mainLayout_2.addWidget(self.itemName)
         self.itemCount = QtWidgets.QWidget(self)
@@ -147,6 +152,10 @@ class ItemCard(QtWidgets.QFrame):
         self.countLayout = QtWidgets.QVBoxLayout(self.itemCount)
         self.countLayout.setObjectName(self.name+"CountLayout")
         self.spinBox = QtWidgets.QSpinBox(self.itemCount)
+        self.spinBox.setStyleSheet("QSpinBox"
+                                "{"
+                                "background-color : white;"
+                                "}")
         self.spinBox.setObjectName(self.name+"SpinBox")
         self.countLayout.addWidget(self.spinBox)
         self.mainLayout_2.addWidget(self.itemCount)
@@ -157,6 +166,10 @@ class ItemCard(QtWidgets.QFrame):
         self.buttonLayout.setObjectName(self.name+"ButtonLayout")
         self.addButton = QtWidgets.QPushButton("Add to cart")
         self.addButton.setObjectName(self.name+"AddButton")
+        self.addButton.setStyleSheet("QPushButton"
+                                "{"
+                                "background-color : white;"
+                                "}")
         self.commands.button_click(self.addButton, self.add_to_cart)
         self.buttonLayout.addWidget(self.addButton)
         self.mainLayout_2.addWidget(self.itemButton)
