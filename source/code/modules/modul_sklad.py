@@ -137,7 +137,8 @@ class ItemCard(QtWidgets.QFrame):
         self.itemLabel = QtWidgets.QLabel(self.display_name+"  #"+self.code+
                                         "    Cena: 5,99€   " + self.count)
         self.itemLabel.setObjectName(self.name+"ItemLabel")
-        self.itemLabel.setStyleSheet("background-color: red")
+        if self.parent_layout==self.ui.verticalLayout_18:
+            self.itemLabel.setStyleSheet("background-color: red")
         self.nameLayout.addWidget(self.itemLabel)
         self.mainLayout_2.addWidget(self.itemName)
         self.itemCount = QtWidgets.QWidget(self)
