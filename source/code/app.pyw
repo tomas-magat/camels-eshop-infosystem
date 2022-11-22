@@ -31,6 +31,7 @@ class MainWindow:
         self.databaza = modul_databaza.Databaza(self.ui)
         self.statistika = modul_statistika.Statistika(self.ui)
         self.cenotvorba = modul_cenotvorba.Cenotvorba(self.ui)
+        self.sklad = modul_sklad.Sklad(self.ui)
         # Track button clicks for index screen (module buttons)
         self.commands.button_click(self.ui.skladButton, self.storage)
 
