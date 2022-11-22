@@ -89,6 +89,6 @@ class Statistika:
         plt.tight_layout()#pad=5, w_pad=5, h_pad=5)
         # plt.rcParams["figure.autolayout"] = True
 
-        self.commands.plot_graph(self.ui.najviac_graf, najviac)
-        self.commands.plot_graph(self.ui.najmenej_graf, najmenej)
-        self.commands.plot_graph(self.ui.trzby_naklady, vyvoj_ceny)
+        self.commands.plot_graph(self.ui.najviacGraf, najviac)
+        self.commands.plot_graph(self.ui.najmenejGraf, najmenej)
+        self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny)
