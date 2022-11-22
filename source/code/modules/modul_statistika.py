@@ -36,7 +36,10 @@ class Statistika:
         c = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
         m1 = [15, 9, 420, 69, 25, 90, 63, 78, 54, 75]
         m2 = [420, 5, 69, 20, 25, 90, 63, 78, 54, 75]
-
+        # fig, ax = plt.subplot_mosaic([['upleft', 'upright'], ['lowleft', 'lowright']])
+        # fig, (a1, a2, a3) = plt.subplots()
+        # a1 = fig.add_subplot(1,2,1)
+        # a2 = fig.add_subplot(1,2,2)
         plt.style.use(['seaborn-v0_8-notebook'])
 
         najviac, a1 = plt.subplots(figsize=(4.2,3.2))

@@ -61,7 +61,7 @@ class Portal:
         """Creates n new item cards in the portal screen catalog."""
 
         for i in range(n):
-            ItemCard(self, self.ui.shirtsCatalog, "test" +
+            ItemCard(self, self.ui.verticalLayout_3, "test" +
                      str(i), "Test "+str(i), "0000")
 
     def button_clicks(self):
@@ -73,14 +73,16 @@ class Portal:
 
 class ItemCard(QtWidgets.QFrame):
 
-    def __init__(self, page, parent, name: str,
+    def __init__(self, page, layout, name: str,
                  display_name: str, code: str):
 
-        super(ItemCard, self).__init__(parent)
+        super(ItemCard, self).__init__(layout.parent())
 
         self.page = page
         self.ui = self.page.ui
         self.commands = self.page.commands
+
+        self.parent_layout = layout
 
         self.name = name
         self.display_name = display_name
@@ -95,7 +97,7 @@ class ItemCard(QtWidgets.QFrame):
 
         if self.amount > 0:
             price = 15.99
-            CartItem(self.page, self.ui.contentsSection, self.name,
+            CartItem(self.page, self.ui.verticalLayout_11, self.name,
                      self.display_name, price, self.amount)
 
             self.page.update_price(price*self.amount)
@@ -147,19 +149,21 @@ class ItemCard(QtWidgets.QFrame):
         self.commands.button_click(self.addButton, self.add_to_cart)
         self.buttonLayout.addWidget(self.addButton)
         self.mainLayout.addWidget(self.itemButton)
-        self.ui.verticalLayout_3.addWidget(self)
+        self.parent_layout.addWidget(self)
 
 
 class CartItem(QtWidgets.QFrame):
 
-    def __init__(self, page, parent, name: str,
+    def __init__(self, page, layout, name: str,
                  display_name: str, price: float, amount: int):
 
-        super(CartItem, self).__init__(parent)
+        super(CartItem, self).__init__(layout.parent())
 
         self.page = page
         self.ui = self.page.ui
         self.commands = self.page.commands
+
+        self.parent_layout = layout
 
         self.name = "cart"+name
         self.display_name = display_name
@@ -238,4 +242,4 @@ class CartItem(QtWidgets.QFrame):
         self.commands.button_click(self.cancelButton, self.delete_item)
         self.mainLayout.addWidget(
             self.cancelSection, 0, QtCore.Qt.AlignRight)
-        self.ui.verticalLayout_11.addWidget(self)
+        self.parent_layout.addWidget(self)

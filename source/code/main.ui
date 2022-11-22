@@ -552,6 +552,92 @@ font-size: 15px;</string>
       </layout>
      </widget>
     </widget>
+    <widget class="QWidget" name="login">
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>335</x>
+        <y>70</y>
+        <width>130</width>
+        <height>130</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>../../assets/icons/user_login_page.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>280</y>
+        <width>100</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Login</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QCommandLinkButton" name="homeArrow6">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">:hover {
+	border: none;
+}</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../assets/icons/left-arrow.png</normaloff>../../assets/icons/left-arrow.png</iconset>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>240</y>
+        <width>200</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit { 
+    background-color: white;
+    border-style: outset;
+    border-width: 2px;
+    border-color: #cad2c5;
+
+}
+
+QLineEdit:hover { 
+    background-color: rgb(218, 218, 218);
+    border-style: outset;
+    border-width: 2px;
+    border-color: beige;
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Enter name:</string>
+      </property>
+     </widget>
+    </widget>
     <widget class="QWidget" name="databaza">
      <widget class="QWidget" name="left_database" native="true">
       <property name="geometry">
@@ -1096,46 +1182,244 @@ color: #2f3e46;</string>
      </widget>
     </widget>
     <widget class="QWidget" name="cenotvorba">
-     <widget class="QCommandLinkButton" name="homeArrow3">
+     <widget class="QWidget" name="cenotvorbaLayout" native="true">
       <property name="geometry">
        <rect>
+<<<<<<< HEAD
         <x>10</x>
         <y>10</y>
         <width>41</width>
         <height>41</height>
+=======
+        <x>0</x>
+        <y>0</y>
+        <width>801</width>
+        <height>451</height>
+>>>>>>> 0291ef6710fce367a5abc84f242fb09f921d2dbc
        </rect>
       </property>
-      <property name="styleSheet">
-       <string notr="true">:hover {
+      <layout class="QVBoxLayout" name="verticalLayout_22">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item alignment="Qt::AlignTop">
+        <widget class="QWidget" name="widget_2" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <widget class="QCommandLinkButton" name="homeArrow3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>0</y>
+            <width>41</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">:hover {
 	border: none;
 }</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>../../assets/icons/left-arrow.png</normaloff>../../assets/icons/left-arrow.png</iconset>
-      </property>
-     </widget>
-     <widget class="QLabel" name="cenotvorbaHeading">
-      <property name="geometry">
-       <rect>
-        <x>320</x>
-        <y>10</y>
-        <width>161</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 14px;
-font-weight: bold;
-</string>
-      </property>
-      <property name="text">
-       <string>CENOTVORBA</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../../assets/icons/left-arrow.png</normaloff>../../assets/icons/left-arrow.png</iconset>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_3" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_23">
+          <property name="leftMargin">
+           <number>40</number>
+          </property>
+          <property name="rightMargin">
+           <number>40</number>
+          </property>
+          <item>
+           <widget class="QScrollArea" name="scrollArea">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>360</height>
+             </size>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="priceContents">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>719</width>
+               <height>358</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_25">
+              <item>
+               <widget class="QFrame" name="frame">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>60</height>
+                 </size>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QWidget" name="widget_4" native="true">
+                   <property name="minimumSize">
+                    <size>
+                     <width>60</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>60</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <widget class="QLabel" name="label_2">
+                    <property name="geometry">
+                     <rect>
+                      <x>10</x>
+                      <y>10</y>
+                      <width>43</width>
+                      <height>13</height>
+                     </rect>
+                    </property>
+                    <property name="text">
+                     <string>obrazok</string>
+                    </property>
+                   </widget>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_5" native="true">
+                   <property name="minimumSize">
+                    <size>
+                     <width>200</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_24">
+                    <item>
+                     <widget class="QLabel" name="label_3">
+                      <property name="text">
+                       <string>ITEM</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_6" native="true">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_6">
+                    <item>
+                     <widget class="QLabel" name="label_4">
+                      <property name="text">
+                       <string>predajna</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_4"/>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_5">
+                      <property name="text">
+                       <string>kupna</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_5"/>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="saveButton" native="true">
+            <widget class="QPushButton" name="pushButton_3">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>10</y>
+               <width>65</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>PushButton</string>
+             </property>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="sklad">
