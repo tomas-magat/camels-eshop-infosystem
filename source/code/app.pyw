@@ -32,6 +32,7 @@ class MainWindow:
         self.statistika = modul_statistika.Statistika(self.ui)
         self.cenotvorba = modul_cenotvorba.Cenotvorba(self.ui)
         self.sklad = modul_sklad.Sklad(self.ui)
+        self.login = modul_login.Login(self.ui)
 
         # Track all home button clicks
         self.home_buttons = [

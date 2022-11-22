@@ -50,6 +50,9 @@ class Portal:
 
         self.commands.redirect(self.ui.portal)
 
+    def open_login_screen(self):
+        self.commands.redirect(self.ui.login)
+
     def update_price(self, value):
         """Update total price of a cart."""
 
@@ -69,6 +72,9 @@ class Portal:
 
         self.commands.button_click(
             self.ui.portalButton, self.switch_screen)
+        
+        self.commands.button_click(
+            self.ui.pushButton_5, self.open_login_screen)
 
 
 class ItemCard(QtWidgets.QFrame):

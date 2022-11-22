@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -419,21 +419,28 @@ font-size: 15px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="userIcon">
-            <property name="maximumSize">
+           <widget class="QPushButton" name="pushButton_5">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: none;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>../../assets/icons/user.png</normaloff>../../assets/icons/user.png</iconset>
+            </property>
+            <property name="iconSize">
              <size>
               <width>40</width>
               <height>40</height>
              </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(202, 210, 197);</string>
-            </property>
-            <property name="pixmap">
-             <pixmap>../../assets/icons/user.png</pixmap>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -614,7 +621,7 @@ font-size: 15px;</string>
      <widget class="QCommandLinkButton" name="homeArrow6">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>10</x>
         <y>10</y>
         <width>41</width>
         <height>41</height>
@@ -657,6 +664,9 @@ QLineEdit:hover {
 }</string>
       </property>
       <property name="text">
+       <string/>
+      </property>
+      <property name="placeholderText">
        <string>Enter name:</string>
       </property>
      </widget>
