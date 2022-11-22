@@ -2,6 +2,7 @@ from utils.file import DataFile
 from utils.ui_commands import UI_Commands
 from utils import tools
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Statistika:
@@ -42,19 +43,19 @@ class Statistika:
         # a2 = fig.add_subplot(1,2,2)
         plt.style.use(['seaborn-v0_8-notebook'])
 
-        najviac, a1 = plt.subplots(figsize=(4.2,3.2))
+        najviac, a1 = plt.subplots()
         najviac.patch.set_facecolor('#CED6C9')
-        a1.bar(c, m1)
         # a1.margins(0.2, 0.2)
         a1.set_facecolor('#CED6C9')
         a1.spines['top'].set_visible(False)
         a1.spines['right'].set_visible(False)
         a1.axes.xaxis.set_ticklabels([])
         a1.tick_params(axis='x', which='both', length=0)
+        a1.bar(c, m1)
         # a1.spines['left'].set_visible(False)
         # a1.spines['bottom'].set_visible(False)
 
-        najmenej, a2 = plt.subplots(figsize=(4.2,3.2))#, linewidth=1, edgecolor='black')
+        najmenej, a2 = plt.subplots()#, linewidth=1, edgecolor='black')
         najmenej.patch.set_facecolor('#CED6C9')
         a2.bar(c, m2)
         a2.set_facecolor('#CED6C9')
@@ -63,16 +64,16 @@ class Statistika:
         a2.axes.xaxis.set_ticklabels([])
         a2.tick_params(axis='x', which='both', length=0)
 
-        vyvoj_ceny, a3 = plt.subplots(figsize=(13,3))
+        vyvoj_ceny, a3 = plt.subplots()
         vyvoj_ceny.set_facecolor('#CED6C9')
         # a3.set_xlabel('x-label')  # , fontsize=fontsize)
         # a3.set_ylabel('y-label')  # , fontsize=fontsize)
         # a3.set_title('Title')  # , fontsize=fontsize)
         a3.set_facecolor('#CED6C9')
-        a3.plot(x, y)
-        a3.plot(x, y1)
         a3.spines['top'].set_visible(False)
         a3.spines['right'].set_visible(False)
+        a3.plot(x, y)
+        a3.plot(x, y1)
 
         # fig.set_facecolor('grey')
         # a1 = plt.subplot(321)
@@ -89,6 +90,7 @@ class Statistika:
         plt.tight_layout()#pad=5, w_pad=5, h_pad=5)
         # plt.rcParams["figure.autolayout"] = True
 
+
         self.commands.plot_graph(self.ui.najviacGraf, najviac)
-        self.commands.plot_graph(self.ui.najmenejGraf, najmenej)
+        # self.commands.plot_graph(self.ui.najmenejGraf, najmenej)
         self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny)
