@@ -454,8 +454,8 @@ font-size: 15px;</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>329</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -1267,8 +1267,8 @@ color: #2f3e46;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>719</width>
-               <height>358</height>
+               <width>496</width>
+               <height>58</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -1454,7 +1454,7 @@ color: #2f3e46;</string>
            <rect>
             <x>9</x>
             <y>9</y>
-            <width>481</width>
+            <width>401</width>
             <height>41</height>
            </rect>
           </property>
@@ -1513,7 +1513,7 @@ color: #2f3e46;</string>
                <rect>
                 <x>12</x>
                 <y>10</y>
-                <width>371</width>
+                <width>281</width>
                 <height>20</height>
                </rect>
               </property>
@@ -1536,7 +1536,7 @@ color: #2f3e46;</string>
              <widget class="QPushButton" name="searchButton_2">
               <property name="geometry">
                <rect>
-                <x>390</x>
+                <x>300</x>
                 <y>0</y>
                 <width>39</width>
                 <height>40</height>
@@ -1590,7 +1590,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="chybaCategory">
            <attribute name="title">
@@ -1668,8 +1668,8 @@ color: rgb(125, 125, 125);</string>
            <widget class="QFrame" name="shirts_2">
             <property name="geometry">
              <rect>
-              <x>-1</x>
-              <y>-1</y>
+              <x>0</x>
+              <y>0</y>
               <width>481</width>
               <height>361</height>
              </rect>
@@ -1683,7 +1683,7 @@ color: rgb(125, 125, 125);</string>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_7">
+            <layout class="QVBoxLayout" name="verticalLayout_36">
              <property name="spacing">
               <number>0</number>
              </property>
@@ -1704,6 +1704,7 @@ color: rgb(125, 125, 125);</string>
                <property name="styleSheet">
                 <string notr="true">QScrollArea:vertical {
 	width: 20px;
+	border-radius: 5px;
 	background-color: rgb(218, 218, 218);
 }</string>
                </property>
@@ -1713,7 +1714,7 @@ color: rgb(125, 125, 125);</string>
                <property name="widgetResizable">
                 <bool>true</bool>
                </property>
-               <widget class="QWidget" name="shirtsContents_2">
+               <widget class="QWidget" name="shirtContents_2">
                 <property name="geometry">
                  <rect>
                   <x>0</x>
@@ -1722,14 +1723,14 @@ color: rgb(125, 125, 125);</string>
                   <height>28</height>
                  </rect>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_8"/>
+                <layout class="QVBoxLayout" name="verticalLayout_37"/>
                </widget>
               </widget>
              </item>
             </layout>
            </widget>
           </widget>
-          <widget class="Topanky" name="pantsCategory_2">
+          <widget class="QWidget" name="pantsCategory_2">
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
@@ -1990,7 +1991,7 @@ color: rgb(125, 125, 125);</string>
 }</string>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Box</enum>
                </property>
                <property name="widgetResizable">
                 <bool>true</bool>
@@ -2052,6 +2053,9 @@ color: rgb(125, 125, 125);</string>
            <height>60</height>
           </size>
          </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
          <layout class="QHBoxLayout" name="horizontalLayout_15">
           <property name="spacing">
            <number>10</number>
@@ -2063,64 +2067,121 @@ color: rgb(125, 125, 125);</string>
            <number>20</number>
           </property>
           <item>
-           <widget class="QLabel" name="cartIcon_7">
-            <property name="maximumSize">
-             <size>
-              <width>31</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(202, 210, 197);</string>
-            </property>
-            <property name="pixmap">
-             <pixmap>../../assets/icons/shopping-cart.png</pixmap>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_29">
+            <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+             <widget class="QLabel" name="objednavka_text">
+              <property name="styleSheet">
+               <string notr="true">color: #cad2c5;
+font-family: &quot;Myanmar Text&quot;;
+font-size: 15px;
+font-weight: bold;
+padding-left: 10px</string>
+              </property>
+              <property name="text">
+               <string>Objednávka :   </string>
+              </property>
+              <property name="textFormat">
+               <enum>Qt::PlainText</enum>
+              </property>
+              <property name="indent">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignLeft">
+             <widget class="QCheckBox" name="checkBox_2">
+              <property name="font">
+               <font>
+                <pointsize>-1</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: #cad2c5;
+font-size: 10px;
+padding-left: 10px</string>
+              </property>
+              <property name="text">
+               <string>Automatická</string>
+              </property>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignLeft">
+             <widget class="QCheckBox" name="checkBox_3">
+              <property name="font">
+               <font>
+                <pointsize>-1</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: #cad2c5;
+font-size: 10px;
+padding-left: 10px</string>
+              </property>
+              <property name="text">
+               <string>Poloautomatická</string>
+              </property>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignLeft">
+             <widget class="QCheckBox" name="checkBox">
+              <property name="font">
+               <font>
+                <pointsize>-1</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: #cad2c5;
+font-size: 10px;
+padding-left: 10px</string>
+              </property>
+              <property name="text">
+               <string>Manuálna</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QLabel" name="cashierName_7">
-            <property name="font">
-             <font>
-              <pointsize>-1</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: #cad2c5;
-font-size: 15px;</string>
-            </property>
-            <property name="text">
-             <string>Cashier Name</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="userIcon_7">
-            <property name="maximumSize">
-             <size>
-              <width>40</width>
-              <height>40</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(202, 210, 197);</string>
-            </property>
-            <property name="pixmap">
-             <pixmap>../../assets/icons/user.png</pixmap>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <widget class="QLineEdit" name="HowManyToBuy">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(248, 248, 248);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="maxLength">
+               <number>20</number>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="placeholderText">
+               <string>Pocet na doplnenie</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="CountWhenToBuy">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(248, 248, 248);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="maxLength">
+               <number>20</number>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="placeholderText">
+               <string>Doplnit pri pocte</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -2139,7 +2200,7 @@ font-size: 15px;</string>
             <x>0</x>
             <y>0</y>
             <width>301</width>
-            <height>391</height>
+            <height>341</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -2163,7 +2224,7 @@ font-size: 15px;</string>
                 <x>0</x>
                 <y>0</y>
                 <width>299</width>
-                <height>329</height>
+                <height>279</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
@@ -2192,7 +2253,29 @@ font-size: 15px;</string>
                <number>20</number>
               </property>
               <item>
-               <widget class="QLabel" name="totalPrice_7">
+               <widget class="QLabel" name="cartIcon_2">
+                <property name="maximumSize">
+                 <size>
+                  <width>31</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(202, 210, 197);</string>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../assets/icons/shopping-cart.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="totalPrice_2">
                 <property name="font">
                  <font>
                   <pointsize>-1</pointsize>
@@ -2571,7 +2654,7 @@ font-size: 15px;</string>
                <property name="font">
                 <font>
                  <family>Myanmar Text</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>6</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -3051,14 +3134,6 @@ font-weight: bold;
    </widget>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Topanky</class>
-   <extends>QWidget</extends>
-   <header>topanky</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
