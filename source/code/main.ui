@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -310,8 +310,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>479</width>
-                  <height>359</height>
+                  <width>477</width>
+                  <height>357</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -485,7 +485,7 @@ font-size: 15px;</string>
                 <x>0</x>
                 <y>0</y>
                 <width>299</width>
-                <height>329</height>
+                <height>328</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -2678,7 +2678,7 @@ font-size: 15px;</string>
                <property name="font">
                 <font>
                  <family>Myanmar Text</family>
-                 <pointsize>6</pointsize>
+                 <pointsize>8</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -2773,6 +2773,9 @@ font-size: 15px;</string>
          <property name="mouseTracking">
           <bool>false</bool>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #2f3e46;</string>
+         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -2782,10 +2785,10 @@ font-size: 15px;</string>
          <widget class="QGraphicsView" name="najviacGraf">
           <property name="geometry">
            <rect>
-            <x>60</x>
-            <y>40</y>
-            <width>256</width>
-            <height>192</height>
+            <x>80</x>
+            <y>70</y>
+            <width>301</width>
+            <height>221</height>
            </rect>
           </property>
           <property name="cursor" stdset="0">
@@ -2795,11 +2798,14 @@ font-size: 15px;</string>
          <widget class="QGraphicsView" name="trzbyNaklady">
           <property name="geometry">
            <rect>
-            <x>450</x>
-            <y>50</y>
-            <width>256</width>
-            <height>192</height>
+            <x>430</x>
+            <y>70</y>
+            <width>291</width>
+            <height>221</height>
            </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">backgorund-color: rgb(255, 255, 255)</string>
           </property>
          </widget>
         </widget>
