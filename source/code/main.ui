@@ -1267,13 +1267,8 @@ color: #2f3e46;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-<<<<<<< HEAD
                <width>717</width>
                <height>356</height>
-=======
-               <width>496</width>
-               <height>58</height>
->>>>>>> 3311b6d93069d47ae6190829d614541463bfcc6b
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
