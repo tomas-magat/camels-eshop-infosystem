@@ -32,8 +32,6 @@ class MainWindow:
         self.statistika = modul_statistika.Statistika(self.ui)
         self.cenotvorba = modul_cenotvorba.Cenotvorba(self.ui)
         self.sklad = modul_sklad.Sklad(self.ui)
-        # Track button clicks for index screen (module buttons)
-        self.commands.button_click(self.ui.skladButton, self.storage)
 
         # Track all home button clicks
         self.home_buttons = [
@@ -51,12 +49,6 @@ class MainWindow:
 
     def index(self):
         self.commands.redirect(self.ui.index)
-
-    def price(self):
-        self.commands.redirect(self.ui.cenotvorba)
-
-    def storage(self):
-        self.commands.redirect(self.ui.sklad)
 
 
 if __name__ == '__main__':
