@@ -37,7 +37,7 @@ class Statistika:
         # fig, (a1, a2, a3) = plt.subplots()
         # a1 = fig.add_subplot(1,2,1)
         # a2 = fig.add_subplot(1,2,2)
-        plt.style.use(['seaborn-v0_8-notebook'])
+        # plt.style.use(['seaborn-v0_8-notebook'])
         fig, (a1, a3) = plt.subplots(1,2, figsize=(13 , 4.35))
         fig1, a2 = plt.subplots(figsize=(12, 2))
         fig.patch.set_facecolor('#cad2c5')
