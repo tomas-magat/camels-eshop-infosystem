@@ -21,6 +21,7 @@ class Portal:
         self.ui = ui
         self.commands = UI_Commands(self.ui)
         self.total_price = 0
+        self.cashier_name = ""
 
         self.create_item_cards(6)
         self.button_clicks()
@@ -50,7 +51,16 @@ class Portal:
 
         self.commands.redirect(self.ui.portal)
 
+    def switch_screen_and_save_user(self):
+        """Redirect to this portal screen and save user from login page"""
+
+        self.cashier_name = self.ui.lineEdit_3.text()
+        print(self.cashier_name)
+        self.commands.redirect(self.ui.portal)
+
     def open_login_screen(self):
+        """Redirect to login screen."""
+
         self.commands.redirect(self.ui.login)
 
     def update_price(self, value):
@@ -76,6 +86,11 @@ class Portal:
         self.commands.button_click(
             self.ui.pushButton_5, self.open_login_screen)
 
+        self.commands.button_click(
+            self.ui.pushButton_2, self.switch_screen_and_save_user)
+        
+        self.commands.button_click(
+            self.ui.homeArrow6, self.switch_screen)
 
 class ItemCard(QtWidgets.QFrame):
 
