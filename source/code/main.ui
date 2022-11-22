@@ -1658,7 +1658,7 @@ color: rgb(125, 125, 125);</string>
                   <x>0</x>
                   <y>0</y>
                   <width>481</width>
-                  <height>471</height>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_18"/>
@@ -1709,9 +1709,8 @@ color: rgb(125, 125, 125);</string>
              <item>
               <widget class="QScrollArea" name="shirtsCatalog_2">
                <property name="styleSheet">
-                <string notr="true">QScrollBar:vertical {
+                <string notr="true">QScrollArea:vertical {
 	width: 20px;
-	border-radius: 5px;
 	background-color: rgb(218, 218, 218);
 }</string>
                </property>
@@ -1737,10 +1736,287 @@ color: rgb(125, 125, 125);</string>
             </layout>
            </widget>
           </widget>
-          <widget class="QWidget" name="pantsCategory_2">
+          <widget class="Topanky" name="pantsCategory_2">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <attribute name="title">
             <string>Nohavice</string>
            </attribute>
+           <widget class="QFrame" name="pants_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>481</width>
+              <height>361</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(248, 248, 248);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_19">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="pantsCatalog_2">
+               <property name="styleSheet">
+                <string notr="true">QScrollArea:vertical {
+	width: 20px;
+	border-radius: 5px;
+	background-color: rgb(218, 218, 218);
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="pantsContents_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>481</width>
+                  <height>361</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_20"/>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="bootsCategory_2">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <attribute name="title">
+            <string>Topánky</string>
+           </attribute>
+           <widget class="QFrame" name="boots_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>481</width>
+              <height>361</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(248, 248, 248);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_27">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="bootsCatalog_2">
+               <property name="styleSheet">
+                <string notr="true">QScrollArea:vertical {
+	width: 20px;
+	border-radius: 5px;
+	background-color: rgb(218, 218, 218);
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="bootsContents_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>481</width>
+                  <height>361</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_28"/>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="hoodiesCategory_2">
+           <attribute name="title">
+            <string>Mikiny</string>
+           </attribute>
+           <widget class="QFrame" name="hoodies_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>481</width>
+              <height>361</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(248, 248, 248);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_30">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="hoodiesCatalog_2">
+               <property name="styleSheet">
+                <string notr="true">QScrollArea:vertical {
+	width: 20px;
+	border-radius: 5px;
+	background-color: rgb(218, 218, 218);
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="hoodiesContents_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>481</width>
+                  <height>361</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_31"/>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="accessoriesCategorie_2">
+           <attribute name="title">
+            <string>Doplnky</string>
+           </attribute>
+           <widget class="QFrame" name="accessories_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>481</width>
+              <height>361</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(248, 248, 248);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_33">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="accessoriesCatalog_2">
+               <property name="styleSheet">
+                <string notr="true">QScrollArea:vertical {
+	width: 20px;
+	border-radius: 5px;
+	background-color: rgb(218, 218, 218);
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="accessoriesContents_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>481</width>
+                  <height>361</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_35"/>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </widget>
         </widget>
@@ -2600,6 +2876,14 @@ font-weight: bold;
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Topanky</class>
+   <extends>QWidget</extends>
+   <header>topanky</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
