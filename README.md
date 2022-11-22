@@ -2,7 +2,7 @@
 
 [Zadanie](assets/docs/zadanie.pdf)
 
-## Downloading and intializing git
+## Downloading and initializing git
 
 1. [Download git](https://git-scm.com/) and follow installation guide
 2. In your local project folder open [command prompt](https://www.youtube.com/watch?v=bgSSJQolR0E)
@@ -14,7 +14,7 @@
 
 *Follow these steps:*
 
-#### Create new branch for new changes (in your terminal)
+#### Pull recent changes from GitHub (in your terminal)
 1. Take recent code from Github `git pull`
 2. Change branch `git checkout branch-name`
 
@@ -49,8 +49,8 @@ Colors: [Palette](https://coolors.co/palette/cad2c5-84a98c-52796f-354f52-2f3e46)
 - black: #000000
 
 Font: 
-- Myanmar Text, Bold (Normal-size: 10px, Heading: 15px)
-- Default font (MS Shell Dlg 2, Bold)
+- primary: Myanmar Text, Bold (Normal-size: 10px, Heading: 15px)
+- secondary: Default font (MS Shell Dlg 2, Bold)
 
 
 ## Basic Workflow
@@ -63,13 +63,16 @@ Font:
 5. Change element properties (using property editor in the right side of Qt Designer) 
 6. Customize the stylesheet of the element (Using [CSS Properties](https://www.youtube.com/watch?v=508C8dX9_og))
 
-## Changing the window behaviour (button press...)
+#### Changing the window behaviour (button press...)
 1. Open `source\code\modules\[your_module].py`
 2. Using `ui_commands.py` module assign command to element (button_clicked()...)
 3. Test the changes by running `app.pyw`
 
 
-## Module structure and datafile format
+## Commands and utils sheet
+![](assets/docs/COMMANDS.png)
 
+
+## Module structure and datafile format
 ![](assets/docs/STRUCTURE_2.png)
 ![](assets/docs/FILEMAP_2.png)
