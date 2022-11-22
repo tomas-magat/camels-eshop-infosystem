@@ -2,7 +2,7 @@
 
 [Zadanie](assets/docs/zadanie.pdf)
 
-## Downloading and intializing git
+## Downloading and initializing git
 
 1. [Download git](https://git-scm.com/) and follow installation guide
 2. In your local project folder open [command prompt](https://www.youtube.com/watch?v=bgSSJQolR0E)
