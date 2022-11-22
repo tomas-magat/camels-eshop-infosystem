@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -550,6 +550,92 @@ font-size: 15px;</string>
         </widget>
        </item>
       </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="login">
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>335</x>
+        <y>70</y>
+        <width>130</width>
+        <height>130</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>../../assets/icons/user_login_page.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>280</y>
+        <width>100</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Login</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QCommandLinkButton" name="homeArrow6">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">:hover {
+	border: none;
+}</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../assets/icons/left-arrow.png</normaloff>../../assets/icons/left-arrow.png</iconset>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>240</y>
+        <width>200</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit { 
+    background-color: white;
+    border-style: outset;
+    border-width: 2px;
+    border-color: #cad2c5;
+
+}
+
+QLineEdit:hover { 
+    background-color: rgb(218, 218, 218);
+    border-style: outset;
+    border-width: 2px;
+    border-color: beige;
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Enter name:</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="databaza">
