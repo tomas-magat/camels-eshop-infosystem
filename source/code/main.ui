@@ -1267,13 +1267,8 @@ color: #2f3e46;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-<<<<<<< HEAD
-               <width>717</width>
-               <height>356</height>
-=======
                <width>496</width>
                <height>58</height>
->>>>>>> 3311b6d93069d47ae6190829d614541463bfcc6b
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -1595,11 +1590,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-<<<<<<< HEAD
-           <number>5</number>
-=======
            <number>2</number>
->>>>>>> 3f4e8201153ea32e343b715c784f9a683157c397
           </property>
           <widget class="QWidget" name="chybaCategory">
            <attribute name="title">
@@ -1728,13 +1719,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-<<<<<<< HEAD
-                  <width>481</width>
-                  <height>361</height>
-=======
                   <width>98</width>
                   <height>28</height>
->>>>>>> 3f4e8201153ea32e343b715c784f9a683157c397
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_37"/>
@@ -2081,7 +2067,6 @@ color: rgb(125, 125, 125);</string>
            <number>20</number>
           </property>
           <item>
-<<<<<<< HEAD
            <layout class="QVBoxLayout" name="verticalLayout_29">
             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
              <widget class="QLabel" name="objednavka_text">
@@ -2197,66 +2182,6 @@ padding-left: 10px</string>
              </widget>
             </item>
            </layout>
-=======
-           <widget class="QLabel" name="cartIcon_7">
-            <property name="maximumSize">
-             <size>
-              <width>31</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(202, 210, 197);</string>
-            </property>
-            <property name="pixmap">
-             <pixmap>../../assets/icons/shopping-cart.png</pixmap>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="cashierName_7">
-            <property name="font">
-             <font>
-              <pointsize>-1</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: #cad2c5;
-font-size: 15px;</string>
-            </property>
-            <property name="text">
-             <string>Cashier Name</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="userIcon_7">
-            <property name="maximumSize">
-             <size>
-              <width>40</width>
-              <height>40</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(202, 210, 197);</string>
-            </property>
-            <property name="pixmap">
-             <pixmap>../../assets/icons/user.png</pixmap>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
-            </property>
-           </widget>
->>>>>>> 3f4e8201153ea32e343b715c784f9a683157c397
           </item>
          </layout>
         </widget>
@@ -2328,7 +2253,6 @@ font-size: 15px;</string>
                <number>20</number>
               </property>
               <item>
-<<<<<<< HEAD
                <widget class="QLabel" name="cartIcon_2">
                 <property name="maximumSize">
                  <size>
@@ -2352,9 +2276,6 @@ font-size: 15px;</string>
               </item>
               <item>
                <widget class="QLabel" name="totalPrice_2">
-=======
-               <widget class="QLabel" name="totalPrice_7">
->>>>>>> 3f4e8201153ea32e343b715c784f9a683157c397
                 <property name="font">
                  <font>
                   <pointsize>-1</pointsize>
