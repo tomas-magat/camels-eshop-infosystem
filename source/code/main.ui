@@ -243,6 +243,10 @@ color: rgb(125, 125, 125);</string>
               <property name="text">
                <string>Sort by price</string>
               </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../../assets/icons/up_down_arrow.png</normaloff>../../assets/icons/up_down_arrow.png</iconset>
+              </property>
               <property name="iconSize">
                <size>
                 <width>12</width>
@@ -286,7 +290,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>4</number>
           </property>
           <widget class="QWidget" name="allCategory">
            <attribute name="title">
@@ -492,22 +496,17 @@ color: rgb(125, 125, 125);</string>
           </widget>
           <widget class="QWidget" name="bootsCategory">
            <attribute name="title">
-            <string>Page</string>
+            <string>Topánky</string>
            </attribute>
           </widget>
           <widget class="QWidget" name="hoodiesCategory">
            <attribute name="title">
-            <string>Page</string>
+            <string>Mikiny</string>
            </attribute>
           </widget>
           <widget class="QWidget" name="accessoriesCategory">
            <attribute name="title">
-            <string>Page</string>
-           </attribute>
-          </widget>
-          <widget class="QWidget" name="tab">
-           <attribute name="title">
-            <string>Page</string>
+            <string>Doplnky</string>
            </attribute>
           </widget>
          </widget>
@@ -1571,8 +1570,8 @@ color: rgb(125, 125, 125);</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>635</width>
-               <height>82</height>
+               <width>544</width>
+               <height>78</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
