@@ -1,7 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 from utils.ui_commands import UI_Commands
-from utils.ENV_VARS import PATH
-import os
+from utils.tools import find_image
 
 
 class Cenotvorba:
@@ -22,7 +21,7 @@ class Cenotvorba:
         for i in range(7):
             ItemPriceCard(self, self.ui.verticalLayout_25, "test" +
                           str(i), "Test "+str(i), "0000", (5.99, 6.59),
-                          os.path.join(PATH, "assets", "images", "tricko.jpg"))
+                          find_image("tricko.jpg"))
 
 
 class ItemPriceCard(QtWidgets.QFrame):
