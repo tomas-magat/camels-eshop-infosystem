@@ -148,7 +148,7 @@
              <widget class="QLineEdit" name="searchField">
               <property name="geometry">
                <rect>
-                <x>12</x>
+                <x>0</x>
                 <y>7</y>
                 <width>281</width>
                 <height>26</height>
@@ -187,7 +187,7 @@ QLineEdit:hover {
              <widget class="QPushButton" name="searchButton">
               <property name="geometry">
                <rect>
-                <x>298</x>
+                <x>280</x>
                 <y>0</y>
                 <width>31</width>
                 <height>40</height>
@@ -211,9 +211,9 @@ color: rgb(125, 125, 125);</string>
              <widget class="QPushButton" name="sortButton">
               <property name="geometry">
                <rect>
-                <x>340</x>
+                <x>320</x>
                 <y>7</y>
-                <width>91</width>
+                <width>100</width>
                 <height>26</height>
                </rect>
               </property>
@@ -242,10 +242,6 @@ color: rgb(125, 125, 125);</string>
               </property>
               <property name="text">
                <string>Sort by price</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>../../assets/icons/up_down_arrow.png</normaloff>../../assets/icons/up_down_arrow.png</iconset>
               </property>
               <property name="iconSize">
                <size>
