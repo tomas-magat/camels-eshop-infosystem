@@ -7,7 +7,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
-from utils import tools
+from utils.tools import str_price, find_image
 
 
 class Sklad:
@@ -47,29 +47,29 @@ class Sklad:
 
         self.total_price += value
         self.ui.totalPrice_2.setText(
-            "Spolu: "+tools.str_price(self.total_price, 1))
+            "Spolu: "+ str_price(self.total_price, 1))
 
     def create_item_cards(self, n):
         """Creates n new item cards in the sklad screen catalog."""
 
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_20, "test" +
-                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov")
+                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov", find_image("question_mark.png"))
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_18, "test" +
-                     str(i), "Test "+str(i), "0000", "Na sklade 2 kusy")
+                     str(i), "Test "+str(i), "0000", "Na sklade 2 kusy", find_image("question_mark.png"))
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_37, "test" +
-                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov")
+                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov", find_image("question_mark.png"))
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_28, "test" +
-                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov")
+                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov", find_image("question_mark.png"))
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_31, "test" +
-                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov")
+                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov", find_image("question_mark.png"))
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_35, "test" +
-                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov")
+                     str(i), "Test "+str(i), "0000", "Na sklade 5 kusov", find_image("question_mark.png"))
 
     def button_clicks(self):
         """All button click commands of sklad screen here."""
@@ -81,7 +81,7 @@ class Sklad:
 class ItemCard(QtWidgets.QFrame):
 
     def __init__(self, page, layout, name: str,
-                 display_name: str, code: str, count: str):
+                 display_name: str, code: str, count: str, image: str):
 
         super(ItemCard, self).__init__(layout.parent())
 
@@ -95,6 +95,7 @@ class ItemCard(QtWidgets.QFrame):
         self.display_name = display_name
         self.code = code
         self.count = count
+        self.image=image
 
         self.draw_ui()
 
@@ -127,14 +128,11 @@ class ItemCard(QtWidgets.QFrame):
         self.itemPreview.setObjectName(self.name+"Preview")
         self.previewLayout = QtWidgets.QVBoxLayout(self.itemPreview)
         self.previewLayout.setObjectName(self.name+"PreviewLayout")
-        self.itemImage = QtWidgets.QLabel("image preview")
+        self.itemImage = QtWidgets.QLabel()
+        self.itemImage.setPixmap(QtGui.QPixmap(self.image))
+        self.itemImage.setScaledContents(True)
         self.itemImage.setWordWrap(True)
         self.itemImage.setObjectName(self.name+"Image")
-        self.itemImage.setStyleSheet("QLabel"
-                                     "{"
-                                     "background-color: white;"
-                                     "padding-left: 1px"
-                                     "}")
         self.previewLayout.addWidget(self.itemImage)
         self.mainLayout_2.addWidget(self.itemPreview)
         self.itemName = QtWidgets.QWidget(self)
@@ -142,7 +140,7 @@ class ItemCard(QtWidgets.QFrame):
         self.nameLayout = QtWidgets.QVBoxLayout(self.itemName)
         self.nameLayout.setObjectName(self.name+"NameLayout")
         self.itemLabel = QtWidgets.QLabel(self.display_name+"  #"+self.code +
-                                          "    Cena: 5,99€   " + self.count)
+                                          "  Cena: 5,99€   " + self.count)
         self.itemLabel.setObjectName(self.name+"ItemLabel")
         self.nameLayout.addWidget(self.itemLabel)
         self.mainLayout_2.addWidget(self.itemName)
@@ -242,7 +240,7 @@ class CartItem(QtWidgets.QFrame):
         self.priceLabel.setObjectName(self.name+"PriceLabel")
         self.priceLayout.addWidget(self.priceLabel)
         self.sumPrice = QtWidgets.QLabel(
-            tools.str_price(self.price, self.amount))
+            str_price(self.price, self.amount))
         self.sumPrice.setStyleSheet("color: rgb(223, 223, 223);")
         self.sumPrice.setAlignment(
             QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)

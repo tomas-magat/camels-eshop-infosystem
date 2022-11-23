@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -349,8 +349,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="allLayout"/>
@@ -418,8 +418,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>98</width>
-                  <height>28</height>
+                  <width>479</width>
+                  <height>359</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -670,8 +670,8 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -1565,8 +1565,8 @@ color: rgb(125, 125, 125);</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>544</width>
-               <height>78</height>
+               <width>719</width>
+               <height>358</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -1840,9 +1840,9 @@ color: rgb(125, 125, 125);</string>
          <widget class="QWidget" name="layoutWidget_3">
           <property name="geometry">
            <rect>
-            <x>9</x>
-            <y>9</y>
-            <width>401</width>
+            <x>10</x>
+            <y>10</y>
+            <width>481</width>
             <height>41</height>
            </rect>
           </property>
@@ -1856,7 +1856,7 @@ color: rgb(125, 125, 125);</string>
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">QGroupBox#homeButton_2 {border:0;}</string>
+              <string notr="true">QGroupBox#homeButton {border:0;}</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -1871,9 +1871,8 @@ color: rgb(125, 125, 125);</string>
                </rect>
               </property>
               <property name="styleSheet">
-               <string notr="true">:hover {
-	border: none;
-}</string>
+               <string notr="true">border: none;
+</string>
               </property>
               <property name="icon">
                <iconset>
@@ -1891,7 +1890,7 @@ color: rgb(125, 125, 125);</string>
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">QGroupBox#searchBar_2 {border:0;}</string>
+              <string notr="true">border:None</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -1899,14 +1898,28 @@ color: rgb(125, 125, 125);</string>
              <widget class="QLineEdit" name="searchField_2">
               <property name="geometry">
                <rect>
-                <x>12</x>
-                <y>10</y>
+                <x>0</x>
+                <y>7</y>
                 <width>281</width>
-                <height>20</height>
+                <height>26</height>
                </rect>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(248, 248, 248);</string>
+               <string notr="true">QLineEdit { 
+    background-color: white;
+    border-style: outset;
+    border-width: 2px;
+	border-radius: 13px;
+    border-color: #cad2c5;
+	padding-left: 5px;
+}
+
+QLineEdit:hover { 
+    background-color: rgb(218, 218, 218);
+    border-style: outset;
+    border-width: 2px;
+    border-color: beige;
+}</string>
               </property>
               <property name="text">
                <string/>
@@ -1924,9 +1937,9 @@ color: rgb(125, 125, 125);</string>
              <widget class="QPushButton" name="searchButton_2">
               <property name="geometry">
                <rect>
-                <x>300</x>
+                <x>280</x>
                 <y>0</y>
-                <width>39</width>
+                <width>31</width>
                 <height>40</height>
                </rect>
               </property>
@@ -1943,6 +1956,51 @@ color: rgb(125, 125, 125);</string>
                 <width>35</width>
                 <height>35</height>
                </size>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="sortButton_2">
+              <property name="geometry">
+               <rect>
+                <x>320</x>
+                <y>7</y>
+                <width>100</width>
+                <height>26</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>7</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#sortButton_2 {
+	border: 5px solid #2f3e46; 
+	border-radius: 13px;
+	background-color: #2f3e46;
+	color: #cad2c5;
+}
+#sortButton_2:hover {
+	border-color: #354f52; 
+	background-color: #354f52;
+}
+#sortButton_2:pressed {
+	border-color: #354f52; 
+	background-color: #354f52;
+}</string>
+              </property>
+              <property name="text">
+               <string>Sort by price</string>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>12</width>
+                <height>12</height>
+               </size>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
               </property>
              </widget>
             </widget>
@@ -1978,7 +2036,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="chybaCategory">
            <attribute name="title">
@@ -2491,48 +2549,33 @@ padding-left: 10px</string>
               </property>
              </widget>
             </item>
-            <item alignment="Qt::AlignLeft">
-             <widget class="QCheckBox" name="checkBox_2">
-              <property name="font">
-               <font>
-                <pointsize>7</pointsize>
-               </font>
-              </property>
+            <item>
+             <widget class="QRadioButton" name="radioButton">
               <property name="styleSheet">
                <string notr="true">color: #cad2c5;
-padding-left: 10px</string>
+padding-left: 20px</string>
               </property>
               <property name="text">
-               <string>Automatická</string>
+               <string>Automaticka</string>
               </property>
              </widget>
             </item>
-            <item alignment="Qt::AlignLeft">
-             <widget class="QCheckBox" name="checkBox_3">
-              <property name="font">
-               <font>
-                <pointsize>7</pointsize>
-               </font>
-              </property>
+            <item>
+             <widget class="QRadioButton" name="radioButton_2">
               <property name="styleSheet">
                <string notr="true">color: #cad2c5;
-padding-left: 10px</string>
+padding-left: 20px</string>
               </property>
               <property name="text">
-               <string>Poloautomatická</string>
+               <string>Poloautomaticka</string>
               </property>
              </widget>
             </item>
-            <item alignment="Qt::AlignLeft">
-             <widget class="QCheckBox" name="checkBox">
-              <property name="font">
-               <font>
-                <pointsize>7</pointsize>
-               </font>
-              </property>
+            <item>
+             <widget class="QRadioButton" name="radioButton_3">
               <property name="styleSheet">
                <string notr="true">color: #cad2c5;
-padding-left: 10px</string>
+padding-left: 20px</string>
               </property>
               <property name="text">
                <string>Manuálna</string>
