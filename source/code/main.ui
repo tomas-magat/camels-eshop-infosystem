@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -149,13 +149,27 @@
               <property name="geometry">
                <rect>
                 <x>12</x>
-                <y>10</y>
+                <y>7</y>
                 <width>281</width>
-                <height>20</height>
+                <height>26</height>
                </rect>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(248, 248, 248);</string>
+               <string notr="true">QLineEdit { 
+    background-color: white;
+    border-style: outset;
+    border-width: 2px;
+	border-radius: 13px;
+    border-color: #cad2c5;
+	padding-left: 5px;
+}
+
+QLineEdit:hover { 
+    background-color: rgb(218, 218, 218);
+    border-style: outset;
+    border-width: 2px;
+    border-color: beige;
+}</string>
               </property>
               <property name="text">
                <string/>
@@ -173,9 +187,9 @@
              <widget class="QPushButton" name="searchButton">
               <property name="geometry">
                <rect>
-                <x>390</x>
+                <x>298</x>
                 <y>0</y>
-                <width>39</width>
+                <width>31</width>
                 <height>40</height>
                </rect>
               </property>
@@ -194,14 +208,37 @@ color: rgb(125, 125, 125);</string>
                </size>
               </property>
              </widget>
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="sortButton">
               <property name="geometry">
                <rect>
-                <x>305</x>
-                <y>10</y>
-                <width>71</width>
-                <height>20</height>
+                <x>340</x>
+                <y>7</y>
+                <width>91</width>
+                <height>26</height>
                </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>7</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#sortButton {
+	border: 5px solid #2f3e46; 
+	border-radius: 13px;
+	background-color: #2f3e46;
+	color: #cad2c5;
+}
+#sortButton:hover {
+	border-color: #354f52; 
+	background-color: #354f52;
+}
+#sortButton:pressed {
+	border-color: #354f52; 
+	background-color: #354f52;
+}</string>
               </property>
               <property name="text">
                <string>Sort by price</string>
@@ -215,6 +252,9 @@ color: rgb(125, 125, 125);</string>
                 <width>12</width>
                 <height>12</height>
                </size>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
               </property>
              </widget>
             </widget>
@@ -310,8 +350,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>98</width>
-                  <height>28</height>
+                  <width>479</width>
+                  <height>359</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -465,18 +505,19 @@ color: rgb(125, 125, 125);</string>
             </property>
             <property name="font">
              <font>
-              <pointsize>-1</pointsize>
+              <pointsize>11</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
              </font>
             </property>
             <property name="styleSheet">
              <string notr="true">color: #cad2c5;
-font-size: 15px;
 border: none;
 text-align: right;
-padding-top:8px;</string>
+</string>
             </property>
             <property name="text">
-             <string>Cashier Name</string>
+             <string>Cashier name</string>
             </property>
            </widget>
           </item>
@@ -546,8 +587,8 @@ padding-top:8px;</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -579,12 +620,13 @@ padding-top:8px;</string>
                <widget class="QLabel" name="totalPrice">
                 <property name="font">
                  <font>
-                  <pointsize>-1</pointsize>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">color: #cad2c5;
-font-size: 15px;</string>
+                 <string notr="true">color: #cad2c5;</string>
                 </property>
                 <property name="text">
                  <string>Spolu: 0 €</string>
@@ -604,7 +646,6 @@ font-size: 15px;</string>
                 </property>
                 <property name="font">
                  <font>
-                  <family>MS Shell Dlg 2</family>
                   <pointsize>10</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
@@ -664,7 +705,7 @@ font-size: 15px;</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="loginButton">
       <property name="geometry">
        <rect>
         <x>350</x>
@@ -672,6 +713,29 @@ font-size: 15px;</string>
         <width>100</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#loginButton {
+	border: 5px solid #2f3e46; 
+	border-radius: 15px;
+	background-color: #2f3e46;
+	color: #cad2c5;
+}
+#loginButton:hover {
+	border-color: #354f52; 
+	background-color: #354f52;
+}
+#loginButton:pressed {
+	border-color: #354f52; 
+	background-color: #354f52;
+}</string>
       </property>
       <property name="text">
        <string>Login</string>
@@ -683,8 +747,8 @@ font-size: 15px;</string>
      <widget class="QCommandLinkButton" name="homeArrow6">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
+        <x>9</x>
+        <y>9</y>
         <width>41</width>
         <height>41</height>
        </rect>
@@ -699,13 +763,13 @@ font-size: 15px;</string>
         <normaloff>../../assets/icons/left-arrow.png</normaloff>../../assets/icons/left-arrow.png</iconset>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_3">
+     <widget class="QLineEdit" name="nameEntry">
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>240</y>
+        <y>229</y>
         <width>200</width>
-        <height>20</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -713,8 +777,10 @@ font-size: 15px;</string>
     background-color: white;
     border-style: outset;
     border-width: 2px;
+	border-radius: 15px;
     border-color: #cad2c5;
-
+	font-size: 15px;
+	padding-left: 5px;
 }
 
 QLineEdit:hover { 
@@ -722,7 +788,6 @@ QLineEdit:hover {
     border-style: outset;
     border-width: 2px;
     border-color: beige;
-
 }</string>
       </property>
       <property name="text">
@@ -1891,8 +1956,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -1967,8 +2032,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_37"/>
@@ -2039,8 +2104,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_20"/>
@@ -2111,8 +2176,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_28"/>
@@ -2180,8 +2245,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_31"/>
@@ -2249,8 +2314,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_35"/>
@@ -2471,8 +2536,8 @@ padding-left: 10px</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>279</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
