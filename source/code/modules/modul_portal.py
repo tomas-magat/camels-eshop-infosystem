@@ -56,7 +56,7 @@ class Portal:
 
         self.cashier_name = self.ui.lineEdit_3.text()
         self.ui.pushButton_6.setText(self.cashier_name)
-        self.commands.redirect(self.ui.portal)
+        self.switch_screen()
 
     def open_login_screen(self):
         """Redirect to login screen."""
@@ -82,18 +82,19 @@ class Portal:
 
         self.commands.button_click(
             self.ui.portalButton, self.switch_screen)
-        
+
         self.commands.button_click(
             self.ui.pushButton_5, self.open_login_screen)
-        
+
         self.commands.button_click(
             self.ui.pushButton_6, self.open_login_screen)
 
         self.commands.button_click(
             self.ui.pushButton_2, self.switch_screen_and_update_user)
-        
+
         self.commands.button_click(
             self.ui.homeArrow6, self.switch_screen)
+
 
 class ItemCard(QtWidgets.QFrame):
 

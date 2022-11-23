@@ -48,13 +48,14 @@ class Databaza:
         """
 
         text = self.ui.listWidget.currentItem().text().split()
-        print(text)
         code = text[0].lstrip("#")
         name = ''.join(text[1:]) if len(text) > 1 else code
+
         ItemDetails(self, self.ui.right_database, name, code)
 
     def delete_item(self):
         self.ui.listWidget.takeItem(self.ui.listWidget.currentRow())
+
 
 class ItemDetails(QtWidgets.QFrame):
 
@@ -132,7 +133,6 @@ class ItemDetails(QtWidgets.QFrame):
                         QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.image.setIcon(icon3)
         self.image.setIconSize(QtCore.QSize(247, 247))
-
 
     def draw_ui(self):
         self.setObjectName(self.name)

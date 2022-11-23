@@ -26,7 +26,7 @@ class MainWindow:
         self.commands = UI_Commands(self.ui)
         self.index()
 
-        # Initialize modul portal and statistika
+        # Initialize modules
         self.portal = modul_portal.Portal(self.ui)
         self.databaza = modul_databaza.Databaza(self.ui)
         self.statistika = modul_statistika.Statistika(self.ui)
