@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -243,10 +243,6 @@ color: rgb(125, 125, 125);</string>
               <property name="text">
                <string>Sort by price</string>
               </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>../../assets/icons/up_down_arrow.png</normaloff>../../assets/icons/up_down_arrow.png</iconset>
-              </property>
               <property name="iconSize">
                <size>
                 <width>12</width>
@@ -290,7 +286,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>4</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="allCategory">
            <attribute name="title">
@@ -353,8 +349,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="allLayout"/>
@@ -422,8 +418,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>479</width>
-                  <height>359</height>
+                  <width>98</width>
+                  <height>28</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -674,8 +670,8 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>329</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -866,7 +862,6 @@ text-align: right;
     border-width: 2px;
 	border-radius: 15px;
     border-color: #cad2c5;
-	font-size: 15px;
 	padding-left: 5px;
 }
 
@@ -2043,8 +2038,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -2119,8 +2114,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_37"/>
@@ -2191,8 +2186,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_20"/>
@@ -2263,8 +2258,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_28"/>
@@ -2332,8 +2327,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_31"/>
@@ -2401,8 +2396,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_35"/>
@@ -2468,13 +2463,21 @@ color: rgb(125, 125, 125);</string>
           </property>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_29">
+            <property name="spacing">
+             <number>6</number>
+            </property>
             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
              <widget class="QLabel" name="objednavka_text">
+              <property name="font">
+               <font>
+                <family>MS Shell Dlg 2</family>
+                <pointsize>13</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
               <property name="styleSheet">
                <string notr="true">color: #cad2c5;
-font-family: &quot;Myanmar Text&quot;;
-font-size: 15px;
-font-weight: bold;
 padding-left: 10px</string>
               </property>
               <property name="text">
@@ -2492,12 +2495,11 @@ padding-left: 10px</string>
              <widget class="QCheckBox" name="checkBox_2">
               <property name="font">
                <font>
-                <pointsize>-1</pointsize>
+                <pointsize>7</pointsize>
                </font>
               </property>
               <property name="styleSheet">
                <string notr="true">color: #cad2c5;
-font-size: 10px;
 padding-left: 10px</string>
               </property>
               <property name="text">
@@ -2509,12 +2511,11 @@ padding-left: 10px</string>
              <widget class="QCheckBox" name="checkBox_3">
               <property name="font">
                <font>
-                <pointsize>-1</pointsize>
+                <pointsize>7</pointsize>
                </font>
               </property>
               <property name="styleSheet">
                <string notr="true">color: #cad2c5;
-font-size: 10px;
 padding-left: 10px</string>
               </property>
               <property name="text">
@@ -2526,12 +2527,11 @@ padding-left: 10px</string>
              <widget class="QCheckBox" name="checkBox">
               <property name="font">
                <font>
-                <pointsize>-1</pointsize>
+                <pointsize>7</pointsize>
                </font>
               </property>
               <property name="styleSheet">
                <string notr="true">color: #cad2c5;
-font-size: 10px;
 padding-left: 10px</string>
               </property>
               <property name="text">
@@ -2600,7 +2600,7 @@ padding-left: 10px</string>
             <x>0</x>
             <y>0</y>
             <width>301</width>
-            <height>341</height>
+            <height>351</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -2623,8 +2623,8 @@ padding-left: 10px</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>289</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
@@ -2678,18 +2678,16 @@ padding-left: 10px</string>
                <widget class="QLabel" name="totalPrice_2">
                 <property name="font">
                  <font>
-                  <pointsize>-1</pointsize>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">color: #cad2c5;
-font-size: 15px;</string>
+                 <string notr="true">color: #cad2c5;</string>
                 </property>
                 <property name="text">
                  <string>Spolu: 0 €</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
@@ -3165,7 +3163,7 @@ font-size: 15px;</string>
            </rect>
           </property>
           <property name="styleSheet">
-           <string notr="true">backgorund-color: rgb(255, 255, 255)</string>
+           <string notr="true"/>
           </property>
          </widget>
         </widget>
@@ -3183,10 +3181,16 @@ font-size: 15px;</string>
         <height>31</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Myanmar Text</family>
+        <pointsize>11</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 15px;
-font-weight: bold;
+       <string notr="true">font-weight: bold;
 </string>
       </property>
       <property name="text">
@@ -3205,10 +3209,16 @@ font-weight: bold;
         <height>31</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Myanmar Text</family>
+        <pointsize>11</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 15px;
-font-weight: bold;
+       <string notr="true">font-weight: bold;
 </string>
       </property>
       <property name="text">
@@ -3227,10 +3237,16 @@ font-weight: bold;
         <height>31</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Myanmar Text</family>
+        <pointsize>11</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 15px;
-font-weight: bold;
+       <string notr="true">font-weight: bold;
 </string>
       </property>
       <property name="text">
@@ -3363,10 +3379,16 @@ QPushButton:pressed {
         <height>31</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Myanmar Text</family>
+        <pointsize>11</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 15px;
-font-weight: bold;
+       <string notr="true">font-weight: bold;
 </string>
       </property>
       <property name="text">
@@ -3484,10 +3506,16 @@ QPushButton:pressed {
         <height>51</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Myanmar Text</family>
+        <pointsize>11</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">font-family: &quot;Myanmar Text&quot;;
-font-size: 15px;
-font-weight: bold;
+       <string notr="true">font-weight: bold;
 </string>
       </property>
       <property name="text">
