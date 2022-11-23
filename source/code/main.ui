@@ -148,7 +148,7 @@
              <widget class="QLineEdit" name="searchField">
               <property name="geometry">
                <rect>
-                <x>12</x>
+                <x>0</x>
                 <y>7</y>
                 <width>281</width>
                 <height>26</height>
@@ -187,7 +187,7 @@ QLineEdit:hover {
              <widget class="QPushButton" name="searchButton">
               <property name="geometry">
                <rect>
-                <x>298</x>
+                <x>280</x>
                 <y>0</y>
                 <width>31</width>
                 <height>40</height>
@@ -211,9 +211,9 @@ color: rgb(125, 125, 125);</string>
              <widget class="QPushButton" name="sortButton">
               <property name="geometry">
                <rect>
-                <x>340</x>
+                <x>320</x>
                 <y>7</y>
-                <width>91</width>
+                <width>100</width>
                 <height>26</height>
                </rect>
               </property>
@@ -242,10 +242,6 @@ color: rgb(125, 125, 125);</string>
               </property>
               <property name="text">
                <string>Sort by price</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>../../assets/icons/up_down_arrow.png</normaloff>../../assets/icons/up_down_arrow.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -493,6 +489,26 @@ color: rgb(125, 125, 125);</string>
              </widget>
             </widget>
            </widget>
+          </widget>
+          <widget class="QWidget" name="bootsCategory">
+           <attribute name="title">
+            <string>Page</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="hoodiesCategory">
+           <attribute name="title">
+            <string>Page</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="accessoriesCategory">
+           <attribute name="title">
+            <string>Page</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>Page</string>
+           </attribute>
           </widget>
          </widget>
         </widget>
@@ -1555,8 +1571,8 @@ color: rgb(125, 125, 125);</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>719</width>
-               <height>358</height>
+               <width>635</width>
+               <height>82</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -1968,7 +1984,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="chybaCategory">
            <attribute name="title">
@@ -2028,8 +2044,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -2608,8 +2624,8 @@ padding-left: 10px</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>279</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
