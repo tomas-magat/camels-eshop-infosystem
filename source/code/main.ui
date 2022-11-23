@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -1302,7 +1302,7 @@ color: #2f3e46;</string>
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item alignment="Qt::AlignTop">
+       <item>
         <widget class="QWidget" name="widget_2" native="true">
          <property name="minimumSize">
           <size>
@@ -1327,6 +1327,62 @@ color: #2f3e46;</string>
           <property name="icon">
            <iconset>
             <normaloff>../../assets/icons/left-arrow.png</normaloff>../../assets/icons/left-arrow.png</iconset>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>20</y>
+            <width>65</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>ULOZIŤ</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_6">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>10</y>
+            <width>261</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="placeholderText">
+           <string>Vyhľadať kód tovaru</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="searchButton_3">
+          <property name="geometry">
+           <rect>
+            <x>320</x>
+            <y>10</y>
+            <width>21</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: none;
+color: rgb(125, 125, 125);</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../../assets/icons/search.png</normaloff>../../assets/icons/search.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
           </property>
          </widget>
         </widget>
@@ -1411,14 +1467,20 @@ color: #2f3e46;</string>
                    <widget class="QLabel" name="label_2">
                     <property name="geometry">
                      <rect>
-                      <x>10</x>
-                      <y>10</y>
-                      <width>43</width>
-                      <height>13</height>
+                      <x>0</x>
+                      <y>0</y>
+                      <width>61</width>
+                      <height>61</height>
                      </rect>
                     </property>
                     <property name="text">
-                     <string>obrazok</string>
+                     <string/>
+                    </property>
+                    <property name="pixmap">
+                     <pixmap>../../assets/images/tricko.jpg</pixmap>
+                    </property>
+                    <property name="scaledContents">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </widget>
@@ -1427,7 +1489,7 @@ color: #2f3e46;</string>
                   <widget class="QWidget" name="widget_5" native="true">
                    <property name="minimumSize">
                     <size>
-                     <width>200</width>
+                     <width>150</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -1438,10 +1500,24 @@ color: #2f3e46;</string>
                     </size>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_24">
+                    <property name="leftMargin">
+                     <number>20</number>
+                    </property>
                     <item>
                      <widget class="QLabel" name="label_3">
+                      <property name="font">
+                       <font>
+                        <family>MS Shell Dlg 2</family>
+                        <pointsize>10</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
                       <property name="text">
-                       <string>ITEM</string>
+                       <string>NAZOV PRODUKTU</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                       </property>
                      </widget>
                     </item>
@@ -1457,25 +1533,103 @@ color: #2f3e46;</string>
                     </sizepolicy>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_6">
+                    <property name="rightMargin">
+                     <number>50</number>
+                    </property>
                     <item>
                      <widget class="QLabel" name="label_4">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777214</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>MS Shell Dlg 2</family>
+                        <pointsize>10</pointsize>
+                        <weight>75</weight>
+                        <italic>false</italic>
+                        <bold>true</bold>
+                        <underline>false</underline>
+                        <strikeout>false</strikeout>
+                       </font>
+                      </property>
                       <property name="text">
-                       <string>predajna</string>
+                       <string>PREDAJNA CENA</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_4"/>
+                     <widget class="QLineEdit" name="lineEdit_4">
+                      <property name="maximumSize">
+                       <size>
+                        <width>60</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color: #FFF</string>
+                      </property>
+                      <property name="text">
+                       <string>6.67</string>
+                      </property>
+                      <property name="frame">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
                     </item>
                     <item>
                      <widget class="QLabel" name="label_5">
+                      <property name="font">
+                       <font>
+                        <family>MS Shell Dlg 2</family>
+                        <pointsize>10</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
                       <property name="text">
-                       <string>kupna</string>
+                       <string>KUPNA CENA</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_5"/>
+                     <widget class="QLineEdit" name="lineEdit_5">
+                      <property name="maximumSize">
+                       <size>
+                        <width>60</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color: #FFF</string>
+                      </property>
+                      <property name="text">
+                       <string>45,65</string>
+                      </property>
+                      <property name="frame">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
                     </item>
                    </layout>
                   </widget>
@@ -1488,21 +1642,7 @@ color: #2f3e46;</string>
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="saveButton" native="true">
-            <widget class="QPushButton" name="pushButton_3">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>10</y>
-               <width>65</width>
-               <height>20</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>PushButton</string>
-             </property>
-            </widget>
-           </widget>
+           <widget class="QWidget" name="saveButton" native="true"/>
           </item>
          </layout>
         </widget>
@@ -3206,6 +3346,8 @@ font-weight: bold;
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../assets/icons/ikony.qrc"/>
+ </resources>
  <connections/>
 </ui>
