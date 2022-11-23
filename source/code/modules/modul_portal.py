@@ -51,11 +51,11 @@ class Portal:
 
         self.commands.redirect(self.ui.portal)
 
-    def switch_screen_and_save_user(self):
-        """Redirect to this portal screen and save user from login page"""
+    def switch_screen_and_update_user(self):
+        """Redirect to this portal screen and rename user"""
 
         self.cashier_name = self.ui.lineEdit_3.text()
-        print(self.cashier_name)
+        self.ui.pushButton_6.setText(self.cashier_name)
         self.commands.redirect(self.ui.portal)
 
     def open_login_screen(self):
@@ -85,9 +85,12 @@ class Portal:
         
         self.commands.button_click(
             self.ui.pushButton_5, self.open_login_screen)
+        
+        self.commands.button_click(
+            self.ui.pushButton_6, self.open_login_screen)
 
         self.commands.button_click(
-            self.ui.pushButton_2, self.switch_screen_and_save_user)
+            self.ui.pushButton_2, self.switch_screen_and_update_user)
         
         self.commands.button_click(
             self.ui.homeArrow6, self.switch_screen)

@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -310,8 +310,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>477</width>
-                  <height>357</height>
+                  <width>479</width>
+                  <height>359</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -399,8 +399,14 @@ color: rgb(125, 125, 125);</string>
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QLabel" name="cashierName">
+          <item alignment="Qt::AlignRight">
+           <widget class="QPushButton" name="pushButton_6">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="font">
              <font>
               <pointsize>-1</pointsize>
@@ -408,20 +414,20 @@ color: rgb(125, 125, 125);</string>
             </property>
             <property name="styleSheet">
              <string notr="true">color: #cad2c5;
-font-size: 15px;</string>
+font-size: 15px;
+border: none;
+text-align: right;
+padding-top:8px;</string>
             </property>
             <property name="text">
              <string>Cashier Name</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_5">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -485,7 +491,7 @@ font-size: 15px;</string>
                 <x>0</x>
                 <y>0</y>
                 <width>299</width>
-                <height>328</height>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -1054,8 +1060,8 @@ color: rgb(125, 125, 125);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>477</width>
-             <height>337</height>
+             <width>479</width>
+             <height>339</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -1300,8 +1306,8 @@ color: #2f3e46;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>717</width>
-               <height>356</height>
+               <width>719</width>
+               <height>358</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -2264,7 +2270,7 @@ padding-left: 10px</string>
                 <x>0</x>
                 <y>0</y>
                 <width>299</width>
-                <height>278</height>
+                <height>279</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
