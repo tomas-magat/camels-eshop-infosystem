@@ -14,7 +14,7 @@
 
 *Follow these steps:*
 
-#### Create new branch for new changes (in your terminal)
+#### Pull recent changes from GitHub (in your terminal)
 1. Take recent code from Github `git pull`
 2. Change branch `git checkout branch-name`
 
@@ -37,6 +37,22 @@
 - [Qt Designer manual](https://doc.qt.io/archives/qt-4.8/designer-manual.html)
 
 
+## Theme
+
+Colors: [Palette](https://coolors.co/palette/cad2c5-84a98c-52796f-354f52-2f3e46)
+- white: #f8f8f8
+- ash-gray: #cad2c5
+- dark-sea-green: #84a98c
+- hookers-green: #52796f
+- dark-slate-gray: #354f52
+- charcoal: #2f3e46
+- black: #000000
+
+Font: 
+- primary: Default font (MS Shell Dlg 2, Bold)
+- secondary: Myanmar Text, Bold (Normal-size: 10px, Heading: 15px)
+
+
 ## Basic Workflow
 
 #### Creating module interface in QtDesigner
@@ -45,15 +61,19 @@
 3. Define layout (using containers, frames, widgets and layouts)
 4. Add elements to the frames (PushButtons, Labels...)
 5. Change element properties (using property editor in the right side of Qt Designer) 
-6. Customize the stylesheet of the element (CSS)
+6. Customize the stylesheet of the element (Using [CSS Properties](https://www.youtube.com/watch?v=508C8dX9_og))
+7. In case of need to create python custom widget run `pyuic5 -x main.ui -o main.py`
 
-## Changing the window behaviour (button press...)
+#### Changing the window behaviour (button press...)
 1. Open `source\code\modules\[your_module].py`
 2. Using `ui_commands.py` module assign command to element (button_clicked()...)
 3. Test the changes by running `app.pyw`
 
 
-## Module structure and datafile format
+## Commands and utils sheet
+![](assets/docs/COMMANDS.png)
 
+
+## Module structure and datafile format
 ![](assets/docs/STRUCTURE_2.png)
 ![](assets/docs/FILEMAP_2.png)

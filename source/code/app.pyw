@@ -20,18 +20,18 @@ class MainWindow:
         and initialize modules.
         """
 
-        self.ui = uic.loadUi(os.path.join(PATH, 'source', 'code', 'main.ui'))
+        self.ui = uic.loadUi(
+            os.path.join(PATH, 'source', 'code', 'main.ui'))
 
         self.commands = UI_Commands(self.ui)
-        self.commands.redirect(self.ui.index)
+        self.index()
 
-        # Initialize modul portal and statistika
+        # Initialize modules
         self.portal = modul_portal.Portal(self.ui)
         self.databaza = modul_databaza.Databaza(self.ui)
         self.statistika = modul_statistika.Statistika(self.ui)
-        # Track button clicks for index screen (module buttons)
-        self.commands.button_click(self.ui.cenotvorbaButton, self.price)
-        self.commands.button_click(self.ui.skladButton, self.storage)
+        self.cenotvorba = modul_cenotvorba.Cenotvorba(self.ui)
+        self.sklad = modul_sklad.Sklad(self.ui)
 
         # Track all home button clicks
         self.home_buttons = [
@@ -46,15 +46,6 @@ class MainWindow:
     def show(self):
         """Show the main App UI window."""
         self.ui.show()
-
-    def price(self):
-        self.commands.redirect(self.ui.cenotvorba)
-
-    def storage(self):
-        self.commands.redirect(self.ui.sklad)
-
-    def database(self):
-        self.commands.redirect(self.ui.databaza)
 
     def index(self):
         self.commands.redirect(self.ui.index)
