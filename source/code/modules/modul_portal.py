@@ -77,12 +77,30 @@ class Portal:
     def create_item_cards(self, n):
         """Creates n new item cards in the portal screen catalog."""
 
-        for i in range(n):
-            ItemCard(self, self.ui.verticalLayout_3, "test" +
-                     str(i), "Test "+str(i), "0000", 5.99, find_image("tricko.jpg"))
+        # VSETKO
         for i in range(n):
             ItemCard(self, self.ui.allLayout, "test" +
-                     str(i), "Test "+str(i), "0000", 15.99, find_image("tenisky.webp"))
+                     str(i), "Vsetko "+str(i), "900"+str(i+1), 5.99, find_image("question_mark.png"))
+        # TRICKA
+        for i in range(n):
+            ItemCard(self, self.ui.verticalLayout_3, "test" +
+                     str(i), "Tricko "+str(i), "100"+str(i+1), 15.99, find_image("tricko.jpg"))
+        # NOHAVICE
+        for i in range(n):
+            ItemCard(self, self.ui.verticalLayout_40, "test" +
+                     str(i), "Nohavice "+str(i), "200"+str(i+1), 15.99, find_image("nohavice.png"))
+        # TOPANKY
+        for i in range(n):
+            ItemCard(self, self.ui.verticalLayout_42, "test" +
+                     str(i), "Topanky "+str(i), "300"+str(i+1), 15.99, find_image("tenisky.webp"))
+        # MIKINY
+        for i in range(n):
+            ItemCard(self, self.ui.verticalLayout_44, "test" +
+                     str(i), "Mikina "+str(i), "400"+str(i+1), 15.99, find_image("hoodie.png"))
+        # DOPLNKY
+        for i in range(n):
+            ItemCard(self, self.ui.verticalLayout_46, "test" +
+                     str(i), "Doplnok "+str(i), "500"+str(i+1), 15.99, find_image("hodinky.png"))
 
     def button_clicks(self):
         """All button click commands of portal screen here."""
