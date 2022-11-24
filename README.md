@@ -1,14 +1,7 @@
 # Information system of the E-shop
 
 [Zadanie](assets/docs/zadanie.pdf)
-
-## Downloading and initializing git
-
-1. [Download git](https://git-scm.com/) and follow installation guide
-2. In your local project folder open [command prompt](https://www.youtube.com/watch?v=bgSSJQolR0E)
-3. Enter command `git config --global user.name "your github username"`
-4. Next enter `git config --global user.email "your e-mail"`
-5. Clone this repository `git clone https://github.com/tomas-magat/camels-eshop-infosystem.git`
+ 
  
 ## Git commands
 
@@ -23,15 +16,6 @@
 4. Stage changes `git add .`
 5. Commit changes `git commit -am "Describe what has been changed"`
 6. Push your changes to the Github `git push`
-
-
-## Installing PyQt5 and Qt Designer
-
-1. Install PyQt5  `pip install -r requirements.txt`
-2. [Download](https://build-system.fman.io/qt-designer-download) and install Qt designer (tool)  
-
-- [PyQt5 tutorial](https://www.pythonguis.com/pyqt5-tutorial/)
-- [Qt Designer manual](https://doc.qt.io/archives/qt-4.8/designer-manual.html)
 
 
 ## Theme
@@ -50,6 +34,30 @@ Font:
 - secondary: Myanmar Text, Bold (Normal-size: 10px, Heading: 15px)
 
 
+## Commands and utils sheet
+![](assets/docs/COMMANDS_2.png)
+
+## Module structure and datafile format
+![](assets/docs/STRUCTURE_2.png)
+
+## Downloading and initializing git
+
+1. [Download git](https://git-scm.com/) and follow installation guide
+2. In your local project folder open [command prompt](https://www.youtube.com/watch?v=bgSSJQolR0E)
+3. Enter command `git config --global user.name "your github username"`
+4. Next enter `git config --global user.email "your e-mail"`
+5. Clone this repository `git clone https://github.com/tomas-magat/camels-eshop-infosystem.git`
+
+
+## Installing PyQt5 and Qt Designer
+
+1. Install PyQt5  `pip install -r requirements.txt`
+2. [Download](https://build-system.fman.io/qt-designer-download) and install Qt designer (tool)  
+
+- [PyQt5 tutorial](https://www.pythonguis.com/pyqt5-tutorial/)
+- [Qt Designer manual](https://doc.qt.io/archives/qt-4.8/designer-manual.html)
+
+
 ## Basic Workflow
 
 #### Creating module interface in QtDesigner
@@ -66,11 +74,5 @@ Font:
 2. Using `ui_commands.py` module assign command to element (button_clicked()...)
 3. Test the changes by running `app.pyw`
 
-
-## Commands and utils sheet
-![](assets/docs/COMMANDS_2.png)
-
-
-## Module structure and datafile format
-![](assets/docs/STRUCTURE_2.png)
+## Filemap
 ![](assets/docs/FILEMAP_2.png)
