@@ -10,22 +10,19 @@
 4. Next enter `git config --global user.email "your e-mail"`
 5. Clone this repository `git clone https://github.com/tomas-magat/camels-eshop-infosystem.git`
  
-## Working with git
+## Git commands
 
-*Follow these steps:*
+#### Working with branches
+- Create new branch `git checkout -b new-branch-name`
+- Display current branch `git branch` 
+- Change branch `git checkout branch-name`
 
-#### Pull recent changes from GitHub (in your terminal)
+#### Making changes 
 1. Take recent code from Github `git pull`
-2. Change branch `git checkout branch-name`
-
-#### Making changes (repeat these steps until you're finished with changing the code)
 3. Make changes to the code
 4. Stage changes `git add .`
 5. Commit changes `git commit -am "Describe what has been changed"`
-
-#### Publishing changes on Github
-6. Push your changes to the branch on Github `git push --set-upstream origin branch-name`
-7. Sync your code with github `git pull`
+6. Push your changes to the Github `git push`
 
 
 ## Installing PyQt5 and Qt Designer
