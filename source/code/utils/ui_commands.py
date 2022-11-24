@@ -33,6 +33,11 @@ class UI_Commands:
         button.clicked.connect(
             lambda: button.parentWidget().deleteLater())
 
+    def entry_enter_pressed(self, line_edit, command):
+        """After pressing enter key in line edit execute command"""
+
+        line_edit.returnPressed.connect(command)
+
     def plot_graph(self, graphics_view: QGraphicsView, figure, size=61):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""
 

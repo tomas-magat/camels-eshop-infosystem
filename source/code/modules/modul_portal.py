@@ -25,6 +25,7 @@ class Portal:
 
         self.create_item_cards(6)
         self.button_clicks()
+        self.login_actions()
 
         # Read file 'tovar.txt' - not in prototype
         # self.tovar = DataFile('tovar')
@@ -83,10 +84,10 @@ class Portal:
 
         for i in range(n):
             ItemCard(self, self.ui.verticalLayout_3, "test" +
-                     str(i), "Test "+str(i), "0000", find_image("tenisky.webp"))
+                     str(i), "Test "+str(i), "0000", 5.99, find_image("tricko.jpg"))
         for i in range(n):
             ItemCard(self, self.ui.allLayout, "test" +
-                     str(i), "Test "+str(i), "0000", find_image("tenisky.webp"))
+                     str(i), "Test "+str(i), "0000", 15.99, find_image("tenisky.webp"))
 
     def button_clicks(self):
         """All button click commands of portal screen here."""
@@ -95,6 +96,12 @@ class Portal:
             [self.ui.portalButton, self.ui.homeArrow6],
             self.switch_screen)
 
+        self.commands.button_click(
+            self.ui.searchButton, self.search_items)
+
+    def login_actions(self):
+        """All login actions and commands here."""
+
         self.commands.buttons_click(
             [self.ui.userIconButton, self.ui.userNameButton],
             self.open_login_screen)
@@ -102,14 +109,14 @@ class Portal:
         self.commands.button_click(
             self.ui.loginButton, self.switch_screen_and_update_user)
 
-        self.commands.button_click(
-            self.ui.searchButton, self.search_items)
+        self.commands.entry_enter_pressed(
+            self.ui.nameEntry, self.switch_screen_and_update_user)
 
 
 class ItemCard(QtWidgets.QFrame):
 
-    def __init__(self, page, layout, name: str,
-                 display_name: str, code: str, image: str):
+    def __init__(self, page, layout, name: str, display_name: str,
+                 code: str, price: float, image: str):
 
         super(ItemCard, self).__init__(layout.parent())
 
@@ -122,21 +129,63 @@ class ItemCard(QtWidgets.QFrame):
         self.name = name
         self.display_name = display_name
         self.code = code
+        self.price = price
         self.image = image
+
+        self.bought = False
 
         self.draw_ui()
 
-    def add_to_cart(self):
+    def add_item(self):
         """Add item to the cart section after add button pressed."""
 
         self.amount = self.spinBox.value()
 
-        if self.amount > 0:
-            price = 15.99
-            CartItem(self.page, self.ui.verticalLayout_11, self.name,
-                     self.display_name, price, self.amount)
+        if self.amount >= 0:
+            if self.bought:
+                self.update_cart()
+            else:
+                self.add_to_cart()
 
-            self.page.update_price(price*self.amount)
+    def update_cart(self):
+        """Updates items in cart."""
+
+        if self.amount == 0:
+            self.update_button()
+            self.cart_item.delete_item()
+        else:
+            new_price = self.amount*self.price - \
+                float(self.cart_item.sumPrice.text().rstrip(' €'))
+            self.page.update_price(new_price)
+
+            self.update_cart_item()
+
+    def update_cart_item(self):
+        """Update the UI of cart item"""
+
+        self.cart_item.priceLabel.setText(
+            str(self.amount)+" ks x "+str(self.price))
+        self.cart_item.sumPrice.setText(str_price(self.price, self.amount))
+
+    def add_to_cart(self):
+        """Adds new item to the cart."""
+
+        self.cart_item = CartItem(self.page, self.ui.verticalLayout_11, self.name,
+                                  self.display_name, self.price, self.amount)
+
+        self.page.update_price(self.amount*self.price)
+
+        self.update_button()
+
+    def update_button(self):
+        self.bought = not self.bought
+
+        if not self.bought:
+            self.itemButton.setMaximumWidth(110)
+            self.addButton.setText("Add to cart")
+        else:
+            self.itemButton.setMaximumWidth(130)
+            self.addButton.setText("Update amount")
 
     def draw_ui(self):
         self.setMinimumSize(QtCore.QSize(200, 60))
@@ -189,7 +238,7 @@ class ItemCard(QtWidgets.QFrame):
         self.addButton.setObjectName(self.name+"AddButton")
         self.addButton.setStyleSheet(
             "QPushButton {font-weight: bold; border: 4px solid #2f3e46; border-radius: 12px;background-color: #2f3e46;color: #cad2c5;} QPushButton:hover {border-color: #354f52; background-color: #354f52;} QPushButton:pressed {border-color: #354f52;background-color: #354f52;}")
-        self.commands.button_click(self.addButton, self.add_to_cart)
+        self.commands.button_click(self.addButton, self.add_item)
         self.buttonLayout.addWidget(self.addButton)
         self.mainLayout.addWidget(self.itemButton)
         self.parent_layout.addWidget(self)
