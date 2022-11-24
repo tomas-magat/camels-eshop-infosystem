@@ -5,6 +5,7 @@ import time
 import os
 
 from .ENV_VARS import PATH
+from .ui_commands import UI_Commands
 
 
 def random_id(type='N'):
@@ -36,13 +37,34 @@ def callback(function, delay):
         time.sleep(delay)
 
 
-def str_price(price: float, amount: int):
+def str_price(price: float, amount=1):
     """Return string of total price for given amount with EUR sign."""
 
     return ("%.2f" % abs(price*amount))+" €"
 
 
 def find_image(image_name: str):
-    """Return absolute path from root/assets/image_name."""
+    """Return absolute path from root/assets/images/image_name."""
 
     return os.path.join(PATH, "assets", "images", image_name)
+
+
+def validate_int(field_input: str):
+    """Return value if it is integer else display error message."""
+
+    if field_input.isdigit():
+        return field_input
+    else:
+        UI_Commands.error_message("Entered value must be an integer!")
+
+
+def validate_price(field_input: str):
+    """Return if input is valid price else display error message."""
+
+    try:
+        price = float(field_input)
+    except:
+        UI_Commands.error_message(
+            "Entered value must be valid price!", additional_text="Please enter integer or float")
+    else:
+        return "%.2f" % price

@@ -4,7 +4,7 @@ import shutil
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
-from utils.ENV_VARS import PATH
+from utils.tools import find_image
 
 
 class Databaza:
@@ -112,7 +112,7 @@ class ItemDetails(QtWidgets.QFrame):
         """Copy selected image to the assets/images/ directory."""
 
         source = self.image_path
-        dist = os.path.join(PATH, 'assets', 'images', self.filename)
+        dist = find_image(self.filename)
 
         try:
             shutil.copy(source, dist)

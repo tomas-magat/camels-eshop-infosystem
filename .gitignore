@@ -1,3 +1,6 @@
+# Datafiles - temporary ignore
+data/
+
 # Qt Designer
 main.py
 

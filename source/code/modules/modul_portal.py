@@ -63,6 +63,14 @@ class Portal:
 
         self.commands.redirect(self.ui.login)
 
+    def search_items(self):
+        """
+        Get the value of the search field and return
+        list of matching item names or codes.
+        """
+
+        self.query = self.ui.searchField.text()
+
     def update_price(self, value):
         """Update total price of a cart."""
 
@@ -83,8 +91,9 @@ class Portal:
     def button_clicks(self):
         """All button click commands of portal screen here."""
 
-        self.commands.button_click(
-            self.ui.portalButton, self.switch_screen)
+        self.commands.buttons_click(
+            [self.ui.portalButton, self.ui.homeArrow6],
+            self.switch_screen)
 
         self.commands.buttons_click(
             [self.ui.userIconButton, self.ui.userNameButton],
@@ -94,7 +103,7 @@ class Portal:
             self.ui.loginButton, self.switch_screen_and_update_user)
 
         self.commands.button_click(
-            self.ui.homeArrow6, self.switch_screen)
+            self.ui.searchButton, self.search_items)
 
 
 class ItemCard(QtWidgets.QFrame):

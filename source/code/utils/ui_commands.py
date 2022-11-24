@@ -1,5 +1,5 @@
 # UI Commands Simplified
-from PyQt5.QtWidgets import QGraphicsScene, QWidget, QGraphicsView
+from PyQt5.QtWidgets import QGraphicsScene, QWidget, QGraphicsView, QMessageBox
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
@@ -59,3 +59,36 @@ class UI_Commands:
 
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
+
+    @staticmethod
+    def error_message(message: str, additional_text=''):
+        """Display simple error message."""
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText(message)
+        msg.setInformativeText(additional_text)
+        msg.setWindowTitle("Error")
+        msg.exec_()
+
+    @staticmethod
+    def info_message(message: str, additional_text=''):
+        """Display simple error message."""
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setText(message)
+        msg.setInformativeText(additional_text)
+        msg.setWindowTitle("Information")
+        msg.exec_()
+
+    @staticmethod
+    def warning_message(message: str, additional_text=''):
+        """Display simple error message."""
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText(message)
+        msg.setInformativeText(additional_text)
+        msg.setWindowTitle("Warning")
+        msg.exec_()
