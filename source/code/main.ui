@@ -670,8 +670,8 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>329</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -1565,8 +1565,8 @@ color: rgb(125, 125, 125);</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>719</width>
-               <height>358</height>
+               <width>544</width>
+               <height>78</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -2096,8 +2096,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -2666,8 +2666,8 @@ padding-left: 20px</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>289</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
@@ -3210,9 +3210,6 @@ padding-left: 20px</string>
           <property name="cursor" stdset="0">
            <cursorShape>ArrowCursor</cursorShape>
           </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarAlwaysOff</enum>
           </property>
@@ -3230,7 +3227,7 @@ padding-left: 20px</string>
            </rect>
           </property>
           <property name="styleSheet">
-           <string notr="true">backgorund-color: rgb(255, 255, 255)</string>
+           <string notr="true"/>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -3250,9 +3247,6 @@ padding-left: 20px</string>
             <width>300</width>
             <height>194</height>
            </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
           </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarAlwaysOff</enum>
