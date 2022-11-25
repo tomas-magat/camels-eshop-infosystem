@@ -1,5 +1,6 @@
 # UI Commands Simplified
-from PyQt5.QtWidgets import QGraphicsScene, QWidget, QGraphicsView, QMessageBox
+from PyQt5.QtWidgets import (
+    QGraphicsScene, QWidget, QGraphicsView, QMessageBox, QLineEdit)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
@@ -33,10 +34,17 @@ class UI_Commands:
         button.clicked.connect(
             lambda: button.parentWidget().deleteLater())
 
-    def entry_enter_pressed(self, line_edit, command):
-        """After pressing enter key in line edit execute command"""
+    def form_submit(self, widgets: list, command):
+        """
+        After pressing enter key in any of the line edits
+        or pressing the submit button of the form execute command.
+        """
 
-        line_edit.returnPressed.connect(command)
+        for widget in widgets:
+            if type(widget) == QLineEdit:
+                widget.returnPressed.connect(command)
+            else:
+                self.button_click(widget, command)
 
     def plot_graph(self, graphics_view: QGraphicsView, figure, size=61):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""

@@ -49,9 +49,11 @@ class Portal:
 
     def switch_screen(self, update_user: bool = False):
         """Redirect to this portal screen and can set user"""
+
         if update_user:
             self.cashier_name = self.ui.nameEntry.text()
             self.ui.userNameButton.setText(self.cashier_name)
+
         self.commands.redirect(self.ui.portal)
 
     def open_login_screen(self):
@@ -119,11 +121,9 @@ class Portal:
             [self.ui.userIconButton, self.ui.userNameButton],
             self.open_login_screen)
 
-        self.commands.button_click(
-            self.ui.loginButton, lambda: self.switch_screen(True))
-
-        self.commands.entry_enter_pressed(
-            self.ui.nameEntry, lambda: self.switch_screen(True))
+        self.commands.form_submit(
+            [self.ui.nameEntry, self.ui.loginButton],
+            lambda: self.switch_screen(update_user=True))
 
 
 class ItemCard(QtWidgets.QFrame):
