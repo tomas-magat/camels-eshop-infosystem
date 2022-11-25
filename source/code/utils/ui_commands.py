@@ -33,7 +33,18 @@ class UI_Commands:
         button.clicked.connect(
             lambda: button.parentWidget().deleteLater())
 
-    def plot_graph(self, graphics_view: QGraphicsView, figure, size=61):
+    def plot_graph(self, graphics_view: QGraphicsView, figure, size=59):
+        """Add matplotlib graph to 'UI canvas' (graphics_view)."""
+
+        figure.set_dpi(size)
+
+        canvas = FigureCanvas(figure)
+
+        scene = QGraphicsScene()
+        graphics_view.setScene(scene)
+        scene.addWidget(canvas)
+    
+    def plot_graph_trzby(self, graphics_view: QGraphicsView, figure, size=68.5):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""
 
         figure.set_dpi(size)

@@ -2,10 +2,8 @@ from utils.file import DataFile
 from utils.ui_commands import UI_Commands
 from utils import tools
 import matplotlib.pyplot as plt
-import numpy as np
-from PyQt5.QtGui import * 
-from PyQt5 import QtWidgets
-from matplotlib import font_manager
+
+
 
 
 class Statistika:
@@ -42,11 +40,14 @@ class Statistika:
         m2 = sorted([420, 5, 69, 20, 25, 90, 63, 78, 54, 75])
         # plt.style.use(['seaborn-v0_8-notebook'])
         font = {'fontname':'Arial'}
+        edgecolor = '#757575'
+        linewidth = 2
+        graph_color = '#FFFFFF'
 
-        najviac, a1 = plt.subplots(figsize=[4.9,3.15],linewidth=5, edgecolor='black')
-        najviac.patch.set_facecolor('#CED6C9')
+        najviac, a1 = plt.subplots(figsize=[4.9,3.15],linewidth=linewidth, edgecolor=edgecolor)
+        najviac.patch.set_facecolor(graph_color)
         # a1.margins(0.2, 0.2)
-        a1.set_facecolor('#CED6C9')
+        a1.set_facecolor(graph_color)
         a1.spines['top'].set_visible(False)
         a1.spines['right'].set_visible(False)
         a1.axes.xaxis.set_ticklabels([])
@@ -56,9 +57,9 @@ class Statistika:
         # a1.spines['left'].set_visible(False)
         # a1.spines['bottom'].set_visible(False)
 
-        najmenej, a2 = plt.subplots(figsize=[4.9,3.15],linewidth=5, edgecolor='black')
-        najmenej.patch.set_facecolor('#CED6C9')
-        a2.set_facecolor('#CED6C9')
+        najmenej, a2 = plt.subplots(figsize=[4.9,3.15],linewidth=linewidth, edgecolor=edgecolor)
+        najmenej.patch.set_facecolor(graph_color)
+        a2.set_facecolor(graph_color)
         a2.spines['top'].set_visible(False)
         a2.spines['right'].set_visible(False)
         a2.axes.xaxis.set_ticklabels([])
@@ -66,9 +67,9 @@ class Statistika:
         a2.set_title('Najmenej predavane produkty',**font,fontsize=15,weight='bold')
         a2.bar(c, m2)
 
-        vyvoj_ceny, a3 = plt.subplots(figsize=[8.15,4.05],linewidth=5, edgecolor='black')
-        vyvoj_ceny.set_facecolor('#CED6C9')
-        a3.set_facecolor('#CED6C9')
+        vyvoj_ceny, a3 = plt.subplots(figsize=[7.18,3.5],linewidth=linewidth, edgecolor=edgecolor)
+        vyvoj_ceny.set_facecolor(graph_color)
+        a3.set_facecolor(graph_color)
         a3.spines['top'].set_visible(False)
         a3.spines['right'].set_visible(False)
         a3.set_title('Vyvoj ceny',**font,fontsize=15,weight='bold')#backgroundcolor= 'silver'
@@ -88,11 +89,11 @@ class Statistika:
         f = '23,58€'
         self.commands.plot_graph(self.ui.najviacGraf, najviac)
         self.commands.plot_graph(self.ui.najmenejGraf, najmenej)
-        self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny)
+        self.commands.plot_graph_trzby(self.ui.trzbyNaklady, vyvoj_ceny)
 
         self.ui.label_6.setText(c)
         self.ui.label_6.setStyleSheet('color:'+b)
-        self.ui.label_8.setText(f)
+        self.ui.label_20.setText(f)
         self.ui.label_10.setText('2 678')
         self.ui.label_10.setStyleSheet('color:#2596be')
         self.ui.label_12.setText('Sobotu (87)')
