@@ -1,5 +1,6 @@
 # UI Commands Simplified
-from PyQt5.QtWidgets import QGraphicsScene, QWidget, QGraphicsView
+from PyQt5.QtWidgets import (
+    QGraphicsScene, QWidget, QGraphicsView, QMessageBox, QLineEdit)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
@@ -33,7 +34,19 @@ class UI_Commands:
         button.clicked.connect(
             lambda: button.parentWidget().deleteLater())
 
-    def plot_graph(self, graphics_view: QGraphicsView, figure, size=59):
+    def form_submit(self, widgets: list, command):
+        """
+        After pressing enter key in any of the line edits
+        or pressing the submit button of the form execute command.
+        """
+
+        for widget in widgets:
+            if type(widget) == QLineEdit:
+                widget.returnPressed.connect(command)
+            else:
+                self.button_click(widget, command)
+
+    def plot_graph(self, graphics_view: QGraphicsView, figure, size=61):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""
 
         figure.set_dpi(size)
@@ -70,3 +83,36 @@ class UI_Commands:
 
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
+
+    @staticmethod
+    def error_message(message: str, additional_text=''):
+        """Display simple error message."""
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText(message)
+        msg.setInformativeText(additional_text)
+        msg.setWindowTitle("Error")
+        msg.exec_()
+
+    @staticmethod
+    def info_message(message: str, additional_text=''):
+        """Display simple error message."""
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setText(message)
+        msg.setInformativeText(additional_text)
+        msg.setWindowTitle("Information")
+        msg.exec_()
+
+    @staticmethod
+    def warning_message(message: str, additional_text=''):
+        """Display simple error message."""
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText(message)
+        msg.setInformativeText(additional_text)
+        msg.setWindowTitle("Warning")
+        msg.exec_()
