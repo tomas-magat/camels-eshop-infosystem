@@ -67,7 +67,7 @@ class Statistika:
         a2.set_title('Najmenej predavane produkty',**font,fontsize=15,weight='bold')
         a2.bar(c, m2)
 
-        vyvoj_ceny, a3 = plt.subplots(figsize=[7.18,3.5],linewidth=linewidth, edgecolor=edgecolor)
+        vyvoj_ceny, a3 = plt.subplots(figsize=[7.18,3.21],linewidth=linewidth, edgecolor=edgecolor)
         vyvoj_ceny.set_facecolor(graph_color)
         a3.set_facecolor(graph_color)
         a3.spines['top'].set_visible(False)

@@ -46,7 +46,7 @@ class UI_Commands:
             else:
                 self.button_click(widget, command)
 
-    def plot_graph(self, graphics_view: QGraphicsView, figure, size=61):
+    def plot_graph(self, graphics_view: QGraphicsView, figure, size=58.5):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""
 
         figure.set_dpi(size)

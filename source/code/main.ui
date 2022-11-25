@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -432,78 +432,6 @@ color: rgb(125, 125, 125);</string>
             </layout>
            </widget>
           </widget>
-          <widget class="QWidget" name="pantsCategory">
-           <attribute name="title">
-            <string>Nohavice</string>
-           </attribute>
-           <widget class="QFrame" name="pants">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>481</width>
-              <height>361</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(248, 248, 248);</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_39">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QScrollArea" name="pantsCatalog">
-               <property name="styleSheet">
-                <string notr="true">QScrollBar:vertical {
-	width: 20px;
-	border-radius: 5px;
-	background-color: rgb(218, 218, 218);
-}</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <property name="widgetResizable">
-                <bool>true</bool>
-               </property>
-               <widget class="QWidget" name="pantsContents">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
-                 </rect>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_40"/>
-               </widget>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
           <widget class="QWidget" name="bootsCategory">
            <attribute name="title">
             <string>Topánky</string>
@@ -642,6 +570,78 @@ color: rgb(125, 125, 125);</string>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_44"/>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="pantsCategory">
+           <attribute name="title">
+            <string>Nohavice</string>
+           </attribute>
+           <widget class="QFrame" name="pants">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>481</width>
+              <height>361</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(248, 248, 248);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_39">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="pantsCatalog">
+               <property name="styleSheet">
+                <string notr="true">QScrollBar:vertical {
+	width: 20px;
+	border-radius: 5px;
+	background-color: rgb(218, 218, 218);
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="pantsContents">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>481</width>
+                  <height>361</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_40"/>
                </widget>
               </widget>
              </item>
@@ -3215,6 +3215,21 @@ padding-left: 20px</string>
         </size>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QCommandLinkButton" name="homeArrow2">
           <property name="maximumSize">
@@ -3633,10 +3648,20 @@ padding-left: 20px</string>
        <property name="geometry">
         <rect>
          <x>303</x>
-         <y>15</y>
+         <y>36</y>
          <width>491</width>
-         <height>260</height>
+         <height>239</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QTabBar::tab::selected {
+    background: #FFFFFF;	
+	border-top:1px solid #757575;
+	border-left:1px solid #757575;
+	border-right:1px solid #757575;
+	padding: 0px  11px; 
+}
+</string>
        </property>
        <property name="tabPosition">
         <enum>QTabWidget::North</enum>
@@ -3658,7 +3683,7 @@ padding-left: 20px</string>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
-         <string>Tab 1</string>
+         <string>Vsetko</string>
         </attribute>
         <widget class="QGraphicsView" name="trzbyNaklady">
          <property name="geometry">
@@ -3666,7 +3691,7 @@ padding-left: 20px</string>
            <x>0</x>
            <y>-1</y>
            <width>492</width>
-           <height>240</height>
+           <height>219</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -3685,48 +3710,125 @@ padding-left: 20px</string>
        </widget>
        <widget class="QWidget" name="tab_2">
         <attribute name="title">
-         <string>Tab 2</string>
+         <string>Tricka</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tab_5">
+        <attribute name="title">
+         <string>Mikiny</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tab_4">
+        <attribute name="title">
+         <string>Topanky</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tab_3">
+        <attribute name="title">
+         <string>Nohavice</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tab_6">
+        <attribute name="title">
+         <string>Doplnky</string>
         </attribute>
        </widget>
       </widget>
       <widget class="QFrame" name="frame_11">
        <property name="geometry">
         <rect>
-         <x>559</x>
-         <y>0</y>
-         <width>241</width>
-         <height>35</height>
+         <x>670</x>
+         <y>5</y>
+         <width>121</width>
+         <height>50</height>
         </rect>
        </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <layout class="QVBoxLayout" name="verticalLayout_26">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Od:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
+         <widget class="QWidget" name="widget_11" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <property name="spacing">
+            <number>10</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Od:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDateEdit" name="dateEdit"/>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
-         <widget class="QDateEdit" name="dateEdit_2"/>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Do:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
+         <widget class="QWidget" name="widget_12" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <property name="spacing">
+            <number>10</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Do:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDateEdit" name="dateEdit_2"/>
+           </item>
+          </layout>
          </widget>
-        </item>
-        <item>
-         <widget class="QDateEdit" name="dateEdit"/>
         </item>
        </layout>
       </widget>
