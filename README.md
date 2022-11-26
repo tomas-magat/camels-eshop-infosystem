@@ -35,7 +35,7 @@ Font:
 
 
 ## Commands and utils sheet
-![](assets/docs/COMMANDS_2.png)
+![](assets/docs/COMMANDS_3.png)
 
 ## Module structure and datafile format
 ![](assets/docs/STRUCTURE_2.png)
