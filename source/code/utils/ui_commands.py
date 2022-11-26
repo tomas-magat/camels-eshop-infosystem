@@ -100,7 +100,7 @@ class UI_Commands:
 
         Message(message, QMessageBox.Warning, 'Warning', additional_text)
 
-    def confirm(self, page, message: str, ok_command=None):
+    def confirm(self, page, message: str, ok_command):
         """Display message to confirm the action."""
 
         answer = QMessageBox.question(
