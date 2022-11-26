@@ -56,7 +56,7 @@ class UI_Commands:
         scene = QGraphicsScene()
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
-    
+
     def plot_graph_trzby(self, graphics_view: QGraphicsView, figure, size=68.5):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""
 
@@ -84,35 +84,41 @@ class UI_Commands:
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
 
-    @staticmethod
-    def error_message(message: str, additional_text=''):
+    def error(self, message: str, additional_text=''):
         """Display simple error message."""
 
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Critical)
-        msg.setText(message)
-        msg.setInformativeText(additional_text)
-        msg.setWindowTitle("Error")
-        msg.exec_()
+        Message(message, QMessageBox.Critical, 'Error', additional_text)
 
-    @staticmethod
-    def info_message(message: str, additional_text=''):
-        """Display simple error message."""
+    def info(self, message: str, additional_text=''):
+        """Display simple info message."""
 
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Information)
-        msg.setText(message)
-        msg.setInformativeText(additional_text)
-        msg.setWindowTitle("Information")
-        msg.exec_()
+        Message(message, QMessageBox.Information,
+                'Information', additional_text)
 
-    @staticmethod
-    def warning_message(message: str, additional_text=''):
-        """Display simple error message."""
+    def warning(self, message: str, additional_text=''):
+        """Display simple warrning message."""
 
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setText(message)
-        msg.setInformativeText(additional_text)
-        msg.setWindowTitle("Warning")
-        msg.exec_()
+        Message(message, QMessageBox.Warning, 'Warning', additional_text)
+
+    def confirm(self, page, message: str, ok_command=None):
+        """Display message to confirm the action."""
+
+        answer = QMessageBox.question(
+            page, 'Confirm', message, QMessageBox.Yes | QMessageBox.No)
+
+        if answer == QMessageBox.Yes:
+            ok_command()
+
+
+class Message(QMessageBox):
+
+    def __init__(self, message: str, icon, window_title: str,
+                 additional_text=''):
+
+        super(Message, self).__init__()
+
+        self.setIcon(icon)
+        self.setText(message)
+        self.setInformativeText(additional_text)
+        self.setWindowTitle(window_title)
+        self.exec_()

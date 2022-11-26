@@ -15,9 +15,9 @@ class MainWindow:
 
     def __init__(self):
         """
-        Setup the window, set the default screen 
-        to index, track home button clicks
-        and initialize modules.
+        Setup the window, set the landing page
+        to index, track home button clicks, 
+        initialize modules and run the app.
         """
 
         self.ui = uic.loadUi(

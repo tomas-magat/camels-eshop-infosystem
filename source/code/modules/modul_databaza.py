@@ -54,7 +54,9 @@ class Databaza:
         ItemDetails(self, self.ui.right_database, name, code)
 
     def delete_item(self):
-        self.ui.listWidget.takeItem(self.ui.listWidget.currentRow())
+        self.commands.confirm(
+            self.ui, "Chcete natrvalo vymazať produkt?",
+            ok_command=lambda: self.ui.listWidget.takeItem(self.ui.listWidget.currentRow()))
 
 
 class ItemDetails(QtWidgets.QFrame):
