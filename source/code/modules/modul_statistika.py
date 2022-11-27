@@ -2,7 +2,8 @@ from utils.file import DataFile
 from utils.ui_commands import UI_Commands
 from utils import tools
 import matplotlib.pyplot as plt
-
+from PyQt5.QtWidgets import QToolTip
+from PyQt5.QtGui import QFont, QPalette
 
 
 
@@ -147,8 +148,14 @@ class Statistika:
         f = '23,58€'
 
         self.ui.label_6.setText(c)
-        self.ui.label_6.setStyleSheet('color:'+percentaFarba)
         self.ui.label_6.setToolTip('This is a tooltip message')
+        # QToolTip.setFont(QFont('SansSerif', 1000))
+        self.ui.label_6.setStyleSheet('''QToolTip { 
+                           background-color: #3B3B3B; 
+                           color: white; 
+                           border: #080808 solid 1px
+                           }''')
+        # self.ui.label_6.setStyleSheet('color:'+percentaFarba)
         self.ui.label_20.setText(f)
         self.ui.label_10.setText('2 678')
         self.ui.label_10.setStyleSheet('color:'+cislaFarba)
