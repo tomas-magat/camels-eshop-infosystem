@@ -2,7 +2,6 @@ from utils.file import DataFile
 from utils.ui_commands import UI_Commands
 from utils import tools
 import matplotlib.pyplot as plt
-import matplotlib.style
 
 
 
@@ -143,18 +142,19 @@ class Statistika:
         self.commands.plot_graph_trzby(self.ui.trzbyNaklady, vyvoj_ceny)
 
         c = '-0,05%'
-        percenta = '#FF0000'
-        cisla = '#2C57D8'
+        percentaFarba = '#FF0000'
+        cislaFarba = '#2C57D8'
         f = '23,58€'
 
         self.ui.label_6.setText(c)
-        self.ui.label_6.setStyleSheet('color:'+percenta)
+        self.ui.label_6.setStyleSheet('color:'+percentaFarba)
+        self.ui.label_6.setToolTip('This is a tooltip message')
         self.ui.label_20.setText(f)
         self.ui.label_10.setText('2 678')
-        self.ui.label_10.setStyleSheet('color:'+cisla)
+        self.ui.label_10.setStyleSheet('color:'+cislaFarba)
         self.ui.label_12.setText('Sobotu (87)')
-        self.ui.label_12.setStyleSheet('color:'+cisla)
+        self.ui.label_12.setStyleSheet('color:'+cislaFarba)
         self.ui.label_16.setText('Topanok (865 parov)')
-        self.ui.label_16.setStyleSheet('color:'+cisla)
+        self.ui.label_16.setStyleSheet('color:'+cislaFarba)
         self.ui.label_14.setText('2003-09-10 10-34-59;kosela;5ks;5.99/ks')
-        self.ui.label_14.setStyleSheet('color:'+cisla)
+        self.ui.label_14.setStyleSheet('color:'+cislaFarba)
