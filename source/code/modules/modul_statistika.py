@@ -55,8 +55,8 @@ class Statistika:
         a1.set_title('Najpredavanejsie produkty',**font,fontsize=15,weight='bold')
         bars1 = a1.bar(c, m1)
         
-        annot1 = a1.annotate("",xy=(0,0),xytext=(0,10),textcoords='offset points',ha='center',
-                    bbox=dict(boxstyle="round", fc='white', alpha=0.9, ec="#E47E0A", lw=2))
+        annot1 = a1.annotate("",xy=(0,0),xytext=(0,10),textcoords='offset points',ha='center', color='white', size=15,
+                    bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot1.set_visible(False)
         
         def update_annot1(event):
@@ -94,8 +94,8 @@ class Statistika:
         a2.set_title('Najmenej predavane produkty',**font,fontsize=15,weight='bold')
         bars2 = a2.bar(c, m2)
 
-        annot2 = a2.annotate("",xy=(0,0),xytext=(0,10),textcoords='offset points',ha='center',
-                    bbox=dict(boxstyle="round", fc='white', alpha=0.9, ec="#E47E0A", lw=2))
+        annot2 = a2.annotate("",xy=(0,0),xytext=(0,10),textcoords='offset points',ha='center', color='white', size=15,
+                    bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot2.set_visible(False)
     
         def update_annot2(event):
@@ -128,9 +128,6 @@ class Statistika:
         a3.spines['top'].set_visible(False)
         a3.spines['right'].set_visible(False)
         a3.set_title('Vyvoj ceny',**font,fontsize=15,weight='bold')#backgroundcolor= 'silver'
-        # a3.set_xlabel('x-label')  # , fontsize=fontsize)
-        # a3.set_ylabel('y-label')  # , fontsize=fontsize)
-        # a3.set_title('Title')  # , fontsize=fontsize)
         a3.plot(x, y, label='naklady')
         a3.plot(x, y1,label='vynosy')
         a3.legend(frameon=False,fontsize=15)
@@ -150,11 +147,14 @@ class Statistika:
         self.ui.label_6.setText(c)
         self.ui.label_6.setToolTip('This is a tooltip message')
         # QToolTip.setFont(QFont('SansSerif', 1000))
-        self.ui.label_6.setStyleSheet('''QToolTip { 
-                           background-color: #3B3B3B; 
-                           color: white; 
-                           border: #080808 solid 1px
-                           }''')
+        self.ui.label_6.setStyleSheet('''QToolTip {
+                                        font-size:9pt;
+                                        color:white; padding:2px;
+                                        border-width:2px;
+                                        border-style:solid;
+                                        border-radius:20px;
+                                        background-color: #2F3E46;
+                                        border: 1px solid #101416;}''')
         # self.ui.label_6.setStyleSheet('color:'+percentaFarba)
         self.ui.label_20.setText(f)
         self.ui.label_10.setText('2 678')
