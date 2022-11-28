@@ -40,7 +40,7 @@ def callback(function, delay):
 def str_price(price: float, amount=1):
     """Return string of total price for given amount with EUR sign."""
 
-    return ("%.2f" % abs(price*amount))+" €"
+    return ("%.2f" % (price*amount))+" €"
 
 
 def find_image(image_name: str):

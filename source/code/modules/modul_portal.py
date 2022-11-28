@@ -72,6 +72,7 @@ class Portal:
     def update_price(self, value):
         """Update total price of a cart."""
 
+        print(self.total_price, value)
         self.total_price += value
         self.ui.totalPrice.setText(
             "Spolu: "+str_price(self.total_price, 1))
@@ -154,24 +155,24 @@ class ItemCard(QtWidgets.QFrame):
 
         self.amount = self.spinBox.value()
 
-        if self.amount >= 0:
+        if self.amount > 0:
             if self.bought:
                 self.update_cart()
             else:
                 self.add_to_cart()
+        elif self.amount == 0:
+            self.update_cart()
+            self.update_button()
+            self.cart_item.delete_item()
 
     def update_cart(self):
         """Updates items in cart."""
 
-        if self.amount == 0:
-            self.update_button()
-            self.cart_item.delete_item()
-        else:
-            new_price = self.amount*self.price - \
-                float(self.cart_item.sumPrice.text().rstrip(' €'))
-            self.page.update_price(new_price)
+        new_price = self.amount*self.price - \
+            float(self.cart_item.sumPrice.text().rstrip(' €'))
+        self.page.update_price(new_price)
 
-            self.update_cart_item()
+        self.update_cart_item()
 
     def update_cart_item(self):
         """Update the UI of cart item"""
@@ -281,7 +282,6 @@ class CartItem(QtWidgets.QFrame):
         """Delete this item from cart."""
 
         self.deleteLater()
-        self.page.update_price(-self.price*self.amount)
 
     def draw_ui(self):
         self.setMaximumSize(QtCore.QSize(16777215, 40))
