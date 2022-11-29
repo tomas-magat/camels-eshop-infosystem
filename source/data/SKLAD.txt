@@ -1,4 +1,4 @@
 3
-2121;hocico;hocico.jpg
-2121;hocico;hocico.jpg
-2121;hocico;hocico.jpg
+2001;10
+1000;5
+2000;2

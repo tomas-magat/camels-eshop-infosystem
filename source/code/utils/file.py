@@ -1,7 +1,7 @@
 # Simplify working with data files
 import os
 
-from .ENV_VARS import *
+from .ENV_VARS import PATH
 
 
 class DataFile:
@@ -16,28 +16,29 @@ class DataFile:
         self.filename = filename
         self.filepath = self.get_filepath()
 
+        self.read()
+        self.get_version()
+
     def read(self):
         """
         Simplify reading data from a specified 
-        filename and return it in a 2D list format.
+        filename and return it in a dictionary format.
         """
 
         with open(self.filepath, 'r', encoding='utf-8') as file:
             lines = file.readlines()
-            data = self.scsv_to_list(lines[1:])
+            self.data = self.scsv_to_dict(lines[1:])
 
-        return data
-
-    def save_data(self, data):
+    def save_data(self):
         """
-        Convert data entry to semi-colon separated 
-        values and save it to [filename].txt.
+        Convert data to semi-colon separated 
+        values and save it to the [filename].txt.
         Update version number of the saved [filename].
         """
 
         self.update_version()
 
-        scsv_data = self.list_to_scsv(data)
+        scsv_data = self.dict_to_scsv(self.data)
 
         with open(self.filepath, 'w', encoding='utf-8') as file:
             file.writelines(scsv_data)
@@ -45,8 +46,8 @@ class DataFile:
     def lock(self):
         """Simplify locking files that are currently in use."""
 
-        lockpath = self.filepath.split('.')[0]+'_LOCK.txt'
-        open(lockpath, 'w', encoding='utf-8').close()
+        lock_path = self.filepath.split('.')[0]+'_LOCK.txt'
+        open(lock_path, 'w', encoding='utf-8').close()
 
     def unlock(self):
         """
@@ -54,16 +55,16 @@ class DataFile:
         in use (delete lock file if it exists).
         """
 
-        lockpath = self.filepath.split('.')[0]+'_LOCK.txt'
+        lock_path = self.filepath.split('.')[0]+'_LOCK.txt'
 
-        if os.path.exists(lockpath):
-            os.remove(lockpath)
+        if os.path.exists(lock_path):
+            os.remove(lock_path)
 
     def is_locked(self):
         """Returns True if lock file exists else False."""
 
-        lockpath = self.filepath.split('.')[0]+'_LOCK.txt'
-        return os.path.exists(lockpath)
+        lock_path = self.filepath.split('.')[0]+'_LOCK.txt'
+        return os.path.exists(lock_path)
 
     def update_version(self):
         """
@@ -71,24 +72,24 @@ class DataFile:
         a filename_VERZIA.txt file.
         """
 
-        versionpath = self.filepath.split('.')[0]+'_VERZIA.txt'
+        version_path = self.filepath.split('.')[0]+'_VERZIA.txt'
 
-        with open(versionpath, 'r+', encoding='utf-8') as file:
-            line = file.read().rstrip('\n')
-            version = int(line)+1 if line.isdigit() else 1
-
-            file.seek(0)
-            file.truncate()
-            file.write(str(version))
+        with open(version_path, 'w', encoding='utf-8') as file:
+            self.version += 1
+            file.write(str(self.version))
 
     def get_version(self):
         """Return version integer from [filename]_VERZIA.txt."""
 
-        versionpath = self.filepath.split('.')[0]+'_VERZIA.txt'
+        version_path = self.filepath.split('.')[0]+'_VERZIA.txt'
 
-        with open(versionpath, 'r', encoding='utf-8') as file:
-            version = int(file.read().rstrip('\n'))
-            return version
+        with open(version_path, 'r', encoding='utf-8') as file:
+            line = file.read().rstrip('\n')
+            if line == '' or not line.isdigit():
+                self.version = 0
+                self.update_version()
+            else:
+                self.version = int(line)
 
     def get_filepath(self, ending='.txt'):
         """
@@ -107,36 +108,39 @@ class DataFile:
         return filepath
 
     @staticmethod
-    def list_to_scsv(data):
+    def dict_to_scsv(data: dict):
         """
-        Converts data in 2D list format:
-        [[val,val2],...] 
+        Converts data in dictionary format:
+        {'code': [name, image], ...}
 
         to semi-colon separated values in a list:
-        ['length', 'val;val', ...]
+        ['length', 'code;name;image', ...]
         """
 
         length = len(data)
         scsv_data = [str(length)+'\n']
 
-        for item in data:
-            datapoint = ';'.join(item) + '\n'
+        for key, values in data.items():
+            datapoint = ';'.join([key]+[str(val)
+                                 for val in values]) + '\n'
             scsv_data.append(datapoint)
 
         return scsv_data
 
     @staticmethod
-    def scsv_to_list(data):
+    def scsv_to_dict(data: list):
         """
         Converts data in semi-colon separated format:
-        ['length', 'val;val', ...]
+        ['code;name;image', ...]
 
-        to 2D list:
-        [[val,val2],...]
+        to dictionary:
+        {'code': [name, image], ...}
         """
 
-        for i, line in enumerate(data):
-            datapoint = line.rstrip('\n').split(';')
-            data[i] = datapoint
+        result_dict = {}
 
-        return data
+        for line in data:
+            datapoint = line.rstrip('\n').split(';')
+            result_dict[datapoint[0]] = datapoint[1:]
+
+        return result_dict
