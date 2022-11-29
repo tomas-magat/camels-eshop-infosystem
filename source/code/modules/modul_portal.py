@@ -7,7 +7,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
-from utils.tools import str_price, find_image
+from utils.tools import str_price, find_image, find_icon, search_items
 
 
 class Portal:
@@ -22,6 +22,7 @@ class Portal:
         self.commands = UI_Commands(self.ui)
         self.total_price = 0
         self.cashier_name = ""
+        self.sort_state = 1
 
         self.create_item_cards(6)
         self.button_clicks()
@@ -68,6 +69,8 @@ class Portal:
         """
 
         self.query = self.ui.searchField.text()
+        self.result = search_items(self.query)
+        print(self.result)
 
     def update_price(self, value):
         """Update total price of a cart."""
@@ -105,6 +108,31 @@ class Portal:
             ItemCard(self, self.ui.verticalLayout_46, "test" +
                      str(i), "Doplnok "+str(i), "500"+str(i+1), 15.99, find_image("hodinky.png"))
 
+    def sort_button_state(self):
+        """Update sort button state and change its icon."""
+
+        icon = QtGui.QIcon()
+
+        if self.sort_state == 1:
+            icon.addPixmap(QtGui.QPixmap(
+                find_icon("up_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.ui.sortButton.setText("Highest price")
+            self.sort_state = 2
+
+        elif self.sort_state == 2:
+            icon.addPixmap(QtGui.QPixmap(
+                find_icon("down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.ui.sortButton.setText("Lowest price")
+            self.sort_state = 3
+
+        else:
+            icon.addPixmap(QtGui.QPixmap(
+                find_icon("up_down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.ui.sortButton.setText("Sort by price")
+            self.sort_state = 1
+
+        self.ui.sortButton.setIcon(icon)
+
     def button_clicks(self):
         """All button click commands of portal screen here."""
 
@@ -112,8 +140,12 @@ class Portal:
             [self.ui.portalButton, self.ui.homeArrow6],
             self.switch_screen)
 
+        self.commands.form_submit(
+            [self.ui.searchButton, self.ui.searchField],
+            self.search_items)
+
         self.commands.button_click(
-            self.ui.searchButton, self.search_items)
+            self.ui.sortButton, self.sort_button_state)
 
     def login_actions(self):
         """All login actions and commands here."""

@@ -50,6 +50,12 @@ def find_image(image_name: str):
     return os.path.join(PATH, "assets", "images", image_name)
 
 
+def find_icon(icon_name: str):
+    """Return absolute path from root/assets/icons/image_name."""
+
+    return os.path.join(PATH, "assets", "icons", icon_name)
+
+
 def validate_int(field_input: str):
     """Return value if it is integer else display error message."""
 
@@ -70,17 +76,16 @@ def validate_price(field_input: str):
     else:
         return "%.2f" % price
 
-    
-def search_tovar(query: str):
+
+def search_items(query: str):
     """Search items in TOVAR.txt matching with query."""
-    
+
     tovar = DataFile('tovar')
     data = tovar.read()
     result = []
 
     for item in data:
-        if query in (item[0] if query.isdigit() else item[1]):
+        if query in (item[0] if query.isdigit() else item[1].lower()):
             result.append(item)
-                
+
     return result
-            
