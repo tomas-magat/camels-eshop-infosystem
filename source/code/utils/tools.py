@@ -6,6 +6,7 @@ import os
 
 from .ENV_VARS import PATH
 from .ui_commands import UI_Commands
+from .file import DataFile
 
 
 def random_id(type='N'):
@@ -68,3 +69,18 @@ def validate_price(field_input: str):
             "Entered value must be valid price!", additional_text="Please enter integer or float")
     else:
         return "%.2f" % price
+
+    
+def search_tovar(query: str):
+    """Search items in TOVAR.txt matching with query."""
+    
+    tovar = DataFile('tovar')
+    data = tovar.read()
+    result = []
+
+    for item in data:
+        if query in (item[0] if query.isdigit() else item[1]):
+            result.append(item)
+                
+    return result
+            
