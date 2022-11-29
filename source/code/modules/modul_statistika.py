@@ -154,8 +154,8 @@ class Statistika:
                                         border-style:solid;
                                         border-radius:20px;
                                         background-color: #2F3E46;
-                                        border: 1px solid #101416;}''')
-        # self.ui.label_6.setStyleSheet('color:'+percentaFarba)
+                                        border: 1px solid #101416;}
+                                        #label_6 {color: %}''' % percentaFarba)
         self.ui.label_20.setText(f)
         self.ui.label_10.setText('2 678')
         self.ui.label_10.setStyleSheet('color:'+cislaFarba)
