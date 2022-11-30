@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -244,7 +244,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="allCategory">
            <attribute name="title">
@@ -1810,8 +1810,8 @@ color: rgb(125, 125, 125);</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>544</width>
-               <height>78</height>
+               <width>719</width>
+               <height>358</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -2080,7 +2080,7 @@ color: rgb(125, 125, 125);</string>
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item alignment="Qt::AlignTop">
+       <item>
         <widget class="QFrame" name="topBar_2">
          <property name="minimumSize">
           <size>
@@ -2141,17 +2141,17 @@ color: rgb(125, 125, 125);</string>
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">border:None</string>
+              <string notr="true">QGroupBox#searchBar_2 {border:0;}</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
              </property>
-             <widget class="QLineEdit" name="searchField_2">
+             <widget class="QLineEdit" name="searchField_3">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>7</y>
-                <width>281</width>
+                <width>391</width>
                 <height>26</height>
                </rect>
               </property>
@@ -2172,6 +2172,9 @@ QLineEdit:hover {
     border-color: beige;
 }</string>
               </property>
+              <property name="inputMethodHints">
+               <set>Qt::ImhNone</set>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -2185,12 +2188,12 @@ QLineEdit:hover {
                <string>Vyhladat kod produktu</string>
               </property>
              </widget>
-             <widget class="QPushButton" name="searchButton_2">
+             <widget class="QPushButton" name="searchButton_4">
               <property name="geometry">
                <rect>
-                <x>280</x>
+                <x>390</x>
                 <y>0</y>
-                <width>31</width>
+                <width>41</width>
                 <height>40</height>
                </rect>
               </property>
@@ -2233,16 +2236,16 @@ color: rgb(125, 125, 125);</string>
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>0</y>
+            <y>10</y>
             <width>481</width>
-            <height>381</height>
+            <height>371</height>
            </rect>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="chybaCategory">
            <attribute name="title">
@@ -2302,8 +2305,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -2378,8 +2381,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_37"/>
@@ -2450,8 +2453,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_20"/>
@@ -2522,8 +2525,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_28"/>
@@ -2591,8 +2594,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_31"/>
@@ -2660,8 +2663,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_35"/>
@@ -2671,6 +2674,81 @@ color: rgb(125, 125, 125);</string>
             </layout>
            </widget>
           </widget>
+         </widget>
+         <widget class="QFrame" name="sortSection_2">
+          <property name="geometry">
+           <rect>
+            <x>400</x>
+            <y>0</y>
+            <width>91</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_48">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="sortButton_2">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#sortButton_2 {
+	border: 1px solid #2f3e46; 
+	background-color: #2f3e46;
+	color: #cad2c5;
+}
+#sortButton_2:hover {
+	border-color: #354f52; 
+	background-color: #354f52;
+}
+#sortButton_2:pressed {
+	border-color: #354f52; 
+	background-color: #354f52;
+}</string>
+             </property>
+             <property name="text">
+              <string>Sort by price</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../../assets/icons/up_down_arrow.png</normaloff>../../assets/icons/up_down_arrow.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>12</width>
+               <height>12</height>
+              </size>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>
@@ -2878,8 +2956,8 @@ padding-left: 20px</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>289</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
