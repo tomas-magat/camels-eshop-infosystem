@@ -47,7 +47,7 @@ class Sklad:
 
         self.total_price += value
         self.ui.totalPrice_2.setText(
-            "Spolu: "+ str_price(self.total_price, 1))
+            "Spolu: " + str_price(self.total_price, 1))
 
     def create_item_cards(self, n):
         """Creates n new item cards in the sklad screen catalog."""
@@ -95,7 +95,7 @@ class ItemCard(QtWidgets.QFrame):
         self.display_name = display_name
         self.code = code
         self.count = count
-        self.image=image
+        self.image = image
 
         self.draw_ui()
 

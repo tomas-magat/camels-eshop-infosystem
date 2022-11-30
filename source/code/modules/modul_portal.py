@@ -7,7 +7,8 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
-from utils.tools import str_price, find_image
+from utils.tools import *
+from utils.file import DataFile
 
 
 class Portal:
@@ -20,20 +21,43 @@ class Portal:
 
         self.ui = ui
         self.commands = UI_Commands(self.ui)
+
+        # Init global variables
         self.total_price = 0
         self.cashier_name = ""
+        self.sort_state = 1
+        self.catalog = []
 
-        self.create_item_cards(6)
+        # Track UI actions
         self.button_clicks()
         self.login_actions()
 
-        # Read file 'tovar.txt' - not in prototype
-        # self.tovar = DataFile('tovar')
-        # self.goods = self.tovar.read()
-        # self.version = self.tovar.get_version()
+        # Load data
+        self.goods = DataFile('tovar')
+        self.prices = DataFile('cennik')
+        self.storage = DataFile('sklad')
+        self.load_items()
 
         # Update 'goods' variable every 3 seconds
-        # tools.run_periodically(self.update_goods, 3)
+        self.version = self.goods.version
+        run_periodically(self.update_goods, 3)
+
+    def load_items(self):
+        """Load all items from database into catalog."""
+
+        for key, vals in self.goods.data.items():
+            self.load_item(key, vals)
+
+    def load_item(self, key, vals):
+        price = self.prices.data.get(key)
+        name = camelify(vals[0])
+
+        if price != None and name not in self.catalog:
+            image = find_image(vals[1])
+            ItemCard(self, self.ui.allLayout, name,
+                     vals[0], key, float(price[1]), image)
+
+            self.catalog.append(name)
 
     def update_goods(self):
         """
@@ -41,11 +65,12 @@ class Portal:
         datafile has changed.
         """
 
-        current_version = self.tovar.get_version()
+        current_version = self.goods.version
 
         if current_version != self.version:
-            self.goods = self.tovar.read()
+            self.goods.read()
             self.version = current_version
+            self.load_items()
 
     def switch_screen(self, update_user: bool = False):
         """Redirect to this portal screen and can set user"""
@@ -68,41 +93,40 @@ class Portal:
         """
 
         self.query = self.ui.searchField.text()
+        self.result = search_items(self.query)
+        print(self.result)
 
     def update_price(self, value):
         """Update total price of a cart."""
 
         self.total_price += value
         self.ui.totalPrice.setText(
-            "Spolu: "+str_price(self.total_price, 1))
+            "Spolu: "+str_price(self.total_price, 1)+" €")
 
-    def create_item_cards(self, n):
-        """Creates n new item cards in the portal screen catalog."""
+    def sort_button_state(self):
+        """Update sort button state and change its icon."""
 
-        # VSETKO
-        for i in range(n):
-            ItemCard(self, self.ui.allLayout, "test" +
-                     str(i), "Vsetko "+str(i), "900"+str(i+1), 5.99, find_image("question_mark.png"))
-        # TRICKA
-        for i in range(n):
-            ItemCard(self, self.ui.verticalLayout_3, "test" +
-                     str(i), "Tricko "+str(i), "100"+str(i+1), 15.99, find_image("tricko.jpg"))
-        # NOHAVICE
-        for i in range(n):
-            ItemCard(self, self.ui.verticalLayout_40, "test" +
-                     str(i), "Nohavice "+str(i), "200"+str(i+1), 15.99, find_image("nohavice.png"))
-        # TOPANKY
-        for i in range(n):
-            ItemCard(self, self.ui.verticalLayout_42, "test" +
-                     str(i), "Topanky "+str(i), "300"+str(i+1), 15.99, find_image("tenisky.webp"))
-        # MIKINY
-        for i in range(n):
-            ItemCard(self, self.ui.verticalLayout_44, "test" +
-                     str(i), "Mikina "+str(i), "400"+str(i+1), 15.99, find_image("hoodie.png"))
-        # DOPLNKY
-        for i in range(n):
-            ItemCard(self, self.ui.verticalLayout_46, "test" +
-                     str(i), "Doplnok "+str(i), "500"+str(i+1), 15.99, find_image("hodinky.png"))
+        icon = QtGui.QIcon()
+
+        if self.sort_state == 1:
+            icon.addPixmap(QtGui.QPixmap(
+                find_icon("up_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.ui.sortButton.setText("Highest price")
+            self.sort_state = 2
+
+        elif self.sort_state == 2:
+            icon.addPixmap(QtGui.QPixmap(
+                find_icon("down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.ui.sortButton.setText("Lowest price")
+            self.sort_state = 3
+
+        else:
+            icon.addPixmap(QtGui.QPixmap(
+                find_icon("up_down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.ui.sortButton.setText("Sort by price")
+            self.sort_state = 1
+
+        self.ui.sortButton.setIcon(icon)
 
     def button_clicks(self):
         """All button click commands of portal screen here."""
@@ -111,8 +135,12 @@ class Portal:
             [self.ui.portalButton, self.ui.homeArrow6],
             self.switch_screen)
 
+        self.commands.form_submit(
+            [self.ui.searchButton, self.ui.searchField],
+            self.search_items)
+
         self.commands.button_click(
-            self.ui.searchButton, self.search_items)
+            self.ui.sortButton, self.sort_button_state)
 
     def login_actions(self):
         """All login actions and commands here."""
@@ -154,31 +182,32 @@ class ItemCard(QtWidgets.QFrame):
 
         self.amount = self.spinBox.value()
 
-        if self.amount >= 0:
+        if self.amount > 0:
             if self.bought:
                 self.update_cart()
             else:
                 self.add_to_cart()
+        elif self.amount == 0 and self.bought:
+            self.update_cart()
+            self.update_button()
+            self.cart_item.delete_item()
 
     def update_cart(self):
         """Updates items in cart."""
 
-        if self.amount == 0:
-            self.update_button()
-            self.cart_item.delete_item()
-        else:
-            new_price = self.amount*self.price - \
-                float(self.cart_item.sumPrice.text().rstrip(' €'))
-            self.page.update_price(new_price)
+        new_price = self.amount*self.price - \
+            float(self.cart_item.sumPrice.text().rstrip(' €'))
+        self.page.update_price(new_price)
 
-            self.update_cart_item()
+        self.update_cart_item()
 
     def update_cart_item(self):
         """Update the UI of cart item"""
 
         self.cart_item.priceLabel.setText(
             str(self.amount)+" ks x "+str(self.price))
-        self.cart_item.sumPrice.setText(str_price(self.price, self.amount))
+        self.cart_item.sumPrice.setText(
+            str_price(self.price, self.amount)+" €")
 
     def add_to_cart(self):
         """Adds new item to the cart."""
@@ -281,7 +310,6 @@ class CartItem(QtWidgets.QFrame):
         """Delete this item from cart."""
 
         self.deleteLater()
-        self.page.update_price(-self.price*self.amount)
 
     def draw_ui(self):
         self.setMaximumSize(QtCore.QSize(16777215, 40))
@@ -323,7 +351,7 @@ class CartItem(QtWidgets.QFrame):
         self.priceLabel.setObjectName(self.name+"PriceLabel")
         self.priceLayout.addWidget(self.priceLabel)
         self.sumPrice = QtWidgets.QLabel(
-            str_price(self.price, self.amount))
+            str_price(self.price, self.amount)+" €")
         self.sumPrice.setStyleSheet("color: rgb(223, 223, 223);")
         self.sumPrice.setAlignment(
             QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)

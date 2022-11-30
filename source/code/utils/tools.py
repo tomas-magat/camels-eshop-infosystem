@@ -3,9 +3,10 @@ import random
 import threading
 import time
 import os
+import difflib
 
 from .ENV_VARS import PATH
-from .ui_commands import UI_Commands
+from .file import DataFile
 
 
 def random_id(type='N'):
@@ -38,33 +39,86 @@ def callback(function, delay):
 
 
 def str_price(price: float, amount=1):
-    """Return string of total price for given amount with EUR sign."""
+    """Return total price string - with 2 decimal places."""
 
-    return ("%.2f" % abs(price*amount))+" €"
+    return "%.2f" % (price*amount)
 
 
 def find_image(image_name: str):
-    """Return absolute path from root/assets/images/image_name."""
+    """Return absolute path of root/assets/images/[image_name]."""
 
     return os.path.join(PATH, "assets", "images", image_name)
 
 
-def validate_int(field_input: str):
-    """Return value if it is integer else display error message."""
+def find_icon(icon_name: str):
+    """Return absolute path of root/assets/icons/[icon_name]."""
 
-    if field_input.isdigit():
-        return field_input
-    else:
-        UI_Commands.error_message("Entered value must be an integer!")
+    return os.path.join(PATH, "assets", "icons", icon_name)
 
 
-def validate_price(field_input: str):
-    """Return if input is valid price else display error message."""
+def validate_int(input_field, invalid_cmd=None):
+    """
+    Return input text if it is integer 
+    else run invalid_cmd() function.
+    """
+
+    if input_field.text().isdigit():
+        return input_field.text()
+    elif invalid_cmd != None:
+        invalid_cmd()
+
+
+def validate_price(input_field, invalid_cmd=None):
+    """
+    Return input text if it is valid price 
+    format else run invalid_cmd() function.
+    """
 
     try:
-        price = float(field_input)
+        price = float(input_field.text())
     except:
-        UI_Commands.error_message(
-            "Entered value must be valid price!", additional_text="Please enter integer or float")
+        if invalid_cmd != None:
+            invalid_cmd()
     else:
         return "%.2f" % price
+
+
+def search_items(query='', data={}):
+    """
+    Search for items in TOVAR.txt matching with search
+    term (query) and return it joined with data in dict format.
+    """
+
+    goods = DataFile('tovar').data
+    result = {}
+
+    for key, val in goods.items():
+        for q in query.split():
+            code, ratio = get_match(q, key, val)
+
+            if ratio > 0.2+code:
+                result[key] = val
+                data_list = data.get(key)
+
+                if data_list != None:
+                    result[key] += data_list
+
+    return result
+
+
+def get_match(query, key, val):
+    code = len(query)/6 if query.isdigit() else 0.2
+    ratio = difflib.SequenceMatcher(
+        None, query, key if query.isdigit() else val[0]).ratio()
+
+    return code, ratio
+
+
+def camelify(input_string: str):
+    """
+    Make the input string camelCased so that 
+    it is valid PyQt5 object name.
+    """
+
+    camel = input_string.title().replace(" ", "")
+    return ''.join([camel[0].lower(), camel[1:]])

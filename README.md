@@ -38,7 +38,7 @@ Font:
 ![](assets/docs/COMMANDS_4.png)
 
 ## Module structure and datafile format
-![](assets/docs/STRUCTURE_2.png)
+![](assets/docs/STRUCTURE_3.png)
 
 ## Other commands
 
