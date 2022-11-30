@@ -33,14 +33,13 @@ class Statistika:
         x = [i for i in range(10)]
         y = [i/2 for i in range(10)]
         y1 = [i**2 for i in range(10)]
-        c = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-        m1 = sorted([15, 9, 80, 69, 25, 90, 63, 78, 54, 75], reverse=True)
-        m2 = sorted([70, 5, 69, 20, 25, 90, 63, 78, 54, 75])
+        bar_X = []
+        top_ten = sorted([15, 9, 80, 69, 25, 90, 63, 78, 54, 75], reverse=True)
+        top_ten_worst = sorted([70, 5, 69, 20, 25, 90, 63, 78, 54, 75])
         font = {'fontname': 'Arial'}
         edgecolor = '#757575'
         linewidth = 2
         graph_color = '#FFFFFF'
-        text = '150ks\nza 5dni\nnohavice'
 
         najviac, a1 = plt.subplots(
             figsize=[4.9, 3.15], linewidth=linewidth, edgecolor=edgecolor)
@@ -53,28 +52,36 @@ class Statistika:
         a1.tick_params(axis='x', which='both', length=0)
         a1.set_title('Najpredavanejsie produkty', **
                      font, fontsize=15, weight='bold')
-        bars1 = a1.bar(c, m1)
+        bars1 = a1.bar(bar_X, top_ten)
+        # print(bar_X)
+        # for bar in bars1:
+        #     bar_X = [].append(bar.get_x())
+        # print(bar_X)
 
         annot1 = a1.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot1.set_visible(False)
-
-        def update_annot1(event):
-            b = abs((plt.xlim()[0]*-1)+plt.xlim()[1])
-            d = abs((plt.ylim()[0]*-1)+plt.ylim()[1])
-            x = b/0.775*event.x/260-2.5
-            y = d/0.77*event.y/175.275-10
+        def update_annot1(event,bar_x_pos):
+            xaxis_length = abs((plt.xlim()[0]*-1)+plt.xlim()[1])
+            yaxis_length = abs((plt.ylim()[0]*-1)+plt.ylim()[1])
+            x = xaxis_length/0.775*event.x/260-2.5
+            y = yaxis_length/0.77*event.y/175.275-10
             annot1.xy = (x, y)
+            # for i in bar_X:
+            #     if i == bar_x_pos:
+            #         text = i
+            #     else:
+            text = '150ks\nza 5dni\nnohavice'
             annot1.set_text(text)
-
         def hover1(event):
             vis = annot1.get_visible()
             if event.inaxes == a1:
                 for bar in bars1:
-                    print(bar,bars1)
+                    bar_x_pos = bar.get_x()
                     cont, i = bar.contains(event)
+                    print(cont)
                     if cont:
-                        update_annot1(event,i)
+                        update_annot1(event,bar_x_pos)
                         annot1.set_visible(True)
                         najviac.canvas.draw_idle()
                         return
@@ -96,19 +103,24 @@ class Statistika:
         a2.tick_params(axis='x', which='both', length=0)
         a2.set_title('Najmenej predavane produkty', **
                      font, fontsize=15, weight='bold')
-        bars2 = a2.bar(c, m2)
+        bars2 = a2.bar(bar_X, top_ten_worst)
 
         annot2 = a2.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot2.set_visible(False)
 
         def update_annot2(event):
-            b = abs((plt.xlim()[0]*-1)+plt.xlim()[1])
-            d = abs((plt.ylim()[0]*-1)+plt.ylim()[1])
-            x = b/0.775*event.x/260-2.5
-            y = d/0.77*event.y/175.275-10
+            xaxis_length = abs((plt.xlim()[0]*-1)+plt.xlim()[1])
+            yaxis_length = abs((plt.ylim()[0]*-1)+plt.ylim()[1])
+            x = xaxis_length/0.775*event.x/260-2.5
+            y = yaxis_length/0.77*event.y/175.275-10
             annot2.xy = (x, y)
-            annot2.set_text(text)
+            for i in bar_X:
+                if i >= event.x/260*xaxis_length and i <= i+0.8:
+                    text = i
+                else:
+                    text = '150ks\nza 5dni\nnohavice'
+                annot2.set_text(text)
 
         def hover2(event):
             vis = annot2.get_visible()
@@ -143,12 +155,12 @@ class Statistika:
         self.commands.plot_graph(self.ui.najmenejGraf, najmenej)
         self.commands.plot_graph_trzby(self.ui.trzbyNaklady, vyvoj_ceny)
 
-        c = '-0,05%'
-        percentaFarba = '#FF0000'
-        cislaFarba = '#2C57D8'
-        f = '23,58€'
+        profLoss = '-0,05%'
+        profLossColor = '#FF0000'
+        funFactsColor = '#2C57D8'
+        avPrice = '23,58€'
 
-        self.ui.label_6.setText(c)
+        self.ui.label_6.setText(profLoss)
         self.ui.label_6.setToolTip('This is a tooltip message')
         # self.ui.label_6.setStyleSheet('color:'+percentaFarba)
         self.ui.label_6.setStyleSheet('''QToolTip {
@@ -159,13 +171,13 @@ class Statistika:
                                         border-radius:20px;
                                         background-color: #2F3E46;
                                         border: 1px solid #101416;}
-                                        #label_6 {color: %s}''' % percentaFarba)
-        self.ui.label_20.setText(f)
+                                        #label_6 {color: %s}''' % profLossColor)
+        self.ui.label_20.setText(avPrice)
         self.ui.label_10.setText('2 678')
-        self.ui.label_10.setStyleSheet('color:'+cislaFarba)
+        self.ui.label_10.setStyleSheet('color:'+funFactsColor)
         self.ui.label_12.setText('Sobotu (87)')
-        self.ui.label_12.setStyleSheet('color:'+cislaFarba)
+        self.ui.label_12.setStyleSheet('color:'+funFactsColor)
         self.ui.label_16.setText('Topanok (865 parov)')
-        self.ui.label_16.setStyleSheet('color:'+cislaFarba)
+        self.ui.label_16.setStyleSheet('color:'+funFactsColor)
         self.ui.label_14.setText('2003-09-10 10-34-59;kosela;5ks;5.99/ks')
-        self.ui.label_14.setStyleSheet('color:'+cislaFarba)
+        self.ui.label_14.setStyleSheet('color:'+funFactsColor)
