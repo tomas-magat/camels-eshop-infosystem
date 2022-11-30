@@ -33,7 +33,6 @@ class Statistika:
         x = [i for i in range(10)]
         y = [i/2 for i in range(10)]
         y1 = [i**2 for i in range(10)]
-        bar_X = []
         top_ten = sorted([15, 9, 80, 69, 25, 90, 63, 78, 54, 75], reverse=True)
         top_ten_worst = sorted([70, 5, 69, 20, 25, 90, 63, 78, 54, 75])
         font = {'fontname': 'Arial'}
@@ -52,11 +51,12 @@ class Statistika:
         a1.tick_params(axis='x', which='both', length=0)
         a1.set_title('Najpredavanejsie produkty', **
                      font, fontsize=15, weight='bold')
+        bar_X = [0,1,2,3,4,5,6,7,8,9]
         bars1 = a1.bar(bar_X, top_ten)
-        # print(bar_X)
-        # for bar in bars1:
-        #     bar_X = [].append(bar.get_x())
-        # print(bar_X)
+        bar_X = []
+        for bar in bars1:
+            bar_X.append(bar.get_x())
+        
 
         annot1 = a1.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
@@ -67,20 +67,17 @@ class Statistika:
             x = xaxis_length/0.775*event.x/260-2.5
             y = yaxis_length/0.77*event.y/175.275-10
             annot1.xy = (x, y)
-            # for i in bar_X:
-            #     if i == bar_x_pos:
-            #         text = i
-            #     else:
-            text = '150ks\nza 5dni\nnohavice'
+            for c,i in enumerate(bar_X):
+                if i == bar_x_pos:
+                    text = top_ten[c]
             annot1.set_text(text)
         def hover1(event):
             vis = annot1.get_visible()
             if event.inaxes == a1:
                 for bar in bars1:
                     bar_x_pos = bar.get_x()
-                    cont, i = bar.contains(event)
-                    print(cont)
-                    if cont:
+                    cont = bar.contains(event)
+                    if cont[0]:
                         update_annot1(event,bar_x_pos)
                         annot1.set_visible(True)
                         najviac.canvas.draw_idle()
@@ -103,32 +100,35 @@ class Statistika:
         a2.tick_params(axis='x', which='both', length=0)
         a2.set_title('Najmenej predavane produkty', **
                      font, fontsize=15, weight='bold')
+        bar_X = [0,1,2,3,4,5,6,7,8,9]
         bars2 = a2.bar(bar_X, top_ten_worst)
+        bar_X = []
+        for bar in bars2:
+            bar_X.append(bar.get_x())
 
         annot2 = a2.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot2.set_visible(False)
 
-        def update_annot2(event):
+        def update_annot2(event,bar_x_pos):
             xaxis_length = abs((plt.xlim()[0]*-1)+plt.xlim()[1])
             yaxis_length = abs((plt.ylim()[0]*-1)+plt.ylim()[1])
             x = xaxis_length/0.775*event.x/260-2.5
             y = yaxis_length/0.77*event.y/175.275-10
             annot2.xy = (x, y)
-            for i in bar_X:
-                if i >= event.x/260*xaxis_length and i <= i+0.8:
-                    text = i
-                else:
-                    text = '150ks\nza 5dni\nnohavice'
-                annot2.set_text(text)
+            for c,i in enumerate(bar_X):
+                if i == bar_x_pos:
+                    text = top_ten_worst[c]
+            annot2.set_text(text)
 
         def hover2(event):
             vis = annot2.get_visible()
             if event.inaxes == a2:
                 for bar in bars2:
-                    cont, i = bar.contains(event)
-                    if cont:
-                        update_annot2(event)
+                    bar_x_pos = bar.get_x()
+                    cont = bar.contains(event)
+                    if cont[0]:
+                        update_annot2(event,bar_x_pos)
                         annot2.set_visible(True)
                         najmenej.canvas.draw_idle()
                         return
