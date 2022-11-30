@@ -59,7 +59,7 @@ class Statistika:
                     bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot1.set_visible(False)
         
-        def update_annot1(event):
+        def update_annot1(event,i):
             b=abs((plt.xlim()[0]*-1)+plt.xlim()[1])
             d=abs((plt.ylim()[0]*-1)+plt.ylim()[1])
             x = b/0.775*event.x/260-2.5
@@ -70,9 +70,10 @@ class Statistika:
             vis = annot1.get_visible()
             if event.inaxes == a1:
                 for bar in bars1:
+                    print(bar,bars1)
                     cont, i = bar.contains(event)
                     if cont:
-                        update_annot1(event)
+                        update_annot1(event,i)
                         annot1.set_visible(True)
                         najviac.canvas.draw_idle()
                         return
@@ -146,7 +147,7 @@ class Statistika:
 
         self.ui.label_6.setText(c)
         self.ui.label_6.setToolTip('This is a tooltip message')
-        # QToolTip.setFont(QFont('SansSerif', 1000))
+        # self.ui.label_6.setStyleSheet('color:'+percentaFarba)
         self.ui.label_6.setStyleSheet('''QToolTip {
                                         font-size:9pt;
                                         color:white; padding:2px;
@@ -154,8 +155,8 @@ class Statistika:
                                         border-style:solid;
                                         border-radius:20px;
                                         background-color: #2F3E46;
-                                        border: 1px solid #101416;}''')
-        # self.ui.label_6.setStyleSheet('color:'+percentaFarba)
+                                        border: 1px solid #101416;}
+                                        QFont{'SansSerif', 1000}''')
         self.ui.label_20.setText(f)
         self.ui.label_10.setText('2 678')
         self.ui.label_10.setStyleSheet('color:'+cislaFarba)
