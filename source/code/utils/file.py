@@ -81,7 +81,7 @@ class DataFile:
     def get_version(self):
         """Return version integer from [filename]_VERZIA.txt."""
 
-        version_path = self.filepath.split('.')[0]+'_VERZIA.txt'
+        version_path = self.filepath.split('.t')[0]+'_VERZIA.txt'
 
         with open(version_path, 'r', encoding='utf-8') as file:
             line = file.read().rstrip('\n')
