@@ -154,15 +154,24 @@ class Statistika:
         self.commands.plot_graph(self.ui.najviacGraf, najviac)
         self.commands.plot_graph(self.ui.najmenejGraf, najmenej)
         self.commands.plot_graph_trzby(self.ui.trzbyNaklady, vyvoj_ceny)
+        
 
-        profLoss = '-0,05%'
-        profLossColor = '#FF0000'
+
+        profLoss = -.56
+        if profLoss < 0:
+            profLossColor = '#FF0000'
+        elif profLoss > 0:
+            profLossColor = '#21BF3E'
+        else:
+            profLossColor = '#717171'
+
         funFactsColor = '#2C57D8'
-        avPrice = '23,58€'
+        avPrice = '23.58€'
 
-        self.ui.label_6.setText(profLoss)
-        self.ui.label_6.setToolTip('This is a tooltip message')
-        # self.ui.label_6.setStyleSheet('color:'+percentaFarba)
+        self.ui.label_6.setText(str(profLoss)+'€')
+        self.ui.label_6.setToolTip('''tato cena s pravidla vyjadruje zisk alebo stratu firmy za jeden den
+napriklad od 2000.1.1 0:00:00 - 2000.1.1 23:59:59
+pre detailnejsie zobrazenie vyvoju ceny firmy pozri grafy nizsie''')
         self.ui.label_6.setStyleSheet('''QToolTip {
                                         font-size:9pt;
                                         color:white; padding:2px;

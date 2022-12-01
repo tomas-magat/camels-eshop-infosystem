@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -307,8 +307,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>350</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="allLayout"/>
@@ -912,8 +912,8 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11"/>
@@ -1810,8 +1810,8 @@ color: rgb(125, 125, 125);</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>544</width>
-               <height>78</height>
+               <width>719</width>
+               <height>358</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -2381,8 +2381,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_37"/>
@@ -2453,8 +2453,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_20"/>
@@ -2525,8 +2525,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_28"/>
@@ -2594,8 +2594,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_31"/>
@@ -3377,7 +3377,7 @@ background-color :#BBBBBB;
              </property>
              <property name="font">
               <font>
-               <pointsize>15</pointsize>
+               <pointsize>13</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
