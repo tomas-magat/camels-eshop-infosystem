@@ -50,14 +50,13 @@ class Portal:
 
     def load_item(self, key, vals):
         price = self.prices.data.get(key)
-        name = camelify(vals[0])
 
-        if price != None and name not in self.catalog:
+        if price != None and key not in self.catalog:
             image = find_image(vals[1])
-            ItemCard(self, self.ui.allLayout, name,
+            ItemCard(self, self.ui.allLayout,
                      vals[0], key, float(price[1]), image)
 
-            self.catalog.append(name)
+            self.catalog.append(key)
 
     def update_goods(self):
         """
@@ -156,7 +155,7 @@ class Portal:
 
 class ItemCard(QtWidgets.QFrame):
 
-    def __init__(self, page, layout, name: str, display_name: str,
+    def __init__(self, page, layout, name: str,
                  code: str, price: float, image: str):
 
         super(ItemCard, self).__init__(layout.parent())
@@ -167,8 +166,8 @@ class ItemCard(QtWidgets.QFrame):
 
         self.parent_layout = layout
 
-        self.name = name
-        self.display_name = display_name
+        self.name = camelify(name)
+        self.display_name = name
         self.code = code
         self.price = price
         self.image = image
@@ -212,17 +211,17 @@ class ItemCard(QtWidgets.QFrame):
     def add_to_cart(self):
         """Adds new item to the cart."""
 
-        self.cart_item = CartItem(self.page, self.ui.verticalLayout_11, self.name,
-                                  self.display_name, self.price, self.amount)
+        self.cart_item = CartItem(self, self.ui.verticalLayout_11,
+                                  self.name,self.price, self.amount)
 
         self.page.update_price(self.amount*self.price)
-
         self.update_button()
 
     def update_button(self):
         self.bought = not self.bought
 
         if not self.bought:
+            self.spinBox.setValue(0)
             self.itemButton.setMaximumWidth(110)
             self.addButton.setText("Add to cart")
         else:
@@ -288,19 +287,20 @@ class ItemCard(QtWidgets.QFrame):
 
 class CartItem(QtWidgets.QFrame):
 
-    def __init__(self, page, layout, name: str,
-                 display_name: str, price: float, amount: int):
+    def __init__(self, item, layout, name: str,
+                price: float, amount: int):
 
         super(CartItem, self).__init__(layout.parent())
 
-        self.page = page
+        self.page = item.page
+        self.item = item
         self.ui = self.page.ui
         self.commands = self.page.commands
 
         self.parent_layout = layout
 
-        self.name = "cart"+name
-        self.display_name = display_name
+        self.name = "cart"+camelify(name)
+        self.display_name = name
         self.price = price
         self.amount = amount
 
@@ -309,6 +309,7 @@ class CartItem(QtWidgets.QFrame):
     def delete_item(self):
         """Delete this item from cart."""
 
+        self.item.update_button()
         self.deleteLater()
 
     def draw_ui(self):
