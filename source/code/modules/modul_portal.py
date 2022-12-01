@@ -7,8 +7,8 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
-from utils.tools import *
 from utils.file import DataFile
+from utils.tools import *
 
 
 class Portal:
@@ -22,41 +22,140 @@ class Portal:
         self.ui = ui
         self.commands = UI_Commands(self.ui)
 
-        # Init global variables
-        self.total_price = 0
+        # Init cart global variables
+        self.cart_price = 0
+        self.cart = {}
         self.cashier_name = ""
+
+        # Init catalog global variables
         self.sort_state = 1
         self.catalog = []
 
         # Track UI actions
-        self.button_clicks()
+        self.redirect_action()
+        self.search_action()
+        self.sort_action()
         self.login_actions()
+        self.buy_action()
 
         # Load data
         self.goods = DataFile('tovar')
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
-        self.load_items()
+        self.load_items(self.goods.data)
 
         # Update 'goods' variable every 3 seconds
         self.version = self.goods.version
-        run_periodically(self.update_goods, 3)
+        # run_periodically(self.update_goods, 3)
 
-    def load_items(self):
-        """Load all items from database into catalog."""
+    # ==================== ACTIONS =======================
+    def redirect_action(self):
+        self.commands.buttons_click(
+            [self.ui.portalButton, self.ui.homeArrow6],
+            self.switch_screen
+        )
 
-        for key, vals in self.goods.data.items():
+    def search_action(self):
+        self.commands.form_submit(
+            [self.ui.searchButton, self.ui.searchField],
+            self.search
+        )
+
+    def sort_action(self):
+        self.commands.button_click(
+            self.ui.sortButton, self.sort
+        )
+
+    def login_actions(self):
+        self.commands.buttons_click(
+            [self.ui.userIconButton, self.ui.userNameButton],
+            self.login
+        )
+        self.commands.form_submit(
+            [self.ui.nameEntry, self.ui.loginButton],
+            lambda: self.switch_screen(update_user=True)
+        )
+
+    def buy_action(self):
+        self.commands.button_click(
+            self.ui.buyButton, self.buy
+        )
+
+    def switch_screen(self, update_user: bool = False):
+        """Redirect to portal screen, set cashier name if given."""
+
+        if update_user:
+            self.cashier_name = self.ui.nameEntry.text()
+            self.ui.userNameButton.setText(self.cashier_name)
+
+        self.commands.redirect(self.ui.portal)
+
+    def search(self):
+        """
+        Get the value of the search field and return
+        list of matching item names or codes.
+        """
+
+        self.query = self.ui.searchField.text()
+        self.result = search_items(self.query)
+        self.commands.clear_layout(self.ui.allLayout)
+        self.load_items(self.result)
+
+    def sort(self):
+        """Update sort button and change sort state."""
+
+        if self.sort_state == 1:
+            self.create_icon("up_arrow.png", "Highest price", 2)
+        elif self.sort_state == 2:
+            self.create_icon("down_arrow.png", "Lowest price", 3)
+        else:
+            self.create_icon("up_down_arrow.png", "Sort by price", 1)
+
+    def login(self):
+        """Redirect to login screen."""
+
+        self.commands.redirect(self.ui.login)
+
+    def buy(self):
+        """Buy everything in the cart, generate uctenka_[id].txt"""
+
+        self.create_receipt()
+        self.update_price(-self.cart_price)
+        self.commands.clear_layout(self.ui.cartLayout)
+
+    def create_icon(self, icon_name, text, new_state):
+        icon = QtGui.QIcon().addPixmap(
+            QtGui.QPixmap(find_icon(icon_name)),
+            QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
+        self.ui.sortButton.setText(text)
+        self.sort_state = new_state
+
+        self.ui.sortButton.setIcon(icon)
+
+    def load_items(self, data):
+        for key, vals in data.items():
             self.load_item(key, vals)
 
     def load_item(self, key, vals):
         price = self.prices.data.get(key)
 
         if price != None and key not in self.catalog:
-            image = find_image(vals[1])
-            ItemCard(self, self.ui.allLayout,
-                     vals[0], key, float(price[1]), image)
-
+            ItemCard(
+                self, self.ui.allLayout, vals[0], key,
+                float(price[1]), find_image(vals[1])
+            )
             self.catalog.append(key)
+
+    def create_receipt(self):
+        filename = 'uctenka_'+random_id('P')+'.txt'
+        filepath = os.path.join(PATH, 'source', 'data', filename)
+
+        with open(filepath, 'w') as receipt:
+            receipt.write('Vytvorene: '+now())
+            receipt.write('\nPokladnik: '+self.cashier_name)
+            receipt.write('\nSpolu cena: '+str(self.cart_price)+'\n')
+            receipt.writelines(list(self.cart.values()))
 
     def update_goods(self):
         """
@@ -71,86 +170,12 @@ class Portal:
             self.version = current_version
             self.load_items()
 
-    def switch_screen(self, update_user: bool = False):
-        """Redirect to this portal screen and can set user"""
-
-        if update_user:
-            self.cashier_name = self.ui.nameEntry.text()
-            self.ui.userNameButton.setText(self.cashier_name)
-
-        self.commands.redirect(self.ui.portal)
-
-    def open_login_screen(self):
-        """Redirect to login screen."""
-
-        self.commands.redirect(self.ui.login)
-
-    def search_items(self):
-        """
-        Get the value of the search field and return
-        list of matching item names or codes.
-        """
-
-        self.query = self.ui.searchField.text()
-        self.result = search_items(self.query)
-        print(self.result)
-
     def update_price(self, value):
         """Update total price of a cart."""
 
-        self.total_price += value
+        self.cart_price += value
         self.ui.totalPrice.setText(
-            "Spolu: "+str_price(self.total_price, 1)+" €")
-
-    def sort_button_state(self):
-        """Update sort button state and change its icon."""
-
-        icon = QtGui.QIcon()
-
-        if self.sort_state == 1:
-            icon.addPixmap(QtGui.QPixmap(
-                find_icon("up_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.sortButton.setText("Highest price")
-            self.sort_state = 2
-
-        elif self.sort_state == 2:
-            icon.addPixmap(QtGui.QPixmap(
-                find_icon("down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.sortButton.setText("Lowest price")
-            self.sort_state = 3
-
-        else:
-            icon.addPixmap(QtGui.QPixmap(
-                find_icon("up_down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.sortButton.setText("Sort by price")
-            self.sort_state = 1
-
-        self.ui.sortButton.setIcon(icon)
-
-    def button_clicks(self):
-        """All button click commands of portal screen here."""
-
-        self.commands.buttons_click(
-            [self.ui.portalButton, self.ui.homeArrow6],
-            self.switch_screen)
-
-        self.commands.form_submit(
-            [self.ui.searchButton, self.ui.searchField],
-            self.search_items)
-
-        self.commands.button_click(
-            self.ui.sortButton, self.sort_button_state)
-
-    def login_actions(self):
-        """All login actions and commands here."""
-
-        self.commands.buttons_click(
-            [self.ui.userIconButton, self.ui.userNameButton],
-            self.open_login_screen)
-
-        self.commands.form_submit(
-            [self.ui.nameEntry, self.ui.loginButton],
-            lambda: self.switch_screen(update_user=True))
+            "Spolu: "+str_price(self.cart_price, 1)+" €")
 
 
 class ItemCard(QtWidgets.QFrame):
@@ -188,7 +213,6 @@ class ItemCard(QtWidgets.QFrame):
                 self.add_to_cart()
         elif self.amount == 0 and self.bought:
             self.update_cart()
-            self.update_button()
             self.cart_item.delete_item()
 
     def update_cart(self):
@@ -211,8 +235,8 @@ class ItemCard(QtWidgets.QFrame):
     def add_to_cart(self):
         """Adds new item to the cart."""
 
-        self.cart_item = CartItem(self, self.ui.verticalLayout_11,
-                                  self.name,self.price, self.amount)
+        self.cart_item = CartItem(self, self.ui.cartLayout,
+                                  self.display_name, self.price, self.amount)
 
         self.page.update_price(self.amount*self.price)
         self.update_button()
@@ -288,7 +312,7 @@ class ItemCard(QtWidgets.QFrame):
 class CartItem(QtWidgets.QFrame):
 
     def __init__(self, item, layout, name: str,
-                price: float, amount: int):
+                 price: float, amount: int):
 
         super(CartItem, self).__init__(layout.parent())
 

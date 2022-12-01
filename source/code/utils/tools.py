@@ -4,6 +4,7 @@ import threading
 import time
 import os
 import difflib
+import datetime
 
 from .ENV_VARS import PATH
 from .file import DataFile
@@ -17,6 +18,10 @@ def random_id(type='N'):
 
     sequence = [str(random.randint(0, 9)) for _ in range(10)]
     return type+''.join(sequence)
+
+
+def now():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
 
 def run_periodically(function, period=5):
