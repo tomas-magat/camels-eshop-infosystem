@@ -2,9 +2,6 @@ from utils.file import DataFile
 from utils.ui_commands import UI_Commands
 from utils import tools
 import matplotlib.pyplot as plt
-from PyQt5.QtWidgets import QToolTip
-from PyQt5.QtGui import QFont, QPalette
-
 
 class Statistika:
 
@@ -156,8 +153,7 @@ class Statistika:
         self.commands.plot_graph_trzby(self.ui.trzbyNaklady, vyvoj_ceny)
         
 
-
-        profLoss = -.56
+        profLoss = 0
         if profLoss < 0:
             profLossColor = '#FF0000'
         elif profLoss > 0:
