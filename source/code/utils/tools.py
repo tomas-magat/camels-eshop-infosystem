@@ -24,15 +24,14 @@ def now():
     return datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
 
-def run_periodically(function, period=5):
+def run_periodically(function, period=5.0):
     """
     Use threading and time.sleep() to run function
     with delay while not affecting the runtime of an app.
     """
 
-    background_thread = threading.Thread(
-        target=lambda: callback(function, period))
-    background_thread.start()
+    background_timer = threading.Timer(float(period), function)
+    background_timer.start()
 
 
 def callback(function, delay):
