@@ -57,16 +57,6 @@ class UI_Commands:
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
 
-    def plot_graph_trzby(self, graphics_view: QGraphicsView, figure, size=68.5):
-        """Add matplotlib graph to 'UI canvas' (graphics_view)."""
-
-        figure.set_dpi(size)
-
-        canvas = FigureCanvas(figure)
-
-        scene = QGraphicsScene()
-        graphics_view.setScene(scene)
-        scene.addWidget(canvas)
 
     def list_item_selected(self, list_widget, command):
         """
