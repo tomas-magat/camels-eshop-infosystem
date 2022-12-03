@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -1331,7 +1331,7 @@ color: rgb(125, 125, 125);</string>
            </rect>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="all_database">
            <attribute name="title">
@@ -3344,6 +3344,9 @@ padding-left: 20px</string>
         <height>451</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <widget class="QFrame" name="topBarStatistika">
        <property name="geometry">
         <rect>
@@ -3567,10 +3570,19 @@ background-color :#BBBBBB;
        <property name="geometry">
         <rect>
          <x>303</x>
-         <y>284</y>
+         <y>273</y>
          <width>491</width>
-         <height>160</height>
+         <height>171</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
        </property>
        <property name="widgetResizable">
         <bool>true</bool>
@@ -3580,9 +3592,21 @@ background-color :#BBBBBB;
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>489</width>
-          <height>158</height>
+          <width>474</width>
+          <height>250</height>
          </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>250</height>
+         </size>
         </property>
         <widget class="QWidget" name="widget" native="true">
          <property name="geometry">
@@ -3614,6 +3638,12 @@ background-color :#BBBBBB;
           </property>
           <item>
            <widget class="QWidget" name="widget" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <property name="spacing">
               <number>0</number>
@@ -3622,16 +3652,19 @@ background-color :#BBBBBB;
               <number>30</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
-             </property>
-             <property name="rightMargin">
               <number>0</number>
              </property>
-             <property name="bottomMargin">
-              <number>5</number>
+             <property name="rightMargin">
+              <number>60</number>
              </property>
-             <item>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_9">
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
                <property name="text">
                 <string>celkovy pocet produktov na sklade: </string>
                </property>
@@ -3647,6 +3680,9 @@ background-color :#BBBBBB;
                  <pointsize>8</pointsize>
                 </font>
                </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -3657,6 +3693,12 @@ background-color :#BBBBBB;
           </item>
           <item>
            <widget class="QWidget" name="widget_7" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <layout class="QHBoxLayout" name="horizontalLayout_9">
              <property name="spacing">
               <number>0</number>
@@ -3668,12 +3710,12 @@ background-color :#BBBBBB;
               <number>5</number>
              </property>
              <property name="rightMargin">
-              <number>0</number>
+              <number>60</number>
              </property>
              <property name="bottomMargin">
               <number>5</number>
              </property>
-             <item>
+             <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_11">
                <property name="text">
                 <string>najviac sa nakupuje v: </string>
@@ -3700,6 +3742,12 @@ background-color :#BBBBBB;
           </item>
           <item>
            <widget class="QWidget" name="widget_9" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <layout class="QHBoxLayout" name="horizontalLayout_11">
              <property name="spacing">
               <number>0</number>
@@ -3711,12 +3759,12 @@ background-color :#BBBBBB;
               <number>5</number>
              </property>
              <property name="rightMargin">
-              <number>0</number>
+              <number>60</number>
              </property>
              <property name="bottomMargin">
               <number>5</number>
              </property>
-             <item>
+             <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_15">
                <property name="text">
                 <string>najviac mame: </string>
@@ -3743,6 +3791,12 @@ background-color :#BBBBBB;
           </item>
           <item>
            <widget class="QWidget" name="widget_8" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <layout class="QHBoxLayout" name="horizontalLayout_10">
              <property name="spacing">
               <number>0</number>
@@ -3757,12 +3811,12 @@ background-color :#BBBBBB;
               <number>5</number>
              </property>
              <property name="rightMargin">
-              <number>0</number>
+              <number>60</number>
              </property>
              <property name="bottomMargin">
               <number>5</number>
              </property>
-             <item>
+             <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_13">
                <property name="text">
                 <string>posledna objednavka: </string>
@@ -3789,6 +3843,12 @@ background-color :#BBBBBB;
           </item>
           <item>
            <widget class="QWidget" name="widget_10" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <layout class="QHBoxLayout" name="horizontalLayout_13">
              <property name="spacing">
               <number>0</number>
@@ -3803,12 +3863,12 @@ background-color :#BBBBBB;
               <number>5</number>
              </property>
              <property name="rightMargin">
-              <number>0</number>
+              <number>60</number>
              </property>
              <property name="bottomMargin">
               <number>5</number>
              </property>
-             <item>
+             <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_19">
                <property name="text">
                 <string>priemerna cena jedneho nakupu: </string>
@@ -3846,13 +3906,19 @@ background-color :#BBBBBB;
          <height>239</height>
         </rect>
        </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="styleSheet">
-        <string notr="true">QTabBar::tab::selected {
-    background: #FFFFFF;	
-	border-top:1px solid #757575;
-	border-left:1px solid #757575;
-	border-right:1px solid #757575;
-	padding: 0px  11px; 
+        <string notr="true">QTabWidget::pane { 
+	border: 0px solid #C2C7CB; 
+	top: -3px;
+	 background: #757575;
+}
+QTabBar::tab::selected {
+    background: transparent;	
+	border:none;
+	padding: 0px  12px;
 }
 </string>
        </property>
@@ -3872,7 +3938,7 @@ background-color :#BBBBBB;
         </size>
        </property>
        <property name="documentMode">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
@@ -3888,7 +3954,7 @@ background-color :#BBBBBB;
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 255, 255)</string>
+          <string notr="true"/>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -3906,14 +3972,14 @@ background-color :#BBBBBB;
          <string>Tricka</string>
         </attribute>
        </widget>
-       <widget class="QWidget" name="tab_5">
-        <attribute name="title">
-         <string>Mikiny</string>
-        </attribute>
-       </widget>
        <widget class="QWidget" name="tab_4">
         <attribute name="title">
          <string>Topanky</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tab_5">
+        <attribute name="title">
+         <string>Mikiny</string>
         </attribute>
        </widget>
        <widget class="QWidget" name="tab_3">

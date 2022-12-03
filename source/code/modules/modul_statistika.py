@@ -2,6 +2,7 @@ from utils.file import DataFile
 from utils.ui_commands import UI_Commands
 from utils import tools
 import matplotlib.pyplot as plt
+import numpy as np
 
 class Statistika:
 
@@ -33,9 +34,10 @@ class Statistika:
         top_ten = sorted([15, 9, 80, 69, 25, 90, 63, 78, 54, 75], reverse=True)
         top_ten_worst = sorted([70, 5, 69, 20, 25, 90, 63, 78, 54, 75])
         font = {'fontname': 'Arial'}
-        edgecolor = '#757575'
+        edgecolor = '#CAD2C5'
         linewidth = 2
-        graph_color = '#FFFFFF'
+        graph_color = '#CAD2C5'
+
 
         najviac, a1 = plt.subplots(
             figsize=[4.9, 3.15], linewidth=linewidth, edgecolor=edgecolor)
@@ -54,17 +56,14 @@ class Statistika:
         for bar in bars1:
             bar_X.append(bar.get_x())
         
-
         annot1 = a1.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot1.set_visible(False)
         def update_annot1(event,bar_x_pos):
-            xaxis_length = abs((plt.xlim()[0]*-1)+plt.xlim()[1])
-            yaxis_length = abs((plt.ylim()[0]*-1)+plt.ylim()[1])
-            x = xaxis_length/0.775*event.x/260-2.5
-            y = yaxis_length/0.77*event.y/175.275-10
+            x = event.xdata
+            y = event.ydata+5
             annot1.xy = (x, y)
-            for c,i in enumerate(bar_X):
+            for c, i in enumerate(bar_X):
                 if i == bar_x_pos:
                     text = top_ten[c]
             annot1.set_text(text)
@@ -87,6 +86,7 @@ class Statistika:
         # a1.spines['left'].set_visible(False)
         # a1.spines['bottom'].set_visible(False)
 
+
         najmenej, a2 = plt.subplots(
             figsize=[4.9, 3.15], linewidth=linewidth, edgecolor=edgecolor)
         najmenej.patch.set_facecolor(graph_color)
@@ -108,12 +108,10 @@ class Statistika:
         annot2.set_visible(False)
 
         def update_annot2(event,bar_x_pos):
-            xaxis_length = abs((plt.xlim()[0]*-1)+plt.xlim()[1])
-            yaxis_length = abs((plt.ylim()[0]*-1)+plt.ylim()[1])
-            x = xaxis_length/0.775*event.x/260-2.5
-            y = yaxis_length/0.77*event.y/175.275-10
+            x = event.xdata
+            y = event.ydata+5
             annot2.xy = (x, y)
-            for c,i in enumerate(bar_X):
+            for c, i in enumerate(bar_X):
                 if i == bar_x_pos:
                     text = top_ten_worst[c]
             annot2.set_text(text)
@@ -135,6 +133,46 @@ class Statistika:
                             najmenej.canvas.draw_idle()
         najmenej.canvas.mpl_connect("motion_notify_event", hover2)
 
+
+        class SnappingCursor:
+
+            def __init__(self, ax, line, line1):
+                self.ax = ax
+                self.horizontal_line = ax.axhline(color='k', lw=0.8, ls='--')
+                self.horizontal_line1 = ax.axhline(color='k', lw=0.8, ls='--')
+                self.vertical_line = ax.axvline(color='k', lw=0.8, ls='--')
+                self.x, self.y = line.get_data()
+                self.x1, self.y1 = line1.get_data()
+                self._last_index = None
+                self.text = ax.text(0.72, 0.9, '', transform=ax.transAxes)
+
+            def set_cross_hair_visible(self, visible):
+                need_redraw = self.horizontal_line.get_visible() != visible
+                self.horizontal_line.set_visible(visible)
+                self.horizontal_line1.set_visible(visible)
+                self.vertical_line.set_visible(visible)
+                self.text.set_visible(visible)
+                return need_redraw
+
+            def on_mouse_move(self, event):
+                if not event.inaxes:
+                    self._last_index = None
+                    need_redraw = self.set_cross_hair_visible(False)
+                    if need_redraw:
+                        self.ax.figure.canvas.draw()
+                else:
+                    self.set_cross_hair_visible(True)
+                    x = event.xdata
+                    index = min(np.searchsorted(self.x, x), len(self.x) - 1)
+                    x = self.x[index]
+                    y = self.y[index]
+                    y1 = self.y1[index]
+                    self.horizontal_line.set_ydata(y)
+                    self.horizontal_line1.set_ydata(y1)
+                    self.vertical_line.set_xdata(x)
+                    self.text.set_text('x=%1.2f, y=%1.2f' % (x, y))
+                    self.ax.figure.canvas.draw()
+                    
         vyvoj_ceny, a3 = plt.subplots(
             figsize=[7.18, 3.21], linewidth=linewidth, edgecolor=edgecolor)
         vyvoj_ceny.set_facecolor(graph_color)
@@ -142,10 +180,12 @@ class Statistika:
         a3.spines['top'].set_visible(False)
         a3.spines['right'].set_visible(False)
         a3.set_title('Vyvoj ceny', **font, fontsize=15,
-                     weight='bold')  # backgroundcolor= 'silver'
-        a3.plot(x, y, label='naklady')
-        a3.plot(x, y1, label='vynosy')
+                     weight='bold')
+        line, = a3.plot(x, y, label='naklady')
+        line1, = a3.plot(x, y1, label='vynosy')
         a3.legend(frameon=False, fontsize=15)
+        snap_cursor = SnappingCursor(a3, line, line1)
+        vyvoj_ceny.canvas.mpl_connect('motion_notify_event', snap_cursor.on_mouse_move)
 
         plt.tight_layout()
         self.commands.plot_graph(self.ui.najviacGraf, najviac)
@@ -178,6 +218,7 @@ pre detailnejsie zobrazenie vyvoju ceny firmy pozri grafy nizsie''')
                                         border: 1px solid #101416;}
                                         #label_6 {color: %s}''' % profLossColor)
         self.ui.label_20.setText(avPrice)
+        self.ui.label_20.setStyleSheet('color:'+funFactsColor)
         self.ui.label_10.setText('2 678')
         self.ui.label_10.setStyleSheet('color:'+funFactsColor)
         self.ui.label_12.setText('Sobotu (87)')
