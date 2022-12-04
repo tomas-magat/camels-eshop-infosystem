@@ -124,7 +124,8 @@ class Portal:
         self.commands.clear_layout(self.ui.cartLayout)
 
     def create_icon(self, icon_name, text, new_state):
-        icon = QtGui.QIcon().addPixmap(
+        icon = QtGui.QIcon()
+        icon.addPixmap(
             QtGui.QPixmap(find_icon(icon_name)),
             QtGui.QIcon.Normal, QtGui.QIcon.Off
         )
