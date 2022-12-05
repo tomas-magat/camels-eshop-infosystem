@@ -103,8 +103,7 @@ class ItemDetails(QtWidgets.QFrame):
             new_text = "#" + new_code + " " + new_name
             old_text = self.ui.listWidget.currentItem().text()
 
-            image_url = find_image(self.filename)
-            image_name = image_url[67:]
+            image_name = self.filename
 
             if new_text != old_text:
                 self.ui.listWidget.currentItem().setText(new_text)
@@ -125,8 +124,9 @@ class ItemDetails(QtWidgets.QFrame):
             new_text = "#"+new_code+" "+new_name
             old_text = self.ui.listWidget.currentItem().text()
 
-            image_url = find_image(self.filename)
-            image_name = image_url[67:]
+            #image_url = find_image(self.filename)
+            #image_name = image_url[67:]
+            image_name = self.filename
 
             if new_text != old_text:
                 if self.adding:
