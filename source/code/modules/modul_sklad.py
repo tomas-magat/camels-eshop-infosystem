@@ -348,7 +348,7 @@ class ItemCard(QtWidgets.QFrame):
         self.setFrameShape(QtWidgets.QFrame.Box)
         self.setFrameShadow(QtWidgets.QFrame.Plain)
         if self.parent_layout == self.ui.verticalLayout_18:
-            self.setStyleSheet("background-color: rgb(255, 81, 81)")
+            self.setStyleSheet("background-color: rgb(255, 240, 245)")
         self.setObjectName(self.name)
         self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
         self.mainLayout_2.setContentsMargins(0, 0, 0, 0)
