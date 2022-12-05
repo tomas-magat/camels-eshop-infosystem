@@ -4,11 +4,18 @@
 # After buying the selected items in given amounts,
 # creates file uctenka_[id_transakcie].txt.
 
+# TODO
+# fix uctovnik - po prvom prepnuti z landing page otvor login
+# uctenka black space uctovnik
+
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
 from utils.file import DataFile
 from utils.tools import *
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtGui import QPixmap
+from utils.ENV_VARS import PATH
 
 
 class Portal:
@@ -192,6 +199,16 @@ class Portal:
 
         with open(filepath, 'w', encoding='utf-8') as receipt:
             self.receipt_template(receipt, receipt_id)
+        
+        receipt_icon = QtGui.QIcon()
+        msg = QMessageBox()
+        
+        receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
+                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        msg.setWindowTitle(f"Sale {receipt_id[1:]} - confirmed")
+        msg.setText('<b><p style="padding: 0px;  margin: 0px;">Pokladničný doklad bol úspešne vygenerovaný.</p>' + f'<br><a href="file:///{PATH}/source/data/{filename}">Otvor účtenku č. {receipt_id}</a>')
+        msg.setIconPixmap(QPixmap(find_icon('receipt.svg')))
+        msg.exec_()
 
     def receipt_template(self, receipt, id):
         receipt.write('Camels E-shop s.r.o.\n')
