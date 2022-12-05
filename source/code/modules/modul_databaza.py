@@ -5,6 +5,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
 from utils.tools import find_image
+from utils.file import DataFile
 
 
 class Databaza:
@@ -29,6 +30,16 @@ class Databaza:
 
         self.commands.list_item_selected(
             self.ui.listWidget, self.change_item)
+
+        self.goods = DataFile('tovar')
+        self.load_items(self.goods.data)
+
+    def load_items(self, data):
+        for key, vals in data.items():
+            self.load_item(key, vals)
+
+    def load_item(self, key, vals):
+        self.ui.listWidget.addItem('#' + key + ' ' + vals[0])
 
     def switch_screen(self):
         """Redirect to this databaza screen."""
