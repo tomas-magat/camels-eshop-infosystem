@@ -92,6 +92,23 @@ class ItemDetails(QtWidgets.QFrame):
 
         self.draw_ui()
 
+    def edit_items(self):
+        new_name = self.lineEdit.text()
+        new_code = self.lineEdit_2.text()
+
+        pattern = re.compile("^[0-9]+$")
+        pattern2 = re.compile("^[A-Za-z ]+$")
+
+        if pattern.match(new_code) and pattern2.match(new_name):
+            new_text = "#" + new_code + " " + new_name
+            old_text = self.ui.listWidget.currentItem().text()
+
+            image_name = self.filename
+
+            if new_text != old_text:
+                self.ui.listWidget.currentItem().setText(new_text)
+
+
     def update_list(self):
         """Update listWidget with currently entered values."""
 
@@ -107,8 +124,9 @@ class ItemDetails(QtWidgets.QFrame):
             new_text = "#"+new_code+" "+new_name
             old_text = self.ui.listWidget.currentItem().text()
 
-            image_url = find_image(self.filename)
-            image_name = image_url[67:]
+            #image_url = find_image(self.filename)
+            #image_name = image_url[67:]
+            image_name = self.filename
 
             if new_text != old_text:
                 if self.adding:
@@ -125,7 +143,9 @@ class ItemDetails(QtWidgets.QFrame):
                     subor.write('\n' + new_code + ';' + new_name + ';' + image_name)
                     subor.close()
                 else:
-                    self.ui.listWidget.currentItem().setText(new_text)
+                    self.edit_items()
+
+                    #self.ui.listWidget.currentItem().setText(new_text)
         else:
             print('zla hodnota')
             msg = QMessageBox()

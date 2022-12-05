@@ -92,14 +92,13 @@ class Portal:
 
     def search(self):
         """
-        Get the value of the search field and return
-        list of matching item names or codes.
+        Get the value of the search field and load
+        items with matching names or codes.
         """
 
         self.query = self.ui.searchField.text()
         self.result = search_items(self.query)
-        self.commands.clear_layout(self.ui.allLayout)
-        self.load_items(self.result)
+        self.reload_items(self.result)
 
     def sort(self):
         """Update sort button and change sort state."""
@@ -134,6 +133,11 @@ class Portal:
 
         self.ui.sortButton.setIcon(icon)
 
+    def reload_items(self, data):
+        self.catalog = []
+        self.commands.clear_layout(self.ui.allLayout)
+        self.load_items(self.result)
+
     def load_items(self, data):
         for key, vals in data.items():
             self.load_item(key, vals)
@@ -143,20 +147,27 @@ class Portal:
 
         if price != None and key not in self.catalog:
             ItemCard(
-                self, self.ui.allLayout, vals[0], key,
-                float(price[1]), find_image(vals[1])
+                self, int(key[0]), vals[0],
+                key, float(price[1]), find_image(vals[1])
             )
             self.catalog.append(key)
 
     def create_receipt(self):
-        filename = 'uctenka_'+random_id('P')+'.txt'
+        receipt_id = random_id('P')
+        filename = 'uctenka_'+receipt_id+'.txt'
         filepath = os.path.join(PATH, 'source', 'data', filename)
 
         with open(filepath, 'w') as receipt:
-            receipt.write('Vytvorene: '+now())
-            receipt.write('\nPokladnik: '+self.cashier_name)
-            receipt.write('\nSpolu cena: '+str(self.cart_price)+'\n')
-            receipt.writelines(list(self.cart.values()))
+            self.receipt_template(receipt, receipt_id)
+
+    def receipt_template(self, receipt, id):
+        receipt.write('Cislo uctenky: '+id)
+        receipt.write('\nVytvorene: '+now())
+        receipt.write('\nPokladnik: '+self.cashier_name)
+        receipt.write('\nSpolu cena: '+str(self.cart_price)+' €\n')
+        receipt.write('\n=================================\n')
+        items = [' - '.join(x)+'\n' for x in list(self.cart.values())]
+        receipt.writelines(items)
 
     def update_goods(self):
         """
@@ -181,16 +192,15 @@ class Portal:
 
 class ItemCard(QtWidgets.QFrame):
 
-    def __init__(self, page, layout, name: str,
-                 code: str, price: float, image: str):
-
-        super(ItemCard, self).__init__(layout.parent())
+    def __init__(self, page, category: int = 0, name: str = '',
+                 code: str = '', price: float = 1.99, image: str = ''):
 
         self.page = page
         self.ui = self.page.ui
         self.commands = self.page.commands
 
-        self.parent_layout = layout
+        self.parent_layout = self.get_layout(category)
+        super(ItemCard, self).__init__(self.parent_layout)
 
         self.name = camelify(name)
         self.display_name = name
@@ -201,6 +211,20 @@ class ItemCard(QtWidgets.QFrame):
         self.bought = False
 
         self.draw_ui()
+
+    def get_layout(self, category):
+        if category == 1:
+            return self.ui.verticalLayout_3
+        elif category == 2:
+            return self.ui.verticalLayout_42
+        elif category == 3:
+            return self.ui.verticalLayout_44
+        elif category == 4:
+            return self.ui.verticalLayout_40
+        elif category == 5:
+            return self.ui.verticalLayout_46
+        else:
+            return self.ui.allLayout
 
     def add_item(self):
         """Add item to the cart section after add button pressed."""
