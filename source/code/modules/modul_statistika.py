@@ -133,61 +133,75 @@ class Statistika:
 
 
     def VyvojGraf(self):      
-        x = np.arange(0, 1, 0.01)
-        y = np.sin(2 * 2 * np.pi * x)
+        def on_draw(event):
+            create_new_background()
 
-        fig, ax = plt.subplots()
-        ax.set_title('Blitted cursor')
-        line, = ax.plot(x, y, 'o')
-        blitted_cursor = BlittedCursor(ax, line)
-        fig.canvas.mpl_connect('motion_notify_event', blitted_cursor.on_mouse_move)              
-    #     vyvoj_ceny, a3 = plt.subplots(
-    #         figsize=[7.18, 3.21], linewidth=self.linewidth, edgecolor=self.edgecolor)
-    #     vyvoj_ceny.set_facecolor(self.graph_color)
-    #     a3.set_facecolor(self.graph_color)
-    #     a3.spines['top'].set_visible(False)
-    #     a3.spines['right'].set_visible(False)
-    #     a3.set_title('Vyvoj ceny', **self.font, fontsize=15,
-    #                  weight='bold')
-    #     line, = a3.plot(self.x, self.y, label='naklady')
-    #     line1, = a3.plot(self.x, self.y1, label='vynosy')
-    #     a3.legend(frameon=False, fontsize=15)
-    #     horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
-    #     horizontal_line1 = a3.axhline(color='k', lw=0.8, ls='--')
-    #     vertical_line = a3.axvline(color='k', lw=0.8, ls='--')
-    #     x, y = line.get_data()
-    #     x1, y1 = line1.get_data()
-    #     text = a3.text(0.72, 0.9, '', transform=a3.transAxes)
+        def set_cross_hair_visible(visible):
+            need_redraw = horizontal_line.get_visible() != visible
+            horizontal_line.set_visible(visible)
+            horizontal_line1.set_visible(visible)
+            vertical_line.set_visible(visible)
+            text.set_visible(visible)
+            return need_redraw
+
+        def create_new_background():
+            global creating_background, background
+            if creating_background: 
+                return
+            creating_background = True
+            set_cross_hair_visible(False)
+            a3.figure.canvas.draw()
+            background = a3.figure.canvas.copy_from_bbox(a3.bbox)
+            set_cross_hair_visible(True)
+            creating_background = False
+
+        def on_mouse_move(event):
+            if background is None:
+                create_new_background()
+            if not event.inaxes:
+                need_redraw = set_cross_hair_visible(False)
+                if need_redraw:
+                    a3.figure.canvas.restore_region(background)
+                    a3.figure.canvas.blit(a3.bbox)
+            else:
+                index = min(np.searchsorted(x, event.xdata), len(x) - 1)
+                set_cross_hair_visible(True)
+                horizontal_line.set_ydata(y[index])
+                horizontal_line1.set_ydata(z[index])
+                vertical_line.set_xdata(x[index])
+                text.set_text('x=%1.2f, y=%1.2f' % (event.xdata, event.ydata))
+
+                a3.figure.canvas.restore_region(background)
+                a3.draw_artist(horizontal_line)
+                a3.draw_artist(horizontal_line1)
+                a3.draw_artist(vertical_line)
+                a3.draw_artist(text)
+                a3.figure.canvas.blit(a3.bbox)
 
 
-    #     def set_cross_hair_visible(visible):
-    #         need_redraw = horizontal_line.get_visible() != visible
-    #         horizontal_line.set_visible(visible)
-    #         horizontal_line1.set_visible(visible)
-    #         vertical_line.set_visible(visible)
-    #         text.set_visible(visible)
-    #         return need_redraw
 
-    #     def on_mouse_move(event):
-    #         if not event.inaxes:
-    #             need_redraw = set_cross_hair_visible(False)
-    #             if need_redraw:
-    #                 a3.figure.canvas.draw()
-    #         else:
-    #             set_cross_hair_visible(True)
-    #             e_x = event.xdata
-    #             index = min(np.searchsorted(x, e_x), len(x) - 1)
-    #             x_x = x[index]
-    #             y_y = y[index]
-    #             y1_y = y1[index]
-    #             horizontal_line.set_ydata(y_y)
-    #             horizontal_line1.set_ydata(y1_y)
-    #             vertical_line.set_xdata(x)
-    #             text.set_text('x=%1.2f, y=%1.2f' % (x_x, y_y))
-    #             a3.figure.canvas.draw()
-    #     vyvoj_ceny.canvas.mpl_connect('motion_notify_event', on_mouse_move)
-    #     self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny, size=68.5)
-    #     plt.tight_layout()
+        vyvoj_ceny, a3 = plt.subplots(
+            figsize=[7.18, 3.21], linewidth=self.linewidth, edgecolor=self.edgecolor)
+        vyvoj_ceny.set_facecolor(self.graph_color)
+        a3.set_facecolor(self.graph_color)
+        a3.spines['top'].set_visible(False)
+        a3.spines['right'].set_visible(False)
+        a3.set_title('Vyvoj ceny', **self.font, fontsize=15,
+                     weight='bold')
+        line, = a3.plot(self.x, self.y, label='naklady')
+        line1, = a3.plot(self.x, self.y1, label='vynosy')
+        background = None
+        horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
+        horizontal_line1 = a3.axhline(color='k', lw=0.8, ls='--')
+        vertical_line = a3.axvline(color='k', lw=0.8, ls='--')
+        x, y = line.get_data()
+        x, z = line1.get_data()
+        creating_background = False
+        text = a3.text(0.72, 0.9, '', transform=a3.transAxes)
+        a3.figure.canvas.mpl_connect('draw_event', on_draw)
+        vyvoj_ceny.canvas.mpl_connect('motion_notify_event', on_mouse_move)
+        self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny, size=68.5)
+        plt.tight_layout()
 
 
     def FunFacts(self):
@@ -220,61 +234,3 @@ pre detailnejsie zobrazenie vyvoju ceny firmy pozri graf nizsie -->''')
         self.ui.label_14.setText('2003-09-10 10-34-59;kosela;5ks;5.99/ks')
         self.ui.label_14.setStyleSheet('color:'+self.funFactsColor)
         self.ui.camelLogo_2.setToolTip('')
-
-class BlittedCursor:
-    """
-    A cross hair cursor using blitting for faster redraw.
-    """
-    def __init__(self, ax, line):
-        self.ax = ax
-        self.background = None
-        self.horizontal_line = ax.axhline(color='k', lw=0.8, ls='--')
-        self.vertical_line = ax.axvline(color='k', lw=0.8, ls='--')
-        self.x, self.y = line.get_data()
-        # text location in axes coordinates
-        self.text = ax.text(0.72, 0.9, '', transform=ax.transAxes)
-        self._creating_background = False
-        ax.figure.canvas.mpl_connect('draw_event', self.on_draw)
-
-    def on_draw(self, event):
-        self.create_new_background()
-
-    def set_cross_hair_visible(self, visible):
-        need_redraw = self.horizontal_line.get_visible() != visible
-        self.horizontal_line.set_visible(visible)
-        self.vertical_line.set_visible(visible)
-        self.text.set_visible(visible)
-        return need_redraw
-
-    def create_new_background(self):
-        if self._creating_background:
-            # discard calls triggered from within this function
-            return
-        self._creating_background = True
-        self.set_cross_hair_visible(False)
-        self.ax.figure.canvas.draw()
-        self.background = self.ax.figure.canvas.copy_from_bbox(self.ax.bbox)
-        self.set_cross_hair_visible(True)
-        self._creating_background = False
-
-    def on_mouse_move(self, event):
-        if self.background is None:
-            self.create_new_background()
-        if not event.inaxes:
-            need_redraw = self.set_cross_hair_visible(False)
-            if need_redraw:
-                self.ax.figure.canvas.restore_region(self.background)
-                self.ax.figure.canvas.blit(self.ax.bbox)
-        else:
-            index = min(np.searchsorted(self.x, event.xdata), len(self.x) - 1)
-            self.set_cross_hair_visible(True)
-            # update the line positions
-            self.horizontal_line.set_ydata(event.ydata)
-            self.vertical_line.set_xdata(self.x[index])
-            self.text.set_text('x=%1.2f, y=%1.2f' % (event.xdata, event.ydata))
-
-            self.ax.figure.canvas.restore_region(self.background)
-            self.ax.draw_artist(self.horizontal_line)
-            self.ax.draw_artist(self.vertical_line)
-            self.ax.draw_artist(self.text)
-            self.ax.figure.canvas.blit(self.ax.bbox)
