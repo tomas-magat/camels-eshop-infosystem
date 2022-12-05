@@ -5,6 +5,7 @@ import time
 import os
 import difflib
 import datetime
+import operator
 
 from .ENV_VARS import PATH
 from .file import DataFile
@@ -107,9 +108,46 @@ def search_items(query='', data={}, category=0):
 
                     if data_list != None:
                         result[key] += data_list
-
     return result
 
+def sort_items(sort_state):
+    data = {}
+    goods = DataFile('tovar').data
+    prices = DataFile('cennik').data
+    default_goods = {}
+    result = {}
+
+    # GET all items that should be displayed
+    for key, val in goods.items():
+        result[key] = val
+        data_list = data.get(key)
+        if data_list != None:
+            result[key] += data_list
+
+    # GET items price from cennik.txt
+    for key, values in prices.items():
+        default_goods[key] = values[1]
+    sorted_goods_lowest_first = sorted(default_goods.items(), key = lambda x:float(x[1]))
+    sorted_goods_highest_first = sorted(default_goods.items(), key = lambda x:float(x[1]), reverse=True)
+
+    # convert list back to dic
+    goods_lowest_first_dict = dict()
+    goods_highest_first_dict = dict()
+    for key,price in sorted_goods_lowest_first:
+        goods_lowest_first_dict.setdefault(key, []).append(price)
+    for key,price in sorted_goods_highest_first:
+        goods_highest_first_dict.setdefault(key, []).append(price)
+
+    out = {}
+    if sort_state == 2:
+        for key, values in goods_highest_first_dict.items():
+            out[key] = result.get(key)
+    elif sort_state == 3:
+        for key, values in goods_lowest_first_dict.items():
+            out[key] = result.get(key)
+    else:
+        out = result
+    return out
 
 def get_match(query, key, val):
     code = len(query)/6 if query.isdigit() else 0.2

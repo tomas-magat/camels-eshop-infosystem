@@ -128,6 +128,9 @@ class Portal:
         else:
             self.create_icon("up_down_arrow.png", "Sort by price", 1)
 
+        self.result = sort_items(self.sort_state)
+        print(self.result)
+
     def login(self):
         """Redirect to login screen."""
 
