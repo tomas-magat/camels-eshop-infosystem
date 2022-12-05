@@ -14,6 +14,9 @@ class Statistika:
         self.commands.button_click(
             self.ui.statistikaButton, self.switch_screen)
         
+        self.statistika = DataFile('statistiky').data
+        self.tovar = DataFile('tovar').data
+        self.sklad = DataFile('sklad').data
         self.x = [i for i in range(10)]
         self.y = [i/2 for i in range(10)]
         self.y1 = [i**2 for i in range(10)]
@@ -26,6 +29,7 @@ class Statistika:
         self.profLoss = 0
         self.funFactsColor = '#2C57D8'
         self.avPrice = '23.58€'
+        self.pocet_produktov = '28'
 
         self.NajviacGraf()
         self.NajmenejGraf()
@@ -236,7 +240,7 @@ pre detailnejsie zobrazenie vyvoju ceny firmy pozri graf nizsie -->''')
                                         #label_6 {color: %s}''' % profLossColor)
         self.ui.label_20.setText(self.avPrice)
         self.ui.label_20.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_10.setText('2 678')
+        self.ui.label_10.setText(self.pocet_produktov)
         self.ui.label_10.setStyleSheet('color:'+self.funFactsColor)
         self.ui.label_12.setText('Sobotu (87)')
         self.ui.label_12.setStyleSheet('color:'+self.funFactsColor)
