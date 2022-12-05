@@ -1,6 +1,5 @@
 # UI Commands Simplified
-from PyQt5.QtWidgets import (
-    QGraphicsScene, QWidget, QGraphicsView, QMessageBox, QLineEdit)
+from PyQt5.QtWidgets import *
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
@@ -57,7 +56,6 @@ class UI_Commands:
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
 
-
     def list_item_selected(self, list_widget, command):
         """
         Works with QListWidget. After clicking on
@@ -67,6 +65,11 @@ class UI_Commands:
         """
 
         list_widget.currentRowChanged.connect(command)
+
+    def tab_selected(self, tab_widget, command):
+        """Do command if tab in a tabwidget selected."""
+
+        tab_widget.currentChanged.connect(command)
 
     def clear_layout(self, layout):
         """Clear all items from existing layout object."""

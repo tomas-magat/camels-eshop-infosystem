@@ -30,6 +30,17 @@ class Portal:
         # Init catalog global variables
         self.sort_state = 1
         self.catalog = []
+        self.category = 0
+
+        # Init category layouts
+        self.layouts = [
+            self.ui.allLayout,
+            self.ui.verticalLayout_3,
+            self.ui.verticalLayout_40,
+            self.ui.verticalLayout_42,
+            self.ui.verticalLayout_44,
+            self.ui.verticalLayout_46
+        ]
 
         # Track UI actions
         self.redirect_action()
@@ -37,6 +48,7 @@ class Portal:
         self.sort_action()
         self.login_actions()
         self.buy_action()
+        self.catalog_action()
 
         # Load data
         self.goods = DataFile('tovar')
@@ -81,6 +93,12 @@ class Portal:
             self.ui.buyButton, self.buy
         )
 
+    def catalog_action(self):
+        self.commands.tab_selected(
+            self.ui.itemCategories, self.set_category
+        )
+
+    # ==================== MAIN FUNCTIONALITY =======================
     def switch_screen(self, update_user: bool = False):
         """Redirect to portal screen, set cashier name if given."""
 
@@ -97,8 +115,8 @@ class Portal:
         """
 
         self.query = self.ui.searchField.text()
-        self.result = search_items(self.query)
-        self.reload_items(self.result)
+        self.result = search_items(self.query, category=self.category)
+        self.reload_items()
 
     def sort(self):
         """Update sort button and change sort state."""
@@ -119,9 +137,15 @@ class Portal:
         """Buy everything in the cart, generate uctenka_[id].txt"""
 
         self.create_receipt()
-        self.update_price(-self.cart_price)
-        self.commands.clear_layout(self.ui.cartLayout)
+        for item in self.cart.values():
+            item.delete()
 
+    def set_category(self):
+        """Set currently selected category."""
+
+        self.category = self.ui.itemCategories.currentIndex()
+
+    # ==================== HELPER FUNCTIONS =======================
     def create_icon(self, icon_name, text, new_state):
         icon = QtGui.QIcon()
         icon.addPixmap(
@@ -133,23 +157,29 @@ class Portal:
 
         self.ui.sortButton.setIcon(icon)
 
-    def reload_items(self, data):
+    def reload_items(self):
         self.catalog = []
-        self.commands.clear_layout(self.ui.allLayout)
-        self.load_items(self.result)
+        self.commands.clear_layout(self.layouts[self.category])
+        self.load_items(self.result, all_layouts=False)
 
-    def load_items(self, data):
+    def load_items(self, data, all_layouts=True):
         for key, vals in data.items():
-            self.load_item(key, vals)
+            self.load_item(key, vals, all_layouts)
 
-    def load_item(self, key, vals):
+    def load_item(self, key, vals, all_layouts):
         price = self.prices.data.get(key)
 
         if price != None and key not in self.catalog:
+            if all_layouts:
+                ItemCard(
+                    self, self.ui.allLayout, vals[0],
+                    key, float(price[1]), find_image(vals[1])
+                )
             ItemCard(
-                self, int(key[0]), vals[0],
+                self, self.layouts[int(key[0])], vals[0],
                 key, float(price[1]), find_image(vals[1])
             )
+
             self.catalog.append(key)
 
     def create_receipt(self):
@@ -157,17 +187,27 @@ class Portal:
         filename = 'uctenka_'+receipt_id+'.txt'
         filepath = os.path.join(PATH, 'source', 'data', filename)
 
-        with open(filepath, 'w') as receipt:
+        with open(filepath, 'w', encoding='utf-8') as receipt:
             self.receipt_template(receipt, receipt_id)
 
     def receipt_template(self, receipt, id):
-        receipt.write('Cislo uctenky: '+id)
+        receipt.write('Camels E-shop s.r.o.\n')
+        receipt.write('\nCislo uctenky: '+id)
         receipt.write('\nVytvorene: '+now())
         receipt.write('\nPokladnik: '+self.cashier_name)
-        receipt.write('\nSpolu cena: '+str(self.cart_price)+' €\n')
-        receipt.write('\n=================================\n')
-        items = [' - '.join(x)+'\n' for x in list(self.cart.values())]
+        receipt.write('\n\n=================================\n\n')
+        items = [
+            item.display_name+'\n\t'+str(item.amount)+'ks x ' +
+            str_price(item.price)+'\t\t\t\t' +
+            str_price(item.price, item.amount)+' €\n'
+            for item in list(self.cart.values())
+        ]
         receipt.writelines(items)
+        receipt.write('\n=================================\n\n')
+        receipt.write('Spolu cena: '+str_price(self.cart_price)+' €')
+        receipt.write('\nDPH(20%): '+str_price(self.cart_price*0.2)+' €')
+
+    # ==================== PORTAL UPDATING =======================
 
     def update_goods(self):
         """
@@ -192,15 +232,17 @@ class Portal:
 
 class ItemCard(QtWidgets.QFrame):
 
-    def __init__(self, page, category: int = 0, name: str = '',
-                 code: str = '', price: float = 1.99, image: str = ''):
+    def __init__(
+            self, page, layout, name: str,
+            code: str, price: float, image: str):
+
+        super(ItemCard, self).__init__(layout.parent())
 
         self.page = page
         self.ui = self.page.ui
         self.commands = self.page.commands
 
-        self.parent_layout = self.get_layout(category)
-        super(ItemCard, self).__init__(self.parent_layout)
+        self.parent_layout = layout
 
         self.name = camelify(name)
         self.display_name = name
@@ -208,74 +250,44 @@ class ItemCard(QtWidgets.QFrame):
         self.price = price
         self.image = image
 
-        self.bought = False
+        self.in_cart = False
 
         self.draw_ui()
 
-    def get_layout(self, category):
-        if category == 1:
-            return self.ui.verticalLayout_3
-        elif category == 2:
-            return self.ui.verticalLayout_42
-        elif category == 3:
-            return self.ui.verticalLayout_44
-        elif category == 4:
-            return self.ui.verticalLayout_40
-        elif category == 5:
-            return self.ui.verticalLayout_46
-        else:
-            return self.ui.allLayout
-
-    def add_item(self):
-        """Add item to the cart section after add button pressed."""
-
+    def button_press(self):
         self.amount = self.spinBox.value()
 
-        if self.amount > 0:
-            if self.bought:
-                self.update_cart()
-            else:
-                self.add_to_cart()
-        elif self.amount == 0 and self.bought:
+        if self.in_cart:
             self.update_cart()
-            self.cart_item.delete_item()
+        else:
+            self.add_to_cart()
 
     def update_cart(self):
-        """Updates items in cart."""
-
-        new_price = self.amount*self.price - \
-            float(self.cart_item.sumPrice.text().rstrip(' €'))
-        self.page.update_price(new_price)
-
-        self.update_cart_item()
-
-    def update_cart_item(self):
-        """Update the UI of cart item"""
-
-        self.cart_item.priceLabel.setText(
-            str(self.amount)+" ks x "+str(self.price))
-        self.cart_item.sumPrice.setText(
-            str_price(self.price, self.amount)+" €")
+        if self.amount != self.cart_item.amount:
+            if self.amount == 0:
+                self.cart_item.delete()
+            else:
+                self.cart_item.update(self.amount)
 
     def add_to_cart(self):
-        """Adds new item to the cart."""
+        if self.amount > 0:
+            self.cart_item = CartItem(
+                self, self.display_name, self.price, self.amount
+            )
+            self.update_status()
 
-        self.cart_item = CartItem(self, self.ui.cartLayout,
-                                  self.display_name, self.price, self.amount)
-
-        self.page.update_price(self.amount*self.price)
+    def update_status(self):
+        self.in_cart = not self.in_cart
         self.update_button()
 
     def update_button(self):
-        self.bought = not self.bought
-
-        if not self.bought:
+        if self.in_cart:
+            self.itemButton.setMaximumWidth(130)
+            self.addButton.setText("Update amount")
+        else:
             self.spinBox.setValue(0)
             self.itemButton.setMaximumWidth(110)
             self.addButton.setText("Add to cart")
-        else:
-            self.itemButton.setMaximumWidth(130)
-            self.addButton.setText("Update amount")
 
     def draw_ui(self):
         self.setMinimumSize(QtCore.QSize(200, 60))
@@ -328,7 +340,7 @@ class ItemCard(QtWidgets.QFrame):
         self.addButton.setObjectName(self.name+"AddButton")
         self.addButton.setStyleSheet(
             "QPushButton {font-weight: bold; border: 4px solid #2f3e46; border-radius: 12px;background-color: #2f3e46;color: #cad2c5;} QPushButton:hover {border-color: #354f52; background-color: #354f52;} QPushButton:pressed {border-color: #354f52;background-color: #354f52;}")
-        self.commands.button_click(self.addButton, self.add_item)
+        self.commands.button_click(self.addButton, self.button_press)
         self.buttonLayout.addWidget(self.addButton)
         self.mainLayout.addWidget(self.itemButton)
         self.parent_layout.addWidget(self)
@@ -336,30 +348,47 @@ class ItemCard(QtWidgets.QFrame):
 
 class CartItem(QtWidgets.QFrame):
 
-    def __init__(self, item, layout, name: str,
-                 price: float, amount: int):
-
-        super(CartItem, self).__init__(layout.parent())
-
-        self.page = item.page
+    def __init__(self, item, name: str, price: float, amount: int):
         self.item = item
+        self.page = item.page
         self.ui = self.page.ui
         self.commands = self.page.commands
+        self.parent_layout = self.ui.cartLayout
 
-        self.parent_layout = layout
+        super(CartItem, self).__init__(self.parent_layout.parent())
 
         self.name = "cart"+camelify(name)
         self.display_name = name
+
         self.price = price
         self.amount = amount
+        self.total = price*amount
+        self.update_page_cart()
+        self.page.update_price(self.total)
 
         self.draw_ui()
 
-    def delete_item(self):
+    def delete(self):
         """Delete this item from cart."""
-
-        self.item.update_button()
+        self.item.update_status()
+        self.price_change(0)
         self.deleteLater()
+
+    def update(self, amount):
+        self.price_change(amount)
+        self.priceLabel.setText(
+            str(self.amount)+" ks x "+str(self.price))
+        self.sumPrice.setText(
+            str_price(self.price, self.amount)+" €")
+
+    def price_change(self, amount):
+        new_price = amount*self.price - self.amount*self.price
+        self.amount = amount
+        self.update_page_cart()
+        self.page.update_price(new_price)
+
+    def update_page_cart(self):
+        self.page.cart[self.name] = self
 
     def draw_ui(self):
         self.setMaximumSize(QtCore.QSize(16777215, 40))
@@ -422,7 +451,7 @@ class CartItem(QtWidgets.QFrame):
         self.cancelButton.setIcon(crossIcon)
         self.cancelButton.setIconSize(QtCore.QSize(10, 10))
         self.cancelButton.setObjectName(self.name+"CancelButton")
-        self.commands.button_click(self.cancelButton, self.delete_item)
+        self.commands.button_click(self.cancelButton, self.delete)
         self.mainLayout.addWidget(
             self.cancelSection, 0, QtCore.Qt.AlignRight)
         self.parent_layout.addWidget(self)

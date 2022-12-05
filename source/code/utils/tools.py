@@ -87,7 +87,7 @@ def validate_price(input_field, invalid_cmd=None):
         return "%.2f" % price
 
 
-def search_items(query='', data={}):
+def search_items(query='', data={}, category=0):
     """
     Search for items in TOVAR.txt matching with search
     term (query) and return it joined with data in dict format.
@@ -100,12 +100,13 @@ def search_items(query='', data={}):
         for q in query.split():
             code, ratio = get_match(q, key, val)
 
-            if ratio > 0.2+code:
-                result[key] = val
-                data_list = data.get(key)
+            if int(key[0]) == category or category == 0:
+                if ratio > 0.2+code:
+                    result[key] = val
+                    data_list = data.get(key)
 
-                if data_list != None:
-                    result[key] += data_list
+                    if data_list != None:
+                        result[key] += data_list
 
     return result
 
