@@ -2,10 +2,11 @@ import os
 import shutil
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-
+from PyQt5.QtWidgets import QMessageBox
 from utils.ui_commands import UI_Commands
 from utils.tools import find_image
 from utils.file import DataFile
+import re
 
 
 class Databaza:
@@ -97,7 +98,10 @@ class ItemDetails(QtWidgets.QFrame):
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
 
-        if new_name != "" and new_code != "":
+        pattern = re.compile("^[0-9]+$")
+        pattern2 = re.compile("^[A-Za-z ]+$")
+
+        if pattern.match(new_code) and pattern2.match(new_name):
             new_text = "#"+new_code+" "+new_name
             old_text = self.ui.listWidget.currentItem().text()
 
@@ -106,6 +110,13 @@ class ItemDetails(QtWidgets.QFrame):
                     self.ui.listWidget.addItem(new_text)
                 else:
                     self.ui.listWidget.currentItem().setText(new_text)
+        else:
+            print('zla hodnota')
+            msg = QMessageBox()
+            msg.setWindowTitle("Error")
+            msg.setText("Zadajte spravnu hodnotu")
+            msg.setIcon(QMessageBox.Warning)
+            msg.exec_()
 
     def pick_image(self):
         """Let user select image and save it."""
