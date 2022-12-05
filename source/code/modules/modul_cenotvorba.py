@@ -18,10 +18,11 @@ class Cenotvorba:
         self.commands.redirect(self.ui.cenotvorba)
 
     def loadfile(self):
+       # with open('TOVAR.TXT') as file:
         for i in range(7):
             ItemPriceCard(self, self.ui.verticalLayout_25, "test" +
-                          str(i), "Test "+str(i), "0000", (5.99, 6.59),
-                          find_image("tricko.jpg"))
+                        str(i), "Test "+str(i), "0000", (5.99, 6.59),
+                        find_image("tricko.jpg"))
 
 
 class ItemPriceCard(QtWidgets.QFrame):
