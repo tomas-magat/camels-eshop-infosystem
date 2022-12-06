@@ -35,6 +35,9 @@ class Databaza:
         self.goods = DataFile('tovar')
         self.load_items(self.goods.data)
 
+        self.prices = DataFile('cennik')
+        self.storage = DataFile('sklad')
+
     def load_items(self, data):
         for key, vals in data.items():
             self.load_item(key, vals)
@@ -86,6 +89,7 @@ class ItemDetails(QtWidgets.QFrame):
         self.name = "itemDetails"
         self.display_name = display_name
         self.image_path = find_image(image_path)
+        self.filename = image_path
         self.code = code
 
         self.adding = add_button
@@ -93,28 +97,38 @@ class ItemDetails(QtWidgets.QFrame):
 
         self.draw_ui()
 
-    def edit_items(self):
-        new_name = self.lineEdit.text()
-        new_code = self.lineEdit_2.text()
+    def edit_items(self, new_code, new_name, new_text):
+        self.ui.listWidget.currentItem().setText(new_text)
+        if new_code != self.code:
+            self.ui.listWidget.currentItem().setText(new_text)
+            prices_data = self.page.prices.data.get(self.code)
+            if prices_data != None:
+                self.page.prices.data[new_code] = prices_data
+                del self.page.prices.data[self.code]
+                self.page.prices.save_data()
 
-        pattern = re.compile("^[1-5]+$")
-        pattern2 = re.compile("^[A-Za-z ]+$")
+            storage_code = self.page.storage.data.get(self.code)
+            if storage_code != None:
+                self.page.storage.data[new_code] = storage_code
+                del self.page.storage.data[self.code]
+                self.page.storage.save_data()
 
-        if pattern.match(new_code) and pattern2.match(new_name):
-            new_text = "#" + new_code + " " + new_name
-            old_text = self.ui.listWidget.currentItem().text()
+            goods_code = self.page.goods.data.get(self.code)
+            self.page.goods.data[new_code] = goods_code
+            del self.page.goods.data[self.code]
+            self.page.goods.save_data()
+            self.page.goods.read()
+        else:
+            self.page.goods.data[new_code] = [
+                new_name, self.filename]
+            self.page.goods.save_data()
+            self.page.goods.read()
 
-            image_name = self.filename
-
-            if new_text != old_text:
-
-                self.ui.listWidget.currentItem().setText(new_text)
-
+        self.code = new_code
+        self.name = new_name
 
     def update_list(self):
         """Update listWidget with currently entered values."""
-
-        tovar_url = 'C:/Users/Home/Desktop/eshop3/camels-eshop-infosystem/source/data/TOVAR.txt'
 
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
@@ -126,28 +140,15 @@ class ItemDetails(QtWidgets.QFrame):
             new_text = "#"+new_code+" "+new_name
             old_text = self.ui.listWidget.currentItem().text()
 
-            #image_url = find_image(self.filename)
-            #image_name = image_url[67:]
-            image_name = self.filename
-
             if new_text != old_text:
                 if self.adding:
-                    # zapisovanie do suboru nove produkty
-                    subor = open(tovar_url, 'r+')
-                    pocet_produktov = int((subor.readline()).strip()) + 1
-                    print(pocet_produktov)
-                    """ First ROW """
-                    subor.seek(0, os.SEEK_SET)
-                    subor.write(str(pocet_produktov))
-                    """ END of the file """
-                    subor.seek(0, os.SEEK_END)
+                    self.page.goods.data[new_code] = [new_name, self.filename]
+                    self.page.goods.save_data()
+                    self.page.goods.read()
                     self.ui.listWidget.addItem(new_text)
-                    subor.write('\n' + new_code + ';' + new_name + ';' + image_name)
-                    subor.close()
+                    self.adding = False
                 else:
-                    self.edit_items()
-
-                    #self.ui.listWidget.currentItem().setText(new_text)
+                    self.edit_items(new_code, new_name, new_text)
         else:
             print('zla hodnota')
             msg = QMessageBox()

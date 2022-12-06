@@ -25,7 +25,7 @@ class MainWindow:
             os.path.join(PATH, 'source', 'code', 'main.ui'))
 
         self.commands = UI_Commands(self.ui)
-        self.commands.redirect(self.ui.index)
+        self.index()
 
         # Initialize modules
         self.portal = modul_portal.Portal(self.ui)
@@ -47,6 +47,9 @@ class MainWindow:
     def show(self):
         """Show the main App UI window."""
         self.ui.show()
+
+    def index(self):
+        self.commands.redirect(self.ui.index)
 
 
 if __name__ == '__main__':
