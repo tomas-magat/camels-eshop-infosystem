@@ -38,6 +38,7 @@ class Cenotvorba:
             prices = item.getPrices()
             self.prices.data[item.code] = prices
         self.prices.save_data()
+
 class ItemPriceCard(QtWidgets.QFrame):
 
     def __init__(self, page, layout, name: str,

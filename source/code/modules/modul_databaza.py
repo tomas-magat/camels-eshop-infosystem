@@ -97,7 +97,7 @@ class ItemDetails(QtWidgets.QFrame):
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
 
-        pattern = re.compile("^[0-9]+$")
+        pattern = re.compile("^[1-5]+$")
         pattern2 = re.compile("^[A-Za-z ]+$")
 
         if pattern.match(new_code) and pattern2.match(new_name):
