@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -592,8 +592,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>350</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_40"/>
@@ -912,8 +912,8 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>329</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="cartLayout"/>
@@ -1726,8 +1726,8 @@ color: rgb(125, 125, 125);</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>163</width>
-               <height>68</height>
+               <width>151</width>
+               <height>61</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -3471,7 +3471,7 @@ background-color :#BBBBBB;
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>470</width>
+          <width>474</width>
           <height>250</height>
          </rect>
         </property>
@@ -3534,7 +3534,7 @@ background-color :#BBBBBB;
               <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>60</number>
+              <number>40</number>
              </property>
              <property name="bottomMargin">
               <number>0</number>
@@ -3554,6 +3554,18 @@ background-color :#BBBBBB;
              </item>
              <item>
               <widget class="QLabel" name="label_10">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>255</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>8</pointsize>
@@ -3586,13 +3598,13 @@ background-color :#BBBBBB;
               <number>30</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>60</number>
+              <number>40</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_11">
@@ -3606,6 +3618,18 @@ background-color :#BBBBBB;
              </item>
              <item>
               <widget class="QLabel" name="label_12">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>255</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>8</pointsize>
@@ -3635,13 +3659,13 @@ background-color :#BBBBBB;
               <number>30</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>60</number>
+              <number>40</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_15">
@@ -3655,6 +3679,12 @@ background-color :#BBBBBB;
              </item>
              <item>
               <widget class="QLabel" name="label_16">
+               <property name="minimumSize">
+                <size>
+                 <width>255</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>8</pointsize>
@@ -3687,13 +3717,13 @@ background-color :#BBBBBB;
               <number>30</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>60</number>
+              <number>40</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_13">
@@ -3707,6 +3737,30 @@ background-color :#BBBBBB;
              </item>
              <item>
               <widget class="QLabel" name="label_14">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>255</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="sizeIncrement">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>8</pointsize>
@@ -3739,13 +3793,13 @@ background-color :#BBBBBB;
               <number>30</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>60</number>
+              <number>40</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_19">
@@ -3759,6 +3813,12 @@ background-color :#BBBBBB;
              </item>
              <item>
               <widget class="QLabel" name="label_20">
+               <property name="minimumSize">
+                <size>
+                 <width>255</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>8</pointsize>

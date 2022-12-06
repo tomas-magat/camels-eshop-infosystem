@@ -14,23 +14,17 @@ class Statistika:
         self.commands.button_click(
             self.ui.statistikaButton, self.switch_screen)
         
-        self.statistika = DataFile('statistiky').data
+        self.statistiky = DataFile('statistiky').data
         self.tovar = DataFile('tovar').data
         self.sklad = DataFile('sklad').data
-        self.x = [i for i in range(10)]
-        self.y = [i/2 for i in range(10)]
-        self.y1 = [i**2 for i in range(10)]
-        self.top_ten = sorted([15, 9, 80, 69, 25, 90, 63, 78, 54, 75], reverse=True)
-        self.top_ten_worst = sorted([70, 5, 69, 20, 25, 90, 63, 78, 54, 75])
+        self.cennik = DataFile('cennik').data
         self.font = {'fontname': 'Arial'}
         self.edgecolor = '#CAD2C5'
         self.linewidth = 2
         self.graph_color = '#CAD2C5'
-        self.profLoss = 0
         self.funFactsColor = '#2C57D8'
-        self.avPrice = '23.58€'
-        self.pocet_produktov = '28'
 
+        self.Values()
         self.NajviacGraf()
         self.NajmenejGraf()
         self.VyvojGraf()
@@ -40,6 +34,56 @@ class Statistika:
         """Redirect to this statistika screen."""
         self.commands.redirect(self.ui.statistika)
 
+
+    def Values(self):
+        self.pocet_produktov = 0
+        najviac_produkt = 0
+        self.posledna_objednavka = '2003-09-10 10-34-59;P;kosela;5ks;5.99/ks'
+
+        for k, v in self.sklad.items():
+            self.pocet_produktov += int(v[0])
+            if int(v[0]) > najviac_produkt:
+                najviac_produkt = int(v[0])
+                self.najviac_produkt = k
+
+        for k1, v1 in self.statistiky.items():
+            p=v1[2]
+
+        for k, v in self.tovar.items():
+            if k == p:
+                p = v[0]
+            if k == self.najviac_produkt:
+                self.najviac_produkt = v[0]+'-'+str(najviac_produkt)+'ks'
+
+        for k, v in self.cennik.items():
+            if k == v1[2]:
+                if v1[0] == 'P':
+                    if v[1] == v1[4]:
+                        t=True
+                    else:
+                        t=False
+                elif v1[0] == 'N':
+                    if v[0] == v1[4]:
+                        t=True
+                    else:
+                        t=False
+                else:
+                    t=False
+
+        if t:
+            k1 = k1.split()[0]+' '+k1.split()[1].replace('-', ':')
+            self.posledna_objednavka = k1+';'+v1[0]+';'+p+';'+v1[3]+'ks'+';'+v1[4]+'/ks'
+        else:
+            self.posledna_objednavka = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
+
+        self.x = [i for i in range(10)]
+        self.y = [i/2 for i in range(10)]
+        self.y1 = [i**2 for i in range(10)]
+        self.top_ten = sorted([15, 9, 80, 69, 25, 90, 63, 78, 54, 75], reverse=True)
+        self.top_ten_worst = sorted([70, 5, 69, 20, 25, 90, 63, 78, 54, 75])
+        self.profLoss = 0
+        self.avPrice = '23.58€'
+        self.najviac_den = 'Sobotu (87)'
 
 
     def NajviacGraf(self):
@@ -240,13 +284,13 @@ pre detailnejsie zobrazenie vyvoju ceny firmy pozri graf nizsie -->''')
                                         #label_6 {color: %s}''' % profLossColor)
         self.ui.label_20.setText(self.avPrice)
         self.ui.label_20.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_10.setText(self.pocet_produktov)
+        self.ui.label_10.setText(str(self.pocet_produktov))
         self.ui.label_10.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_12.setText('Sobotu (87)')
+        self.ui.label_12.setText(self.najviac_den)
         self.ui.label_12.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_16.setText('Topanok (865 parov)')
+        self.ui.label_16.setText(self.najviac_produkt)
         self.ui.label_16.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_14.setText('2003-09-10 10-34-59;kosela;5ks;5.99/ks')
+        self.ui.label_14.setText(self.posledna_objednavka)
         self.ui.label_14.setStyleSheet('color:'+self.funFactsColor)
         self.ui.camelLogo_2.setToolTip('')
 
