@@ -3,6 +3,7 @@ from utils.ui_commands import UI_Commands
 from utils.tools import find_image, camelify, validate_price
 from utils.file import DataFile
 
+
 class Cenotvorba:
 
     def __init__(self, ui):
@@ -14,11 +15,10 @@ class Cenotvorba:
         self.commands.buttons_click(
             [self.ui.saveButton, self.ui.homeArrow3], self.savefile)
 
-
         self.price_cards = []
         self.items = DataFile('TOVAR')
         self.prices = DataFile('CENNIK')
-        #print(self.items.data)
+        # print(self.items.data)
         self.loadfile()
 
     def switch_screen(self):
@@ -29,8 +29,8 @@ class Cenotvorba:
         self.commands.clear_layout(self.ui.verticalLayout_51)
         for key, value in self.items.data.items():
             price = self.prices.data.get(key)
-            item_card = ItemPriceCard(self, self.ui.verticalLayout_51, value[0], 
-                        key, price, find_image(value[1]))
+            item_card = ItemPriceCard(self, self.ui.verticalLayout_51, value[0],
+                                      key, price, find_image(value[1]))
             self.price_cards.append(item_card)
 
     def savefile(self):
@@ -38,10 +38,12 @@ class Cenotvorba:
             prices = item.getPrices()
             self.prices.data[item.code] = prices
         self.prices.save_data()
+
+
 class ItemPriceCard(QtWidgets.QFrame):
 
     def __init__(self, page, layout, name: str,
-                 code: str, price, image: str):
+                 code: str, price=[0.00, 0.00], image: str = ''):
 
         super(ItemPriceCard, self).__init__(layout.parent())
 
