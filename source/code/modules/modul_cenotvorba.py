@@ -11,7 +11,11 @@ class Cenotvorba:
         self.commands = UI_Commands(self.ui)
         self.commands.button_click(
             self.ui.cenotvorbaButton, self.switch_screen)
-        
+        self.commands.buttons_click(
+            [self.ui.saveButton, self.ui.homeArrow3], self.savefile)
+
+
+        self.price_cards = []
         self.items = DataFile('TOVAR')
         self.prices = DataFile('CENNIK')
         self.loadfile()
@@ -24,10 +28,15 @@ class Cenotvorba:
         self.commands.clear_layout(self.ui.verticalLayout_51)
         for key, value in self.items.data.items():
             price = self.prices.data.get(key)
-            ItemPriceCard(self, self.ui.verticalLayout_51, value[0], 
+            item_card = ItemPriceCard(self, self.ui.verticalLayout_51, value[0], 
                         key, price, find_image(value[1]))
+            self.price_cards.append(item_card)
 
-
+    def savefile(self):
+        for item in self.price_cards:
+            prices = item.getPrices()
+            self.prices.data[item.code] = prices
+        self.prices.save_data()
 class ItemPriceCard(QtWidgets.QFrame):
 
     def __init__(self, page, layout, name: str,
@@ -49,6 +58,11 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.image = image
 
         self.draw_ui()
+
+    def getPrices(self):
+        self.buy_price = self.lineEdit_4.text()
+        self.sell_price = self.lineEdit_5.text()
+        return [self.buy_price, self.sell_price]
 
     def draw_ui(self):
         self.setMinimumSize(QtCore.QSize(0, 60))
