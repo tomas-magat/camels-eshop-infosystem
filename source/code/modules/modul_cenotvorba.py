@@ -28,9 +28,10 @@ class Cenotvorba:
     def loadfile(self):
         self.commands.clear_layout(self.ui.verticalLayout_51)
         for key, value in self.items.data.items():
-            price = self.prices.data.get(key)
+            price = self.prices.data.get(
+                key) if self.prices.data.get(key) != None else [0, 0]
             item_card = ItemPriceCard(self, self.ui.verticalLayout_51, value[0],
-                                      key, price, find_image(value[1]))
+                                      key, price=price, image=find_image(value[1]))
             self.price_cards.append(item_card)
 
     def savefile(self):
