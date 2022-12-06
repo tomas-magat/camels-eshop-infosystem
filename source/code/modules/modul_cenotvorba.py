@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 from utils.ui_commands import UI_Commands
-from utils.tools import find_image, camelify
+from utils.tools import find_image, camelify, validate_price
 from utils.file import DataFile
 
 class Cenotvorba:
@@ -61,8 +61,10 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.draw_ui()
 
     def getPrices(self):
-        self.buy_price = self.lineEdit_4.text()
-        self.sell_price = self.lineEdit_5.text()
+        buy = validate_price(self.lineEdit_4)
+        self.buy_price = self.buy_price if buy == None else buy
+        sell = validate_price(self.lineEdit_5)
+        self.sell_price = self.buy_price if sell == None else sell
         return [self.buy_price, self.sell_price]
 
     def draw_ui(self):
