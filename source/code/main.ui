@@ -1829,8 +1829,8 @@ color: rgb(125, 125, 125);</string>
                        <font>
                         <family>MS Shell Dlg 2</family>
                         <pointsize>10</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
+                        <weight>50</weight>
+                        <bold>false</bold>
                        </font>
                       </property>
                       <property name="text">

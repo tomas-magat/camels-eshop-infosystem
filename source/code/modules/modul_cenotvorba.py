@@ -18,6 +18,7 @@ class Cenotvorba:
         self.price_cards = []
         self.items = DataFile('TOVAR')
         self.prices = DataFile('CENNIK')
+        print(self.items.data)
         self.loadfile()
 
     def switch_screen(self):
