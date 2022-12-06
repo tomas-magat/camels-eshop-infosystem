@@ -21,6 +21,7 @@ def random_id(type='N'):
 
 
 def now():
+    """Get current date in a string format YYYY-MM-DD HH-mm-SS."""
     return datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
 

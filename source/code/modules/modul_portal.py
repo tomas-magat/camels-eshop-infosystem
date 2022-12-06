@@ -51,14 +51,12 @@ class Portal:
         self.search_action()
         self.sort_action()
         self.login_actions()
-        self.buy_action()
         self.catalog_action()
 
         # Load data
         self.goods = DataFile('tovar')
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
-        self.statistics = DataFile('statistiky')
         self.load_items(self.goods.data)
 
         # Update 'goods' variable every 3 seconds
@@ -91,11 +89,6 @@ class Portal:
         self.commands.form_submit(
             [self.ui.nameEntry, self.ui.loginButton],
             lambda: self.switch_screen(update_user=True)
-        )
-
-    def buy_action(self):
-        self.commands.button_click(
-            self.ui.buyButton, self.buy
         )
 
     def catalog_action(self):
@@ -141,14 +134,6 @@ class Portal:
 
         self.commands.redirect(self.ui.login)
 
-    def buy(self):
-        """Buy everything in the cart, generate uctenka_[id].txt"""
-
-        self.create_receipt()
-        self.add_stats()
-        for item in self.cart.values():
-            item.delete()
-
     def set_category(self):
         """Set currently selected category."""
 
@@ -191,22 +176,80 @@ class Portal:
 
             self.catalog.append(key)
 
-    def add_stats(self):
-        self.statistics_data = self.statistics.data
-        for code, item in self.cart.items():
-            self.statistics_data[now()] = [
-                'P', self.receipt_id[1:], code, item.amount, item.price]
+    # ==================== PORTAL UPDATING =======================
 
+    def update_goods(self):
+        """
+        Update 'goods' variable if version of the tovar.txt
+        datafile has changed.
+        """
+
+        current_version = self.goods.version
+
+        if current_version != self.version:
+            self.goods.read()
+            self.version = current_version
+            self.load_items()
+
+
+class Cart:
+
+    def __init__(self, page):
+        """This class represents a cart with its contents and price."""
+
+        self.page = page
+        self.ui = page.ui
+        self.commands = page.commands
+
+        # Init cart global variables
+        self.price = 0
+        self.contents = {}
+        self.statistics = DataFile('statistiky')
+        self.id = random_id('P')
+
+        self.buy_click()
+
+    def buy_click(self):
+        self.commands.button_click(
+            self.ui.buyButton, self.buy
+        )
+
+    def buy(self):
+        """
+        Generate uctenka_[id].txt, add datapoint to 
+        statistics and remove everything from the cart.
+        """
+        self.create_receipt()
+        self.add_stats()
+        self.clear_cart()
+
+    def clear_cart(self):
+        """Remove everything from the cart."""
+        for item in self.cart.values():
+            item.delete()
+
+    def add_stats(self):
+        """Add datapoint from transaction to STATISTIKY.txt."""
+        for code, item in self.contents.items():
+            self.statistics.data[now()] = [
+                'P', self.id[1:], code, item.amount, item.price]
         self.statistics.save_data()
 
+    def update_price(self, value):
+        """Update total price of a cart."""
+        self.price += value
+        self.ui.totalPrice.setText(
+            "Spolu: "+str_price(self.price, 1)+" €")
+
     def create_receipt(self):
-        self.receipt_id = random_id('P')
-        filename = 'uctenka_'+self.receipt_id+'.txt'
+        """Create """
+        filename = 'uctenka_'+self.id+'.txt'
         filepath = os.path.join(PATH, 'source', 'data', filename)
 
         with open(filepath, 'w', encoding='utf-8') as receipt:
-            self.receipt_template(receipt, self.receipt_id)
+            self.receipt.write(self.receipt_template())
 
+    def info_message(self):
         receipt_icon = QtGui.QIcon()
         msg = QtWidgets.QMessageBox()
 
@@ -234,28 +277,6 @@ class Portal:
         receipt.write('\n=================================\n\n')
         receipt.write('Spolu cena: '+str_price(self.cart_price)+' €')
         receipt.write('\nDPH(20%): '+str_price(self.cart_price*0.2)+' €')
-
-    # ==================== PORTAL UPDATING =======================
-
-    def update_goods(self):
-        """
-        Update 'goods' variable if version of the tovar.txt
-        datafile has changed.
-        """
-
-        current_version = self.goods.version
-
-        if current_version != self.version:
-            self.goods.read()
-            self.version = current_version
-            self.load_items()
-
-    def update_price(self, value):
-        """Update total price of a cart."""
-
-        self.cart_price += value
-        self.ui.totalPrice.setText(
-            "Spolu: "+str_price(self.cart_price, 1)+" €")
 
 
 class ItemCard(QtWidgets.QFrame):
