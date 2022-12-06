@@ -5,7 +5,6 @@ import time
 import os
 import difflib
 import datetime
-import operator
 
 from .ENV_VARS import PATH
 from .file import DataFile
@@ -110,6 +109,7 @@ def search_items(query='', data={}, category=0):
                         result[key] += data_list
     return result
 
+
 def sort_items(sort_state):
     data = {}
     goods = DataFile('tovar').data
@@ -127,15 +127,17 @@ def sort_items(sort_state):
     # GET items price from cennik.txt
     for key, values in prices.items():
         default_goods[key] = values[1]
-    sorted_goods_lowest_first = sorted(default_goods.items(), key = lambda x:float(x[1]))
-    sorted_goods_highest_first = sorted(default_goods.items(), key = lambda x:float(x[1]), reverse=True)
+    sorted_goods_lowest_first = sorted(
+        default_goods.items(), key=lambda x: float(x[1]))
+    sorted_goods_highest_first = sorted(
+        default_goods.items(), key=lambda x: float(x[1]), reverse=True)
 
     # convert list back to dic
     goods_lowest_first_dict = dict()
     goods_highest_first_dict = dict()
-    for key,price in sorted_goods_lowest_first:
+    for key, price in sorted_goods_lowest_first:
         goods_lowest_first_dict.setdefault(key, []).append(price)
-    for key,price in sorted_goods_highest_first:
+    for key, price in sorted_goods_highest_first:
         goods_highest_first_dict.setdefault(key, []).append(price)
 
     out = {}
@@ -148,6 +150,7 @@ def sort_items(sort_state):
     else:
         out = result
     return out
+
 
 def get_match(query, key, val):
     code = len(query)/6 if query.isdigit() else 0.2

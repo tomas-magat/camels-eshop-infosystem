@@ -13,9 +13,6 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from utils.ui_commands import UI_Commands
 from utils.file import DataFile
 from utils.tools import *
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtGui import QPixmap
-from utils.ENV_VARS import PATH
 
 
 class Portal:
@@ -211,14 +208,14 @@ class Portal:
             self.receipt_template(receipt, self.receipt_id)
 
         receipt_icon = QtGui.QIcon()
-        msg = QMessageBox()
+        msg = QtWidgets.QMessageBox()
 
         receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
                                QtGui.QIcon.Normal, QtGui.QIcon.Off)
         msg.setWindowTitle(f"Sale {self.receipt_id[1:]} - confirmed")
         msg.setText('<b><p style="padding: 0px;  margin: 0px;">Pokladničný doklad bol úspešne vygenerovaný.</p>' +
                     f'<br><a href="file:///{PATH}/source/data/{filename}">Otvor účtenku č. {self.receipt_id}</a>')
-        msg.setIconPixmap(QPixmap(find_icon('receipt.svg')))
+        msg.setIconPixmap(QtGui.QPixmap(find_icon('receipt.svg')))
         msg.exec_()
 
     def receipt_template(self, receipt, id):
@@ -303,7 +300,7 @@ class ItemCard(QtWidgets.QFrame):
     def add_to_cart(self):
         if self.amount > 0:
             self.cart_item = CartItem(
-                self, self.code, self.price, self.amount
+                self, self.display_name, self.price, self.amount
             )
             self.update_status()
 
@@ -379,7 +376,7 @@ class ItemCard(QtWidgets.QFrame):
 
 class CartItem(QtWidgets.QFrame):
 
-    def __init__(self, item, code: str, price: float, amount: int):
+    def __init__(self, item, name: str, price: float, amount: int):
         self.item = item
         self.page = item.page
         self.ui = self.page.ui
@@ -388,9 +385,9 @@ class CartItem(QtWidgets.QFrame):
 
         super(CartItem, self).__init__(self.parent_layout.parent())
 
-        self.code = code
-        self.name = "cart"+camelify(code)
-        self.display_name = code
+        self.code = self.item.code
+        self.name = "cart"+camelify(name)
+        self.display_name = name
 
         self.price = price
         self.amount = amount
