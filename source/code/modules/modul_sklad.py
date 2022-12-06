@@ -33,16 +33,16 @@ class Sklad:
         self.cart_price = 0
         self.cart = {}
         self.catalog = []
-        self.category= 0
+        self.category = 0
 
         # Track UI actions
         self.button_clicks()
 
         # Init category layouts
-        self.layouts=[self.ui.verticalLayout_18,self.ui.verticalLayout_37,self.ui.verticalLayout_20,self.ui.verticalLayout_28,
-                        self.ui.verticalLayout_31,self.ui.verticalLayout_35]
+        self.layouts = [self.ui.verticalLayout_18, self.ui.verticalLayout_37, self.ui.verticalLayout_20, self.ui.verticalLayout_28,
+                        self.ui.verticalLayout_31, self.ui.verticalLayout_35]
 
-         # Load data
+        # Load data
         self.goods = DataFile('tovar')
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
@@ -59,6 +59,7 @@ class Sklad:
         self.version = self.goods.version
         run_periodically(self.update_goods, 3)
     # ==================== ACTIONS =======================
+
     def redirect_action(self):
         self.commands.buttons_click(
             [self.ui.skladButton, self.ui.homeArrow4],
@@ -75,7 +76,7 @@ class Sklad:
         self.commands.button_click(
             self.ui.sortButton, self.sort
         )
-    
+
     def buy_action(self):
         self.commands.button_click(
             self.ui.buyButton_7, self.buy
@@ -114,7 +115,7 @@ class Sklad:
 
         self.result = sort_items(self.sort_state)
         print(self.result)
-    
+
     def buy(self):
         """Buy everything in the cart, generate objednavka_[id].txt"""
 
@@ -127,6 +128,7 @@ class Sklad:
 
         self.category = self.ui.itemCategories.currentIndex()
     # ==================== HELPER FUNCTIONS =======================
+
     def create_icon(self, icon_name, text, new_state):
         icon = QtGui.QIcon()
         icon.addPixmap(
@@ -143,11 +145,11 @@ class Sklad:
         self.commands.clear_layout(self.layouts[self.category])
         self.load_items(self.result, all_layouts=False)
 
-    def load_items(self, data, all_layouts= True):
+    def load_items(self, data, all_layouts=True):
         """Load all items from database into catalog."""
 
         for key, vals in data.items():
-            self.load_item(key, vals,all_layouts)
+            self.load_item(key, vals, all_layouts)
 
     def load_item(self, key, vals, all_layouts):
         price = self.prices.data.get(key)
@@ -156,13 +158,13 @@ class Sklad:
         if name not in self.catalog:
             image = find_image(vals[1])
             ItemCard(self, self.layouts[int(key[0])],
-                    vals[0], key, float(price[0]), image, int(count[0]))
-        if name not in self.catalog and int(count[0])<10:
+                     vals[0], key, float(price[0]), image, int(count[0]))
+        if name not in self.catalog and int(count[0]) < 10:
             ItemCard(self, self.ui.verticalLayout_18,
-                    vals[0], key, float(price[0]), image, int(count[0]))
+                     vals[0], key, float(price[0]), image, int(count[0]))
 
         self.catalog.append(name)
-    
+
     def create_receipt(self):
         receipt_id = random_id('N')
         filename = 'objednavka_'+receipt_id+'.txt'
@@ -173,11 +175,12 @@ class Sklad:
 
         receipt_icon = QtGui.QIcon()
         msg = QMessageBox()
-        
+
         receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
-                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                               QtGui.QIcon.Normal, QtGui.QIcon.Off)
         msg.setWindowTitle(f"Sale {receipt_id[1:]} - confirmed")
-        msg.setText('<b><p style="padding: 0px;  margin: 0px;">Pokladničný doklad bol úspešne vygenerovaný.</p>' + f'<br><a href="file:///{PATH}/source/data/{filename}">Otvor objednávku č. {receipt_id}</a>')
+        msg.setText('<b><p style="padding: 0px;  margin: 0px;">Pokladničný doklad bol úspešne vygenerovaný.</p>' +
+                    f'<br><a href="file:///{PATH}/source/data/{filename}">Otvor objednávku č. {receipt_id}</a>')
         msg.setIconPixmap(QPixmap(find_icon('receipt.svg')))
         msg.exec_()
 
@@ -218,7 +221,7 @@ class Sklad:
         self.ui.totalPrice_2.setText(
             "Spolu: "+str_price(self.cart_price, 1)+" €")
 
-    #===================SORT BUTTON STATE==================================
+    # ===================SORT BUTTON STATE==================================
 
     def sort_button_state(self):
         """Update sort button state and change its icon."""
@@ -249,15 +252,15 @@ class Sklad:
         print(self.order_mode)
 
     def automatic(self):
-        self.order_mode= 1
+        self.order_mode = 1
         self.order()
 
     def semiautomatic(self):
-        self.order_mode= 2
+        self.order_mode = 2
         self.order()
 
     def manual(self):
-        self.order_mode= 3
+        self.order_mode = 3
         self.order()
 
     def button_clicks(self):
@@ -372,7 +375,8 @@ class ItemCard(QtWidgets.QFrame):
         self.itemName.setObjectName(self.name+"Name")
         self.nameLayout = QtWidgets.QVBoxLayout(self.itemName)
         self.nameLayout.setObjectName(self.name+"NameLayout")
-        self.itemLabel = QtWidgets.QLabel(self.display_name+"  #"+self.code+"\nCena:"+str(self.price)+" €"+"    Na sklade: "+ str(self.count))
+        self.itemLabel = QtWidgets.QLabel(self.display_name+"  #"+self.code+"\nCena:"+str(
+            self.price)+" €"+"    Na sklade: " + str(self.count))
         self.itemLabel.setObjectName(self.name+"ItemLabel")
         self.nameLayout.addWidget(self.itemLabel)
         self.mainLayout_2.addWidget(self.itemName)
@@ -400,6 +404,7 @@ class ItemCard(QtWidgets.QFrame):
         self.mainLayout_2.addWidget(self.itemButton)
         self.parent_layout.addWidget(self)
 
+
 class CartItem(QtWidgets.QFrame):
 
     def __init__(self, item, name: str, price: float, amount: int):
@@ -407,7 +412,7 @@ class CartItem(QtWidgets.QFrame):
         self.page = item.page
         self.ui = self.page.ui
         self.commands = self.page.commands
-        self.parent_layout = self.ui.verticalLayout_21
+        self.parent_layout = self.ui.verticalLayout_34
 
         super(CartItem, self).__init__(self.parent_layout.parent())
 
@@ -511,67 +516,63 @@ class CartItem(QtWidgets.QFrame):
         self.parent_layout.addWidget(self)
 
 
-
-
-
-
 def draw_ui_1(self):
-        self.setMinimumSize(QtCore.QSize(200, 60))
-        self.setMaximumSize(QtCore.QSize(16777215, 60))
-        self.setFrameShape(QtWidgets.QFrame.Box)
-        self.setFrameShadow(QtWidgets.QFrame.Plain)
-        if self.parent_layout == self.ui.verticalLayout_18:
-            self.setStyleSheet("background-color: rgb(255,64,64)")
-        self.setObjectName(self.name)
-        self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
-        self.mainLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.mainLayout_2.setSpacing(0)
-        self.mainLayout_2.setObjectName(self.name+"Layout")
-        self.itemPreview = QtWidgets.QWidget(self)
-        self.itemPreview.setMaximumSize(QtCore.QSize(60, 16777215))
-        self.itemPreview.setObjectName(self.name+"Preview")
-        self.previewLayout = QtWidgets.QVBoxLayout(self.itemPreview)
-        self.previewLayout.setObjectName(self.name+"PreviewLayout")
-        self.itemImage = QtWidgets.QLabel()
-        self.itemImage.setPixmap(QtGui.QPixmap(self.image))
-        self.itemImage.setScaledContents(True)
-        self.itemImage.setWordWrap(True)
-        self.itemImage.setObjectName(self.name+"Image")
-        self.previewLayout.addWidget(self.itemImage)
-        self.mainLayout_2.addWidget(self.itemPreview)
-        self.itemName = QtWidgets.QWidget(self)
-        self.itemName.setObjectName(self.name+"Name")
-        self.nameLayout = QtWidgets.QVBoxLayout(self.itemName)
-        self.nameLayout.setObjectName(self.name+"NameLayout")
-        self.itemLabel = QtWidgets.QLabel(self.display_name+"  #"+self.code+
-                                          "  Cena: 5,99€   " + "self.count")
-        self.itemLabel.setObjectName(self.name+"ItemLabel")
-        self.nameLayout.addWidget(self.itemLabel)
-        self.mainLayout_2.addWidget(self.itemName)
-        self.itemCount = QtWidgets.QWidget(self)
-        self.itemCount.setMaximumSize(QtCore.QSize(60, 16777215))
-        self.itemCount.setObjectName(self.name+"Count")
-        self.countLayout = QtWidgets.QVBoxLayout(self.itemCount)
-        self.countLayout.setObjectName(self.name+"CountLayout")
-        self.spinBox = QtWidgets.QSpinBox(self.itemCount)
-        self.spinBox.setStyleSheet("QSpinBox"
-                                   "{"
-                                   "background-color : white;"
-                                   "}")
-        self.spinBox.setObjectName(self.name+"SpinBox")
-        self.countLayout.addWidget(self.spinBox)
-        self.mainLayout_2.addWidget(self.itemCount)
-        self.itemButton = QtWidgets.QWidget(self)
-        self.itemButton.setMaximumSize(QtCore.QSize(110, 16777215))
-        self.itemButton.setObjectName(self.name+"Button")
-        self.buttonLayout = QtWidgets.QVBoxLayout(self.itemButton)
-        self.buttonLayout.setObjectName(self.name+"ButtonLayout")
-        self.addButton = QtWidgets.QPushButton("Add to cart")
-        self.addButton.setMinimumHeight(24)
-        self.addButton.setObjectName(self.name+"AddButton")
-        self.addButton.setStyleSheet(
-            "QPushButton {font-weight: bold; border: 4px solid #2f3e46; border-radius: 12px;background-color: #2f3e46;color: #cad2c5;} QPushButton:hover {border-color: #354f52; background-color: #354f52;} QPushButton:pressed {border-color: #354f52;background-color: #354f52;}")
-        self.commands.button_click(self.addButton, self.add_to_cart)
-        self.buttonLayout.addWidget(self.addButton)
-        self.mainLayout_2.addWidget(self.itemButton)
-        self.parent_layout.addWidget(self)
+    self.setMinimumSize(QtCore.QSize(200, 60))
+    self.setMaximumSize(QtCore.QSize(16777215, 60))
+    self.setFrameShape(QtWidgets.QFrame.Box)
+    self.setFrameShadow(QtWidgets.QFrame.Plain)
+    if self.parent_layout == self.ui.verticalLayout_18:
+        self.setStyleSheet("background-color: rgb(255,64,64)")
+    self.setObjectName(self.name)
+    self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
+    self.mainLayout_2.setContentsMargins(0, 0, 0, 0)
+    self.mainLayout_2.setSpacing(0)
+    self.mainLayout_2.setObjectName(self.name+"Layout")
+    self.itemPreview = QtWidgets.QWidget(self)
+    self.itemPreview.setMaximumSize(QtCore.QSize(60, 16777215))
+    self.itemPreview.setObjectName(self.name+"Preview")
+    self.previewLayout = QtWidgets.QVBoxLayout(self.itemPreview)
+    self.previewLayout.setObjectName(self.name+"PreviewLayout")
+    self.itemImage = QtWidgets.QLabel()
+    self.itemImage.setPixmap(QtGui.QPixmap(self.image))
+    self.itemImage.setScaledContents(True)
+    self.itemImage.setWordWrap(True)
+    self.itemImage.setObjectName(self.name+"Image")
+    self.previewLayout.addWidget(self.itemImage)
+    self.mainLayout_2.addWidget(self.itemPreview)
+    self.itemName = QtWidgets.QWidget(self)
+    self.itemName.setObjectName(self.name+"Name")
+    self.nameLayout = QtWidgets.QVBoxLayout(self.itemName)
+    self.nameLayout.setObjectName(self.name+"NameLayout")
+    self.itemLabel = QtWidgets.QLabel(self.display_name+"  #"+self.code +
+                                      "  Cena: 5,99€   " + "self.count")
+    self.itemLabel.setObjectName(self.name+"ItemLabel")
+    self.nameLayout.addWidget(self.itemLabel)
+    self.mainLayout_2.addWidget(self.itemName)
+    self.itemCount = QtWidgets.QWidget(self)
+    self.itemCount.setMaximumSize(QtCore.QSize(60, 16777215))
+    self.itemCount.setObjectName(self.name+"Count")
+    self.countLayout = QtWidgets.QVBoxLayout(self.itemCount)
+    self.countLayout.setObjectName(self.name+"CountLayout")
+    self.spinBox = QtWidgets.QSpinBox(self.itemCount)
+    self.spinBox.setStyleSheet("QSpinBox"
+                               "{"
+                               "background-color : white;"
+                               "}")
+    self.spinBox.setObjectName(self.name+"SpinBox")
+    self.countLayout.addWidget(self.spinBox)
+    self.mainLayout_2.addWidget(self.itemCount)
+    self.itemButton = QtWidgets.QWidget(self)
+    self.itemButton.setMaximumSize(QtCore.QSize(110, 16777215))
+    self.itemButton.setObjectName(self.name+"Button")
+    self.buttonLayout = QtWidgets.QVBoxLayout(self.itemButton)
+    self.buttonLayout.setObjectName(self.name+"ButtonLayout")
+    self.addButton = QtWidgets.QPushButton("Add to cart")
+    self.addButton.setMinimumHeight(24)
+    self.addButton.setObjectName(self.name+"AddButton")
+    self.addButton.setStyleSheet(
+        "QPushButton {font-weight: bold; border: 4px solid #2f3e46; border-radius: 12px;background-color: #2f3e46;color: #cad2c5;} QPushButton:hover {border-color: #354f52; background-color: #354f52;} QPushButton:pressed {border-color: #354f52;background-color: #354f52;}")
+    self.commands.button_click(self.addButton, self.add_to_cart)
+    self.buttonLayout.addWidget(self.addButton)
+    self.mainLayout_2.addWidget(self.itemButton)
+    self.parent_layout.addWidget(self)
