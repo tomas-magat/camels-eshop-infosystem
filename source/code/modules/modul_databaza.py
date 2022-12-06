@@ -62,8 +62,9 @@ class Databaza:
         text = self.ui.listWidget.currentItem().text().split()
         code = text[0].lstrip("#")
         name = ''.join(text[1:]) if len(text) > 1 else code
+        image = self.goods.data[code][1]
 
-        ItemDetails(self, self.ui.right_database, name, code)
+        ItemDetails(self, self.ui.right_database, name, code, image)
 
     def delete_item(self):
         self.commands.confirm(
@@ -84,7 +85,7 @@ class ItemDetails(QtWidgets.QFrame):
 
         self.name = "itemDetails"
         self.display_name = display_name
-        self.image_path = image_path
+        self.image_path = find_image(image_path)
         self.code = code
 
         self.adding = add_button
@@ -106,6 +107,7 @@ class ItemDetails(QtWidgets.QFrame):
             image_name = self.filename
 
             if new_text != old_text:
+
                 self.ui.listWidget.currentItem().setText(new_text)
 
 
