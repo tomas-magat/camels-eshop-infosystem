@@ -50,7 +50,8 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>5</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -376,8 +377,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>479</width>
-                  <height>348</height>
+                  <width>98</width>
+                  <height>28</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -448,8 +449,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>350</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_42"/>
@@ -520,8 +521,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>350</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_44"/>
@@ -592,8 +593,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>350</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_40"/>
@@ -661,8 +662,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>350</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_46"/>
@@ -912,11 +913,11 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>329</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_11"/>
+              <layout class="QVBoxLayout" name="cartLayout"/>
              </widget>
             </widget>
            </item>
@@ -1829,8 +1830,8 @@ color: rgb(125, 125, 125);</string>
                        <font>
                         <family>MS Shell Dlg 2</family>
                         <pointsize>10</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
+                        <weight>50</weight>
+                        <bold>false</bold>
                        </font>
                       </property>
                       <property name="text">
@@ -1998,7 +1999,7 @@ color: rgb(125, 125, 125);</string>
             <x>697</x>
             <y>-3</y>
             <width>91</width>
-            <height>21</height>
+            <height>22</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_52">
@@ -2297,8 +2298,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -2373,8 +2374,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_37"/>
@@ -2445,8 +2446,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_20"/>
@@ -2517,8 +2518,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_28"/>
@@ -2586,8 +2587,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_31"/>
@@ -2655,8 +2656,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_35"/>
@@ -2948,8 +2949,8 @@ padding-left: 20px</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>289</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
@@ -3502,7 +3503,7 @@ background-color :#BBBBBB;
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>476</width>
+          <width>474</width>
           <height>250</height>
          </rect>
         </property>
@@ -3565,7 +3566,7 @@ background-color :#BBBBBB;
               <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>60</number>
+              <number>40</number>
              </property>
              <property name="bottomMargin">
               <number>0</number>
@@ -3585,6 +3586,18 @@ background-color :#BBBBBB;
              </item>
              <item>
               <widget class="QLabel" name="label_10">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>255</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>8</pointsize>
@@ -3617,13 +3630,13 @@ background-color :#BBBBBB;
               <number>30</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>60</number>
+              <number>40</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_11">
@@ -3637,6 +3650,18 @@ background-color :#BBBBBB;
              </item>
              <item>
               <widget class="QLabel" name="label_12">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>255</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>8</pointsize>
@@ -3666,13 +3691,13 @@ background-color :#BBBBBB;
               <number>30</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>60</number>
+              <number>40</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_15">
@@ -3686,6 +3711,12 @@ background-color :#BBBBBB;
              </item>
              <item>
               <widget class="QLabel" name="label_16">
+               <property name="minimumSize">
+                <size>
+                 <width>255</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>8</pointsize>
@@ -3718,13 +3749,13 @@ background-color :#BBBBBB;
               <number>30</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>60</number>
+              <number>40</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_13">
@@ -3738,6 +3769,30 @@ background-color :#BBBBBB;
              </item>
              <item>
               <widget class="QLabel" name="label_14">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>255</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="sizeIncrement">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>8</pointsize>
@@ -3770,13 +3825,13 @@ background-color :#BBBBBB;
               <number>30</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>60</number>
+              <number>40</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_19">
@@ -3790,6 +3845,12 @@ background-color :#BBBBBB;
              </item>
              <item>
               <widget class="QLabel" name="label_20">
+               <property name="minimumSize">
+                <size>
+                 <width>255</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>8</pointsize>

@@ -13,9 +13,6 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from utils.ui_commands import UI_Commands
 from utils.file import DataFile
 from utils.tools import *
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtGui import QPixmap
-from utils.ENV_VARS import PATH
 
 
 class Portal:
@@ -32,7 +29,7 @@ class Portal:
         # Init cart global variables
         self.cart_price = 0
         self.cart = {}
-        self.cashier_name = ""
+        self.cashier_name = "Pokladnik"
 
         # Init catalog global variables
         self.sort_state = 1
@@ -61,6 +58,7 @@ class Portal:
         self.goods = DataFile('tovar')
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
+        self.statistics = DataFile('statistiky')
         self.load_items(self.goods.data)
 
         # Update 'goods' variable every 3 seconds
@@ -147,6 +145,7 @@ class Portal:
         """Buy everything in the cart, generate uctenka_[id].txt"""
 
         self.create_receipt()
+        self.add_stats()
         for item in self.cart.values():
             item.delete()
 
@@ -183,31 +182,40 @@ class Portal:
             if all_layouts:
                 ItemCard(
                     self, self.ui.allLayout, vals[0],
-                    key, float(price[1]), find_image(vals[1])
+                    key, float(price[1]), vals[1]
                 )
             ItemCard(
                 self, self.layouts[int(key[0])], vals[0],
-                key, float(price[1]), find_image(vals[1])
+                key, float(price[1]), vals[1]
             )
 
             self.catalog.append(key)
 
+    def add_stats(self):
+        self.statistics_data = self.statistics.data
+        for code, item in self.cart.items():
+            self.statistics_data[now()] = [
+                'P', self.receipt_id[1:], code, item.amount, item.price]
+
+        self.statistics.save_data()
+
     def create_receipt(self):
-        receipt_id = random_id('P')
-        filename = 'uctenka_'+receipt_id+'.txt'
+        self.receipt_id = random_id('P')
+        filename = 'uctenka_'+self.receipt_id+'.txt'
         filepath = os.path.join(PATH, 'source', 'data', filename)
 
         with open(filepath, 'w', encoding='utf-8') as receipt:
-            self.receipt_template(receipt, receipt_id)
-        
+            self.receipt_template(receipt, self.receipt_id)
+
         receipt_icon = QtGui.QIcon()
-        msg = QMessageBox()
-        
+        msg = QtWidgets.QMessageBox()
+
         receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
-                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        msg.setWindowTitle(f"Sale {receipt_id[1:]} - confirmed")
-        msg.setText('<b><p style="padding: 0px;  margin: 0px;">Pokladničný doklad bol úspešne vygenerovaný.</p>' + f'<br><a href="file:///{PATH}/source/data/{filename}">Otvor účtenku č. {receipt_id}</a>')
-        msg.setIconPixmap(QPixmap(find_icon('receipt.svg')))
+                               QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        msg.setWindowTitle(f"Sale {self.receipt_id[1:]} - confirmed")
+        msg.setText('<b><p style="padding: 0px;  margin: 0px;">Pokladničný doklad bol úspešne vygenerovaný.</p>' +
+                    f'<br><a href="file:///{PATH}/source/data/{filename}">Otvor účtenku č. {self.receipt_id}</a>')
+        msg.setIconPixmap(QtGui.QPixmap(find_icon('receipt.svg')))
         msg.exec_()
 
     def receipt_template(self, receipt, id):
@@ -218,7 +226,7 @@ class Portal:
         receipt.write('\n\n=================================\n\n')
         items = [
             item.display_name+'\n\t'+str(item.amount)+'ks x ' +
-            str_price(item.price)+'\t\t\t\t' +
+            str_price(item.price)+'\t\t' +
             str_price(item.price, item.amount)+' €\n'
             for item in list(self.cart.values())
         ]
@@ -268,7 +276,7 @@ class ItemCard(QtWidgets.QFrame):
         self.display_name = name
         self.code = code
         self.price = price
-        self.image = image
+        self.image = find_image(image)
 
         self.in_cart = False
 
@@ -377,6 +385,7 @@ class CartItem(QtWidgets.QFrame):
 
         super(CartItem, self).__init__(self.parent_layout.parent())
 
+        self.code = self.item.code
         self.name = "cart"+camelify(name)
         self.display_name = name
 
@@ -408,7 +417,7 @@ class CartItem(QtWidgets.QFrame):
         self.page.update_price(new_price)
 
     def update_page_cart(self):
-        self.page.cart[self.name] = self
+        self.page.cart[self.code] = self
 
     def draw_ui(self):
         self.setMaximumSize(QtCore.QSize(16777215, 40))
