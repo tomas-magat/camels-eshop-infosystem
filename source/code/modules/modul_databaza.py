@@ -72,7 +72,15 @@ class Databaza:
     def delete_item(self):
         self.commands.confirm(
             self.ui, "Chcete natrvalo vymazať produkt?",
-            ok_command=lambda: self.ui.listWidget.takeItem(self.ui.listWidget.currentRow()))
+            ok_command = self.delete_item_txt)
+
+    def delete_item_txt(self):
+        text = self.ui.listWidget.currentItem().text().split()
+        code = text[0].lstrip("#")
+        self.ui.listWidget.takeItem(self.ui.listWidget.currentRow())
+        del self.goods.data[code]
+        self.goods.save_data()
+
 
 
 class ItemDetails(QtWidgets.QFrame):
@@ -96,6 +104,7 @@ class ItemDetails(QtWidgets.QFrame):
         self.button_text = "Pridať produkt" if self.adding else "Uložiť zmeny"
 
         self.draw_ui()
+
 
     def edit_items(self, new_code, new_name, new_text):
         self.ui.listWidget.currentItem().setText(new_text)
@@ -133,10 +142,11 @@ class ItemDetails(QtWidgets.QFrame):
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
 
-        pattern = re.compile("^[0-9]+$")
+        pattern = re.compile("^[1-5]+$")
         pattern2 = re.compile("^[A-Za-z ]+$")
+        unique = new_code not in self.page.goods.data.keys()
 
-        if pattern.match(new_code) and pattern2.match(new_name):
+        if pattern.match(new_code) and pattern2.match(new_name) and unique:
             new_text = "#"+new_code+" "+new_name
             old_text = self.ui.listWidget.currentItem().text()
 
