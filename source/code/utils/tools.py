@@ -46,7 +46,7 @@ def callback(function, delay):
 def str_price(price: float, amount=1):
     """Return total price string - with 2 decimal places."""
 
-    return "%.2f" % (price*amount)
+    return "%.2f" % abs(price*amount)
 
 
 def find_image(image_name: str):
