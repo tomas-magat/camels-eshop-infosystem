@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 from utils.ui_commands import UI_Commands
-from utils.tools import find_image
-
+from utils.tools import find_image, camelify
+from utils.file import DataFile
 
 class Cenotvorba:
 
@@ -11,6 +11,9 @@ class Cenotvorba:
         self.commands = UI_Commands(self.ui)
         self.commands.button_click(
             self.ui.cenotvorbaButton, self.switch_screen)
+        
+        self.items = DataFile('TOVAR')
+        self.prices = DataFile('CENNIK')
         self.loadfile()
 
     def switch_screen(self):
@@ -18,17 +21,17 @@ class Cenotvorba:
         self.commands.redirect(self.ui.cenotvorba)
 
     def loadfile(self):
-       # with open('TOVAR.TXT') as file:
-        for i in range(7):
-            ItemPriceCard(self, self.ui.verticalLayout_25, "test" +
-                        str(i), "Test "+str(i), "0000", (5.99, 6.59),
-                        find_image("tricko.jpg"))
+        self.commands.clear_layout(self.ui.verticalLayout_51)
+        for key, value in self.items.data.items():
+            price = self.prices.data.get(key)
+            ItemPriceCard(self, self.ui.verticalLayout_51, value[0], 
+                        key, price, find_image(value[1]))
 
 
 class ItemPriceCard(QtWidgets.QFrame):
 
     def __init__(self, page, layout, name: str,
-                 display_name: str, code: str, price, image: str):
+                 code: str, price, image: str):
 
         super(ItemPriceCard, self).__init__(layout.parent())
 
@@ -38,8 +41,8 @@ class ItemPriceCard(QtWidgets.QFrame):
 
         self.parent_layout = layout
 
-        self.name = name
-        self.display_name = display_name
+        self.name = camelify(name)
+        self.display_name = name
         self.code = code
         self.buy_price = str(price[0])
         self.sell_price = str(price[1])
