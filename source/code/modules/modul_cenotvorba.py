@@ -40,10 +40,10 @@ class Cenotvorba:
             self.prices.data[item.code] = prices
         self.prices.save_data()
 
-<<<<<<< HEAD
-=======
+#<<<<<<< HEAD
+#=======
 
->>>>>>> 96fbf092160b4dea9e182f288e6f43068994bea8
+#>>>>>>> 96fbf092160b4dea9e182f288e6f43068994bea8
 class ItemPriceCard(QtWidgets.QFrame):
 
     def __init__(self, page, layout, name: str,

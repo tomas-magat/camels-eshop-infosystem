@@ -35,6 +35,10 @@ class Databaza:
         self.goods = DataFile('tovar')
         self.load_items(self.goods.data)
 
+        self.prices = DataFile('cennik')
+        self.storage = DataFile('sklad')
+
+
     def load_items(self, data):
         for key, vals in data.items():
             self.load_item(key, vals)
@@ -110,11 +114,20 @@ class ItemDetails(QtWidgets.QFrame):
 
                 self.ui.listWidget.currentItem().setText(new_text)
 
+            if new_code != self.code:
+                prices_data = self.page.prices.data.get(self.code)
 
-    def update_list(self):
+                if prices_data != None:
+                    self.page.prices.data[new_code] = self.page.prices.data[self.code]
+                    del self.page.prices.data[self.code]
+                storage_code = self.page.storage.data.get(self.code)
+                if storage_code != None:
+                    self.page.storage.data[new_code] = self.page.storage.data[self.code]
+                    del self.page.storage.data[self.code]
+
+
+def update_list(self):
         """Update listWidget with currently entered values."""
-
-        tovar_url = 'C:/Users/Home/Desktop/eshop3/camels-eshop-infosystem/source/data/TOVAR.txt'
 
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
@@ -126,28 +139,20 @@ class ItemDetails(QtWidgets.QFrame):
             new_text = "#"+new_code+" "+new_name
             old_text = self.ui.listWidget.currentItem().text()
 
-            #image_url = find_image(self.filename)
-            #image_name = image_url[67:]
-            image_name = self.filename
-
             if new_text != old_text:
+                self.page.goods.data[new_code] = [new_name, self.filename]
+                self.page.goods.save_data()
+                self.page.goods.read()
                 if self.adding:
-                    # zapisovanie do suboru nove produkty
-                    subor = open(tovar_url, 'r+')
-                    pocet_produktov = int((subor.readline()).strip()) + 1
-                    print(pocet_produktov)
-                    """ First ROW """
-                    subor.seek(0, os.SEEK_SET)
-                    subor.write(str(pocet_produktov))
-                    """ END of the file """
-                    subor.seek(0, os.SEEK_END)
+
+
+
                     self.ui.listWidget.addItem(new_text)
-                    subor.write('\n' + new_code + ';' + new_name + ';' + image_name)
-                    subor.close()
                 else:
                     self.edit_items()
 
-                    #self.ui.listWidget.currentItem().setText(new_text)
+
+
         else:
             print('zla hodnota')
             msg = QMessageBox()
