@@ -5,8 +5,7 @@
 # creates file uctenka_[id_transakcie].txt.
 
 # TODO
-# fix uctovnik - po prvom prepnuti z landing page otvor login
-# uctenka black space uctovnik
+# make sort function reload items after pressing button
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
