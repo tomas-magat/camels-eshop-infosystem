@@ -160,14 +160,13 @@ class Portal:
         else:
             self.create_icon("up_down_arrow.png", "Sort by price", 1)
 
-        self.sort_category()
+        self.load_sorted()
 
-    def sort_category(self):
+    def load_sorted(self):
         sorted_prices = sort_items(
             self.sort_state, category=self.category
         )
         self.result = {}
-        print(sorted_prices)
         for k in sorted_prices:
             if k in self.goods.data.keys():
                 self.result[k] = self.goods.data[k]
