@@ -1,0 +1,13 @@
+Camels E-shop s.r.o.
+Cislo uctenky: P3244973938
+Vytvorene: 2022-12-06 23-15-02
+Pokladnik: tomas
+=================================
+Cierne tricko
+	5ks x 11.99		59.95 €
+Nike tenisky
+	4ks x 14.99		59.96 €
+
+=================================
+Spolu cena: 119.91 €
+DPH(20%): 23.98 €

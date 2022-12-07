@@ -1,11 +1,6 @@
-10
+5
 1000;Cierne tricko;tricko.jpg
 1001;Biele tricko;tricko.jpg
 3000;Adidas tenisky;tenisky.webp
 3001;Nike tenisky;tenisky.webp
-3002;Cervene tenisky;tenisky.webp
-5000;Hodinky;hodinky.png
-2000;Nohavice;nohavice.png
-2001;Teplaky;nohavice.png
-4000;Zelena mikina;hoodie.png
-4002;pyzamo;p.jpg
+2000;Teplaky;nohavice.png

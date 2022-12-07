@@ -15,9 +15,10 @@ class MainWindow:
 
     def __init__(self):
         """
-        Setup the window, set the landing page
-        to index, track home button clicks, 
-        initialize modules and run the app.
+        Class containing the main window of the app.
+        On initializing, set the landing page to index, 
+        track home button clicks and initialize modules.
+        Has a method .show() which displays this window.
         """
 
         self.ui = uic.loadUi(
