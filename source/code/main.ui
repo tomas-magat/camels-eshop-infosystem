@@ -50,7 +50,6 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
      <number>0</number>
     </property>
     <widget class="QWidget" name="portal">
@@ -245,7 +244,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="allCategory">
            <attribute name="title">
@@ -388,6 +387,78 @@ color: rgb(125, 125, 125);</string>
             </layout>
            </widget>
           </widget>
+          <widget class="QWidget" name="pantsCategory">
+           <attribute name="title">
+            <string>Nohavice</string>
+           </attribute>
+           <widget class="QFrame" name="pants">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>481</width>
+              <height>350</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(248, 248, 248);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_39">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="pantsCatalog">
+               <property name="styleSheet">
+                <string notr="true">QScrollBar:vertical {
+	width: 20px;
+	border-radius: 5px;
+	background-color: rgb(218, 218, 218);
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="pantsContents">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>481</width>
+                  <height>350</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_40"/>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
           <widget class="QWidget" name="bootsCategory">
            <attribute name="title">
             <string>Topánky</string>
@@ -449,8 +520,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>350</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_42"/>
@@ -521,83 +592,11 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>350</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_44"/>
-               </widget>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-          <widget class="QWidget" name="pantsCategory">
-           <attribute name="title">
-            <string>Nohavice</string>
-           </attribute>
-           <widget class="QFrame" name="pants">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>481</width>
-              <height>350</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(248, 248, 248);</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_39">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QScrollArea" name="pantsCatalog">
-               <property name="styleSheet">
-                <string notr="true">QScrollBar:vertical {
-	width: 20px;
-	border-radius: 5px;
-	background-color: rgb(218, 218, 218);
-}</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <property name="widgetResizable">
-                <bool>true</bool>
-               </property>
-               <widget class="QWidget" name="pantsContents">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
-                 </rect>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_40"/>
                </widget>
               </widget>
              </item>
@@ -662,8 +661,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>350</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_46"/>
@@ -913,8 +912,8 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="cartLayout"/>
@@ -2298,8 +2297,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>361</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -2949,8 +2948,8 @@ padding-left: 20px</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>289</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>

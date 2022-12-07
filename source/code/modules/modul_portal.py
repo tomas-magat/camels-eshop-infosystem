@@ -5,7 +5,7 @@
 # creates file uctenka_[id_transakcie].txt.
 
 # TODO
-# make sort function reload items after pressing button
+# check if cart is not empty before purchase
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -132,11 +132,23 @@ class Portal:
         items with matching names or codes.
         """
         self.query = self.ui.searchField.text()
-        self.result = search_items(self.query, category=self.category)
+        self.result = search_items(
+            self.query, self.goods.data, self.category
+        )
         if self.result == {}:
             self.no_results()
         else:
             self.reload_items(self.result)
+
+    def no_results(self):
+        self.commands.clear_layout(self.layouts[self.category])
+        empty = QtWidgets.QLabel('Produkt sa nenašiel...')
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setPointSize(12)
+        empty.setFont(font)
+        empty.setStyleSheet('color: #b0180b;')
+        self.layouts[self.category].addWidget(empty)
 
     # ==================== SORTING =======================
     def sort(self):
@@ -148,7 +160,18 @@ class Portal:
         else:
             self.create_icon("up_down_arrow.png", "Sort by price", 1)
 
-        self.result = sort_items(self.sort_state)
+        self.sort_category()
+
+    def sort_category(self):
+        sorted_prices = sort_items(
+            self.sort_state, category=self.category
+        )
+        self.result = {}
+        print(sorted_prices)
+        for k in sorted_prices:
+            if k in self.goods.data.keys():
+                self.result[k] = self.goods.data[k]
+        self.reload_items(self.result)
 
     # ==================== HELPER FUNCTIONS =======================
     def create_icon(self, icon_name, text, new_state):
@@ -178,16 +201,6 @@ class Portal:
                 self, self.layouts[self.category], vals[0],
                 code, float(price[1]), vals[1]
             )
-
-    def no_results(self):
-        self.commands.clear_layout(self.layouts[self.category])
-        empty = QtWidgets.QLabel('Produkt sa nenašiel...')
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setPointSize(12)
-        empty.setFont(font)
-        empty.setStyleSheet('color: #b0180b;')
-        self.layouts[self.category].addWidget(empty)
 
     # ==================== PORTAL UPDATING =======================
     def update_category(self):
