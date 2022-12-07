@@ -46,7 +46,13 @@ class Statistika:
                 najviac_produkt = int(v[0])
                 self.najviac_produkt = k
 
+        top_produkty = []
+
+        print(self.statistiky)
         for k1, v1 in self.statistiky.items():
+            if v1[0] == 'P':
+                top_produkty += v1[2],
+                print(top_produkty)
             p=v1[2]
 
         for k, v in self.tovar.items():
