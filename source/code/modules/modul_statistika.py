@@ -3,7 +3,7 @@ from utils.ui_commands import UI_Commands
 from utils import tools
 import matplotlib.pyplot as plt
 import numpy as np
-
+from decimal import *
 
 class Statistika:
     def __init__(self, ui):
@@ -37,6 +37,8 @@ class Statistika:
 
     def Values(self):
         self.pocet_produktov = 0
+        self.profLoss = 0
+        self.avPrice = 0
         najviac_produkt = 0
         self.posledna_objednavka_Z = 'ziadna'
         self.posledna_objednavka_F = 'ziadna'
@@ -48,7 +50,7 @@ class Statistika:
                 self.najviac_produkt = k
 
         top_produkty = []
-
+        cas = []
         p, p1, k2, v2, k4, v4 = '', '', '', '', '', ''
         for k1, v1 in self.statistiky.items():
             m=0
@@ -68,6 +70,26 @@ class Statistika:
             else:
                 k4, v4 = k1, v1
                 p1 = v1[2]
+            cas += (k1, v1[0]+' '+v1[3]+' '+v1[4]),
+
+        prem = k1.split()[0].split()[0]
+        novy_cas = []
+        for i in range(len(cas)-1,-1,-1):
+            if cas[i][0].split()[0] == prem:
+                novy_cas += cas[i],
+        for i in novy_cas:
+            if i[1].split()[0] == 'P':
+                self.profLoss += int(i[1].split()[1])*Decimal(i[1].split()[2])
+            else:
+                self.profLoss -= int(i[1].split()[1])*Decimal(i[1].split()[2])
+        
+        ttt=0
+        for i in cas:
+            if i[1].split()[0] == 'P':
+                self.avPrice += int(i[1].split()[1])*Decimal(i[1].split()[2])
+                ttt += 1
+        self.avPrice /= ttt
+        self.avPrice = str(self.avPrice)[:5]
 
         h=True
         for k, v in self.tovar.items():
@@ -125,8 +147,6 @@ class Statistika:
         self.y1 = [i**2 for i in range(10)]
         self.top_ten = [i[1] for i in self.top_ten_graf]
         self.top_ten_worst = [i[1] for i in self.top_ten_worst_graf]
-        self.profLoss = 0
-        self.avPrice = '23.58€'
         self.najviac_sa_nakupuje = 'Sobota (87)'
 
 
@@ -325,17 +345,17 @@ pre detailnejsie zobrazenie vyvoju ceny firmy pozri graf nizsie -->''')
                                         background-color: #2F3E46;
                                         border: 1px solid #101416;}
                                         #label_6 {color: %s}''' % profLossColor)
-        self.ui.label_20.setText(self.avPrice)
+        self.ui.label_20.setText(str(self.avPrice)+'€')
         self.ui.label_20.setStyleSheet('color:'+self.funFactsColor)
         self.ui.label_10.setText(str(self.pocet_produktov))
         self.ui.label_10.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_12.setText(self.najviac_sa_nakupuje)
+        self.ui.label_12.setText(str(self.najviac_sa_nakupuje))
         self.ui.label_12.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_16.setText(self.najviac_produkt)
+        self.ui.label_16.setText(str(self.najviac_produkt))
         self.ui.label_16.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_14.setText(self.posledna_objednavka_Z)
+        self.ui.label_14.setText(str(self.posledna_objednavka_Z))
         self.ui.label_14.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_3.setText(self.posledna_objednavka_F)
+        self.ui.label_3.setText(str(self.posledna_objednavka_F))
         self.ui.label_3.setStyleSheet('color:'+self.funFactsColor)
         self.ui.camelLogo_2.setToolTip('')
 
