@@ -38,7 +38,8 @@ class Statistika:
     def Values(self):
         self.pocet_produktov = 0
         najviac_produkt = 0
-        self.posledna_objednavka = '2003-09-10 10-34-59;P;kosela;5ks;5.99/ks'
+        self.posledna_objednavka_Z = 'ziadna'
+        self.posledna_objednavka_F = 'ziadna'
 
         for k, v in self.sklad.items():
             self.pocet_produktov += int(v[0])
@@ -48,18 +49,37 @@ class Statistika:
 
         top_produkty = []
 
-        print(self.statistiky)
+        p, p1, k2, v2, k4, v4 = '', '', '', '', '', ''
         for k1, v1 in self.statistiky.items():
+            m=0
             if v1[0] == 'P':
-                top_produkty += v1[2],
-                print(top_produkty)
-            p=v1[2]
+                if top_produkty == []:
+                    top_produkty.append([v1[2],1])
+                else:
+                    for i in range(len(top_produkty)):
+                        if v1[2] == top_produkty[i][0]:
+                            top_produkty[i][1] += 1
+                            m=1
+                            break
+                    if m == 0:
+                        top_produkty.append([v1[2],1])
+                k2, v2 = k1, v1
+                p = v1[2]
+            else:
+                k4, v4 = k1, v1
+                p1 = v1[2]
 
+        h=True
         for k, v in self.tovar.items():
             if k == p:
                 p = v[0]
+            if k == p1 :
+                p1 = v[0]
             if k == self.najviac_produkt:
                 self.najviac_produkt = v[0]+'-'+str(najviac_produkt)+'ks'
+                h=False
+        if h:
+            self.najviac_produkt = 'produkt '+self.najviac_produkt+' nepridany v TOVARE'
 
         for k, v in self.cennik.items():
             if k == v1[2]:
@@ -75,21 +95,39 @@ class Statistika:
                         t=False
                 else:
                     t=False
-
         if t:
-            k1 = k1.split()[0]+' '+k1.split()[1].replace('-', ':')
-            self.posledna_objednavka = k1+';'+v1[0]+';'+p+';'+v1[3]+'ks'+';'+v1[4]+'/ks'
+            if k2 != '':
+                k2 = k2.split()[0]+' '+k2.split()[1].replace('-', ':')
+                self.posledna_objednavka_Z= k2+';'+p+';'+v2[3]+'ks'+';'+v2[4]+'/ks'
+            if k4 != '':
+                k4 = k4.split()[0]+' '+k4.split()[1].replace('-', ':')
+                self.posledna_objednavka_F= k4+';'+p1+';'+v4[3]+'ks'+';'+v4[4]+'/ks'
         else:
-            self.posledna_objednavka = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
+            self.posledna_objednavka_Z = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
+            self.posledna_objednavka_F = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
+
+
+        self.top_ten_graf = sorted(top_produkty, key=lambda x:x[1], reverse=True)
+        self.top_ten_worst_graf = sorted(top_produkty, key=lambda x:x[1])
+        self.top_ten_graf = self.top_ten_graf[:10]
+        self.top_ten_worst_graf = self.top_ten_worst_graf[:10]
+        a=0
+        while a < len(self.top_ten_graf):
+            for k, v in self.tovar.items():
+                if k == self.top_ten_graf[a][0]:
+                    self.top_ten_graf[a][0] = v[0]
+                    break
+            a+=1
+
 
         self.x = [i for i in range(10)]
         self.y = [i/2 for i in range(10)]
         self.y1 = [i**2 for i in range(10)]
-        self.top_ten = sorted([15, 9, 80, 69, 25, 90, 63, 78, 54, 75], reverse=True)
-        self.top_ten_worst = sorted([70, 5, 69, 20, 25, 90, 63, 78, 54, 75])
+        self.top_ten = [i[1] for i in self.top_ten_graf]
+        self.top_ten_worst = [i[1] for i in self.top_ten_worst_graf]
         self.profLoss = 0
         self.avPrice = '23.58€'
-        self.najviac_den = 'Sobotu (87)'
+        self.najviac_sa_nakupuje = 'Sobota (87)'
 
 
     def NajviacGraf(self):
@@ -103,7 +141,7 @@ class Statistika:
         a1.tick_params(axis='x', which='both', length=0)
         a1.set_title('Najpredavanejsie produkty', **
                      self.font, fontsize=15, weight='bold')
-        bar_X = [0,1,2,3,4,5,6,7,8,9]
+        bar_X = [i for i in range(len(self.top_ten_graf))]
         bars1 = a1.bar(bar_X, self.top_ten)
         bar_X = []
         for bar in bars1:
@@ -114,11 +152,11 @@ class Statistika:
         annot1.set_visible(False)
         def update_annot1(event,bar_x_pos):
             x = event.xdata
-            y = event.ydata+5
+            y = event.ydata
             annot1.xy = (x, y)
             for c, i in enumerate(bar_X):
                 if i == bar_x_pos:
-                    text = self.top_ten[c]
+                    text = self.top_ten_graf[c][0]+' '+str(self.top_ten_graf[c][1])+'ks'
             annot1.set_text(text)
         def hover1(event):
             vis = annot1.get_visible()
@@ -150,7 +188,7 @@ class Statistika:
         a2.tick_params(axis='x', which='both', length=0)
         a2.set_title('Najmenej predavane produkty', **
                      self.font, fontsize=15, weight='bold')
-        bar_X = [0,1,2,3,4,5,6,7,8,9]
+        bar_X = [i for i in range(len(self.top_ten_worst_graf))]
         bars2 = a2.bar(bar_X, self.top_ten_worst)
         bar_X = []
         for bar in bars2:
@@ -161,11 +199,11 @@ class Statistika:
         annot2.set_visible(False)
         def update_annot2(event,bar_x_pos):
             x = event.xdata
-            y = event.ydata+5
+            y = event.ydata
             annot2.xy = (x, y)
             for c, i in enumerate(bar_X):
                 if i == bar_x_pos:
-                    text = self.top_ten_worst[c]
+                    text = self.top_ten_worst_graf[c][0]
             annot2.set_text(text)
         def hover2(event):
             vis = annot2.get_visible()
@@ -292,12 +330,14 @@ pre detailnejsie zobrazenie vyvoju ceny firmy pozri graf nizsie -->''')
         self.ui.label_20.setStyleSheet('color:'+self.funFactsColor)
         self.ui.label_10.setText(str(self.pocet_produktov))
         self.ui.label_10.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_12.setText(self.najviac_den)
+        self.ui.label_12.setText(self.najviac_sa_nakupuje)
         self.ui.label_12.setStyleSheet('color:'+self.funFactsColor)
         self.ui.label_16.setText(self.najviac_produkt)
         self.ui.label_16.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_14.setText(self.posledna_objednavka)
+        self.ui.label_14.setText(self.posledna_objednavka_Z)
         self.ui.label_14.setStyleSheet('color:'+self.funFactsColor)
+        self.ui.label_3.setText(self.posledna_objednavka_F)
+        self.ui.label_3.setStyleSheet('color:'+self.funFactsColor)
         self.ui.camelLogo_2.setToolTip('')
 
 
