@@ -12,15 +12,14 @@ from modules import *
 
 
 class MainWindow:
+    """
+    Class containing the main window of the app.
+    On initializing, set the landing page to index, 
+    track home button clicks and initialize modules.
+    Has a method .show() which displays this window.
+    """
 
     def __init__(self):
-        """
-        Class containing the main window of the app.
-        On initializing, set the landing page to index, 
-        track home button clicks and initialize modules.
-        Has a method .show() which displays this window.
-        """
-
         self.ui = uic.loadUi(
             os.path.join(PATH, 'source', 'code', 'main.ui'))
 
