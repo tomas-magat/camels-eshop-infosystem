@@ -4,6 +4,7 @@ from utils import tools
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 class Statistika:
     def __init__(self, ui):
 
@@ -13,7 +14,7 @@ class Statistika:
         # Track button clicks
         self.commands.button_click(
             self.ui.statistikaButton, self.switch_screen)
-        
+
         self.statistiky = DataFile('statistiky').data
         self.tovar = DataFile('tovar').data
         self.sklad = DataFile('sklad').data
@@ -33,7 +34,6 @@ class Statistika:
     def switch_screen(self):
         """Redirect to this statistika screen."""
         self.commands.redirect(self.ui.statistika)
-
 
     def Values(self):
         self.pocet_produktov = 0
@@ -85,14 +85,14 @@ class Statistika:
             if k == v1[2]:
                 if v1[0] == 'P':
                     if v[1] == v1[4]:
-                        t=True
+                        t = True
                     else:
-                        t=False
+                        t = False
                 elif v1[0] == 'N':
                     if v[0] == v1[4]:
-                        t=True
+                        t = True
                     else:
-                        t=False
+                        t = False
                 else:
                     t=False
         if t:
@@ -146,11 +146,12 @@ class Statistika:
         bar_X = []
         for bar in bars1:
             bar_X.append(bar.get_x())
-        
+
         annot1 = a1.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot1.set_visible(False)
-        def update_annot1(event,bar_x_pos):
+
+        def update_annot1(event, bar_x_pos):
             x = event.xdata
             y = event.ydata
             annot1.xy = (x, y)
@@ -158,6 +159,7 @@ class Statistika:
                 if i == bar_x_pos:
                     text = self.top_ten_graf[c][0]+' '+str(self.top_ten_graf[c][1])+'ks'
             annot1.set_text(text)
+
         def hover1(event):
             vis = annot1.get_visible()
             if event.inaxes == a1:
@@ -165,7 +167,7 @@ class Statistika:
                     bar_x_pos = bar.get_x()
                     cont = bar.contains(event)
                     if cont[0]:
-                        update_annot1(event,bar_x_pos)
+                        update_annot1(event, bar_x_pos)
                         annot1.set_visible(True)
                         najviac.canvas.draw_idle()
                         return
@@ -175,7 +177,6 @@ class Statistika:
                             najviac.canvas.draw_idle()
         najviac.canvas.mpl_connect("motion_notify_event", hover1)
         self.commands.plot_graph(self.ui.najviacGraf, najviac)
-
 
     def NajmenejGraf(self):
         najmenej, a2 = plt.subplots(
@@ -197,7 +198,8 @@ class Statistika:
         annot2 = a2.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot2.set_visible(False)
-        def update_annot2(event,bar_x_pos):
+
+        def update_annot2(event, bar_x_pos):
             x = event.xdata
             y = event.ydata
             annot2.xy = (x, y)
@@ -205,6 +207,7 @@ class Statistika:
                 if i == bar_x_pos:
                     text = self.top_ten_worst_graf[c][0]
             annot2.set_text(text)
+
         def hover2(event):
             vis = annot2.get_visible()
             if event.inaxes == a2:
@@ -212,7 +215,7 @@ class Statistika:
                     bar_x_pos = bar.get_x()
                     cont = bar.contains(event)
                     if cont[0]:
-                        update_annot2(event,bar_x_pos)
+                        update_annot2(event, bar_x_pos)
                         annot2.set_visible(True)
                         najmenej.canvas.draw_idle()
                         return
@@ -223,7 +226,6 @@ class Statistika:
         najmenej.canvas.mpl_connect("motion_notify_event", hover2)
         self.commands.plot_graph(self.ui.najmenejGraf, najmenej)
 
-
     def VyvojGraf(self):
         x = np.arange(0, 1, 0.01)
         y = np.sin(2 * 2 * np.pi * x)
@@ -232,7 +234,8 @@ class Statistika:
         ax.set_title('Blitted cursor')
         ax.plot(x, y, 'o')
         blitted_cursor = BlittedCursor(ax)
-        fig.canvas.mpl_connect('motion_notify_event', blitted_cursor.on_mouse_move)
+        fig.canvas.mpl_connect('motion_notify_event',
+                               blitted_cursor.on_mouse_move)
         self.commands.plot_graph(self.ui.trzbyNaklady, fig, size=68.5)
         plt.tight_layout()
 
@@ -249,7 +252,7 @@ class Statistika:
 
         # def create_new_background():
         #     global background
-        #     if creating_background: 
+        #     if creating_background:
         #         return
         #     creating_background = True
         #     set_cross_hair_visible(False)
@@ -281,8 +284,6 @@ class Statistika:
         #         a3.draw_artist(text)
         #         a3.figure.canvas.blit(a3.bbox)
 
-
-
         # vyvoj_ceny, a3 = plt.subplots(
         #     figsize=[7.18, 3.21], linewidth=self.linewidth, edgecolor=self.edgecolor)
         # vyvoj_ceny.set_facecolor(self.graph_color)
@@ -306,7 +307,6 @@ class Statistika:
         # self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny, size=68.5)
         # plt.tight_layout()
 
-
     def FunFacts(self):
         if self.profLoss < 0:
             profLossColor = '#FF0000'
@@ -314,7 +314,6 @@ class Statistika:
             profLossColor = '#21BF3E'
         else:
             profLossColor = '#717171'
-
 
         self.ui.label_6.setText(str(self.profLoss)+'€')
         self.ui.label_6.setToolTip('''tato cena s pravidla vyjadruje zisk alebo stratu firmy za jeden den
@@ -345,6 +344,7 @@ class BlittedCursor:
     """
     A cross hair cursor using blitting for faster redraw.
     """
+
     def __init__(self, ax):
         self.ax = ax
         self.background = None

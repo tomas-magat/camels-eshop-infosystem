@@ -28,10 +28,10 @@ class Cenotvorba:
     def loadfile(self):
         self.commands.clear_layout(self.ui.verticalLayout_51)
         for key, value in self.items.data.items():
-            price = self.prices.data.get(
-                key) if self.prices.data.get(key) != None else [0, 0]
-            item_card = ItemPriceCard(self, self.ui.verticalLayout_51, value[0],
-                                      key, price=price, image=find_image(value[1]))
+            item_price = self.prices.data.get(key)
+            price = item_price if item_price != None else [0, 0]
+            item_card = ItemPriceCard(self, self.ui.verticalLayout_51,
+                                      value[0], key, price, value[1])
             self.price_cards.append(item_card)
 
     def savefile(self):
@@ -59,15 +59,15 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.code = code
         self.buy_price = str(price[0])
         self.sell_price = str(price[1])
-        self.image = image
+        self.image = find_image(image)
 
         self.draw_ui()
 
     def getPrices(self):
-        buy = validate_price(self.lineEdit_4)
-        self.buy_price = self.buy_price if buy == None else buy
-        sell = validate_price(self.lineEdit_5)
-        self.sell_price = self.buy_price if sell == None else sell
+        new_buy = validate_price(self.lineEdit_4)
+        self.buy_price = self.buy_price if new_buy == None else new_buy
+        new_sell = validate_price(self.lineEdit_5)
+        self.sell_price = self.buy_price if new_sell == None else new_sell
         return [self.buy_price, self.sell_price]
 
     def draw_ui(self):
