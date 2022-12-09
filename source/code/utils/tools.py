@@ -1,10 +1,11 @@
 # Other often used functions
 import random
 import threading
-import time
 import os
 import difflib
 import datetime
+
+from PyQt5 import QtWidgets, QtGui
 
 from .ENV_VARS import PATH
 from .file import DataFile
@@ -156,3 +157,27 @@ def camelify(input_string: str):
 
     camel = input_string.title().replace(" ", "")
     return ''.join([camel[0].lower(), camel[1:]])
+
+
+def receipt_template(id, cashier_name, contents, total_price):
+    """
+    Template for common receipt. Requires receipt id, cashier
+    name, cart contents and total cart price parameters.
+    """
+
+    output = ['Camels E-shop s.r.o.',
+              '\nCislo uctenky: '+id,
+              '\nVytvorene dna: '+now(),
+              '\nVystavil pokladnik: '+cashier_name,
+              '\n\n===================================\n']
+    output += [
+        item.display_name+'\n\t'+str(item.amount)+'ks x ' +
+        str_price(item.price)+'\t\t' +
+        str_price(item.price, item.amount)+' €\n'
+        for item in list(contents.values())
+    ]
+    output += ['\n==================================',
+               '\nSpolu cena: '+str_price(total_price)+' €',
+               '\nDPH(20%): '+str_price(total_price*0.2)+' €']
+
+    return output

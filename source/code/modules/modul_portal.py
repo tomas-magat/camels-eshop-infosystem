@@ -5,7 +5,7 @@
 # creates file uctenka_[id_transakcie].txt.
 
 # TODO
-# refactoring
+#
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -162,7 +162,7 @@ class Portal:
     # ==================== SORTING =======================
     def sort(self):
         self.update_sort_state()
-        self.load_sorted()
+        self.load_sorted_items()
 
     def update_sort_state(self):
         """Update sort button and change sort state."""
@@ -286,7 +286,7 @@ class Cart:
         self.create_receipt()
         self.add_stats()
         self.clear_cart()
-        self.info_message()
+        self.purchase_message()
 
     def clear_cart(self):
         """Remove everything from the cart."""
@@ -312,9 +312,12 @@ class Cart:
         self.filepath = os.path.join(PATH, 'source', 'data', filename)
 
         with open(self.filepath, 'w', encoding='utf-8') as receipt:
-            receipt.writelines(self.receipt_template())
+            receipt.writelines(receipt_template(
+                self.id, self.page.cashier_name,
+                self.contents, self.price
+            ))
 
-    def info_message(self):
+    def purchase_message(self):
         receipt_icon = QtGui.QIcon()
         msg = QtWidgets.QMessageBox()
         receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
@@ -326,23 +329,6 @@ class Cart:
                     f'Otvor účtenku č. {self.id}</a>')
         msg.setIconPixmap(QtGui.QPixmap(find_icon('receipt.svg')))
         msg.exec_()
-
-    def receipt_template(self):
-        output = ['Camels E-shop s.r.o.',
-                  '\nCislo uctenky: '+self.id,
-                  '\nVytvorene dna: '+now(),
-                  '\nVystavil pokladnik: '+self.page.cashier_name,
-                  '\n=================================\n']
-        output += [
-            item.display_name+'\n\t'+str(item.amount)+'ks x ' +
-            str_price(item.price)+'\t\t' +
-            str_price(item.price, item.amount)+' €\n'
-            for item in list(self.contents.values())
-        ]
-        output += ['\n=================================',
-                   '\nSpolu cena: '+str_price(self.price)+' €',
-                   '\nDPH(20%): '+str_price(self.price*0.2)+' €']
-        return output
 
 
 class ItemCard(QtWidgets.QFrame):
