@@ -5,8 +5,6 @@ import os
 import difflib
 import datetime
 
-from PyQt5 import QtWidgets, QtGui
-
 from .ENV_VARS import PATH
 from .file import DataFile
 
