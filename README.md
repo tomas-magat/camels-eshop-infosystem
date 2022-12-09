@@ -22,7 +22,7 @@
 - Font: Default font - MS Shell Dlg 2, Bold; Myanmar Text, Bold
 
 ## Commands and utils sheet
-![](assets/docs/COMMANDS_4.png)
+![](assets/docs/COMMANDS_5.png)
 
 ## Module structure and datafile format
 ![](assets/docs/STRUCTURE_3.png)
