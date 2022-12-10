@@ -142,7 +142,7 @@ class ItemDetails(QtWidgets.QFrame):
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
 
-        pattern = re.compile("^[1-5]+$")
+        pattern = re.compile("^[0-5]+$")
         pattern2 = re.compile("^[A-Za-z ]+$")
         unique = new_code not in self.page.goods.data.keys()
 
