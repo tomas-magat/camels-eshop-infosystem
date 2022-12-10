@@ -1,0 +1,20 @@
+Camels E-shop s.r.o.
+Cislo uctenky: P0751540319
+Vytvorene dna: 2022-12-09 16-53-10
+Vystavil pokladnik: tomas
+
+===================================
+Biele tricko
+	4ks x 12.99		51.96 €
+Cierne tricko
+	4ks x 11.99		47.96 €
+Adidas tenisky
+	99ks x 13.99		1385.01 €
+Nike tenisky
+	7ks x 14.99		104.93 €
+Teplaky
+	8ks x 14.99		119.92 €
+
+==================================
+Spolu cena: 1709.78 €
+DPH(20%): 341.96 €

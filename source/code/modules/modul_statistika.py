@@ -3,6 +3,7 @@ from utils.ui_commands import UI_Commands
 from utils import tools
 import matplotlib.pyplot as plt
 import numpy as np
+from decimal import *
 
 class Statistika:
     def __init__(self, ui):
@@ -13,7 +14,7 @@ class Statistika:
         # Track button clicks
         self.commands.button_click(
             self.ui.statistikaButton, self.switch_screen)
-        
+
         self.statistiky = DataFile('statistiky').data
         self.tovar = DataFile('tovar').data
         self.sklad = DataFile('sklad').data
@@ -34,11 +35,13 @@ class Statistika:
         """Redirect to this statistika screen."""
         self.commands.redirect(self.ui.statistika)
 
-
     def Values(self):
         self.pocet_produktov = 0
+        self.profLoss = 0
+        self.avPrice = 0
         najviac_produkt = 0
-        self.posledna_objednavka = '2003-09-10 10-34-59;P;kosela;5ks;5.99/ks'
+        self.posledna_objednavka_Z = 'ziadna'
+        self.posledna_objednavka_F = 'ziadna'
 
         for k, v in self.sklad.items():
             self.pocet_produktov += int(v[0])
@@ -46,44 +49,105 @@ class Statistika:
                 najviac_produkt = int(v[0])
                 self.najviac_produkt = k
 
+        top_produkty = []
+        cas = []
+        p, p1, k2, v2, k4, v4 = '', '', '', '', '', ''
         for k1, v1 in self.statistiky.items():
-            p=v1[2]
+            m=0
+            if v1[0] == 'P':
+                if top_produkty == []:
+                    top_produkty.append([v1[2],1])
+                else:
+                    for i in range(len(top_produkty)):
+                        if v1[2] == top_produkty[i][0]:
+                            top_produkty[i][1] += 1
+                            m=1
+                            break
+                    if m == 0:
+                        top_produkty.append([v1[2],1])
+                k2, v2 = k1, v1
+                p = v1[2]
+            else:
+                k4, v4 = k1, v1
+                p1 = v1[2]
+            cas += (k1, v1[0]+' '+v1[3]+' '+v1[4]),
 
+        prem = k1.split()[0].split()[0]
+        novy_cas = []
+        for i in range(len(cas)-1,-1,-1):
+            if cas[i][0].split()[0] == prem:
+                novy_cas += cas[i],
+        for i in novy_cas:
+            if i[1].split()[0] == 'P':
+                self.profLoss += int(i[1].split()[1])*Decimal(i[1].split()[2])
+            else:
+                self.profLoss -= int(i[1].split()[1])*Decimal(i[1].split()[2])
+        
+        ttt=0
+        for i in cas:
+            if i[1].split()[0] == 'P':
+                self.avPrice += int(i[1].split()[1])*Decimal(i[1].split()[2])
+                ttt += 1
+        self.avPrice /= ttt
+        self.avPrice = str(self.avPrice)[:5]
+
+        h=True
         for k, v in self.tovar.items():
             if k == p:
                 p = v[0]
+            if k == p1 :
+                p1 = v[0]
             if k == self.najviac_produkt:
                 self.najviac_produkt = v[0]+'-'+str(najviac_produkt)+'ks'
+                h=False
+        if h:
+            self.najviac_produkt = 'produkt '+self.najviac_produkt+' nepridany v TOVARE'
 
         for k, v in self.cennik.items():
             if k == v1[2]:
                 if v1[0] == 'P':
                     if v[1] == v1[4]:
-                        t=True
+                        t = True
                     else:
-                        t=False
+                        t = False
                 elif v1[0] == 'N':
                     if v[0] == v1[4]:
-                        t=True
+                        t = True
                     else:
-                        t=False
+                        t = False
                 else:
                     t=False
-
         if t:
-            k1 = k1.split()[0]+' '+k1.split()[1].replace('-', ':')
-            self.posledna_objednavka = k1+';'+v1[0]+';'+p+';'+v1[3]+'ks'+';'+v1[4]+'/ks'
+            if k2 != '':
+                k2 = k2.split()[0]+' '+k2.split()[1].replace('-', ':')
+                self.posledna_objednavka_Z= k2+';'+p+';'+v2[3]+'ks'+';'+v2[4]+'/ks'
+            if k4 != '':
+                k4 = k4.split()[0]+' '+k4.split()[1].replace('-', ':')
+                self.posledna_objednavka_F= k4+';'+p1+';'+v4[3]+'ks'+';'+v4[4]+'/ks'
         else:
-            self.posledna_objednavka = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
+            self.posledna_objednavka_Z = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
+            self.posledna_objednavka_F = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
+
+
+        self.top_ten_graf = sorted(top_produkty, key=lambda x:x[1], reverse=True)
+        self.top_ten_worst_graf = sorted(top_produkty, key=lambda x:x[1])
+        self.top_ten_graf = self.top_ten_graf[:10]
+        self.top_ten_worst_graf = self.top_ten_worst_graf[:10]
+        a=0
+        while a < len(self.top_ten_graf):
+            for k, v in self.tovar.items():
+                if k == self.top_ten_graf[a][0]:
+                    self.top_ten_graf[a][0] = v[0]
+                    break
+            a+=1
+
 
         self.x = [i for i in range(10)]
         self.y = [i/2 for i in range(10)]
         self.y1 = [i**2 for i in range(10)]
-        self.top_ten = sorted([15, 9, 80, 69, 25, 90, 63, 78, 54, 75], reverse=True)
-        self.top_ten_worst = sorted([70, 5, 69, 20, 25, 90, 63, 78, 54, 75])
-        self.profLoss = 0
-        self.avPrice = '23.58€'
-        self.najviac_den = 'Sobotu (87)'
+        self.top_ten = [i[1] for i in self.top_ten_graf]
+        self.top_ten_worst = [i[1] for i in self.top_ten_worst_graf]
+        self.najviac_sa_nakupuje = 'Sobota (87)'
 
 
     def NajviacGraf(self):
@@ -97,23 +161,25 @@ class Statistika:
         a1.tick_params(axis='x', which='both', length=0)
         a1.set_title('Najpredavanejsie produkty', **
                      self.font, fontsize=15, weight='bold')
-        bar_X = [0,1,2,3,4,5,6,7,8,9]
+        bar_X = [i for i in range(len(self.top_ten_graf))]
         bars1 = a1.bar(bar_X, self.top_ten)
         bar_X = []
         for bar in bars1:
             bar_X.append(bar.get_x())
-        
+
         annot1 = a1.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot1.set_visible(False)
-        def update_annot1(event,bar_x_pos):
+
+        def update_annot1(event, bar_x_pos):
             x = event.xdata
-            y = event.ydata+5
+            y = event.ydata
             annot1.xy = (x, y)
             for c, i in enumerate(bar_X):
                 if i == bar_x_pos:
-                    text = self.top_ten[c]
+                    text = self.top_ten_graf[c][0]+' '+str(self.top_ten_graf[c][1])+'ks'
             annot1.set_text(text)
+
         def hover1(event):
             vis = annot1.get_visible()
             if event.inaxes == a1:
@@ -121,7 +187,7 @@ class Statistika:
                     bar_x_pos = bar.get_x()
                     cont = bar.contains(event)
                     if cont[0]:
-                        update_annot1(event,bar_x_pos)
+                        update_annot1(event, bar_x_pos)
                         annot1.set_visible(True)
                         najviac.canvas.draw_idle()
                         return
@@ -131,7 +197,6 @@ class Statistika:
                             najviac.canvas.draw_idle()
         najviac.canvas.mpl_connect("motion_notify_event", hover1)
         self.commands.plot_graph(self.ui.najviacGraf, najviac)
-
 
     def NajmenejGraf(self):
         najmenej, a2 = plt.subplots(
@@ -144,7 +209,7 @@ class Statistika:
         a2.tick_params(axis='x', which='both', length=0)
         a2.set_title('Najmenej predavane produkty', **
                      self.font, fontsize=15, weight='bold')
-        bar_X = [0,1,2,3,4,5,6,7,8,9]
+        bar_X = [i for i in range(len(self.top_ten_worst_graf))]
         bars2 = a2.bar(bar_X, self.top_ten_worst)
         bar_X = []
         for bar in bars2:
@@ -153,14 +218,16 @@ class Statistika:
         annot2 = a2.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot2.set_visible(False)
-        def update_annot2(event,bar_x_pos):
+
+        def update_annot2(event, bar_x_pos):
             x = event.xdata
-            y = event.ydata+5
+            y = event.ydata
             annot2.xy = (x, y)
             for c, i in enumerate(bar_X):
                 if i == bar_x_pos:
-                    text = self.top_ten_worst[c]
+                    text = self.top_ten_worst_graf[c][0]
             annot2.set_text(text)
+
         def hover2(event):
             vis = annot2.get_visible()
             if event.inaxes == a2:
@@ -168,7 +235,7 @@ class Statistika:
                     bar_x_pos = bar.get_x()
                     cont = bar.contains(event)
                     if cont[0]:
-                        update_annot2(event,bar_x_pos)
+                        update_annot2(event, bar_x_pos)
                         annot2.set_visible(True)
                         najmenej.canvas.draw_idle()
                         return
@@ -179,7 +246,6 @@ class Statistika:
         najmenej.canvas.mpl_connect("motion_notify_event", hover2)
         self.commands.plot_graph(self.ui.najmenejGraf, najmenej)
 
-
     def VyvojGraf(self):
         x = np.arange(0, 1, 0.01)
         y = np.sin(2 * 2 * np.pi * x)
@@ -188,7 +254,8 @@ class Statistika:
         ax.set_title('Blitted cursor')
         ax.plot(x, y, 'o')
         blitted_cursor = BlittedCursor(ax)
-        fig.canvas.mpl_connect('motion_notify_event', blitted_cursor.on_mouse_move)
+        fig.canvas.mpl_connect('motion_notify_event',
+                               blitted_cursor.on_mouse_move)
         self.commands.plot_graph(self.ui.trzbyNaklady, fig, size=68.5)
         plt.tight_layout()
 
@@ -205,7 +272,7 @@ class Statistika:
 
         # def create_new_background():
         #     global background
-        #     if creating_background: 
+        #     if creating_background:
         #         return
         #     creating_background = True
         #     set_cross_hair_visible(False)
@@ -237,8 +304,6 @@ class Statistika:
         #         a3.draw_artist(text)
         #         a3.figure.canvas.blit(a3.bbox)
 
-
-
         # vyvoj_ceny, a3 = plt.subplots(
         #     figsize=[7.18, 3.21], linewidth=self.linewidth, edgecolor=self.edgecolor)
         # vyvoj_ceny.set_facecolor(self.graph_color)
@@ -262,7 +327,6 @@ class Statistika:
         # self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny, size=68.5)
         # plt.tight_layout()
 
-
     def FunFacts(self):
         if self.profLoss < 0:
             profLossColor = '#FF0000'
@@ -270,7 +334,6 @@ class Statistika:
             profLossColor = '#21BF3E'
         else:
             profLossColor = '#717171'
-
 
         self.ui.label_6.setText(str(self.profLoss)+'€')
         self.ui.label_6.setToolTip('''tato cena s pravidla vyjadruje zisk alebo stratu firmy za jeden den
@@ -282,16 +345,18 @@ pre detailnejsie zobrazenie vyvoju ceny firmy pozri graf nizsie -->''')
                                         background-color: #2F3E46;
                                         border: 1px solid #101416;}
                                         #label_6 {color: %s}''' % profLossColor)
-        self.ui.label_20.setText(self.avPrice)
+        self.ui.label_20.setText(str(self.avPrice)+'€')
         self.ui.label_20.setStyleSheet('color:'+self.funFactsColor)
         self.ui.label_10.setText(str(self.pocet_produktov))
         self.ui.label_10.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_12.setText(self.najviac_den)
+        self.ui.label_12.setText(str(self.najviac_sa_nakupuje))
         self.ui.label_12.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_16.setText(self.najviac_produkt)
+        self.ui.label_16.setText(str(self.najviac_produkt))
         self.ui.label_16.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_14.setText(self.posledna_objednavka)
+        self.ui.label_14.setText(str(self.posledna_objednavka_Z))
         self.ui.label_14.setStyleSheet('color:'+self.funFactsColor)
+        self.ui.label_3.setText(str(self.posledna_objednavka_F))
+        self.ui.label_3.setStyleSheet('color:'+self.funFactsColor)
         self.ui.camelLogo_2.setToolTip('')
 
 
@@ -299,6 +364,7 @@ class BlittedCursor:
     """
     A cross hair cursor using blitting for faster redraw.
     """
+
     def __init__(self, ax):
         self.ax = ax
         self.background = None

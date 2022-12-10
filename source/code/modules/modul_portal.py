@@ -5,8 +5,7 @@
 # creates file uctenka_[id_transakcie].txt.
 
 # TODO
-# fix uctovnik - po prvom prepnuti z landing page otvor login
-# uctenka black space uctovnik
+#
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -16,13 +15,12 @@ from utils.tools import *
 
 
 class Portal:
+    """
+    This class handles everything done on the portal
+    screen (button clicks, item listing...).
+    """
 
     def __init__(self, ui):
-        """
-        This class handles everything done on the portal
-        screen (button clicks, item listing...).
-        """
-
         self.ui = ui
         self.commands = UI_Commands(self.ui)
 
@@ -41,22 +39,23 @@ class Portal:
             self.ui.verticalLayout_46
         ]
 
-        # Track UI actions
+        self.init_actions()
+        self.init_data()
+        self.update_data()
+
+    def init_actions(self):
         self.redirect_actions()
         self.search_action()
         self.sort_action()
         self.login_actions()
         self.catalog_action()
 
-        # Load data
+    def init_data(self):
         self.goods = DataFile('tovar')
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
+        self.ui.itemCategories.setCurrentIndex(0)
         self.update_category()
-
-        # Update 'goods' variable every 3 seconds
-        self.version = self.goods.version
-        # run_periodically(self.update_goods, 3)
 
     # ==================== ACTIONS =======================
     def redirect_actions(self):
@@ -66,7 +65,7 @@ class Portal:
         )
         self.commands.button_click(
             self.ui.homeArrow6,
-            self.login_back
+            self.exit_login
         )
 
     def search_action(self):
@@ -106,10 +105,10 @@ class Portal:
         else:
             self.commands.redirect(self.ui.portal)
 
-    def login_back(self):
+    def exit_login(self):
         """
-        Sends user back to landing page if he was not logged in
-        or send user to portal screen if cashier name was updated.
+        Redirect back to landing page if user has not been logged in
+        yet or redirect to portal screen if cashier name was updated.
         """
         if self.cashier_name == '':
             self.commands.redirect(self.ui.index)
@@ -118,7 +117,7 @@ class Portal:
 
     def log_in(self):
         """
-        Login user with the name entered into field on login screen.
+        Log user in with the name entered into field on login screen.
         """
         entry = self.ui.nameEntry.text()
         if entry != '':
@@ -129,72 +128,113 @@ class Portal:
     # ==================== SEARCHING =======================
     def search(self):
         """
-        Get the value of the search field and load
-        items with matching names or codes.
+        Get the value of search field and find matching items.
         """
         self.query = self.ui.searchField.text()
-        self.result = search_items(self.query, category=self.category)
+        self.result = search_items(
+            self.query, self.goods.data, self.category
+        ) if self.query != '' else self.goods.data
+        self.search_results()
+
+    def search_results(self):
+        """Load search results, or display 'no results' message."""
         if self.result == {}:
             self.no_results()
         else:
             self.reload_items(self.result)
 
+    def no_results(self):
+        """Display 'item not found' in search results."""
+        self.commands.clear_layout(self.layouts[self.category])
+        label = self.no_results_label()
+        self.layouts[self.category].addWidget(label)
+
+    @staticmethod
+    def no_results_label():
+        label = QtWidgets.QLabel('Produkt sa nenašiel...')
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setPointSize(12)
+        label.setFont(font)
+        label.setStyleSheet('color: #b0180b;')
+        return label
+
     # ==================== SORTING =======================
     def sort(self):
+        self.update_sort_state()
+        self.load_sorted_items()
+
+    def update_sort_state(self):
         """Update sort button and change sort state."""
         if self.sort_state == 1:
-            self.create_icon("up_arrow.png", "Highest price", 2)
+            self.update_sort_button("up_arrow.png", "Highest price")
+            self.sort_state = 2
         elif self.sort_state == 2:
-            self.create_icon("down_arrow.png", "Lowest price", 3)
+            self.update_sort_button("down_arrow.png", "Lowest price")
+            self.sort_state = 3
         else:
-            self.create_icon("up_down_arrow.png", "Sort by price", 1)
+            self.update_sort_button("up_down_arrow.png", "Sort by price")
+            self.sort_state = 1
 
-        self.result = sort_items(self.sort_state)
+    def load_sorted_items(self):
+        """Sort item codes and load sorted items into catalog."""
+        sorted_codes = sort_items(
+            self.sort_state, category=self.category
+        )
+        self.result = {}
 
-    # ==================== HELPER FUNCTIONS =======================
-    def create_icon(self, icon_name, text, new_state):
+        for code in sorted_codes:
+            if code in self.goods.data.keys():
+                self.result[code] = self.goods.data[code]
+
+        self.reload_items(self.result)
+
+    def update_sort_button(self, icon_name, text):
         icon = QtGui.QIcon()
         icon.addPixmap(
             QtGui.QPixmap(find_icon(icon_name)),
             QtGui.QIcon.Normal, QtGui.QIcon.Off
         )
         self.ui.sortButton.setText(text)
-        self.sort_state = new_state
         self.ui.sortButton.setIcon(icon)
 
     # ===================== LOADING =======================
     def reload_items(self, data):
+        """
+        Clear catalog of current selected category and load new items.
+        """
         self.commands.clear_layout(self.layouts[self.category])
         self.load_items(data)
 
     def load_items(self, data):
+        """Display item cards in the catalog."""
         for code, vals in data.items():
             self.load_item(code, vals)
 
     def load_item(self, code, vals):
+        """Load item data and display item card in the catalog."""
         price = self.prices.data.get(code)
         codes = '12345' if self.category == 0 else str(self.category)
+
         if price != None and code[0] in codes:
             ItemCard(
                 self, self.layouts[self.category], vals[0],
                 code, float(price[1]), vals[1]
             )
 
-    def no_results(self):
-        self.commands.clear_layout(self.layouts[self.category])
-        empty = QtWidgets.QLabel('Produkt sa nenašiel...')
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setPointSize(12)
-        empty.setFont(font)
-        empty.setStyleSheet('color: #b0180b;')
-        self.layouts[self.category].addWidget(empty)
-
     # ==================== PORTAL UPDATING =======================
     def update_category(self):
-        """Set currently selected category."""
+        """
+        Set selected category and load items of that category.
+        """
         self.category = self.ui.itemCategories.currentIndex()
+        self.goods.read()
         self.reload_items(self.goods.data)
+
+    def update_data(self):
+        """Update 'goods' variable every 3 seconds"""
+        self.version = self.goods.version
+        run_periodically(self.update_goods, 3)
 
     def update_goods(self):
         """
@@ -206,14 +246,13 @@ class Portal:
         if current_version != self.version:
             self.goods.read()
             self.version = current_version
-            self.load_items()
+            self.reload_items()
 
 
 class Cart:
+    """This class represents a cart with its contents and price."""
 
     def __init__(self, page):
-        """This class represents a cart with its contents and price."""
-
         self.page = page
         self.ui = page.ui
         self.commands = page.commands
@@ -232,6 +271,14 @@ class Cart:
         )
 
     def buy(self):
+        if len(self.contents) > 0:
+            self.execute_purchase()
+        else:
+            self.commands.warning(
+                'Prázdny košík',
+                'Pred kúpou vložte, prosím, veci do košíka.')
+
+    def execute_purchase(self):
         """
         Generate uctenka_[id].txt, add datapoint to 
         statistics and remove everything from the cart.
@@ -239,7 +286,7 @@ class Cart:
         self.create_receipt()
         self.add_stats()
         self.clear_cart()
-        self.info_message()
+        self.purchase_message()
 
     def clear_cart(self):
         """Remove everything from the cart."""
@@ -265,9 +312,12 @@ class Cart:
         self.filepath = os.path.join(PATH, 'source', 'data', filename)
 
         with open(self.filepath, 'w', encoding='utf-8') as receipt:
-            receipt.writelines(self.receipt_template())
+            receipt.writelines(receipt_template(
+                self.id, self.page.cashier_name,
+                self.contents, self.price
+            ))
 
-    def info_message(self):
+    def purchase_message(self):
         receipt_icon = QtGui.QIcon()
         msg = QtWidgets.QMessageBox()
         receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
@@ -279,23 +329,6 @@ class Cart:
                     f'Otvor účtenku č. {self.id}</a>')
         msg.setIconPixmap(QtGui.QPixmap(find_icon('receipt.svg')))
         msg.exec_()
-
-    def receipt_template(self):
-        output = ['Camels E-shop s.r.o.',
-                  '\nCislo uctenky: '+self.id,
-                  '\nVytvorene: '+now(),
-                  '\nPokladnik: '+self.page.cashier_name,
-                  '\n=================================\n']
-        output += [
-            item.display_name+'\n\t'+str(item.amount)+'ks x ' +
-            str_price(item.price)+'\t\t' +
-            str_price(item.price, item.amount)+' €\n'
-            for item in list(self.contents.values())
-        ]
-        output += ['\n=================================',
-                   '\nSpolu cena: '+str_price(self.price)+' €',
-                   '\nDPH(20%): '+str_price(self.price*0.2)+' €']
-        return output
 
 
 class ItemCard(QtWidgets.QFrame):
@@ -385,7 +418,10 @@ class ItemCard(QtWidgets.QFrame):
         self.nameLayout.setObjectName(self.name+"NameLayout")
         self.itemLabel = QtWidgets.QLabel(self.display_name+" #"+self.code)
         self.itemLabel.setObjectName(self.name+"ItemLabel")
+        self.itemPrice = QtWidgets.QLabel(str(self.price) + ' €')
+        self.itemPrice.setObjectName(self.name+"ItemPrice")
         self.nameLayout.addWidget(self.itemLabel)
+        self.nameLayout.addWidget(self.itemPrice)
         self.mainLayout.addWidget(self.itemName)
         self.itemCount = QtWidgets.QWidget(self)
         self.itemCount.setMaximumSize(QtCore.QSize(60, 16777215))

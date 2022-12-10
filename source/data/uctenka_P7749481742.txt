@@ -1,0 +1,11 @@
+Camels E-shop s.r.o.
+Cislo uctenky: P7749481742
+Vytvorene: 2022-12-08 16-42-28
+Pokladnik: tomas
+=================================
+Adidas tenisky
+	3ks x 13.99		41.97 €
+
+=================================
+Spolu cena: 41.97 €
+DPH(20%): 8.39 €

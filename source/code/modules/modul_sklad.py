@@ -68,7 +68,7 @@ class Sklad:
 
     def search_action(self):
         self.commands.form_submit(
-            [self.ui.searchButton, self.ui.searchField_3],
+            [self.ui.searchButton_4, self.ui.searchField_3],
             self.search
         )
 
