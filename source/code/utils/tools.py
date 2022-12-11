@@ -174,7 +174,7 @@ def receipt_template(id, cashier_name, contents, total_price):
         str_price(item.price, item.amount)+' €\n'
         for item in list(contents.values())
     ]
-    output += ['\n==================================',
+    output += ['\n===================================',
                '\nSpolu cena: '+str_price(total_price)+' €',
                '\nDPH(20%): '+str_price(total_price*0.2)+' €']
 
