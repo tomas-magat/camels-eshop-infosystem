@@ -146,17 +146,26 @@ class ItemDetails(QtWidgets.QFrame):
         pattern2 = re.compile("^[A-Za-z ]+$")
         unique = new_code not in self.page.goods.data.keys()
 
-        if pattern.match(new_code) and pattern2.match(new_name) and unique:
+        if pattern.match(new_code) and pattern2.match(new_name):
             new_text = "#"+new_code+" "+new_name
             old_text = self.ui.listWidget.currentItem().text()
 
             if new_text != old_text:
                 if self.adding:
-                    self.page.goods.data[new_code] = [new_name, self.filename]
-                    self.page.goods.save_data()
-                    self.page.goods.read()
-                    self.ui.listWidget.addItem(new_text)
-                    self.adding = False
+                    if unique:
+                        self.page.goods.data[new_code] = [new_name, self.filename]
+                        self.page.goods.save_data()
+                        self.page.goods.read()
+                        self.ui.listWidget.addItem(new_text)
+                        self.adding = False
+                    else:
+                        print('produkt uz existuje')
+                        msg = QMessageBox()
+                        msg.setWindowTitle("Error")
+                        msg.setText('produkt uz existuje')
+                        msg.setIcon(QMessageBox.Warning)
+                        msg.exec_()
+
                 else:
                     self.edit_items(new_code, new_name, new_text)
         else:
