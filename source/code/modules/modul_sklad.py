@@ -27,7 +27,7 @@ class Sklad:
 
         # Init global variables
         self.total_price = 0
-        self.sort_state = 1
+        self.sort_state_sklad = 1
         self.order_mode = 3
 
         self.cart_price = 0
@@ -74,7 +74,7 @@ class Sklad:
 
     def sort_action(self):
         self.commands.button_click(
-            self.ui.sortButton, self.sort
+            self.ui.sortButton_2, self.sort
         )
 
     def buy_action(self):
@@ -106,15 +106,15 @@ class Sklad:
     def sort(self):
         """Update sort button and change sort state."""
 
-        if self.sort_state == 1:
+        if self.sort_state_sklad == 1:
             self.create_icon("up_arrow.png", "Highest price", 2)
-        elif self.sort_state == 2:
+        elif self.sort_state_sklad == 2:
             self.create_icon("down_arrow.png", "Lowest price", 3)
         else:
             self.create_icon("up_down_arrow.png", "Sort by price", 1)
 
-        self.result = sort_items(self.sort_state)
-        print(self.result)
+        self.result_sklad = sort_items(self.sort_state_sklad)
+        # print(self.result_sklad)
 
     def buy(self):
         """Buy everything in the cart, generate objednavka_[id].txt"""
@@ -136,7 +136,7 @@ class Sklad:
             QtGui.QIcon.Normal, QtGui.QIcon.Off
         )
         self.ui.sortButton.setText(text)
-        self.sort_state = new_state
+        self.sort_state_sklad = new_state
 
         self.ui.sortButton.setIcon(icon)
 
@@ -228,23 +228,23 @@ class Sklad:
 
         icon = QtGui.QIcon()
 
-        if self.sort_state == 1:
+        if self.sort_state_sklad == 1:
             icon.addPixmap(QtGui.QPixmap(
                 find_icon("up_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
             self.ui.sortButton_2.setText("Highest price")
-            self.sort_state = 2
+            self.sort_state_sklad = 2
 
-        elif self.sort_state == 2:
+        elif self.sort_state_sklad == 2:
             icon.addPixmap(QtGui.QPixmap(
                 find_icon("down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
             self.ui.sortButton_2.setText("Lowest price")
-            self.sort_state = 3
+            self.sort_state_sklad = 3
 
         else:
             icon.addPixmap(QtGui.QPixmap(
                 find_icon("up_down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
             self.ui.sortButton_2.setText("Sort by price")
-            self.sort_state = 1
+            self.sort_state_sklad = 1
 
         self.ui.sortButton_2.setIcon(icon)
 
