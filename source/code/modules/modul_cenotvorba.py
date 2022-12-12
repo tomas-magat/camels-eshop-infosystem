@@ -35,10 +35,15 @@ class Cenotvorba:
             self.price_cards.append(item_card)
 
     def savefile(self):
+        self.changed = False
         for item in self.price_cards:
             prices = item.getPrices()
-            self.prices.data[item.code] = prices
-        self.prices.save_data()
+            if self.prices.data[item.code] != prices:
+                self.prices.data[item.code] = prices
+                self.changed = True
+
+        if self.changed:
+            self.prices.save_data()
 
 
 class ItemPriceCard(QtWidgets.QFrame):
