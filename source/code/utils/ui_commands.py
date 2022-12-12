@@ -77,6 +77,15 @@ class UI_Commands:
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
 
+    def date_changed(self, date_edit: QDateEdit, command):
+        """
+        After user changes datetime in QDateEdit widget,
+        run a command with 1 parameter: datetime.
+        """
+
+        value = date_edit.dateTime().toPyDateTime()
+        date_edit.dateTimeChanged.connect(lambda: command(value))
+
     def error(self, message: str, additional_text=''):
         """Display simple error message."""
 
