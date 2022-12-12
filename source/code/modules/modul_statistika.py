@@ -50,7 +50,7 @@ class Statistika:
                 self.najviac_produkt = k
 
         top_produkty = []
-        cas = []
+        self.statistika_list = []
         p, p1, k2, v2, k4, v4 = '', '', '', '', '', ''
         for k1, v1 in self.statistiky.items():
             m=0
@@ -70,26 +70,44 @@ class Statistika:
             else:
                 k4, v4 = k1, v1
                 p1 = v1[2]
-            cas += (k1, v1[0]+' '+v1[3]+' '+v1[4]),
-
+            self.statistika_list += (k1, v1[0]+' '+v1[2]+' '+v1[3]+' '+v1[4]),
         prem = k1.split()[0].split()[0]
         novy_cas = []
-        for i in range(len(cas)-1,-1,-1):
-            if cas[i][0].split()[0] == prem:
-                novy_cas += cas[i],
+        for i in range(len(self.statistika_list)-1,-1,-1):
+            if self.statistika_list[i][0].split()[0] == prem:
+                novy_cas += self.statistika_list[i],
         for i in novy_cas:
             if i[1].split()[0] == 'P':
-                self.profLoss += int(i[1].split()[1])*Decimal(i[1].split()[2])
+                self.profLoss += int(i[1].split()[2])*Decimal(i[1].split()[3])
             else:
-                self.profLoss -= int(i[1].split()[1])*Decimal(i[1].split()[2])
+                self.profLoss -= int(i[1].split()[2])*Decimal(i[1].split()[3])
         
         ttt=0
-        for i in cas:
+        for i in self.statistika_list:
             if i[1].split()[0] == 'P':
-                self.avPrice += int(i[1].split()[1])*Decimal(i[1].split()[2])
+                self.avPrice += int(i[1].split()[2])*Decimal(i[1].split()[3])
                 ttt += 1
         self.avPrice /= ttt
         self.avPrice = str(self.avPrice)[:5]
+
+        self.x_date = [i for i in(range(len(self.statistika_list)+1))]
+        self.profit_all = [0]
+        self.loss_all = [0]
+        for i in self.statistika_list:
+            io=False
+            oi=False
+            if i[1].split()[0] == 'P':
+                self.profit_all += int(i[1].split()[2])*Decimal(i[1].split()[3]),
+                io=True
+            else:
+                self.loss_all += int(i[1].split()[2])*Decimal(i[1].split()[3]),
+                oi=True
+            
+            if io:
+                self.loss_all += self.loss_all[-1],
+            elif oi:
+                self.profit_all += self.profit_all[-1],
+
 
         h=True
         for k, v in self.tovar.items():
@@ -144,9 +162,6 @@ class Statistika:
         self.top_ten = [i[1] for i in self.top_ten_graf]
         self.top_ten_worst = [i[1] for i in self.top_ten_worst_graf]
 
-        self.x = np.arange(0, 1, 0.01)
-        self.y = np.sin(2 * 2 * np.pi * self.x)
-        self.y1 = np.sin(3 * 2 * np.pi * self.x)
         self.najviac_sa_nakupuje = 'Sobota (87)'
 
 
@@ -274,7 +289,7 @@ class Statistika:
                 vertical_line.set_xdata(x[index])
                 horizontal_line.set_ydata(y[index])
                 horizontal_line1.set_ydata(z[index])
-                text.set_text('x=%1.2f, y=%1.2f' % (x[index], y[index]))
+                text.set_text('x=%s, y=%s' % (self.statistika_list[index][0], y[index]))
                 a3.figure.canvas.draw()
 
         vyvoj_ceny, a3 = plt.subplots(
@@ -285,15 +300,17 @@ class Statistika:
         a3.spines['right'].set_visible(False)
         a3.set_title('Vyvoj ceny', **self.font, fontsize=15,
                      weight='bold')
-        line, = a3.plot(self.x, self.y, label='naklady')
-        line1, = a3.plot(self.x, self.y1, label='vynosy')
+        line, = a3.plot(self.x_date, self.profit_all, label='vynosy')
+        line1, = a3.plot(self.x_date, self.loss_all, label='naklady')
+        a3.legend(loc='upper left', frameon=False)
         horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
         horizontal_line1 = a3.axhline(color='k', lw=0.8, ls='--')
         vertical_line = a3.axvline(color='k', lw=0.8, ls='--')
         x, y = line.get_data()
         x, z = line1.get_data()
+        self.statistika_list.insert(0, (0,0))
         self.last_index = None
-        text = a3.text(0.72, 0.9, '', transform=a3.transAxes)
+        text = a3.text(0.55, 0.9, '', transform=a3.transAxes)
         vyvoj_ceny.canvas.mpl_connect('motion_notify_event', on_mouse_move)
         self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny, size=68.5)
         plt.tight_layout()
