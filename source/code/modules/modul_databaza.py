@@ -64,7 +64,7 @@ class Databaza:
 
         text = self.ui.listWidget.currentItem().text().split()
         code = text[0].lstrip("#")
-        name = ''.join(text[1:]) if len(text) > 1 else code
+        name = ' '.join(text[1:]) if len(text) > 1 else code
         image = self.goods.data[code][1]
 
         ItemDetails(self, self.ui.right_database, name, code, image)
@@ -80,7 +80,6 @@ class Databaza:
         self.ui.listWidget.takeItem(self.ui.listWidget.currentRow())
         del self.goods.data[code]
         self.goods.save_data()
-
 
 
 class ItemDetails(QtWidgets.QFrame):
@@ -144,7 +143,10 @@ class ItemDetails(QtWidgets.QFrame):
 
         pattern = re.compile("^[0-5]+$")
         pattern2 = re.compile("^[A-Za-z ]+$")
-        unique = new_code not in self.page.goods.data.keys()
+        other_codes = list(self.page.goods.data.keys())
+        if not self.adding:
+            other_codes.remove(self.code)
+        unique = new_code not in other_codes
 
         if pattern.match(new_code) and pattern2.match(new_name) and unique:
             new_text = "#"+new_code+" "+new_name

@@ -1,4 +1,4 @@
-6
+5
 1000;Cierne tricko;tricko.jpg
 1001;Biele tricko;tricko.jpg
 3000;Adidas tenisky;tenisky.webp
