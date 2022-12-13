@@ -198,7 +198,7 @@ class Sklad:
         if price != None and code[0] in codes:
             ItemCard(
                 self, self.layouts[self.category], vals[0],
-                code, float(price[1]), vals[1], int(count[0])
+                code, float(price[0]), vals[1], int(count[0])
             )
 
     # ==================== SKLAD UPDATING =======================
