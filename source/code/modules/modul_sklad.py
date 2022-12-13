@@ -27,12 +27,10 @@ class Sklad:
 
         # Init global variables
         self.total_price = 0
-        self.sort_state_sklad = 1
+        self.sort_state = 1
         self.order_mode = 3
 
-        self.cart_price = 0
-        self.cart = {}
-        self.catalog = []
+        self.cart = Cart(self)
         self.category = 0
 
         # Track UI actions
@@ -42,22 +40,23 @@ class Sklad:
         self.layouts = [self.ui.verticalLayout_18, self.ui.verticalLayout_37, self.ui.verticalLayout_20, self.ui.verticalLayout_28,
                         self.ui.verticalLayout_31, self.ui.verticalLayout_35]
 
-        # Load data
-        self.goods = DataFile('tovar')
-        self.prices = DataFile('cennik')
-        self.storage = DataFile('sklad')
-        self.load_items(self.goods.data)
+        self.init_actions()
+        self.init_data()
+        self.update_data()
 
-        # Track UI actions
+    def init_actions(self):
         self.redirect_action()
         self.search_action()
         self.sort_action()
-        self.buy_action()
         self.catalog_action()
 
-        # Update 'goods' variable every 3 seconds
-        self.version = self.goods.version
-        run_periodically(self.update_goods, 3)
+    def init_data(self):
+        self.goods = DataFile('tovar')
+        self.prices = DataFile('cennik')
+        self.storage = DataFile('sklad')
+        self.ui.itemCategories.setCurrentIndex(0)
+        self.update_category()
+
     # ==================== ACTIONS =======================
 
     def redirect_action(self):
@@ -77,130 +76,124 @@ class Sklad:
             self.ui.sortButton_2, self.sort
         )
 
-    def buy_action(self):
-        self.commands.button_click(
-            self.ui.buyButton_7, self.buy
-        )
-
     def catalog_action(self):
         self.commands.tab_selected(
-            self.ui.itemCategories, self.set_category
+            self.ui.itemCategories, self.update_category
         )
 
-    # ==================== MAIN FUNCTIONALITY =======================
+    # ==================== REDIRECTS =======================
     def switch_screen(self):
         """Redirect to this sklad screen."""
 
         self.commands.redirect(self.ui.sklad)
 
+    # ==================== SEARCH =======================
     def search(self):
         """
-        Get the value of the search field and load
-        items with matching names or codes.
+        Get the value of search field and find matching items.
         """
-
         self.query = self.ui.searchField_3.text()
-        self.result = search_items(self.query, category=self.category)
-        self.reload_items()
+        self.result = search_items(
+            self.query, self.goods.data, self.category
+        ) if self.query != '' else self.goods.data
+        self.search_results()
 
-    def sort(self):
-        """Update sort button and change sort state."""
-
-        if self.sort_state_sklad == 1:
-            self.create_icon("up_arrow.png", "Highest price", 2)
-        elif self.sort_state_sklad == 2:
-            self.create_icon("down_arrow.png", "Lowest price", 3)
+    def search_results(self):
+        """Load search results, or display 'no results' message."""
+        if self.result == {}:
+            self.no_results()
         else:
-            self.create_icon("up_down_arrow.png", "Sort by price", 1)
+            self.reload_items(self.result)
 
-        self.result_sklad = sort_items(self.sort_state_sklad)
-        # print(self.result_sklad)
+    def no_results(self):
+        """Display 'item not found' in search results."""
+        self.commands.clear_layout(self.layouts[self.category])
+        label = self.no_results_label()
+        self.layouts[self.category].addWidget(label)
 
-    def buy(self):
-        """Buy everything in the cart, generate objednavka_[id].txt"""
+    @staticmethod 
+    def no_results_label():
+        label = QtWidgets.QLabel('Produkt sa nenašiel...')
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setPointSize(12)
+        label.setFont(font)
+        label.setStyleSheet('color: #b0180b;')
+        return label
 
-        self.create_receipt()
-        for item in self.cart.values():
-            item.delete()
+    # ==================== SORTING =======================
+    def sort(self):
+        self.update_sort_state()
+        self.load_sorted_items()
 
-    def set_category(self):
-        """Set currently selected category."""
+    def update_sort_state(self):
+        """Update sort button and change sort state."""
+        if self.sort_state == 1:
+            self.update_sort_button("up_arrow.png", "Highest price")
+            self.sort_state = 2
+        elif self.sort_state == 2:
+            self.update_sort_button("down_arrow.png", "Lowest price")
+            self.sort_state = 3
+        else:
+            self.update_sort_button("up_down_arrow.png", "Sort by price")
+            self.sort_state = 1
 
-        self.category = self.ui.itemCategories.currentIndex()
-    # ==================== HELPER FUNCTIONS =======================
+    def load_sorted_items(self):
+        """Sort item codes and load sorted items into catalog."""
+        sorted_codes = sort_items(
+            self.sort_state, category=self.category
+        )
+        self.result = {}
 
-    def create_icon(self, icon_name, text, new_state):
+        for code in sorted_codes:
+            if code in self.goods.data.keys():
+                self.result[code] = self.goods.data[code]
+
+        self.reload_items(self.result)
+
+    def update_sort_button(self, icon_name, text):
         icon = QtGui.QIcon()
         icon.addPixmap(
             QtGui.QPixmap(find_icon(icon_name)),
             QtGui.QIcon.Normal, QtGui.QIcon.Off
         )
-        self.ui.sortButton.setText(text)
-        self.sort_state_sklad = new_state
+        self.ui.sortButton_2.setText(text)
+        self.ui.sortButton_2.setIcon(icon)
 
-        self.ui.sortButton.setIcon(icon)
 
-    def reload_items(self):
-        self.catalog = []
+    # ===================== LOADING =======================
+    def reload_items(self, data):
+        """
+        Clear catalog of current selected category and load new items.
+        """
         self.commands.clear_layout(self.layouts[self.category])
-        self.load_items(self.result, all_layouts=False)
+        self.load_items(data)
 
-    def load_items(self, data, all_layouts=True):
-        """Load all items from database into catalog."""
+    def load_items(self, data):
+        """Display item cards in the catalog."""
+        for code, vals in data.items():
+            self.load_item(code, vals)
 
-        for key, vals in data.items():
-            self.load_item(key, vals, all_layouts)
+    def load_item(self, code, vals):
+        price = self.prices.data.get(code)
+        count = self.storage.data.get(code)
+        codes = '12345' if self.category == 0 else str(self.category)
 
-    def load_item(self, key, vals, all_layouts):
-        price = self.prices.data.get(key)
-        name = camelify(vals[0])
-        count = self.storage.data.get(key)
-        if name not in self.catalog:
-            image = find_image(vals[1])
-            ItemCard(self, self.layouts[int(key[0])],
-                     vals[0], key, float(price[0]), image, int(count[0]))
-        if name not in self.catalog and int(count[0]) < 10:
-            ItemCard(self, self.ui.verticalLayout_18,
-                     vals[0], key, float(price[0]), image, int(count[0]))
-
-        self.catalog.append(name)
-
-    def create_receipt(self):
-        receipt_id = random_id('N')
-        filename = 'objednavka_'+receipt_id+'.txt'
-        filepath = os.path.join(PATH, 'source', 'data', filename)
-
-        with open(filepath, 'w', encoding='utf-8') as receipt:
-            self.receipt_template(receipt, receipt_id)
-
-        receipt_icon = QtGui.QIcon()
-        msg = QMessageBox()
-
-        receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
-                               QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        msg.setWindowTitle(f"Sale {receipt_id[1:]} - confirmed")
-        msg.setText('<b><p style="padding: 0px;  margin: 0px;">Pokladničný doklad bol úspešne vygenerovaný.</p>' +
-                    f'<br><a href="file:///{PATH}/source/data/{filename}">Otvor objednávku č. {receipt_id}</a>')
-        msg.setIconPixmap(QPixmap(find_icon('receipt.svg')))
-        msg.exec_()
-
-    def receipt_template(self, receipt, id):
-        receipt.write('Camels E-shop s.r.o.\n')
-        receipt.write('\nCislo objednavky: '+id)
-        receipt.write('\nVytvorene: '+now())
-        receipt.write('\n\n=================================\n\n')
-        items = [
-            item.display_name+'\n\t'+str(item.amount)+'ks x ' +
-            str_price(item.price)+'\t\t\t\t' +
-            str_price(item.price, item.amount)+' €\n'
-            for item in list(self.cart.values())
-        ]
-        receipt.writelines(items)
-        receipt.write('\n=================================\n\n')
-        receipt.write('Spolu cena: '+str_price(self.cart_price)+' €')
-        receipt.write('\nDPH(20%): '+str_price(self.cart_price*0.2)+' €')
+        if price != None and code[0] in codes:
+            ItemCard(
+                self, self.layouts[self.category], vals[0],
+                code, float(price[1]), vals[1], int(count[0])
+            )
 
     # ==================== SKLAD UPDATING =======================
+    def update_category(self):
+        """
+        Set selected category and load items of that category.
+        """
+        self.category = self.ui.itemCategories.currentIndex()
+        self.goods.read()
+        self.reload_items(self.goods.data)
+    
     def update_goods(self):
         """
         Update 'goods' variable if version of the tovar.txt
@@ -214,40 +207,13 @@ class Sklad:
             self.version = current_version
             self.load_items()
 
-    def update_price(self, value):
-        """Update total price of a cart."""
+    def update_data(self):
+        """Update 'goods' variable every 3 seconds"""
+        self.version = self.goods.version
+        run_periodically(self.update_goods, 3)
 
-        self.cart_price += value
-        self.ui.totalPrice_2.setText(
-            "Spolu: "+str_price(self.cart_price, 1)+" €")
 
-    # ===================SORT BUTTON STATE==================================
-
-    def sort_button_state(self):
-        """Update sort button state and change its icon."""
-
-        icon = QtGui.QIcon()
-
-        if self.sort_state_sklad == 1:
-            icon.addPixmap(QtGui.QPixmap(
-                find_icon("up_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.sortButton_2.setText("Highest price")
-            self.sort_state_sklad = 2
-
-        elif self.sort_state_sklad == 2:
-            icon.addPixmap(QtGui.QPixmap(
-                find_icon("down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.sortButton_2.setText("Lowest price")
-            self.sort_state_sklad = 3
-
-        else:
-            icon.addPixmap(QtGui.QPixmap(
-                find_icon("up_down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.sortButton_2.setText("Sort by price")
-            self.sort_state_sklad = 1
-
-        self.ui.sortButton_2.setIcon(icon)
-
+    # =================== ORDER STATE ==================================
     def order(self):
         print(self.order_mode)
 
@@ -267,16 +233,6 @@ class Sklad:
         """All button click commands of sklad screen here."""
 
         self.commands.button_click(
-            self.ui.skladButton, self.switch_screen)
-
-        self.commands.form_submit(
-            [self.ui.searchButton_3, self.ui.searchField_3],
-            self.search)
-
-        self.commands.button_click(
-            self.ui.sortButton_2, self.sort_button_state)
-
-        self.commands.button_click(
             self.ui.automatic, self.automatic)
 
         self.commands.button_click(
@@ -284,6 +240,110 @@ class Sklad:
 
         self.commands.button_click(
             self.ui.manual, self.manual)
+
+class Cart:
+    """This class represents a cart with its contents and price."""
+
+    def __init__(self, page):
+        self.page = page
+        self.ui = page.ui
+        self.commands = page.commands
+
+        # Init cart global variables
+        self.price = 0
+        self.contents = {}
+        self.statistics = DataFile('statistiky')
+        self.storage = DataFile('sklad')
+        self.id = random_id('N')
+
+        self.buy_click()
+
+    def buy_click(self):
+        self.commands.button_click(
+            self.ui.buyButton_7, self.buy
+        )
+
+    def buy(self):
+        if len(self.contents) > 0:
+            self.execute_purchase()
+        else:
+            self.commands.warning(
+                'Prázdny košík',
+                'Pred kúpou vložte, prosím, veci do košíka.')
+
+    def execute_purchase(self):
+        """
+        Generate objednavka_[id].txt, add datapoint to 
+        statistics, update sklad.txt amounts
+        and remove everything from the cart.
+        """
+        self.create_receipt()
+        self.add_stats()
+        self.update_storage()
+        self.clear_cart()
+        self.purchase_message()
+
+    def clear_cart(self):
+        """Remove everything from the cart."""
+        for item in list(self.contents.values()):
+            item.delete()
+
+    def add_stats(self):
+        """Add datapoint from transaction to STATISTIKY.txt."""
+        for code, item in self.contents.items():
+            self.statistics.data[now()] = [
+                'N', self.id[1:], code, item.amount, item.price]
+        self.statistics.save_data()
+
+    def update_storage(self):
+        """Change amount of items in sklad.txt."""
+        for code, item in self.contents.items():
+            self.storage.data[code][0] = int(
+                self.storage.data[code][0]) + item.amount
+        self.storage.save_data()
+
+    def update_price(self, value):
+        """Update total price of a cart."""
+        self.price += value
+        self.ui.totalPrice_2.setText(
+            "Spolu: "+str_price(self.price, 1)+" €")
+
+    def create_receipt(self):
+        """Create uctenka_[id].txt from current cart."""
+        filename = 'objednavka_'+self.id+'.txt'
+        self.filepath = os.path.join(PATH, 'source', 'data', filename)
+
+        with open(self.filepath, 'w', encoding='utf-8') as receipt:
+            self.order_receipt_template(receipt)
+
+    def purchase_message(self):
+        receipt_icon = QtGui.QIcon()
+        msg = QtWidgets.QMessageBox()
+        receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
+                               QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        msg.setWindowTitle(f"Sale {self.id[1:]} - confirmed")
+        msg.setText('<b><p style="padding: 0px;  margin: 0px;">'
+                    'Pokladničný doklad bol úspešne vygenerovaný.</p>' +
+                    f'<br><a href="file:{self.filepath}">'
+                    f'Otvor objednávku č. {self.id}</a>')
+        msg.setIconPixmap(QtGui.QPixmap(find_icon('receipt.svg')))
+        msg.exec_()
+
+    def order_receipt_template(self, receipt):
+        receipt.write('Camels E-shop s.r.o.\n')
+        receipt.write('\nCislo objednavky: '+self.id)
+        receipt.write('\nVytvorene: '+now())
+        receipt.write('\n\n=================================\n\n')
+        items = [
+            item.display_name+'\n\t'+str(item.amount)+'ks x ' +
+            str_price(item.price)+'\t\t\t\t' +
+            str_price(item.price, item.amount)+' €\n'
+            for item in list(self.cart.values())
+        ]
+        receipt.writelines(items)
+        receipt.write('\n=================================\n\n')
+        receipt.write('Spolu cena: '+str_price(self.cart_price)+' €')
+        receipt.write('\nDPH(20%): '+str_price(self.cart_price*0.2)+' €')
 
 
 class ItemCard(QtWidgets.QFrame):
@@ -303,7 +363,7 @@ class ItemCard(QtWidgets.QFrame):
         self.display_name = name
         self.code = code
         self.price = price
-        self.image = image
+        self.image = find_image(image)
         self.count = count
 
         self.in_cart = False
