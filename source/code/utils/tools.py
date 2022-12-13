@@ -179,3 +179,12 @@ def receipt_template(id, cashier_name, contents, total_price):
                '\nDPH(20%): '+str_price(total_price*0.2)+' €']
 
     return output
+
+
+def find_code(category):
+    """Find first unsettled item code of specific category."""
+
+    data = DataFile('tovar').data
+    codes = filter_category(data, category)
+    int_codes = [int(code) for code in codes.keys()]
+    return str(max(int_codes)+1)
