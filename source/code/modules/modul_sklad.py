@@ -26,19 +26,24 @@ class Sklad:
         self.commands = UI_Commands(self.ui)
 
         # Init global variables
+        self.cart = Cart(self)
+        # self.category = 0
         self.total_price = 0
         self.sort_state = 1
         self.order_mode = 3
-
-        self.cart = Cart(self)
-        self.category = 0
 
         # Track UI actions
         self.button_clicks()
 
         # Init category layouts
-        self.layouts = [self.ui.verticalLayout_18, self.ui.verticalLayout_37, self.ui.verticalLayout_20, self.ui.verticalLayout_28,
-                        self.ui.verticalLayout_31, self.ui.verticalLayout_35]
+        self.layouts = [
+            self.ui.verticalLayout_18,
+            self.ui.verticalLayout_37,
+            self.ui.verticalLayout_20,
+            self.ui.verticalLayout_28,
+            self.ui.verticalLayout_31, 
+            self.ui.verticalLayout_35
+        ]
 
         self.init_actions()
         self.init_data()
@@ -193,24 +198,24 @@ class Sklad:
         self.category = self.ui.itemCategories.currentIndex()
         self.goods.read()
         self.reload_items(self.goods.data)
+
+    def update_data(self):
+        """Update 'goods' variable every 3 seconds"""
+        self.version = self.goods.version
+        run_periodically(self.update_goods, 3)
     
     def update_goods(self):
         """
         Update 'goods' variable if version of the tovar.txt
         datafile has changed.
         """
-
         current_version = self.goods.version
 
         if current_version != self.version:
             self.goods.read()
             self.version = current_version
-            self.load_items()
+            self.reload_items()
 
-    def update_data(self):
-        """Update 'goods' variable every 3 seconds"""
-        self.version = self.goods.version
-        run_periodically(self.update_goods, 3)
 
 
     # =================== ORDER STATE ==================================
@@ -348,8 +353,9 @@ class Cart:
 
 class ItemCard(QtWidgets.QFrame):
 
-    def __init__(self, page, layout, name: str,
-                 code: str, price: float, image: str, count: float):
+    def __init__(
+            self, page, layout, name: str,
+            code: str, price: float, image: str, count: float):
 
         super(ItemCard, self).__init__(layout.parent())
 
@@ -387,9 +393,7 @@ class ItemCard(QtWidgets.QFrame):
 
     def add_to_cart(self):
         if self.amount > 0:
-            self.cart_item = CartItem(
-                self, self.display_name, self.price, self.amount
-            )
+            self.cart_item = CartItem(self)
             self.update_status()
 
     def update_status(self):
@@ -467,26 +471,25 @@ class ItemCard(QtWidgets.QFrame):
 
 class CartItem(QtWidgets.QFrame):
 
-    def __init__(self, item, name: str, price: float, amount: int):
+    def __init__(self, item):
         self.item = item
         self.page = item.page
         self.ui = self.page.ui
         self.commands = self.page.commands
-        self.parent_layout = self.ui.verticalLayout_34
 
+        self.parent_layout = self.ui.verticalLayout_34
         super(CartItem, self).__init__(self.parent_layout.parent())
 
         self.code = self.item.code
-        
-        self.name = "cart"+camelify(name)
-        self.display_name = name
+        self.name = "cart"+self.item.name
+        self.display_name = self.item.display_name
 
-        self.price = price
-        self.amount = amount
-        self.total = price*amount
+        self.price = self.item.price
+        self.amount = self.item.amount
+        self.total = self.item.price*self.item.amount
+
         self.update_page_cart()
         self.page.cart.update_price(self.total)
-
 
         self.draw_ui()
 
