@@ -4,6 +4,10 @@
 # Can generate (automatic/half-automatic/manual) order,
 # creating objednavka_[id_transakcie].txt
 
+# TODO
+# po vykonani objednavky updatnut pocet tovaru 
+# nastavenie [self.highlight_threshold] - user moze nastavit kedy bude polozka zvyraznena
+
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
@@ -28,6 +32,7 @@ class Sklad:
         self.total_price = 0
         self.sort_state = 1
         self.order_mode = 3
+        self.highlight_threshold = 5
 
         # Track UI actions
         self.button_clicks()
@@ -47,6 +52,7 @@ class Sklad:
         self.update_data()
 
     def init_actions(self):
+        self.manual()
         self.redirect_action()
         self.search_action()
         self.sort_action()
@@ -198,7 +204,7 @@ class Sklad:
         if price != None and code[0] in codes:
             ItemCard(
                 self, self.layouts[self.category], vals[0],
-                code, float(price[0]), vals[1], int(count[0])
+                code, float(price[0]), vals[1], int(count[0]), self.highlight_threshold
             )
 
     # ==================== SKLAD UPDATING =======================
@@ -234,14 +240,17 @@ class Sklad:
 
     def automatic(self):
         self.order_mode = 1
+        self.ui.input_widget.setVisible(True)
         self.order()
 
     def semiautomatic(self):
         self.order_mode = 2
+        self.ui.input_widget.setVisible(True)
         self.order()
 
     def manual(self):
         self.order_mode = 3
+        self.ui.input_widget.setVisible(False)
         self.order()
 
     def button_clicks(self):
@@ -366,7 +375,7 @@ class ItemCard(QtWidgets.QFrame):
 
     def __init__(
             self, page, layout, name: str,
-            code: str, price: float, image: str, count: float):
+            code: str, price: float, image: str, count: float, highlight_threshold: int):
 
         super(ItemCard, self).__init__(layout.parent())
 
@@ -382,6 +391,7 @@ class ItemCard(QtWidgets.QFrame):
         self.price = price
         self.image = find_image(image)
         self.count = count
+        self.highlight_threshold = highlight_threshold
 
         self.in_cart = False
 
@@ -425,7 +435,7 @@ class ItemCard(QtWidgets.QFrame):
         self.setMaximumSize(QtCore.QSize(16777215, 60))
         self.setFrameShape(QtWidgets.QFrame.Box)
         self.setFrameShadow(QtWidgets.QFrame.Plain)
-        if self.count < 6:
+        if self.count <= self.highlight_threshold:
             self.setStyleSheet("background-color: rgb(255, 240, 245)")
         self.setObjectName(self.name)
         self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
@@ -592,65 +602,3 @@ class CartItem(QtWidgets.QFrame):
         self.mainLayout_2.addWidget(
             self.cancelSection, 0, QtCore.Qt.AlignRight)
         self.parent_layout.addWidget(self)
-
-
-def draw_ui_1(self):
-    self.setMinimumSize(QtCore.QSize(200, 60))
-    self.setMaximumSize(QtCore.QSize(16777215, 60))
-    self.setFrameShape(QtWidgets.QFrame.Box)
-    self.setFrameShadow(QtWidgets.QFrame.Plain)
-    if self.parent_layout == self.ui.verticalLayout_18:
-        self.setStyleSheet("background-color: rgb(255,64,64)")
-    self.setObjectName(self.name)
-    self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
-    self.mainLayout_2.setContentsMargins(0, 0, 0, 0)
-    self.mainLayout_2.setSpacing(0)
-    self.mainLayout_2.setObjectName(self.name+"Layout")
-    self.itemPreview = QtWidgets.QWidget(self)
-    self.itemPreview.setMaximumSize(QtCore.QSize(60, 16777215))
-    self.itemPreview.setObjectName(self.name+"Preview")
-    self.previewLayout = QtWidgets.QVBoxLayout(self.itemPreview)
-    self.previewLayout.setObjectName(self.name+"PreviewLayout")
-    self.itemImage = QtWidgets.QLabel()
-    self.itemImage.setPixmap(QtGui.QPixmap(self.image))
-    self.itemImage.setScaledContents(True)
-    self.itemImage.setWordWrap(True)
-    self.itemImage.setObjectName(self.name+"Image")
-    self.previewLayout.addWidget(self.itemImage)
-    self.mainLayout_2.addWidget(self.itemPreview)
-    self.itemName = QtWidgets.QWidget(self)
-    self.itemName.setObjectName(self.name+"Name")
-    self.nameLayout = QtWidgets.QVBoxLayout(self.itemName)
-    self.nameLayout.setObjectName(self.name+"NameLayout")
-    self.itemLabel = QtWidgets.QLabel(self.display_name+"  #"+self.code +
-                                      "  Cena: 5,99€   " + "self.count")
-    self.itemLabel.setObjectName(self.name+"ItemLabel")
-    self.nameLayout.addWidget(self.itemLabel)
-    self.mainLayout_2.addWidget(self.itemName)
-    self.itemCount = QtWidgets.QWidget(self)
-    self.itemCount.setMaximumSize(QtCore.QSize(60, 16777215))
-    self.itemCount.setObjectName(self.name+"Count")
-    self.countLayout = QtWidgets.QVBoxLayout(self.itemCount)
-    self.countLayout.setObjectName(self.name+"CountLayout")
-    self.spinBox = QtWidgets.QSpinBox(self.itemCount)
-    self.spinBox.setStyleSheet("QSpinBox"
-                               "{"
-                               "background-color : white;"
-                               "}")
-    self.spinBox.setObjectName(self.name+"SpinBox")
-    self.countLayout.addWidget(self.spinBox)
-    self.mainLayout_2.addWidget(self.itemCount)
-    self.itemButton = QtWidgets.QWidget(self)
-    self.itemButton.setMaximumSize(QtCore.QSize(110, 16777215))
-    self.itemButton.setObjectName(self.name+"Button")
-    self.buttonLayout = QtWidgets.QVBoxLayout(self.itemButton)
-    self.buttonLayout.setObjectName(self.name+"ButtonLayout")
-    self.addButton = QtWidgets.QPushButton("Add to cart")
-    self.addButton.setMinimumHeight(24)
-    self.addButton.setObjectName(self.name+"AddButton")
-    self.addButton.setStyleSheet(
-        "QPushButton {font-weight: bold; border: 4px solid #2f3e46; border-radius: 12px;background-color: #2f3e46;color: #cad2c5;} QPushButton:hover {border-color: #354f52; background-color: #354f52;} QPushButton:pressed {border-color: #354f52;background-color: #354f52;}")
-    self.commands.button_click(self.addButton, self.add_to_cart)
-    self.buttonLayout.addWidget(self.addButton)
-    self.mainLayout_2.addWidget(self.itemButton)
-    self.parent_layout.addWidget(self)
