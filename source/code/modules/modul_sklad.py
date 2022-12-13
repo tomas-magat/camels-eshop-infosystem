@@ -47,6 +47,7 @@ class Sklad:
         self.update_data()
 
     def init_actions(self):
+        self.manual()
         self.redirect_action()
         self.search_action()
         self.sort_action()
@@ -234,14 +235,17 @@ class Sklad:
 
     def automatic(self):
         self.order_mode = 1
+        self.ui.input_widget.setVisible(True)
         self.order()
 
     def semiautomatic(self):
         self.order_mode = 2
+        self.ui.input_widget.setVisible(True)
         self.order()
 
     def manual(self):
         self.order_mode = 3
+        self.ui.input_widget.setVisible(False)
         self.order()
 
     def button_clicks(self):
