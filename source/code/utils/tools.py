@@ -120,6 +120,21 @@ def sort_items(sort_state, price_type='sell', category=0):
         return sorted(prices, key=lambda key: prices.get(key)[n])
 
 
+def sort_counts(category=0):
+    """
+    Return list of item codes sorted by prices
+    according to sort_state. Change price_type to
+    sort buy prices except of sell prices.
+    """
+
+    data = DataFile('sklad').data
+    counts = filter_category(data, category)
+
+    return sorted(counts,
+                  key=lambda key: counts.get(key)[0],
+                  )
+
+
 def get_match(term, key, val):
     """
     Compare string similarity with items properties
@@ -179,3 +194,12 @@ def receipt_template(id, cashier_name, contents, total_price):
                '\nDPH(20%): '+str_price(total_price*0.2)+' €']
 
     return output
+
+
+def find_code(category):
+    """Find first unsettled item code of specific category."""
+
+    data = DataFile('tovar').data
+    codes = filter_category(data, category)
+    int_codes = [int(code) for code in codes.keys()]
+    return str(max(int_codes)+1)

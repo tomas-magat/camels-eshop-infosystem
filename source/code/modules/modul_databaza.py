@@ -4,7 +4,6 @@ import shutil
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QMessageBox
 from utils.ui_commands import UI_Commands
-from utils.tools import find_image
 from utils.file import DataFile
 import re
 
@@ -20,6 +19,17 @@ class Databaza:
         self.ui = ui
         self.commands = UI_Commands(self.ui)
 
+        self.lists = [
+            self.ui.listWidget,
+            self.ui.listWidget_shirts,
+            self.ui.listWidget_pants,
+            self.ui.listWidget_boots,
+            self.ui.listWidget_hoodies,
+            self.ui.listWidget_accesories,
+        ]
+        self.tab = self.ui.tabWidget_databaza
+        self.category = 0
+
         self.commands.button_click(
             self.ui.databazaButton, self.switch_screen)
 
@@ -29,21 +39,13 @@ class Databaza:
         self.commands.button_click(
             self.ui.addItem, self.add_item)
 
-        self.commands.list_item_selected(
-            self.ui.listWidget, self.change_item)
 
-        self.goods = DataFile('tovar')
-        self.load_items(self.goods.data)
 
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
 
     def load_items(self, data):
-        for key, vals in data.items():
-            self.load_item(key, vals)
 
-    def load_item(self, key, vals):
-        self.ui.listWidget.addItem('#' + key + ' ' + vals[0])
 
     def switch_screen(self):
         """Redirect to this databaza screen."""
@@ -53,8 +55,6 @@ class Databaza:
     def add_item(self):
         """Display empty item details to enter new."""
 
-        ItemDetails(self, self.ui.right_database,
-                    '', '', add_button=True)
 
     def change_item(self):
         """
@@ -72,12 +72,9 @@ class Databaza:
     def delete_item(self):
         self.commands.confirm(
             self.ui, "Chcete natrvalo vymazať produkt?",
-            ok_command = self.delete_item_txt)
 
     def delete_item_txt(self):
-        text = self.ui.listWidget.currentItem().text().split()
         code = text[0].lstrip("#")
-        self.ui.listWidget.takeItem(self.ui.listWidget.currentRow())
         del self.goods.data[code]
         self.goods.save_data()
 
@@ -104,11 +101,8 @@ class ItemDetails(QtWidgets.QFrame):
 
         self.draw_ui()
 
-
     def edit_items(self, new_code, new_name, new_text):
-        self.ui.listWidget.currentItem().setText(new_text)
         if new_code != self.code:
-            self.ui.listWidget.currentItem().setText(new_text)
             prices_data = self.page.prices.data.get(self.code)
             if prices_data != None:
                 self.page.prices.data[new_code] = prices_data
@@ -150,14 +144,12 @@ class ItemDetails(QtWidgets.QFrame):
 
         if pattern.match(new_code) and pattern2.match(new_name) and unique:
             new_text = "#"+new_code+" "+new_name
-            old_text = self.ui.listWidget.currentItem().text()
 
             if new_text != old_text:
                 if self.adding:
                     self.page.goods.data[new_code] = [new_name, self.filename]
                     self.page.goods.save_data()
                     self.page.goods.read()
-                    self.ui.listWidget.addItem(new_text)
                     self.adding = False
                 else:
                     self.edit_items(new_code, new_name, new_text)
