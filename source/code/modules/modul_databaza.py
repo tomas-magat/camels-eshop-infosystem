@@ -282,7 +282,7 @@ class ItemDetails(QtWidgets.QFrame):
         self.nameLayout.setObjectName(self.name+"NameLayout")
         self.lineEdit = QtWidgets.QLineEdit(
             self.display_name, self.itemNameSection)
-        self.lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.lineEdit.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 5px; ")
         self.lineEdit.setPlaceholderText("Zadajte názov produktu")
         self.lineEdit.setObjectName(self.name+"NameEdit")
         self.nameLayout.addWidget(self.lineEdit)
@@ -293,7 +293,7 @@ class ItemDetails(QtWidgets.QFrame):
         self.codeLayout = QtWidgets.QVBoxLayout(self.itemCodeSection)
         self.codeLayout.setObjectName(self.name+"CodeLayout")
         self.lineEdit_2 = QtWidgets.QLineEdit(self.code, self.itemCodeSection)
-        self.lineEdit_2.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.lineEdit_2.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 5px;")
         self.lineEdit_2.setObjectName(self.name+"CodeEdit")
         self.lineEdit_2.setPlaceholderText("Zadajte kód produktu")
         self.codeLayout.addWidget(self.lineEdit_2)
