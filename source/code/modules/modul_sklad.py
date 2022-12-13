@@ -338,12 +338,12 @@ class Cart:
             item.display_name+'\n\t'+str(item.amount)+'ks x ' +
             str_price(item.price)+'\t\t\t\t' +
             str_price(item.price, item.amount)+' €\n'
-            for item in list(self.cart.values())
+            for item in list(self.contents.values())
         ]
         receipt.writelines(items)
         receipt.write('\n=================================\n\n')
-        receipt.write('Spolu cena: '+str_price(self.cart_price)+' €')
-        receipt.write('\nDPH(20%): '+str_price(self.cart_price*0.2)+' €')
+        receipt.write('Spolu cena: '+str_price(self.price)+' €')
+        receipt.write('\nDPH(20%): '+str_price(self.price*0.2)+' €')
 
 
 class ItemCard(QtWidgets.QFrame):
@@ -476,6 +476,8 @@ class CartItem(QtWidgets.QFrame):
 
         super(CartItem, self).__init__(self.parent_layout.parent())
 
+        self.code = self.item.code
+        
         self.name = "cart"+camelify(name)
         self.display_name = name
 
@@ -483,7 +485,8 @@ class CartItem(QtWidgets.QFrame):
         self.amount = amount
         self.total = price*amount
         self.update_page_cart()
-        self.page.update_price(self.total)
+        self.page.cart.update_price(self.total)
+
 
         self.draw_ui()
 
@@ -491,6 +494,7 @@ class CartItem(QtWidgets.QFrame):
         """Delete this item from cart."""
         self.item.update_status()
         self.price_change(0)
+        del self.page.cart.contents[self.code]
         self.deleteLater()
 
     def update(self, amount):
@@ -504,10 +508,11 @@ class CartItem(QtWidgets.QFrame):
         new_price = amount*self.price - self.amount*self.price
         self.amount = amount
         self.update_page_cart()
-        self.page.update_price(new_price)
+        self.page.cart.update_price(new_price)
+
 
     def update_page_cart(self):
-        self.page.cart[self.name] = self
+        self.page.cart.contents[self.code] = self
 
     def draw_ui(self):
         self.setMaximumSize(QtCore.QSize(16777215, 40))
