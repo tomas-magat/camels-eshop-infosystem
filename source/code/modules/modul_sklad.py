@@ -153,6 +153,19 @@ class Sklad:
 
         self.reload_items(self.result)
 
+    def load_counts_items(self):
+        """Sort item codes and load sorted items into catalog."""
+        sorted_codes = sort_counts(
+            category=self.category
+        )
+        self.result = {}
+
+        for code in sorted_codes:
+            if code in self.goods.data.keys():
+                self.result[code] = self.goods.data[code]
+
+        self.reload_items(self.result)
+
     def update_sort_button(self, icon_name, text):
         icon = QtGui.QIcon()
         icon.addPixmap(
@@ -185,7 +198,7 @@ class Sklad:
         if price != None and code[0] in codes:
             ItemCard(
                 self, self.layouts[self.category], vals[0],
-                code, float(price[1]), vals[1], int(count[0])
+                code, float(price[0]), vals[1], int(count[0])
             )
 
     # ==================== SKLAD UPDATING =======================
@@ -195,7 +208,7 @@ class Sklad:
         """
         self.category = self.ui.itemCategories_2.currentIndex()
         self.goods.read()
-        self.reload_items(self.goods.data)
+        self.load_counts_items()
 
     def update_data(self):
         """Update 'goods' variable every 3 seconds"""
@@ -412,7 +425,7 @@ class ItemCard(QtWidgets.QFrame):
         self.setMaximumSize(QtCore.QSize(16777215, 60))
         self.setFrameShape(QtWidgets.QFrame.Box)
         self.setFrameShadow(QtWidgets.QFrame.Plain)
-        if self.parent_layout == self.ui.verticalLayout_18:
+        if self.count < 6:
             self.setStyleSheet("background-color: rgb(255, 240, 245)")
         self.setObjectName(self.name)
         self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
