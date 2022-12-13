@@ -7,11 +7,8 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
-from utils.tools import *
 from utils.file import DataFile
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtGui import QPixmap
-from utils.ENV_VARS import PATH
+from utils.tools import *
 
 
 class Sklad:
@@ -41,7 +38,7 @@ class Sklad:
             self.ui.verticalLayout_37,
             self.ui.verticalLayout_20,
             self.ui.verticalLayout_28,
-            self.ui.verticalLayout_31, 
+            self.ui.verticalLayout_31,
             self.ui.verticalLayout_35
         ]
 
@@ -59,14 +56,14 @@ class Sklad:
         self.goods = DataFile('tovar')
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
-        self.ui.itemCategories.setCurrentIndex(0)
+        self.ui.itemCategories_2.setCurrentIndex(0)
         self.update_category()
 
     # ==================== ACTIONS =======================
 
     def redirect_action(self):
-        self.commands.buttons_click(
-            [self.ui.skladButton, self.ui.homeArrow4],
+        self.commands.button_click(
+            self.ui.skladButton,
             self.switch_screen
         )
 
@@ -83,7 +80,7 @@ class Sklad:
 
     def catalog_action(self):
         self.commands.tab_selected(
-            self.ui.itemCategories, self.update_category
+            self.ui.itemCategories_2, self.update_category
         )
 
     # ==================== REDIRECTS =======================
@@ -116,7 +113,7 @@ class Sklad:
         label = self.no_results_label()
         self.layouts[self.category].addWidget(label)
 
-    @staticmethod 
+    @staticmethod
     def no_results_label():
         label = QtWidgets.QLabel('Produkt sa nenašiel...')
         font = QtGui.QFont()
@@ -165,8 +162,8 @@ class Sklad:
         self.ui.sortButton_2.setText(text)
         self.ui.sortButton_2.setIcon(icon)
 
-
     # ===================== LOADING =======================
+
     def reload_items(self, data):
         """
         Clear catalog of current selected category and load new items.
@@ -182,6 +179,7 @@ class Sklad:
     def load_item(self, code, vals):
         price = self.prices.data.get(code)
         count = self.storage.data.get(code)
+        count = 0 if count == None else count
         codes = '12345' if self.category == 0 else str(self.category)
 
         if price != None and code[0] in codes:
@@ -195,7 +193,7 @@ class Sklad:
         """
         Set selected category and load items of that category.
         """
-        self.category = self.ui.itemCategories.currentIndex()
+        self.category = self.ui.itemCategories_2.currentIndex()
         self.goods.read()
         self.reload_items(self.goods.data)
 
@@ -203,7 +201,7 @@ class Sklad:
         """Update 'goods' variable every 3 seconds"""
         self.version = self.goods.version
         run_periodically(self.update_goods, 3)
-    
+
     def update_goods(self):
         """
         Update 'goods' variable if version of the tovar.txt
@@ -214,11 +212,10 @@ class Sklad:
         if current_version != self.version:
             self.goods.read()
             self.version = current_version
-            self.reload_items()
-
-
+            self.reload_items(self.goods.data)
 
     # =================== ORDER STATE ==================================
+
     def order(self):
         print(self.order_mode)
 
@@ -245,6 +242,7 @@ class Sklad:
 
         self.commands.button_click(
             self.ui.manual, self.manual)
+
 
 class Cart:
     """This class represents a cart with its contents and price."""
@@ -274,7 +272,7 @@ class Cart:
         else:
             self.commands.warning(
                 'Prázdny košík',
-                'Pred kúpou vložte, prosím, veci do košíka.')
+                'Pred objednávkou vložte, prosím, veci do košíka.')
 
     def execute_purchase(self):
         """
@@ -335,19 +333,19 @@ class Cart:
         msg.exec_()
 
     def order_receipt_template(self, receipt):
-        receipt.write('Camels E-shop s.r.o.\n')
+        receipt.write('Camels E-shop s.r.o.')
         receipt.write('\nCislo objednavky: '+self.id)
-        receipt.write('\nVytvorene: '+now())
-        receipt.write('\n\n=================================\n\n')
+        receipt.write('\nVytvorene dna: '+now())
+        receipt.write('\n\n=================================\n')
         items = [
             item.display_name+'\n\t'+str(item.amount)+'ks x ' +
-            str_price(item.price)+'\t\t\t\t' +
+            str_price(item.price)+'\t\t' +
             str_price(item.price, item.amount)+' €\n'
             for item in list(self.contents.values())
         ]
         receipt.writelines(items)
-        receipt.write('\n=================================\n\n')
-        receipt.write('Spolu cena: '+str_price(self.price)+' €')
+        receipt.write('\n=================================')
+        receipt.write('\nSpolu cena: '+str_price(self.price)+' €')
         receipt.write('\nDPH(20%): '+str_price(self.price*0.2)+' €')
 
 
@@ -512,7 +510,6 @@ class CartItem(QtWidgets.QFrame):
         self.amount = amount
         self.update_page_cart()
         self.page.cart.update_price(new_price)
-
 
     def update_page_cart(self):
         self.page.cart.contents[self.code] = self
