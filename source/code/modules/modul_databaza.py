@@ -4,7 +4,6 @@ import shutil
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QMessageBox
 from utils.ui_commands import UI_Commands
-from utils.tools import find_image, find_code
 from utils.file import DataFile
 import re
 
@@ -48,11 +47,17 @@ class Databaza:
             self.tab, self.update_category
         )
 
+        self.commands.form_submit(
+            [self.ui.searchButton_database, self.ui.searchField_database],
+            self.search
+        )
+
         self.goods = DataFile('tovar')
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
         self.tab.setCurrentIndex(0)
         self.update_category()
+
 
     def reload_items(self, data):
         self.lists[self.category].clear()
@@ -113,6 +118,29 @@ class Databaza:
         self.category = self.tab.currentIndex()
         self.goods.read()
         self.reload_items(self.goods.data)
+
+    def search(self):
+        """
+        Get the value of search field and find matching items.
+        """
+        self.query = self.ui.searchField_database.text()
+        self.result = search_items(
+            self.query, self.goods.data, self.category
+        ) if self.query != '' else self.goods.data
+        self.search_results()
+
+    def search_results(self):
+        """Load search results, or display 'no results' message."""
+        if self.result == {}:
+            self.no_results()
+        else:
+            self.reload_items(self.result)
+
+    def no_results(self):
+        """Display 'item not found' in search results."""
+        self.lists[self.category].clear()
+        prvok = 'Produkt sa nenasiel'
+        self.lists[self.category].addItem(prvok)
 
 class ItemDetails(QtWidgets.QFrame):
 
