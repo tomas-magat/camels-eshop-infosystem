@@ -7,7 +7,8 @@
 # TODO
 # po vykonani objednavky updatnut pocet tovaru 
 # nastavenie [self.highlight_threshold] - user moze nastavit kedy bude polozka zvyraznena
-# oprava výpisu chýbajúcich (po kúpe produktu, otvorení jeho kategórie a návrate na kartu všetky sa dá navrch)
+# oprava výpisu chýbajúcich (po kúpe produktu, otvorení jeho kategórie a návrate na kartu všetky sa dá navrch) -> 
+# ->program berie do úvahy iba prvú cifru počtu
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
