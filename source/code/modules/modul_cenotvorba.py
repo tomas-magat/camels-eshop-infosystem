@@ -38,7 +38,7 @@ class Cenotvorba:
         self.changed = False
         for item in self.price_cards:
             prices = item.getPrices()
-            if self.prices.data[item.code] != prices:
+            if self.prices.data.get(item.code) != prices:
                 self.prices.data[item.code] = prices
                 self.changed = True
 

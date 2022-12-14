@@ -4,6 +4,7 @@ import threading
 import os
 import difflib
 import datetime
+import time
 
 from .ENV_VARS import PATH
 from .file import DataFile
@@ -27,13 +28,19 @@ def now():
 
 def run_periodically(function, period=5.0):
     """
-    Use threading.Timer to run function repeatedly
+    Use threading.Thread to run function repeatedly
     with delay while not affecting the runtime of an app.
     """
 
-    background_timer = threading.Timer(float(period), function)
+    background_timer = threading.Thread(
+        target=lambda: callback(function, period))
     background_timer.start()
-    return background_timer
+
+
+def callback(function, period):
+    while True:
+        function()
+        time.sleep(period)
 
 
 def str_price(price: float, amount=1):

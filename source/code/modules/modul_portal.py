@@ -187,6 +187,7 @@ class Portal:
             if code in self.goods.data.keys():
                 self.result[code] = self.goods.data[code]
 
+        self.goods.read()
         self.reload_items(self.result)
 
     def update_sort_button(self, icon_name, text):
@@ -241,26 +242,58 @@ class Portal:
         """
         Set selected category and load items of that category.
         """
-        self.category = self.ui.itemCategories.currentIndex()
         self.goods.read()
+        self.category = self.ui.itemCategories.currentIndex()
         self.reload_items(self.goods.data)
 
     def update_data(self):
         """Update 'goods' variable every 3 seconds"""
         self.version = self.goods.version
-        run_periodically(self.update_goods, 3)
+        self.version_prices = self.prices.version
+        self.version_storage = self.storage.version
+        run_periodically(self.update_vars, 3)
+
+    def update_vars(self):
+        """Update data variables periodically."""
+        self.update_goods()
+        self.update_prices()
+        self.update_storage()
 
     def update_goods(self):
         """
         Update 'goods' variable if version of the tovar.txt
         datafile has changed.
         """
+        self.goods.get_version()
         current_version = self.goods.version
 
         if current_version != self.version:
             self.goods.read()
             self.version = current_version
-            self.reload_items(self.goods.data)
+
+    def update_prices(self):
+        """
+        Update 'prices' variable if version of the cennik.txt
+        datafile has changed.
+        """
+        self.prices.get_version()
+        current_version = self.prices.version
+
+        if current_version != self.version_prices:
+            self.prices.read()
+            self.version_prices = current_version
+
+    def update_storage(self):
+        """
+        Update 'storage' variable if version of the sklad.txt
+        datafile has changed.
+        """
+        self.storage.get_version()
+        current_version = self.storage.version
+
+        if current_version != self.version_storage:
+            self.storage.read()
+            self.version_storage = current_version
 
 
 class Cart:
