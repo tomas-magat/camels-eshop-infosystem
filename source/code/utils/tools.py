@@ -139,7 +139,7 @@ def sort_counts(category=0):
     counts = filter_category(data, category)
 
     return sorted(counts,
-                  key=lambda key: counts.get(key)[0],
+                  key=lambda key: int(counts.get(key)[0]),
                   )
 
 
