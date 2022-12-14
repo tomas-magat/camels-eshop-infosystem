@@ -39,6 +39,9 @@ class Sklad:
         # Track UI actions
         self.button_clicks()
 
+        # Set Vsetko page
+        self.ui.itemCategories_2.setCurrentIndex(0)
+
         # Init category layouts
         self.layouts = [
             self.ui.verticalLayout_18,
@@ -64,7 +67,6 @@ class Sklad:
         self.goods = DataFile('tovar')
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
-        self.ui.itemCategories_2.setCurrentIndex(0)
         self.update_category()
 
     # ==================== ACTIONS =======================
@@ -315,6 +317,7 @@ class Cart:
         self.update_storage()
         self.clear_cart()
         self.purchase_message()
+        self.page.init_data()
 
     def clear_cart(self):
         """Remove everything from the cart."""
@@ -444,9 +447,9 @@ class ItemCard(QtWidgets.QFrame):
         self.setMaximumSize(QtCore.QSize(16777215, 60))
         self.setFrameShape(QtWidgets.QFrame.Box)
         self.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.setObjectName("Frame")
         if self.count <= self.highlight_threshold:
-            self.setStyleSheet("background-color: rgb(255, 240, 245)")
-        self.setObjectName(self.name)
+            self.setStyleSheet("#Frame{border: 2px solid red}")
         self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
         self.mainLayout_2.setContentsMargins(0, 0, 0, 0)
         self.mainLayout_2.setSpacing(0)
