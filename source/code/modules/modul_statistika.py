@@ -70,43 +70,69 @@ class Statistika:
             else:
                 k4, v4 = k1, v1
                 p1 = v1[2]
-            self.statistika_list += (k1, v1[0]+' '+v1[2]+' '+v1[3]+' '+v1[4]),
-        prem = k1.split()[0].split()[0]
+            self.statistika_list += (k1.split()[0],k1.split()[1],v1[0],v1[2],v1[3],v1[4]),
+        prem = k1.split()[0]
         novy_cas = []
         for i in range(len(self.statistika_list)-1,-1,-1):
-            if self.statistika_list[i][0].split()[0] == prem:
+            if self.statistika_list[i][0] == prem:
                 novy_cas += self.statistika_list[i],
         for i in novy_cas:
-            if i[1].split()[0] == 'P':
-                self.profLoss += int(i[1].split()[2])*Decimal(i[1].split()[3])
+            if i[2] == 'P':
+                self.profLoss += int(i[4])*float(i[5])
             else:
-                self.profLoss -= int(i[1].split()[2])*Decimal(i[1].split()[3])
-        
+                self.profLoss -= int(i[4])*float(i[5])
+        self.profLoss = round(self.profLoss,2)
+
         ttt=0
         for i in self.statistika_list:
-            if i[1].split()[0] == 'P':
-                self.avPrice += int(i[1].split()[2])*Decimal(i[1].split()[3])
+            if i[2] == 'P':
+                self.avPrice += int(i[4])*float(i[5])
                 ttt += 1
         self.avPrice /= ttt
-        self.avPrice = str(self.avPrice)[:5]
+        self.avPrice = round(self.avPrice,2)
 
-        self.x_date = [i for i in(range(len(self.statistika_list)+1))]
+        self.x_date = []
+        for i in self.statistika_list:
+            aa = i[0].split('-')[0][2:]
+            bb = i[0].split('-')[1]
+            cc = i[0].split('-')[2]
+            if not self.x_date:
+                self.x_date += cc+'.'+bb+'.'+aa,
+            elif cc+'.'+bb+'.'+aa != self.x_date[-1]:
+                self.x_date += cc+'.'+bb+'.'+aa,
+
+
         self.profit_all = [0]
         self.loss_all = [0]
-        for i in self.statistika_list:
+        date_var1 = self.statistika_list[0][0]
+        date_var2 = self.statistika_list[0][0]
+        for am, i in enumerate(self.statistika_list):
             io=False
             oi=False
-            if i[1].split()[0] == 'P':
-                self.profit_all += int(i[1].split()[2])*Decimal(i[1].split()[3]),
-                io=True
+            if i[2] == 'P':
+                if date_var1 == self.statistika_list[am][0]:
+                    self.profit_all[-1] += int(i[4])*float(i[5])
+                else:
+                    self.profit_all += int(i[4])*float(i[5]),
+                    date_var1 = self.statistika_list[am][0]
+                    io=True
             else:
-                self.loss_all += int(i[1].split()[2])*Decimal(i[1].split()[3]),
-                oi=True
-            
+                if date_var2 == self.statistika_list[am][0]:
+                    self.loss_all[-1] += int(i[4])*float(i[5])
+                else:
+                    self.loss_all += int(i[4])*float(i[5]),
+                    date_var2 = self.statistika_list[am][0]
+                    oi=True
             if io:
-                self.loss_all += self.loss_all[-1],
+                if self.loss_all != []:
+                    self.loss_all += self.loss_all[-1],
+                else:
+                    self.loss_all += 0,
             elif oi:
-                self.profit_all += self.profit_all[-1],
+                if self.profit_all != []:
+                    self.profit_all += self.profit_all[-1],
+                else:
+                    self.profit_all += 0,
 
 
         h=True
@@ -137,10 +163,10 @@ class Statistika:
                     t=False
         if t:
             if k2 != '':
-                k2 = k2.split()[0]+' '+k2.split()[1].replace('-', ':')
+                k2 = k2.split()[0].replace('-', '.')+' '+k2.split()[1].replace('-', ':')
                 self.posledna_objednavka_Z= k2+';'+p+';'+v2[3]+'ks'+';'+v2[4]+'/ks'
             if k4 != '':
-                k4 = k4.split()[0]+' '+k4.split()[1].replace('-', ':')
+                k4 = k4.split()[0].replace('-', '.')+' '+k4.split()[1].replace('-', ':')
                 self.posledna_objednavka_F= k4+';'+p1+';'+v4[3]+'ks'+';'+v4[4]+'/ks'
         else:
             self.posledna_objednavka_Z = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
@@ -280,7 +306,7 @@ class Statistika:
             else:
                 set_cross_hair_visible(True)
                 x1 = event.xdata
-                index = min(np.searchsorted(x, x1), len(x) - 1)
+                index = min(np.searchsorted(x_axis, x1), len(x) - 1)
                 if index == self.last_index:
                     return
                 self.last_index = index
@@ -289,7 +315,7 @@ class Statistika:
                 vertical_line.set_xdata(x[index])
                 horizontal_line.set_ydata(y[index])
                 horizontal_line1.set_ydata(z[index])
-                text.set_text('x=%s, y=%s' % (self.statistika_list[index][0], y[index]))
+                text.set_text('Dátum = %s\namount = %s' % (self.x_date[index], y[index]))
                 a3.figure.canvas.draw()
 
         vyvoj_ceny, a3 = plt.subplots(
@@ -308,12 +334,13 @@ class Statistika:
         vertical_line = a3.axvline(color='k', lw=0.8, ls='--')
         x, y = line.get_data()
         x, z = line1.get_data()
-        self.statistika_list.insert(0, (0,0))
+        x_axis = [i for i in range(len(self.x_date))]
         self.last_index = None
-        text = a3.text(0.55, 0.9, '', transform=a3.transAxes)
+        text = a3.text(0.8, 0.9, '', transform=a3.transAxes)
         vyvoj_ceny.canvas.mpl_connect('motion_notify_event', on_mouse_move)
         self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny, size=68.5)
         plt.tight_layout()
+
 
     def FunFacts(self):
         if self.profLoss < 0:
