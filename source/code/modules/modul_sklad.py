@@ -5,9 +5,9 @@
 # creating objednavka_[id_transakcie].txt
 
 # TODO
-# po vykonani objednavky updatnut pocet tovaru 
+# po vykonani objednavky updatnut pocet tovaru
 # nastavenie [self.highlight_threshold] - user moze nastavit kedy bude polozka zvyraznena
-# oprava výpisu chýbajúcich (po kúpe produktu, otvorení jeho kategórie a návrate na kartu všetky sa dá navrch) -> 
+# oprava výpisu chýbajúcich (po kúpe produktu, otvorení jeho kategórie a návrate na kartu všetky sa dá navrch) ->
 # ->program berie do úvahy iba prvú cifru počtu
 
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -134,24 +134,26 @@ class Sklad:
     # ==================== SORTING =======================
     def sort(self):
         self.update_sort_state()
-        self.load_sorted_items()
 
     def update_sort_state(self):
         """Update sort button and change sort state."""
         if self.sort_state == 1:
             self.update_sort_button("up_arrow.png", "Highest price")
             self.sort_state = 2
+            self.load_sorted_items()
         elif self.sort_state == 2:
             self.update_sort_button("down_arrow.png", "Lowest price")
             self.sort_state = 3
+            self.load_sorted_items()
         else:
             self.update_sort_button("up_down_arrow.png", "Sort by price")
             self.sort_state = 1
+            self.load_counts_items()
 
     def load_sorted_items(self):
         """Sort item codes and load sorted items into catalog."""
         sorted_codes = sort_items(
-            self.sort_state, category=self.category
+            self.sort_state, price_type='buy', category=self.category
         )
         self.result = {}
 
@@ -168,6 +170,9 @@ class Sklad:
         )
         self.result = {}
 
+        for code, val in self.goods.data.items():
+            if code not in sorted_codes:
+                self.result[code] = val
         for code in sorted_codes:
             if code in self.goods.data.keys():
                 self.result[code] = self.goods.data[code]
@@ -200,13 +205,14 @@ class Sklad:
     def load_item(self, code, vals):
         price = self.prices.data.get(code)
         count = self.storage.data.get(code)
-        count = 0 if count == None else count
+        count = [0] if count == None else count
         codes = '12345' if self.category == 0 else str(self.category)
 
         if price != None and code[0] in codes:
             ItemCard(
                 self, self.layouts[self.category], vals[0],
-                code, float(price[0]), vals[1], int(count[0]), self.highlight_threshold
+                code, float(price[0]), vals[1], int(
+                    count[0]), self.highlight_threshold
             )
 
     # ==================== SKLAD UPDATING =======================
@@ -325,8 +331,9 @@ class Cart:
     def update_storage(self):
         """Change amount of items in sklad.txt."""
         for code, item in self.contents.items():
-            self.storage.data[code][0] = int(
-                self.storage.data[code][0]) + item.amount
+            current_count = self.storage.data.get(code)
+            current_count = 0 if current_count == None else current_count[0]
+            self.storage.data[code] = [int(current_count) + item.amount]
         self.storage.save_data()
 
     def update_price(self, value):

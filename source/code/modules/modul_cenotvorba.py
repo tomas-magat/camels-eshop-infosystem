@@ -132,8 +132,8 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.draw_ui()
 
     def getPrices(self):
-        new_buy = validate_price(self.lineEdit_5)
-        new_sell = validate_price(self.lineEdit_4)
+        new_buy = validate_price(self.lineEdit_4)
+        new_sell = validate_price(self.lineEdit_5)
         if new_buy != None and new_sell != None:
             self.buy_price = new_buy
             self.sell_price = new_sell

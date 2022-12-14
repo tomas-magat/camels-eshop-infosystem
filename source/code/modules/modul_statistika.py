@@ -26,7 +26,7 @@ class Statistika:
         self.graph_color = '#CAD2C5'
         self.funFactsColor = '#2C57D8'
 
-        if len(list(self.statistiky)) > 2:
+        if len(list(self.statistiky)) > 30:
             self.Values()
             self.NajviacGraf()
             self.NajmenejGraf()

@@ -122,10 +122,10 @@ def sort_items(sort_state, price_type='sell', category=0):
         return sorted(prices.keys())
     elif sort_state == 2:
         return sorted(prices,
-                      key=lambda key: prices.get(key)[n],
+                      key=lambda key: float(prices.get(key)[n]),
                       reverse=True)
     else:
-        return sorted(prices, key=lambda key: prices.get(key)[n])
+        return sorted(prices, key=lambda key: float(prices.get(key)[n]))
 
 
 def sort_counts(category=0):
@@ -149,9 +149,15 @@ def get_match(term, key, val):
     and return True or False if term does not match.
     """
 
-    code = len(term)/6 if term.isdigit() else 0.2
-    ratio = difflib.SequenceMatcher(
-        None, term, key if term.isdigit() else val[0]).ratio()
+    code = len(term)/6 if term.isdigit() else 0.4
+    if term.isdigit():
+        ratio = difflib.SequenceMatcher(None, term, key).ratio()
+    else:
+        ratios = []
+        for name_part in val[0].split():
+            rat = difflib.SequenceMatcher(None, term, name_part).ratio()
+            ratios.append(rat)
+        ratio = max(ratios)
 
     return ratio > 0.2+code
 

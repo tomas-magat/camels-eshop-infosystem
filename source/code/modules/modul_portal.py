@@ -54,8 +54,8 @@ class Portal:
         self.goods = DataFile('tovar')
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
-        self.ui.itemCategories.setCurrentIndex(0)
         self.update_category()
+        self.ui.itemCategories.setCurrentIndex(0)
 
     # ==================== ACTIONS =======================
     def redirect_actions(self):
@@ -344,12 +344,14 @@ class Cart:
     def add_stats(self):
         """Add datapoint from transaction to STATISTIKY.txt."""
         for code, item in self.contents.items():
-            self.statistics.data[now()] = [
-                'P', self.id[1:], code, item.amount, item.price]
-        self.statistics.save_data()
+            self.statistics.data_list.append([
+                now(), 'P', self.id[1:], code,
+                str(item.amount), str(item.price)])
+        self.statistics.save_list()
 
     def update_storage(self):
         """Change amount of items in sklad.txt."""
+        self.storage.read()
         for code, item in self.contents.items():
             self.storage.data[code][0] = int(
                 self.storage.data[code][0]) - item.amount

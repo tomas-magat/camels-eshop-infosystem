@@ -28,6 +28,7 @@ class DataFile:
         with open(self.filepath, 'r', encoding='utf-8') as file:
             lines = file.readlines()
             self.data = self.scsv_to_dict(lines[1:])
+            self.data_list = self.scsv_to_list(lines[1:])
 
     def save_data(self):
         """
@@ -39,6 +40,20 @@ class DataFile:
         self.update_version()
 
         scsv_data = self.dict_to_scsv(self.data)
+
+        with open(self.filepath, 'w', encoding='utf-8') as file:
+            file.writelines(scsv_data)
+
+    def save_list(self):
+        """
+        Convert data to semi-colon separated 
+        values and save it to the [filename].txt.
+        Update version number of the saved [filename].
+        """
+
+        self.update_version()
+
+        scsv_data = self.list_to_scsv(self.data_list)
 
         with open(self.filepath, 'w', encoding='utf-8') as file:
             file.writelines(scsv_data)
@@ -144,3 +159,40 @@ class DataFile:
             result_dict[datapoint[0]] = datapoint[1:]
 
         return result_dict
+
+    @staticmethod
+    def scsv_to_list(data: list):
+        """
+        Converts data in semi-colon separated format:
+        ['code;name;image', ...]
+
+        to list:
+        [[code, name, image], ...]
+        """
+
+        result_list = []
+
+        for line in data:
+            datapoint = line.rstrip('\n').split(';')
+            result_list.append(datapoint)
+
+        return result_list
+
+    @staticmethod
+    def list_to_scsv(data: list):
+        """
+        Converts data in list format:
+        [[code, name, image], ...]
+
+        to semi-colon separated values in a list:
+        ['length', 'code;name;image', ...]
+        """
+
+        length = len(data)
+        scsv_data = [str(length)+'\n']
+
+        for values in data:
+            datapoint = ';'.join(values) + '\n'
+            scsv_data.append(datapoint)
+
+        return scsv_data
