@@ -260,7 +260,7 @@ class Portal:
         if current_version != self.version:
             self.goods.read()
             self.version = current_version
-            self.reload_items()
+            self.reload_items(self.goods.data)
 
 
 class Cart:

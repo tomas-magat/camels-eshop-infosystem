@@ -4,7 +4,7 @@ import shutil
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QMessageBox
 from utils.ui_commands import UI_Commands
-from utils.tools import find_image
+from utils.tools import find_image, find_code, search_items
 from utils.file import DataFile
 import re
 
@@ -20,6 +20,17 @@ class Databaza:
         self.ui = ui
         self.commands = UI_Commands(self.ui)
 
+        self.lists = [
+            self.ui.listWidget,
+            self.ui.listWidget_shirts,
+            self.ui.listWidget_pants,
+            self.ui.listWidget_boots,
+            self.ui.listWidget_hoodies,
+            self.ui.listWidget_accesories,
+        ]
+        self.tab = self.ui.tabWidget_databaza
+        self.category = 0
+
         self.commands.button_click(
             self.ui.databazaButton, self.switch_screen)
 
@@ -29,21 +40,40 @@ class Databaza:
         self.commands.button_click(
             self.ui.addItem, self.add_item)
 
-        self.commands.list_item_selected(
-            self.ui.listWidget, self.change_item)
+        for listw in self.lists:
+            self.commands.list_item_selected(
+                listw, self.change_item)
+
+        self.commands.tab_selected(
+            self.tab, self.update_category
+        )
+
+        self.commands.form_submit(
+            [self.ui.searchButton_database, self.ui.searchField_database],
+            self.search
+        )
 
         self.goods = DataFile('tovar')
-        self.load_items(self.goods.data)
-
         self.prices = DataFile('cennik')
         self.storage = DataFile('sklad')
+        self.tab.setCurrentIndex(0)
+        self.update_category()
+
+
+    def reload_items(self, data):
+        self.lists[self.category].clear()
+        self.load_items(data)
+        self.lists[self.category].setCurrentRow(0)
 
     def load_items(self, data):
-        for key, vals in data.items():
-            self.load_item(key, vals)
+        for code, vals in data.items():
+            self.load_item(code, vals)
 
-    def load_item(self, key, vals):
-        self.ui.listWidget.addItem('#' + key + ' ' + vals[0])
+    def load_item(self, code, vals):
+        codes = '12345' if self.category == 0 else str(self.category)
+
+        if code[0] in codes:
+            self.lists[self.category].addItem('#' + code + ' ' + vals[0])
 
     def switch_screen(self):
         """Redirect to this databaza screen."""
@@ -53,35 +83,65 @@ class Databaza:
     def add_item(self):
         """Display empty item details to enter new."""
 
-        ItemDetails(self, self.ui.right_database,
-                    '', '', add_button=True)
+        prefilled_code = '' if self.category == 0 else find_code(self.category)
+        ItemDetails(self, self.ui.right_database, '',
+                    prefilled_code, add_button=True)
 
     def change_item(self):
         """
         Display item details on the right side of the
         databaza screen and allow user to modify them.
         """
+        try:
+            text = self.lists[self.category].currentItem().text().split()
+            code = text[0].lstrip("#")
+            name = ' '.join(text[1:]) if len(text) > 1 else code
+            image = self.goods.data[code][1]
 
-        text = self.ui.listWidget.currentItem().text().split()
-        code = text[0].lstrip("#")
-        name = ''.join(text[1:]) if len(text) > 1 else code
-        image = self.goods.data[code][1]
-
-        ItemDetails(self, self.ui.right_database, name, code, image)
+            ItemDetails(self, self.ui.right_database, name, code, image)
+        except:
+            pass
 
     def delete_item(self):
         self.commands.confirm(
             self.ui, "Chcete natrvalo vymazať produkt?",
-            ok_command = self.delete_item_txt)
+            ok_command=self.delete_item_txt)
 
     def delete_item_txt(self):
-        text = self.ui.listWidget.currentItem().text().split()
+        text = self.lists[self.category].currentItem().text().split()
         code = text[0].lstrip("#")
-        self.ui.listWidget.takeItem(self.ui.listWidget.currentRow())
+        self.lists[self.category].takeItem(
+            self.lists[self.category].currentRow())
         del self.goods.data[code]
         self.goods.save_data()
 
+    def update_category(self):
+        self.category = self.tab.currentIndex()
+        self.goods.read()
+        self.reload_items(self.goods.data)
 
+    def search(self):
+        """
+        Get the value of search field and find matching items.
+        """
+        self.query = self.ui.searchField_database.text()
+        self.result = search_items(
+            self.query, self.goods.data, self.category
+        ) if self.query != '' else self.goods.data
+        self.search_results()
+
+    def search_results(self):
+        """Load search results, or display 'no results' message."""
+        if self.result == {}:
+            self.no_results()
+        else:
+            self.reload_items(self.result)
+
+    def no_results(self):
+        """Display 'item not found' in search results."""
+        self.lists[self.category].clear()
+        prvok = 'Produkt sa nenasiel'
+        self.lists[self.category].addItem(prvok)
 
 class ItemDetails(QtWidgets.QFrame):
 
@@ -105,11 +165,11 @@ class ItemDetails(QtWidgets.QFrame):
 
         self.draw_ui()
 
-
     def edit_items(self, new_code, new_name, new_text):
-        self.ui.listWidget.currentItem().setText(new_text)
+        self.page.lists[self.page.category].currentItem().setText(new_text)
         if new_code != self.code:
-            self.ui.listWidget.currentItem().setText(new_text)
+            self.page.lists[self.page.category].currentItem().setText(
+                new_text)
             prices_data = self.page.prices.data.get(self.code)
             if prices_data != None:
                 self.page.prices.data[new_code] = prices_data
@@ -144,18 +204,22 @@ class ItemDetails(QtWidgets.QFrame):
 
         pattern = re.compile("^[0-5]+$")
         pattern2 = re.compile("^[A-Za-z ]+$")
-        unique = new_code not in self.page.goods.data.keys()
+        other_codes = list(self.page.goods.data.keys())
+        if not self.adding:
+            other_codes.remove(self.code)
+        unique = new_code not in other_codes
 
         if pattern.match(new_code) and pattern2.match(new_name) and unique:
             new_text = "#"+new_code+" "+new_name
-            old_text = self.ui.listWidget.currentItem().text()
+            old_text = self.page.lists[self.page.category].currentItem(
+            ).text()
 
             if new_text != old_text:
                 if self.adding:
                     self.page.goods.data[new_code] = [new_name, self.filename]
                     self.page.goods.save_data()
                     self.page.goods.read()
-                    self.ui.listWidget.addItem(new_text)
+                    self.page.lists[self.page.category].addItem(new_text)
                     self.adding = False
                 else:
                     self.edit_items(new_code, new_name, new_text)
@@ -218,7 +282,7 @@ class ItemDetails(QtWidgets.QFrame):
         self.nameLayout.setObjectName(self.name+"NameLayout")
         self.lineEdit = QtWidgets.QLineEdit(
             self.display_name, self.itemNameSection)
-        self.lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.lineEdit.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 5px; ")
         self.lineEdit.setPlaceholderText("Zadajte názov produktu")
         self.lineEdit.setObjectName(self.name+"NameEdit")
         self.nameLayout.addWidget(self.lineEdit)
@@ -229,7 +293,7 @@ class ItemDetails(QtWidgets.QFrame):
         self.codeLayout = QtWidgets.QVBoxLayout(self.itemCodeSection)
         self.codeLayout.setObjectName(self.name+"CodeLayout")
         self.lineEdit_2 = QtWidgets.QLineEdit(self.code, self.itemCodeSection)
-        self.lineEdit_2.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.lineEdit_2.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 5px;")
         self.lineEdit_2.setObjectName(self.name+"CodeEdit")
         self.lineEdit_2.setPlaceholderText("Zadajte kód produktu")
         self.codeLayout.addWidget(self.lineEdit_2)

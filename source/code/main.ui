@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -244,7 +244,7 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>3</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="allCategory">
            <attribute name="title">
@@ -912,8 +912,8 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>329</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="cartLayout"/>
@@ -1218,17 +1218,31 @@ QLineEdit:hover {
              <widget class="QLineEdit" name="searchField_database">
               <property name="geometry">
                <rect>
-                <x>12</x>
-                <y>10</y>
-                <width>371</width>
-                <height>20</height>
+                <x>0</x>
+                <y>7</y>
+                <width>391</width>
+                <height>26</height>
                </rect>
               </property>
               <property name="autoFillBackground">
                <bool>false</bool>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(248, 248, 248);</string>
+               <string notr="true">QLineEdit { 
+    background-color: white;
+    border-style: outset;
+    border-width: 2px;
+	border-radius: 13px;
+    border-color: #cad2c5;
+	padding-left: 5px;
+}
+
+QLineEdit:hover { 
+    background-color: rgb(218, 218, 218);
+    border-style: outset;
+    border-width: 2px;
+    border-color: beige;
+}</string>
               </property>
               <property name="text">
                <string/>
@@ -1248,8 +1262,8 @@ QLineEdit:hover {
                <rect>
                 <x>390</x>
                 <y>0</y>
-                <width>39</width>
-                <height>40</height>
+                <width>40</width>
+                <height>41</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1297,7 +1311,18 @@ color: rgb(125, 125, 125);</string>
            </rect>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(132, 169, 140);</string>
+           <string notr="true">#addItem {
+  color: #000000;
+  background-color: rgb(132, 169, 140);
+  border-radius: 13px;
+  border: none;
+}
+
+#addItem:hover {
+  background-color:rgb(47, 62, 70);
+  color: #ffffff;
+
+}</string>
           </property>
           <property name="text">
            <string>Add item</string>
@@ -1313,9 +1338,17 @@ color: rgb(125, 125, 125);</string>
            </rect>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(132, 169, 140);
+           <string notr="true">#deleteItem {
+  color: #000000;
+  background-color: rgb(132, 169, 140);
+  border-radius: 13px;
+  border: none;
+}
 
-</string>
+#deleteItem:hover {
+  background-color:rgb(47, 62, 70);
+  color: #ffffff;
+}</string>
           </property>
           <property name="text">
            <string>Delete item</string>
@@ -1372,6 +1405,25 @@ border: none</string>
             </property>
            </widget>
           </widget>
+          <widget class="QWidget" name="pants_databse">
+           <attribute name="title">
+            <string>Nohavice</string>
+           </attribute>
+           <widget class="QListWidget" name="listWidget_pants">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>481</width>
+              <height>311</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(248, 248, 248);
+border: none</string>
+            </property>
+           </widget>
+          </widget>
           <widget class="QWidget" name="boots_databse">
            <attribute name="title">
             <string>Topánky</string>
@@ -1396,25 +1448,6 @@ border: none</string>
             <string>Mikiny</string>
            </attribute>
            <widget class="QListWidget" name="listWidget_hoodies">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>481</width>
-              <height>311</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(248, 248, 248);
-border: none</string>
-            </property>
-           </widget>
-          </widget>
-          <widget class="QWidget" name="pants_databse">
-           <attribute name="title">
-            <string>Nohavice</string>
-           </attribute>
-           <widget class="QListWidget" name="listWidget_pants">
             <property name="geometry">
              <rect>
               <x>0</x>
@@ -1480,6 +1513,9 @@ border: none</string>
             <layout class="QVBoxLayout" name="verticalLayout_14">
              <item>
               <widget class="QLineEdit" name="lineEdit">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(255, 255, 255);
 color: #2f3e46;</string>
@@ -1503,6 +1539,12 @@ color: #2f3e46;</string>
             <layout class="QVBoxLayout" name="verticalLayout_15">
              <item>
               <widget class="QLineEdit" name="lineEdit_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(255, 255, 255);
 color: #2f3e46;</string>
@@ -1512,6 +1554,9 @@ color: #2f3e46;</string>
                </property>
                <property name="text">
                 <string>#0000</string>
+               </property>
+               <property name="frame">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -2237,11 +2282,11 @@ color: rgb(125, 125, 125);</string>
            <string notr="true"/>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="chybaCategory">
            <attribute name="title">
-            <string>Chýba</string>
+            <string>Všetko</string>
            </attribute>
            <widget class="QFrame" name="chyba">
             <property name="geometry">
@@ -2249,7 +2294,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>361</height>
+              <height>351</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2297,8 +2342,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -2325,7 +2370,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>361</height>
+              <height>351</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2373,8 +2418,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_37"/>
@@ -2397,7 +2442,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>361</height>
+              <height>351</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2445,8 +2490,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_20"/>
@@ -2468,8 +2513,8 @@ color: rgb(125, 125, 125);</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>481</width>
-              <height>361</height>
+              <width>471</width>
+              <height>351</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2517,8 +2562,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_28"/>
@@ -2538,7 +2583,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>361</height>
+              <height>351</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2586,8 +2631,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>361</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_31"/>
@@ -2607,7 +2652,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>361</height>
+              <height>351</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2656,7 +2701,7 @@ color: rgb(125, 125, 125);</string>
                   <x>0</x>
                   <y>0</y>
                   <width>481</width>
-                  <height>361</height>
+                  <height>351</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_35"/>
@@ -2834,6 +2879,9 @@ padding-left: 20px</string>
               <property name="text">
                <string>Automaticka</string>
               </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -2844,6 +2892,9 @@ padding-left: 20px</string>
               </property>
               <property name="text">
                <string>Poloautomaticka</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -2856,6 +2907,9 @@ padding-left: 20px</string>
               <property name="text">
                <string>Manuálna</string>
               </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
            </layout>
@@ -2863,47 +2917,63 @@ padding-left: 20px</string>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
-             <widget class="QLineEdit" name="HowManyToBuy">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(248, 248, 248);</string>
-              </property>
-              <property name="inputMethodHints">
-               <set>Qt::ImhDigitsOnly</set>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="maxLength">
-               <number>20</number>
-              </property>
-              <property name="frame">
-               <bool>true</bool>
-              </property>
-              <property name="placeholderText">
-               <string>Pocet na doplnenie</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="CountWhenToBuy">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(248, 248, 248);</string>
-              </property>
-              <property name="inputMethodHints">
-               <set>Qt::ImhDigitsOnly</set>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="maxLength">
-               <number>20</number>
-              </property>
-              <property name="frame">
-               <bool>true</bool>
-              </property>
-              <property name="placeholderText">
-               <string>Doplnit pri pocte</string>
-              </property>
+             <widget class="QWidget" name="input_widget" native="true">
+              <widget class="QLineEdit" name="HowManyToBuy">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>25</y>
+                 <width>107</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(248, 248, 248);</string>
+               </property>
+               <property name="inputMethodHints">
+                <set>Qt::ImhDigitsOnly</set>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="maxLength">
+                <number>20</number>
+               </property>
+               <property name="frame">
+                <bool>true</bool>
+               </property>
+               <property name="placeholderText">
+                <string>Pocet na doplnenie</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="CountWhenToBuy">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>58</y>
+                 <width>107</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(248, 248, 248);</string>
+               </property>
+               <property name="inputMethodHints">
+                <set>Qt::ImhDigitsOnly</set>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="maxLength">
+                <number>20</number>
+               </property>
+               <property name="frame">
+                <bool>true</bool>
+               </property>
+               <property name="placeholderText">
+                <string>Doplnit pri pocte</string>
+               </property>
+              </widget>
              </widget>
             </item>
            </layout>
@@ -3501,8 +3571,8 @@ background-color :#BBBBBB;
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-79</y>
-          <width>474</width>
+          <y>0</y>
+          <width>470</width>
           <height>250</height>
          </rect>
         </property>

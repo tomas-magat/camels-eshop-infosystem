@@ -4,14 +4,17 @@
 # Can generate (automatic/half-automatic/manual) order,
 # creating objednavka_[id_transakcie].txt
 
+# TODO
+# po vykonani objednavky updatnut pocet tovaru 
+# nastavenie [self.highlight_threshold] - user moze nastavit kedy bude polozka zvyraznena
+# oprava výpisu chýbajúcich (po kúpe produktu, otvorení jeho kategórie a návrate na kartu všetky sa dá navrch) -> 
+# ->program berie do úvahy iba prvú cifru počtu
+
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
-from utils.tools import *
 from utils.file import DataFile
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtGui import QPixmap
-from utils.ENV_VARS import PATH
+from utils.tools import *
 
 
 class Sklad:
@@ -26,43 +29,49 @@ class Sklad:
         self.commands = UI_Commands(self.ui)
 
         # Init global variables
+        self.cart = Cart(self)
+        # self.category = 0
         self.total_price = 0
-        self.sort_state_sklad = 1
+        self.sort_state = 1
         self.order_mode = 3
-
-        self.cart_price = 0
-        self.cart = {}
-        self.catalog = []
-        self.category = 0
+        self.highlight_threshold = 5
 
         # Track UI actions
         self.button_clicks()
 
         # Init category layouts
-        self.layouts = [self.ui.verticalLayout_18, self.ui.verticalLayout_37, self.ui.verticalLayout_20, self.ui.verticalLayout_28,
-                        self.ui.verticalLayout_31, self.ui.verticalLayout_35]
+        self.layouts = [
+            self.ui.verticalLayout_18,
+            self.ui.verticalLayout_37,
+            self.ui.verticalLayout_20,
+            self.ui.verticalLayout_28,
+            self.ui.verticalLayout_31,
+            self.ui.verticalLayout_35
+        ]
 
-        # Load data
-        self.goods = DataFile('tovar')
-        self.prices = DataFile('cennik')
-        self.storage = DataFile('sklad')
-        self.load_items(self.goods.data)
+        self.init_actions()
+        self.init_data()
+        self.update_data()
 
-        # Track UI actions
+    def init_actions(self):
+        self.manual()
         self.redirect_action()
         self.search_action()
         self.sort_action()
-        self.buy_action()
         self.catalog_action()
 
-        # Update 'goods' variable every 3 seconds
-        self.version = self.goods.version
-        run_periodically(self.update_goods, 3)
+    def init_data(self):
+        self.goods = DataFile('tovar')
+        self.prices = DataFile('cennik')
+        self.storage = DataFile('sklad')
+        self.ui.itemCategories_2.setCurrentIndex(0)
+        self.update_category()
+
     # ==================== ACTIONS =======================
 
     def redirect_action(self):
-        self.commands.buttons_click(
-            [self.ui.skladButton, self.ui.homeArrow4],
+        self.commands.button_click(
+            self.ui.skladButton,
             self.switch_screen
         )
 
@@ -77,204 +86,177 @@ class Sklad:
             self.ui.sortButton_2, self.sort
         )
 
-    def buy_action(self):
-        self.commands.button_click(
-            self.ui.buyButton_7, self.buy
-        )
-
     def catalog_action(self):
         self.commands.tab_selected(
-            self.ui.itemCategories, self.set_category
+            self.ui.itemCategories_2, self.update_category
         )
 
-    # ==================== MAIN FUNCTIONALITY =======================
+    # ==================== REDIRECTS =======================
     def switch_screen(self):
         """Redirect to this sklad screen."""
 
         self.commands.redirect(self.ui.sklad)
 
+    # ==================== SEARCH =======================
     def search(self):
         """
-        Get the value of the search field and load
-        items with matching names or codes.
+        Get the value of search field and find matching items.
         """
-
         self.query = self.ui.searchField_3.text()
-        self.result = search_items(self.query, category=self.category)
-        self.reload_items()
+        self.result = search_items(
+            self.query, self.goods.data, self.category
+        ) if self.query != '' else self.goods.data
+        self.search_results()
 
-    def sort(self):
-        """Update sort button and change sort state."""
-
-        if self.sort_state_sklad == 1:
-            self.create_icon("up_arrow.png", "Highest price", 2)
-        elif self.sort_state_sklad == 2:
-            self.create_icon("down_arrow.png", "Lowest price", 3)
+    def search_results(self):
+        """Load search results, or display 'no results' message."""
+        if self.result == {}:
+            self.no_results()
         else:
-            self.create_icon("up_down_arrow.png", "Sort by price", 1)
+            self.reload_items(self.result)
 
-        self.result_sklad = sort_items(self.sort_state_sklad)
-        # print(self.result_sklad)
+    def no_results(self):
+        """Display 'item not found' in search results."""
+        self.commands.clear_layout(self.layouts[self.category])
+        label = self.no_results_label()
+        self.layouts[self.category].addWidget(label)
 
-    def buy(self):
-        """Buy everything in the cart, generate objednavka_[id].txt"""
+    @staticmethod
+    def no_results_label():
+        label = QtWidgets.QLabel('Produkt sa nenašiel...')
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setPointSize(12)
+        label.setFont(font)
+        label.setStyleSheet('color: #b0180b;')
+        return label
 
-        self.create_receipt()
-        for item in self.cart.values():
-            item.delete()
+    # ==================== SORTING =======================
+    def sort(self):
+        self.update_sort_state()
+        self.load_sorted_items()
 
-    def set_category(self):
-        """Set currently selected category."""
+    def update_sort_state(self):
+        """Update sort button and change sort state."""
+        if self.sort_state == 1:
+            self.update_sort_button("up_arrow.png", "Highest price")
+            self.sort_state = 2
+        elif self.sort_state == 2:
+            self.update_sort_button("down_arrow.png", "Lowest price")
+            self.sort_state = 3
+        else:
+            self.update_sort_button("up_down_arrow.png", "Sort by price")
+            self.sort_state = 1
 
-        self.category = self.ui.itemCategories.currentIndex()
-    # ==================== HELPER FUNCTIONS =======================
+    def load_sorted_items(self):
+        """Sort item codes and load sorted items into catalog."""
+        sorted_codes = sort_items(
+            self.sort_state, category=self.category
+        )
+        self.result = {}
 
-    def create_icon(self, icon_name, text, new_state):
+        for code in sorted_codes:
+            if code in self.goods.data.keys():
+                self.result[code] = self.goods.data[code]
+
+        self.reload_items(self.result)
+
+    def load_counts_items(self):
+        """Sort item codes and load sorted items into catalog."""
+        sorted_codes = sort_counts(
+            category=self.category
+        )
+        self.result = {}
+
+        for code in sorted_codes:
+            if code in self.goods.data.keys():
+                self.result[code] = self.goods.data[code]
+
+        self.reload_items(self.result)
+
+    def update_sort_button(self, icon_name, text):
         icon = QtGui.QIcon()
         icon.addPixmap(
             QtGui.QPixmap(find_icon(icon_name)),
             QtGui.QIcon.Normal, QtGui.QIcon.Off
         )
-        self.ui.sortButton.setText(text)
-        self.sort_state_sklad = new_state
+        self.ui.sortButton_2.setText(text)
+        self.ui.sortButton_2.setIcon(icon)
 
-        self.ui.sortButton.setIcon(icon)
+    # ===================== LOADING =======================
 
-    def reload_items(self):
-        self.catalog = []
+    def reload_items(self, data):
+        """
+        Clear catalog of current selected category and load new items.
+        """
         self.commands.clear_layout(self.layouts[self.category])
-        self.load_items(self.result, all_layouts=False)
+        self.load_items(data)
 
-    def load_items(self, data, all_layouts=True):
-        """Load all items from database into catalog."""
+    def load_items(self, data):
+        """Display item cards in the catalog."""
+        for code, vals in data.items():
+            self.load_item(code, vals)
 
-        for key, vals in data.items():
-            self.load_item(key, vals, all_layouts)
+    def load_item(self, code, vals):
+        price = self.prices.data.get(code)
+        count = self.storage.data.get(code)
+        count = 0 if count == None else count
+        codes = '12345' if self.category == 0 else str(self.category)
 
-    def load_item(self, key, vals, all_layouts):
-        price = self.prices.data.get(key)
-        name = camelify(vals[0])
-        count = self.storage.data.get(key)
-        if name not in self.catalog:
-            image = find_image(vals[1])
-            ItemCard(self, self.layouts[int(key[0])],
-                     vals[0], key, float(price[0]), image, int(count[0]))
-        if name not in self.catalog and int(count[0]) < 10:
-            ItemCard(self, self.ui.verticalLayout_18,
-                     vals[0], key, float(price[0]), image, int(count[0]))
-
-        self.catalog.append(name)
-
-    def create_receipt(self):
-        receipt_id = random_id('N')
-        filename = 'objednavka_'+receipt_id+'.txt'
-        filepath = os.path.join(PATH, 'source', 'data', filename)
-
-        with open(filepath, 'w', encoding='utf-8') as receipt:
-            self.receipt_template(receipt, receipt_id)
-
-        receipt_icon = QtGui.QIcon()
-        msg = QMessageBox()
-
-        receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
-                               QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        msg.setWindowTitle(f"Sale {receipt_id[1:]} - confirmed")
-        msg.setText('<b><p style="padding: 0px;  margin: 0px;">Pokladničný doklad bol úspešne vygenerovaný.</p>' +
-                    f'<br><a href="file:///{PATH}/source/data/{filename}">Otvor objednávku č. {receipt_id}</a>')
-        msg.setIconPixmap(QPixmap(find_icon('receipt.svg')))
-        msg.exec_()
-
-    def receipt_template(self, receipt, id):
-        receipt.write('Camels E-shop s.r.o.\n')
-        receipt.write('\nCislo objednavky: '+id)
-        receipt.write('\nVytvorene: '+now())
-        receipt.write('\n\n=================================\n\n')
-        items = [
-            item.display_name+'\n\t'+str(item.amount)+'ks x ' +
-            str_price(item.price)+'\t\t\t\t' +
-            str_price(item.price, item.amount)+' €\n'
-            for item in list(self.cart.values())
-        ]
-        receipt.writelines(items)
-        receipt.write('\n=================================\n\n')
-        receipt.write('Spolu cena: '+str_price(self.cart_price)+' €')
-        receipt.write('\nDPH(20%): '+str_price(self.cart_price*0.2)+' €')
+        if price != None and code[0] in codes:
+            ItemCard(
+                self, self.layouts[self.category], vals[0],
+                code, float(price[0]), vals[1], int(count[0]), self.highlight_threshold
+            )
 
     # ==================== SKLAD UPDATING =======================
+    def update_category(self):
+        """
+        Set selected category and load items of that category.
+        """
+        self.category = self.ui.itemCategories_2.currentIndex()
+        self.goods.read()
+        self.load_counts_items()
+
+    def update_data(self):
+        """Update 'goods' variable every 3 seconds"""
+        self.version = self.goods.version
+        run_periodically(self.update_goods, 3)
+
     def update_goods(self):
         """
         Update 'goods' variable if version of the tovar.txt
         datafile has changed.
         """
-
         current_version = self.goods.version
 
         if current_version != self.version:
             self.goods.read()
             self.version = current_version
-            self.load_items()
+            self.reload_items(self.goods.data)
 
-    def update_price(self, value):
-        """Update total price of a cart."""
-
-        self.cart_price += value
-        self.ui.totalPrice_2.setText(
-            "Spolu: "+str_price(self.cart_price, 1)+" €")
-
-    # ===================SORT BUTTON STATE==================================
-
-    def sort_button_state(self):
-        """Update sort button state and change its icon."""
-
-        icon = QtGui.QIcon()
-
-        if self.sort_state_sklad == 1:
-            icon.addPixmap(QtGui.QPixmap(
-                find_icon("up_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.sortButton_2.setText("Highest price")
-            self.sort_state_sklad = 2
-
-        elif self.sort_state_sklad == 2:
-            icon.addPixmap(QtGui.QPixmap(
-                find_icon("down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.sortButton_2.setText("Lowest price")
-            self.sort_state_sklad = 3
-
-        else:
-            icon.addPixmap(QtGui.QPixmap(
-                find_icon("up_down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.sortButton_2.setText("Sort by price")
-            self.sort_state_sklad = 1
-
-        self.ui.sortButton_2.setIcon(icon)
+    # =================== ORDER STATE ==================================
 
     def order(self):
         print(self.order_mode)
 
     def automatic(self):
         self.order_mode = 1
+        self.ui.input_widget.setVisible(True)
         self.order()
 
     def semiautomatic(self):
         self.order_mode = 2
+        self.ui.input_widget.setVisible(True)
         self.order()
 
     def manual(self):
         self.order_mode = 3
+        self.ui.input_widget.setVisible(False)
         self.order()
 
     def button_clicks(self):
         """All button click commands of sklad screen here."""
-
-        self.commands.button_click(
-            self.ui.skladButton, self.switch_screen)
-
-        self.commands.form_submit(
-            [self.ui.searchButton_3, self.ui.searchField_3],
-            self.search)
-
-        self.commands.button_click(
-            self.ui.sortButton_2, self.sort_button_state)
 
         self.commands.button_click(
             self.ui.automatic, self.automatic)
@@ -286,10 +268,116 @@ class Sklad:
             self.ui.manual, self.manual)
 
 
+class Cart:
+    """This class represents a cart with its contents and price."""
+
+    def __init__(self, page):
+        self.page = page
+        self.ui = page.ui
+        self.commands = page.commands
+
+        # Init cart global variables
+        self.price = 0
+        self.contents = {}
+        self.statistics = DataFile('statistiky')
+        self.storage = DataFile('sklad')
+        self.id = random_id('N')
+
+        self.buy_click()
+
+    def buy_click(self):
+        self.commands.button_click(
+            self.ui.buyButton_7, self.buy
+        )
+
+    def buy(self):
+        if len(self.contents) > 0:
+            self.execute_purchase()
+        else:
+            self.commands.warning(
+                'Prázdny košík',
+                'Pred objednávkou vložte, prosím, veci do košíka.')
+
+    def execute_purchase(self):
+        """
+        Generate objednavka_[id].txt, add datapoint to 
+        statistics, update sklad.txt amounts
+        and remove everything from the cart.
+        """
+        self.create_receipt()
+        self.add_stats()
+        self.update_storage()
+        self.clear_cart()
+        self.purchase_message()
+
+    def clear_cart(self):
+        """Remove everything from the cart."""
+        for item in list(self.contents.values()):
+            item.delete()
+
+    def add_stats(self):
+        """Add datapoint from transaction to STATISTIKY.txt."""
+        for code, item in self.contents.items():
+            self.statistics.data[now()] = [
+                'N', self.id[1:], code, item.amount, item.price]
+        self.statistics.save_data()
+
+    def update_storage(self):
+        """Change amount of items in sklad.txt."""
+        for code, item in self.contents.items():
+            self.storage.data[code][0] = int(
+                self.storage.data[code][0]) + item.amount
+        self.storage.save_data()
+
+    def update_price(self, value):
+        """Update total price of a cart."""
+        self.price += value
+        self.ui.totalPrice_2.setText(
+            "Spolu: "+str_price(self.price, 1)+" €")
+
+    def create_receipt(self):
+        """Create uctenka_[id].txt from current cart."""
+        filename = 'objednavka_'+self.id+'.txt'
+        self.filepath = os.path.join(PATH, 'source', 'data', filename)
+
+        with open(self.filepath, 'w', encoding='utf-8') as receipt:
+            self.order_receipt_template(receipt)
+
+    def purchase_message(self):
+        receipt_icon = QtGui.QIcon()
+        msg = QtWidgets.QMessageBox()
+        receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
+                               QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        msg.setWindowTitle(f"Sale {self.id[1:]} - confirmed")
+        msg.setText('<b><p style="padding: 0px;  margin: 0px;">'
+                    'Pokladničný doklad bol úspešne vygenerovaný.</p>' +
+                    f'<br><a href="file:{self.filepath}">'
+                    f'Otvor objednávku č. {self.id}</a>')
+        msg.setIconPixmap(QtGui.QPixmap(find_icon('receipt.svg')))
+        msg.exec_()
+
+    def order_receipt_template(self, receipt):
+        receipt.write('Camels E-shop s.r.o.')
+        receipt.write('\nCislo objednavky: '+self.id)
+        receipt.write('\nVytvorene dna: '+now())
+        receipt.write('\n\n=================================\n')
+        items = [
+            item.display_name+'\n\t'+str(item.amount)+'ks x ' +
+            str_price(item.price)+'\t\t' +
+            str_price(item.price, item.amount)+' €\n'
+            for item in list(self.contents.values())
+        ]
+        receipt.writelines(items)
+        receipt.write('\n=================================')
+        receipt.write('\nSpolu cena: '+str_price(self.price)+' €')
+        receipt.write('\nDPH(20%): '+str_price(self.price*0.2)+' €')
+
+
 class ItemCard(QtWidgets.QFrame):
 
-    def __init__(self, page, layout, name: str,
-                 code: str, price: float, image: str, count: float):
+    def __init__(
+            self, page, layout, name: str,
+            code: str, price: float, image: str, count: float, highlight_threshold: int):
 
         super(ItemCard, self).__init__(layout.parent())
 
@@ -303,8 +391,9 @@ class ItemCard(QtWidgets.QFrame):
         self.display_name = name
         self.code = code
         self.price = price
-        self.image = image
+        self.image = find_image(image)
         self.count = count
+        self.highlight_threshold = highlight_threshold
 
         self.in_cart = False
 
@@ -327,9 +416,7 @@ class ItemCard(QtWidgets.QFrame):
 
     def add_to_cart(self):
         if self.amount > 0:
-            self.cart_item = CartItem(
-                self, self.display_name, self.price, self.amount
-            )
+            self.cart_item = CartItem(self)
             self.update_status()
 
     def update_status(self):
@@ -350,7 +437,7 @@ class ItemCard(QtWidgets.QFrame):
         self.setMaximumSize(QtCore.QSize(16777215, 60))
         self.setFrameShape(QtWidgets.QFrame.Box)
         self.setFrameShadow(QtWidgets.QFrame.Plain)
-        if self.parent_layout == self.ui.verticalLayout_18:
+        if self.count <= self.highlight_threshold:
             self.setStyleSheet("background-color: rgb(255, 240, 245)")
         self.setObjectName(self.name)
         self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
@@ -407,23 +494,25 @@ class ItemCard(QtWidgets.QFrame):
 
 class CartItem(QtWidgets.QFrame):
 
-    def __init__(self, item, name: str, price: float, amount: int):
+    def __init__(self, item):
         self.item = item
         self.page = item.page
         self.ui = self.page.ui
         self.commands = self.page.commands
-        self.parent_layout = self.ui.verticalLayout_34
 
+        self.parent_layout = self.ui.verticalLayout_34
         super(CartItem, self).__init__(self.parent_layout.parent())
 
-        self.name = "cart"+camelify(name)
-        self.display_name = name
+        self.code = self.item.code
+        self.name = "cart"+self.item.name
+        self.display_name = self.item.display_name
 
-        self.price = price
-        self.amount = amount
-        self.total = price*amount
+        self.price = self.item.price
+        self.amount = self.item.amount
+        self.total = self.item.price*self.item.amount
+
         self.update_page_cart()
-        self.page.update_price(self.total)
+        self.page.cart.update_price(self.total)
 
         self.draw_ui()
 
@@ -431,6 +520,7 @@ class CartItem(QtWidgets.QFrame):
         """Delete this item from cart."""
         self.item.update_status()
         self.price_change(0)
+        del self.page.cart.contents[self.code]
         self.deleteLater()
 
     def update(self, amount):
@@ -444,10 +534,10 @@ class CartItem(QtWidgets.QFrame):
         new_price = amount*self.price - self.amount*self.price
         self.amount = amount
         self.update_page_cart()
-        self.page.update_price(new_price)
+        self.page.cart.update_price(new_price)
 
     def update_page_cart(self):
-        self.page.cart[self.name] = self
+        self.page.cart.contents[self.code] = self
 
     def draw_ui(self):
         self.setMaximumSize(QtCore.QSize(16777215, 40))
@@ -514,65 +604,3 @@ class CartItem(QtWidgets.QFrame):
         self.mainLayout_2.addWidget(
             self.cancelSection, 0, QtCore.Qt.AlignRight)
         self.parent_layout.addWidget(self)
-
-
-def draw_ui_1(self):
-    self.setMinimumSize(QtCore.QSize(200, 60))
-    self.setMaximumSize(QtCore.QSize(16777215, 60))
-    self.setFrameShape(QtWidgets.QFrame.Box)
-    self.setFrameShadow(QtWidgets.QFrame.Plain)
-    if self.parent_layout == self.ui.verticalLayout_18:
-        self.setStyleSheet("background-color: rgb(255,64,64)")
-    self.setObjectName(self.name)
-    self.mainLayout_2 = QtWidgets.QHBoxLayout(self)
-    self.mainLayout_2.setContentsMargins(0, 0, 0, 0)
-    self.mainLayout_2.setSpacing(0)
-    self.mainLayout_2.setObjectName(self.name+"Layout")
-    self.itemPreview = QtWidgets.QWidget(self)
-    self.itemPreview.setMaximumSize(QtCore.QSize(60, 16777215))
-    self.itemPreview.setObjectName(self.name+"Preview")
-    self.previewLayout = QtWidgets.QVBoxLayout(self.itemPreview)
-    self.previewLayout.setObjectName(self.name+"PreviewLayout")
-    self.itemImage = QtWidgets.QLabel()
-    self.itemImage.setPixmap(QtGui.QPixmap(self.image))
-    self.itemImage.setScaledContents(True)
-    self.itemImage.setWordWrap(True)
-    self.itemImage.setObjectName(self.name+"Image")
-    self.previewLayout.addWidget(self.itemImage)
-    self.mainLayout_2.addWidget(self.itemPreview)
-    self.itemName = QtWidgets.QWidget(self)
-    self.itemName.setObjectName(self.name+"Name")
-    self.nameLayout = QtWidgets.QVBoxLayout(self.itemName)
-    self.nameLayout.setObjectName(self.name+"NameLayout")
-    self.itemLabel = QtWidgets.QLabel(self.display_name+"  #"+self.code +
-                                      "  Cena: 5,99€   " + "self.count")
-    self.itemLabel.setObjectName(self.name+"ItemLabel")
-    self.nameLayout.addWidget(self.itemLabel)
-    self.mainLayout_2.addWidget(self.itemName)
-    self.itemCount = QtWidgets.QWidget(self)
-    self.itemCount.setMaximumSize(QtCore.QSize(60, 16777215))
-    self.itemCount.setObjectName(self.name+"Count")
-    self.countLayout = QtWidgets.QVBoxLayout(self.itemCount)
-    self.countLayout.setObjectName(self.name+"CountLayout")
-    self.spinBox = QtWidgets.QSpinBox(self.itemCount)
-    self.spinBox.setStyleSheet("QSpinBox"
-                               "{"
-                               "background-color : white;"
-                               "}")
-    self.spinBox.setObjectName(self.name+"SpinBox")
-    self.countLayout.addWidget(self.spinBox)
-    self.mainLayout_2.addWidget(self.itemCount)
-    self.itemButton = QtWidgets.QWidget(self)
-    self.itemButton.setMaximumSize(QtCore.QSize(110, 16777215))
-    self.itemButton.setObjectName(self.name+"Button")
-    self.buttonLayout = QtWidgets.QVBoxLayout(self.itemButton)
-    self.buttonLayout.setObjectName(self.name+"ButtonLayout")
-    self.addButton = QtWidgets.QPushButton("Add to cart")
-    self.addButton.setMinimumHeight(24)
-    self.addButton.setObjectName(self.name+"AddButton")
-    self.addButton.setStyleSheet(
-        "QPushButton {font-weight: bold; border: 4px solid #2f3e46; border-radius: 12px;background-color: #2f3e46;color: #cad2c5;} QPushButton:hover {border-color: #354f52; background-color: #354f52;} QPushButton:pressed {border-color: #354f52;background-color: #354f52;}")
-    self.commands.button_click(self.addButton, self.add_to_cart)
-    self.buttonLayout.addWidget(self.addButton)
-    self.mainLayout_2.addWidget(self.itemButton)
-    self.parent_layout.addWidget(self)
