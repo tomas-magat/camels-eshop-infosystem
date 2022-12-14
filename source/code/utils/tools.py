@@ -84,6 +84,7 @@ def validate_price(input_field, invalid_cmd=None):
     except:
         if invalid_cmd != None:
             invalid_cmd()
+        return None
     else:
         return "%.2f" % price
 
@@ -209,4 +210,6 @@ def find_code(category):
     data = DataFile('tovar').data
     codes = filter_category(data, category)
     int_codes = [int(code) for code in codes.keys()]
+    if len(int_codes) < 1:
+        int_codes.append(int(str(category)+'000'))
     return str(max(int_codes)+1)

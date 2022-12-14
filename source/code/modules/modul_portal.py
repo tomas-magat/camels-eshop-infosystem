@@ -231,8 +231,6 @@ class Portal:
         try:
             available = int(amount[0]) >= 0
         except:
-            self.commands.error(
-                'Vami zvolený produkt momentálne nie je na sklade.')
             return False
         else:
             return price != None and amount != None and available

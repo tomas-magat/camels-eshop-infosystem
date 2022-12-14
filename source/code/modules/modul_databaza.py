@@ -59,7 +59,6 @@ class Databaza:
         self.tab.setCurrentIndex(0)
         self.update_category()
 
-
     def reload_items(self, data):
         self.lists[self.category].clear()
         self.load_items(data)
@@ -143,6 +142,7 @@ class Databaza:
         prvok = 'Produkt sa nenasiel'
         self.lists[self.category].addItem(prvok)
 
+
 class ItemDetails(QtWidgets.QFrame):
 
     def __init__(self, page, parent, display_name: str, code: str,
@@ -211,17 +211,17 @@ class ItemDetails(QtWidgets.QFrame):
 
         if pattern.match(new_code) and pattern2.match(new_name) and unique:
             new_text = "#"+new_code+" "+new_name
-            old_text = self.page.lists[self.page.category].currentItem(
-            ).text()
 
-            if new_text != old_text:
-                if self.adding:
-                    self.page.goods.data[new_code] = [new_name, self.filename]
-                    self.page.goods.save_data()
-                    self.page.goods.read()
-                    self.page.lists[self.page.category].addItem(new_text)
-                    self.adding = False
-                else:
+            if self.adding:
+                self.page.goods.data[new_code] = [new_name, self.filename]
+                self.page.goods.save_data()
+                self.page.goods.read()
+                self.page.lists[self.page.category].addItem(new_text)
+                self.adding = False
+            else:
+                old_text = self.page.lists[self.page.category].currentItem(
+                ).text()
+                if new_text != old_text:
                     self.edit_items(new_code, new_name, new_text)
         else:
             print('zla hodnota')
@@ -282,7 +282,9 @@ class ItemDetails(QtWidgets.QFrame):
         self.nameLayout.setObjectName(self.name+"NameLayout")
         self.lineEdit = QtWidgets.QLineEdit(
             self.display_name, self.itemNameSection)
-        self.lineEdit.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 5px; ")
+        self.lineEdit.setMinimumHeight(20)
+        self.lineEdit.setStyleSheet(
+            "background-color: rgb(255, 255, 255); border-radius: 10px; padding-left:5px;")
         self.lineEdit.setPlaceholderText("Zadajte názov produktu")
         self.lineEdit.setObjectName(self.name+"NameEdit")
         self.nameLayout.addWidget(self.lineEdit)
@@ -293,7 +295,9 @@ class ItemDetails(QtWidgets.QFrame):
         self.codeLayout = QtWidgets.QVBoxLayout(self.itemCodeSection)
         self.codeLayout.setObjectName(self.name+"CodeLayout")
         self.lineEdit_2 = QtWidgets.QLineEdit(self.code, self.itemCodeSection)
-        self.lineEdit_2.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 5px;")
+        self.lineEdit_2.setStyleSheet(
+            "background-color: rgb(255, 255, 255); border-radius: 10px; padding-left:5px;")
+        self.lineEdit_2.setMinimumHeight(20)
         self.lineEdit_2.setObjectName(self.name+"CodeEdit")
         self.lineEdit_2.setPlaceholderText("Zadajte kód produktu")
         self.codeLayout.addWidget(self.lineEdit_2)
@@ -314,9 +318,13 @@ class ItemDetails(QtWidgets.QFrame):
         if not self.adding and self.image_path != '':
             self.update_image()
         else:
-            self.image.setStyleSheet(
-                "background-color: #cad2c5; color: rgb(0, 0, 0); "
-                "border: 5px solid #cad2c5; border-radius: 12px;")
+            self.image.setStyleSheet("background-color: #cad2c5;"
+                                     "color: #2F3E46;"
+                                     "border-radius: 11px;"
+                                     "border: 5px solid #cad2c5;")
+            font = QtGui.QFont()
+            font.setBold(True)
+            self.image.setFont(font)
             self.image.setText("Vyberte obrázok")
         self.commands.button_click(self.image, self.pick_image)
         self.image.setObjectName(self.name+"image")
@@ -328,10 +336,13 @@ class ItemDetails(QtWidgets.QFrame):
         self.buttonLayout.setObjectName(self.name+"ButtonLayout")
         self.pushButton = QtWidgets.QPushButton(self.button_text)
         self.pushButton.setStyleSheet("background-color: #cad2c5;"
-                                      "color: rgb(0, 0, 0);"
-                                      "border-radius: 12px;"
+                                      "color: #2F3E46;"
+                                      "border-radius: 11px;"
                                       "border: 5px solid #cad2c5;")
         self.pushButton.setObjectName(self.name+"SaveButton")
+        font = QtGui.QFont()
+        font.setBold(True)
+        self.pushButton.setFont(font)
         self.commands.button_click(self.pushButton, self.update_list)
         self.buttonLayout.addWidget(self.pushButton)
         self.mainLayout.addWidget(self.saveButtonSection)
