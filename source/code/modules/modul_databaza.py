@@ -202,8 +202,8 @@ class ItemDetails(QtWidgets.QFrame):
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
 
-        pattern = re.compile("^[0-5]+$")
-        pattern2 = re.compile("^[A-Za-z ]+$")
+        pattern = re.compile("[0-5]+$")
+        pattern2 = re.compile("[^.=,_'+><]")
         other_codes = list(self.page.goods.data.keys())
         if not self.adding:
             other_codes.remove(self.code)
@@ -218,13 +218,15 @@ class ItemDetails(QtWidgets.QFrame):
                 self.page.goods.read()
                 self.page.lists[self.page.category].addItem(new_text)
                 self.adding = False
+                self.deleteLater()
             else:
                 old_text = self.page.lists[self.page.category].currentItem(
                 ).text()
                 if new_text != old_text:
                     self.edit_items(new_code, new_name, new_text)
         else:
-            print('zla hodnota')
+            print(pattern.match(new_code), pattern2.match(
+                new_name))
             msg = QMessageBox()
             msg.setWindowTitle("Error")
             msg.setText("Zadajte spravnu hodnotu")

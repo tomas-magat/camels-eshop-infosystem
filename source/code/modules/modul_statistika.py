@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from decimal import *
 
+
 class Statistika:
     def __init__(self, ui):
 
@@ -25,11 +26,12 @@ class Statistika:
         self.graph_color = '#CAD2C5'
         self.funFactsColor = '#2C57D8'
 
-        self.Values()
-        self.NajviacGraf()
-        self.NajmenejGraf()
-        self.VyvojGraf()
-        self.FunFacts()
+        if len(list(self.statistiky)) > 2:
+            self.Values()
+            self.NajviacGraf()
+            self.NajmenejGraf()
+            self.VyvojGraf()
+            self.FunFacts()
 
     def switch_screen(self):
         """Redirect to this statistika screen."""
@@ -52,28 +54,32 @@ class Statistika:
         top_produkty = []
         self.statistika_list = []
         p, p1, k2, v2, k4, v4 = '', '', '', '', '', ''
+        # TODO: daj si niaku podmienku ze to nacita tie data iba ked
+        # len(self.sklad.items()) > 0 lebo ked je prazdny subor
+        # statistiky.txt tak vypise chybu ze k1, v1 neexistuje
         for k1, v1 in self.statistiky.items():
-            m=0
+            m = 0
             if v1[0] == 'P':
                 if top_produkty == []:
-                    top_produkty.append([v1[2],1])
+                    top_produkty.append([v1[2], 1])
                 else:
                     for i in range(len(top_produkty)):
                         if v1[2] == top_produkty[i][0]:
                             top_produkty[i][1] += 1
-                            m=1
+                            m = 1
                             break
                     if m == 0:
-                        top_produkty.append([v1[2],1])
+                        top_produkty.append([v1[2], 1])
                 k2, v2 = k1, v1
                 p = v1[2]
             else:
                 k4, v4 = k1, v1
                 p1 = v1[2]
-            self.statistika_list += (k1.split()[0],k1.split()[1],v1[0],v1[2],v1[3],v1[4]),
+            self.statistika_list += (k1.split()
+                                     [0], k1.split()[1], v1[0], v1[2], v1[3], v1[4]),
         prem = k1.split()[0]
         novy_cas = []
-        for i in range(len(self.statistika_list)-1,-1,-1):
+        for i in range(len(self.statistika_list)-1, -1, -1):
             if self.statistika_list[i][0] == prem:
                 novy_cas += self.statistika_list[i],
         for i in novy_cas:
@@ -81,15 +87,15 @@ class Statistika:
                 self.profLoss += int(i[4])*float(i[5])
             else:
                 self.profLoss -= int(i[4])*float(i[5])
-        self.profLoss = round(self.profLoss,2)
+        self.profLoss = round(self.profLoss, 2)
 
-        ttt=0
+        ttt = 0
         for i in self.statistika_list:
             if i[2] == 'P':
                 self.avPrice += int(i[4])*float(i[5])
                 ttt += 1
         self.avPrice /= ttt
-        self.avPrice = round(self.avPrice,2)
+        self.avPrice = round(self.avPrice, 2)
 
         self.x_date = []
         for i in self.statistika_list:
@@ -101,28 +107,27 @@ class Statistika:
             elif cc+'.'+bb+'.'+aa != self.x_date[-1]:
                 self.x_date += cc+'.'+bb+'.'+aa,
 
-
         self.profit_all = [0]
         self.loss_all = [0]
         date_var1 = self.statistika_list[0][0]
         date_var2 = self.statistika_list[0][0]
         for am, i in enumerate(self.statistika_list):
-            io=False
-            oi=False
+            io = False
+            oi = False
             if i[2] == 'P':
                 if date_var1 == self.statistika_list[am][0]:
                     self.profit_all[-1] += int(i[4])*float(i[5])
                 else:
                     self.profit_all += int(i[4])*float(i[5]),
                     date_var1 = self.statistika_list[am][0]
-                    io=True
+                    io = True
             else:
                 if date_var2 == self.statistika_list[am][0]:
                     self.loss_all[-1] += int(i[4])*float(i[5])
                 else:
                     self.loss_all += int(i[4])*float(i[5]),
                     date_var2 = self.statistika_list[am][0]
-                    oi=True
+                    oi = True
             if io:
                 if self.loss_all != []:
                     self.loss_all += self.loss_all[-1],
@@ -134,16 +139,15 @@ class Statistika:
                 else:
                     self.profit_all += 0,
 
-
-        h=True
+        h = True
         for k, v in self.tovar.items():
             if k == p:
                 p = v[0]
-            if k == p1 :
+            if k == p1:
                 p1 = v[0]
             if k == self.najviac_produkt:
                 self.najviac_produkt = v[0]+'-'+str(najviac_produkt)+'ks'
-                h=False
+                h = False
         if h:
             self.najviac_produkt = 'produkt '+self.najviac_produkt+' nepridany v TOVARE'
 
@@ -160,36 +164,39 @@ class Statistika:
                     else:
                         t = False
                 else:
-                    t=False
+                    t = False
         if t:
             if k2 != '':
-                k2 = k2.split()[0].replace('-', '.')+' '+k2.split()[1].replace('-', ':')
-                self.posledna_objednavka_Z= k2+';'+p+';'+v2[3]+'ks'+';'+v2[4]+'/ks'
+                k2 = k2.split()[0].replace('-', '.')+' ' + \
+                    k2.split()[1].replace('-', ':')
+                self.posledna_objednavka_Z = k2+';' + \
+                    p+';'+v2[3]+'ks'+';'+v2[4]+'/ks'
             if k4 != '':
-                k4 = k4.split()[0].replace('-', '.')+' '+k4.split()[1].replace('-', ':')
-                self.posledna_objednavka_F= k4+';'+p1+';'+v4[3]+'ks'+';'+v4[4]+'/ks'
+                k4 = k4.split()[0].replace('-', '.')+' ' + \
+                    k4.split()[1].replace('-', ':')
+                self.posledna_objednavka_F = k4+';' + \
+                    p1+';'+v4[3]+'ks'+';'+v4[4]+'/ks'
         else:
             self.posledna_objednavka_Z = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
             self.posledna_objednavka_F = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
 
-
-        self.top_ten_graf = sorted(top_produkty, key=lambda x:x[1], reverse=True)
-        self.top_ten_worst_graf = sorted(top_produkty, key=lambda x:x[1])
+        self.top_ten_graf = sorted(
+            top_produkty, key=lambda x: x[1], reverse=True)
+        self.top_ten_worst_graf = sorted(top_produkty, key=lambda x: x[1])
         self.top_ten_graf = self.top_ten_graf[:10]
         self.top_ten_worst_graf = self.top_ten_worst_graf[:10]
-        a=0
+        a = 0
         while a < len(self.top_ten_graf):
             for k, v in self.tovar.items():
                 if k == self.top_ten_graf[a][0]:
                     self.top_ten_graf[a][0] = v[0]
                     break
-            a+=1
+            a += 1
 
         self.top_ten = [i[1] for i in self.top_ten_graf]
         self.top_ten_worst = [i[1] for i in self.top_ten_worst_graf]
 
         self.najviac_sa_nakupuje = 'Sobota (87)'
-
 
     def NajviacGraf(self):
         najviac, a1 = plt.subplots(
@@ -218,7 +225,8 @@ class Statistika:
             annot1.xy = (x, y)
             for c, i in enumerate(bar_X):
                 if i == bar_x_pos:
-                    text = self.top_ten_graf[c][0]+' '+str(self.top_ten_graf[c][1])+'ks'
+                    text = self.top_ten_graf[c][0]+' ' + \
+                        str(self.top_ten_graf[c][1])+'ks'
             annot1.set_text(text)
 
         def hover1(event):
@@ -310,12 +318,12 @@ class Statistika:
                 if index == self.last_index:
                     return
                 self.last_index = index
-                
 
                 vertical_line.set_xdata(x[index])
                 horizontal_line.set_ydata(y[index])
                 horizontal_line1.set_ydata(z[index])
-                text.set_text('Dátum = %s\namount = %s' % (self.x_date[index], y[index]))
+                text.set_text('Dátum = %s\namount = %s' %
+                              (self.x_date[index], y[index]))
                 a3.figure.canvas.draw()
 
         vyvoj_ceny, a3 = plt.subplots(
@@ -340,7 +348,6 @@ class Statistika:
         vyvoj_ceny.canvas.mpl_connect('motion_notify_event', on_mouse_move)
         self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny, size=68.5)
         plt.tight_layout()
-
 
     def FunFacts(self):
         if self.profLoss < 0:
