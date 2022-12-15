@@ -20,9 +20,10 @@ class Portal:
     screen (button clicks, item listing...).
     """
 
-    def __init__(self, ui):
+    def __init__(self, ui, data):
         self.ui = ui
         self.commands = UI_Commands(self.ui)
+        self.data = data
 
         # Init catalog global variables
         self.cart = Cart(self)
@@ -51,9 +52,9 @@ class Portal:
         self.catalog_action()
 
     def init_data(self):
-        self.goods = DataFile('tovar')
-        self.prices = DataFile('cennik')
-        self.storage = DataFile('sklad')
+        self.goods = self.data['tovar']
+        self.prices = self.data['cennik']
+        self.storage = self.data['sklad']
         self.update_category()
         self.ui.itemCategories.setCurrentIndex(0)
 

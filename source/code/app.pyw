@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5 import uic
 
 from utils.ui_commands import UI_Commands
+from utils.file import DataFile
 from utils.ENV_VARS import PATH
 from modules import *
 
@@ -26,8 +27,14 @@ class MainWindow:
         self.commands = UI_Commands(self.ui)
         self.index()
 
+        # Load data globally
+        self.datafile_names = ['tovar', 'cennik', 'sklad', 'statistiky']
+        self.data = {}
+        for filename in self.datafile_names:
+            self.data[filename] = DataFile(filename)
+
         # Initialize modules
-        self.portal = modul_portal.Portal(self.ui)
+        self.portal = modul_portal.Portal(self.ui, self.data)
         self.databaza = modul_databaza.Databaza(self.ui)
         self.statistika = modul_statistika.Statistika(self.ui)
         self.cenotvorba = modul_cenotvorba.Cenotvorba(self.ui)
