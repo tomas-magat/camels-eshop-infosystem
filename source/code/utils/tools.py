@@ -43,6 +43,31 @@ def callback(function, period):
         time.sleep(period)
 
 
+def update_data(data: list, period: 5.0):
+    """Update data variables every period seconds."""
+    versions = [file.version for file in data]
+    run_periodically(lambda: update_vars(data, versions), period)
+
+
+def update_vars(data, versions):
+    """Update data variables periodically."""
+    for i in range(len(data)):
+        update_var(data, versions, i)
+
+
+def update_var(data, versions, i):
+    """
+    Update data variable if version of its
+    datafile changed.
+    """
+    data[i].get_version()
+    current_version = data[i].version
+
+    if current_version != versions[i]:
+        data[i].read()
+        versions[i] = current_version
+
+
 def str_price(price: float, amount=1):
     """Return total price string - with 2 decimal places."""
 

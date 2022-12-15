@@ -1,5 +1,9 @@
 # This is the main file which imports all modules and
 # after executing displays an App window
+
+# TODO
+# App - global file source
+
 import sys
 import os
 
@@ -8,6 +12,7 @@ from PyQt5 import uic
 
 from utils.ui_commands import UI_Commands
 from utils.file import DataFile
+from utils.tools import update_data
 from utils.ENV_VARS import PATH
 from modules import *
 
@@ -49,6 +54,8 @@ class MainWindow:
             self.ui.homeArrow5,
         ]
         self.commands.buttons_click(self.home_buttons, self.index)
+
+        update_data(list(self.data.values()), 5.0)
 
     def show(self):
         """Show the main App UI window."""

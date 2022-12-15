@@ -4,9 +4,6 @@
 # After buying the selected items in given amounts,
 # creates file uctenka_[id_transakcie].txt.
 
-# TODO
-# interaction with sklad.txt amounts
-
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
@@ -42,7 +39,6 @@ class Portal:
 
         self.init_actions()
         self.init_data()
-        self.update_data()
 
     def init_actions(self):
         self.redirect_actions()
@@ -244,55 +240,6 @@ class Portal:
         self.goods.read()
         self.category = self.ui.itemCategories.currentIndex()
         self.reload_items(self.goods.data)
-
-    def update_data(self):
-        """Update 'goods' variable every 3 seconds"""
-        self.version = self.goods.version
-        self.version_prices = self.prices.version
-        self.version_storage = self.storage.version
-        run_periodically(self.update_vars, 3)
-
-    def update_vars(self):
-        """Update data variables periodically."""
-        self.update_goods()
-        self.update_prices()
-        self.update_storage()
-
-    def update_goods(self):
-        """
-        Update 'goods' variable if version of the tovar.txt
-        datafile has changed.
-        """
-        self.goods.get_version()
-        current_version = self.goods.version
-
-        if current_version != self.version:
-            self.goods.read()
-            self.version = current_version
-
-    def update_prices(self):
-        """
-        Update 'prices' variable if version of the cennik.txt
-        datafile has changed.
-        """
-        self.prices.get_version()
-        current_version = self.prices.version
-
-        if current_version != self.version_prices:
-            self.prices.read()
-            self.version_prices = current_version
-
-    def update_storage(self):
-        """
-        Update 'storage' variable if version of the sklad.txt
-        datafile has changed.
-        """
-        self.storage.get_version()
-        current_version = self.storage.version
-
-        if current_version != self.version_storage:
-            self.storage.read()
-            self.version_storage = current_version
 
 
 class Cart:
