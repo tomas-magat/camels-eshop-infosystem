@@ -318,6 +318,7 @@ class Cart:
         self.clear_cart()
         self.purchase_message()
         self.page.init_data()
+        self.page.load_counts_items()
 
     def clear_cart(self):
         """Remove everything from the cart."""
@@ -327,9 +328,10 @@ class Cart:
     def add_stats(self):
         """Add datapoint from transaction to STATISTIKY.txt."""
         for code, item in self.contents.items():
-            self.statistics.data[now()] = [
-                'N', self.id[1:], code, item.amount, item.price]
-        self.statistics.save_data()
+            self.statistics.data_list.append([
+                now(), 'N', self.id[1:], code,
+                str(item.amount), str(item.price)])
+        self.statistics.save_list()
 
     def update_storage(self):
         """Change amount of items in sklad.txt."""
