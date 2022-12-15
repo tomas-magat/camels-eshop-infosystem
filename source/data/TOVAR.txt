@@ -4,7 +4,6 @@
 2002;Modré džínsy;bluemenjeans.webp
 2003;Biele nohavice;whitepants.jpg
 2004;Šortky;shorts.jpg
-3001;Adidas Ultraboost biele;adidaswhite.webp
 3002;Adidas Ultraboost farebné;adidascolored.webp
 3003;Nike;nikered.webp
 3004;Nike tenisky biele;nikewhite.webp
@@ -17,3 +16,4 @@
 5004;Slnečné okuliare;sunglasses.webp
 3005;Adidas čiernobiele;tenisky.webp
 1002;Biele tričko;bieletricko.jpg
+3001;oooooooo;adidaswhite.webp

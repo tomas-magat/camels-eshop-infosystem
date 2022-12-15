@@ -26,12 +26,11 @@ class Statistika:
         self.graph_color = '#CAD2C5'
         self.funFactsColor = '#2C57D8'
 
-        if len(list(self.statistiky)) > 30:
-            self.Values()
-            self.NajviacGraf()
-            self.NajmenejGraf()
-            self.VyvojGraf()
-            self.FunFacts()
+        self.Values()
+        self.NajviacGraf()
+        self.NajmenejGraf()
+        self.VyvojGraf()
+        self.FunFacts()
 
     def switch_screen(self):
         """Redirect to this statistika screen."""
@@ -334,8 +333,10 @@ class Statistika:
         a3.spines['right'].set_visible(False)
         a3.set_title('Vyvoj ceny', **self.font, fontsize=15,
                      weight='bold')
-        line, = a3.plot(self.x_date, self.profit_all, label='vynosy')
-        line1, = a3.plot(self.x_date, self.loss_all, label='naklady')
+        line, = a3.plot(
+            self.x_date, self.profit_all[:len(self.x_date)], label='vynosy')
+        line1, = a3.plot(
+            self.x_date, self.loss_all[:len(self.x_date)], label='naklady')
         a3.legend(loc='upper left', frameon=False)
         horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
         horizontal_line1 = a3.axhline(color='k', lw=0.8, ls='--')

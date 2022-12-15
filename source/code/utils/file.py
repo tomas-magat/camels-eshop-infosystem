@@ -1,7 +1,7 @@
 # Simplify working with data files
 import os
 
-from .ENV_VARS import PATH
+from .ENV_VARS import DATAPATH
 
 
 class DataFile:
@@ -118,7 +118,7 @@ class DataFile:
             return
 
         filename = file_format[0].upper() + ending
-        filepath = os.path.join(PATH, 'source', 'data', filename)
+        filepath = os.path.join(DATAPATH, filename)
 
         return filepath
 

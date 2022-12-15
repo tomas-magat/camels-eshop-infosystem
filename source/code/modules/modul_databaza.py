@@ -225,12 +225,15 @@ class ItemDetails(QtWidgets.QFrame):
                 if new_text != old_text:
                     self.edit_items(new_code, new_name, new_text)
         else:
-            print(pattern.match(new_code), pattern2.match(
-                new_name))
             msg = QMessageBox()
             msg.setWindowTitle("Error")
-            msg.setText("Zadajte spravnu hodnotu")
             msg.setIcon(QMessageBox.Warning)
+            if pattern.match(new_code) == None:
+                msg.setText("Zadajte spravny kod")
+            elif pattern2.match(new_name) == None:
+                msg.setText("Zadajte vhodny nazov")
+            elif unique == False:
+                msg.setText("Zadaný kód už existuje")
             msg.exec_()
 
     def pick_image(self):
