@@ -12,7 +12,7 @@ from PyQt5 import uic
 
 from utils.ui_commands import UI_Commands
 from utils.file import DataFile
-from utils.tools import update_data
+from utils.tools import Timer
 from utils.ENV_VARS import PATH
 from modules import *
 
@@ -55,7 +55,7 @@ class MainWindow:
         ]
         self.commands.buttons_click(self.home_buttons, self.index)
 
-        update_data(list(self.data.values()), 5.0)
+        self.timer = Timer(list(self.data.values()), 5.0)
 
     def show(self):
         """Show the main App UI window."""
@@ -65,8 +65,13 @@ class MainWindow:
         self.commands.redirect(self.ui.index)
 
 
+def close_app(app, win):
+    win.timer.process.terminate()
+    app.exec_()
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main_win = MainWindow()
     main_win.show()
-    sys.exit(app.exec_())
+    sys.exit(close_app(app, main_win))

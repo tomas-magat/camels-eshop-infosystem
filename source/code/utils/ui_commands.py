@@ -1,6 +1,9 @@
 # UI Commands Simplified
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
+from .tools import find_icon
 
 
 class UI_Commands:
@@ -85,6 +88,21 @@ class UI_Commands:
 
         value = date_edit.dateTime().toPyDateTime()
         date_edit.dateTimeChanged.connect(lambda: command(value))
+
+    def receipt_msg(self, id: str, filepath, type: str = 'účtenku'):
+        """Display message about created receipt."""
+
+        receipt_icon = QIcon()
+        msg = QMessageBox()
+        receipt_icon.addPixmap(QPixmap(find_icon('receipt.svg')),
+                               QIcon.Normal, QIcon.Off)
+        msg.setWindowTitle(f"Sale {id} - confirmed")
+        msg.setText('<b><p style="padding: 0px;  margin: 0px;">'
+                    'Pokladničný doklad bol úspešne vygenerovaný.</p>' +
+                    f'<br><a href="file:{filepath}">'
+                    f'Otvor {type} č. {id}</a>')
+        msg.setIconPixmap(QPixmap(find_icon('receipt.svg')))
+        msg.exec_()
 
     def error(self, message: str, additional_text=''):
         """Display simple error message."""

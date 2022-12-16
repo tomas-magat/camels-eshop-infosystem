@@ -1,6 +1,6 @@
 # Other often used functions
 import random
-import threading
+import multiprocessing
 import os
 import difflib
 import datetime
@@ -26,33 +26,33 @@ def now():
     return datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
 
-def run_periodically(function, period=5.0):
-    """
-    Use threading.Thread to run function repeatedly
-    with delay while not affecting the runtime of an app.
-    """
+class Timer:
 
-    background_timer = threading.Thread(
-        target=lambda: callback(function, period))
-    background_timer.start()
+    def __init__(self, data, period=5.0):
+        self.period = period
+        self.data = data
 
+        self.versions = [file.version for file in self.data]
+        self.run_periodically()
 
-def callback(function, period):
-    while True:
-        function()
-        time.sleep(period)
+    def run_periodically(self):
+        """
+        Use multiprocessing to run function repeatedly
+        with delay while not affecting the runtime of an app.
+        """
+        self.process = multiprocessing.Process(
+            target=self.callback)
+        self.process.start()
 
+    def callback(self):
+        while True:
+            self.update_vars()
+            time.sleep(self.period)
 
-def update_data(data: list, period: 5.0):
-    """Update data variables every period seconds."""
-    versions = [file.version for file in data]
-    run_periodically(lambda: update_vars(data, versions), period)
-
-
-def update_vars(data, versions):
-    """Update data variables periodically."""
-    for i in range(len(data)):
-        update_var(data, versions, i)
+    def update_vars(self):
+        """Update data variables periodically."""
+        for i in range(len(self.data)):
+            update_var(self.data, self.versions, i)
 
 
 def update_var(data, versions, i):

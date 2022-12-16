@@ -7,7 +7,6 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
-from utils.file import DataFile
 from utils.tools import *
 
 
@@ -22,11 +21,6 @@ class Portal:
         self.commands = UI_Commands(self.ui)
         self.data = data
 
-        # Init catalog global variables
-        self.cart = Cart(self)
-        self.cashier_name = ""
-        self.sort_state = 1
-
         # Init category layouts
         self.layouts = [
             self.ui.allLayout,
@@ -39,6 +33,11 @@ class Portal:
 
         self.init_actions()
         self.init_data()
+
+        # Init catalog global variables
+        self.cart = Cart(self)
+        self.cashier_name = ""
+        self.sort_state = 1
 
     def init_actions(self):
         self.redirect_actions()
@@ -184,7 +183,6 @@ class Portal:
             if code in self.goods.data.keys():
                 self.result[code] = self.goods.data[code]
 
-        self.goods.read()
         self.reload_items(self.result)
 
     def update_sort_button(self, icon_name, text):
@@ -206,6 +204,7 @@ class Portal:
 
     def load_items(self, data):
         """Display item cards in the catalog."""
+        data = filter_category(data, self.category)
         for code, vals in data.items():
             self.load_item(code, vals)
 
@@ -213,9 +212,8 @@ class Portal:
         """Load item data and display item card in the catalog."""
         price = self.prices.data.get(code)
         amount = self.storage.data.get(code)
-        codes = '12345' if self.category == 0 else str(self.category)
 
-        if self.check_available(price, amount) and code[0] in codes:
+        if self.check_available(price, amount):
             ItemCard(
                 self, self.layouts[self.category], vals[0],
                 code, float(price[1]), vals[1]
@@ -250,11 +248,13 @@ class Cart:
         self.ui = page.ui
         self.commands = page.commands
 
+        # Init data
+        self.statistics = self.page.data['statistiky']
+        self.storage = self.page.storage
+
         # Init cart global variables
         self.price = 0
         self.contents = {}
-        self.statistics = DataFile('statistiky')
-        self.storage = DataFile('sklad')
         self.id = random_id('P')
 
         self.buy_click()
@@ -318,22 +318,12 @@ class Cart:
 
         with open(self.filepath, 'w', encoding='utf-8') as receipt:
             receipt.writelines(receipt_template(
-                self.id, self.page.cashier_name,
+                self.id[1:], self.page.cashier_name,
                 self.contents, self.price
             ))
 
     def purchase_message(self):
-        receipt_icon = QtGui.QIcon()
-        msg = QtWidgets.QMessageBox()
-        receipt_icon.addPixmap(QtGui.QPixmap(find_icon('receipt.svg')),
-                               QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        msg.setWindowTitle(f"Sale {self.id[1:]} - confirmed")
-        msg.setText('<b><p style="padding: 0px;  margin: 0px;">'
-                    'Pokladničný doklad bol úspešne vygenerovaný.</p>' +
-                    f'<br><a href="file:{self.filepath}">'
-                    f'Otvor účtenku č. {self.id}</a>')
-        msg.setIconPixmap(QtGui.QPixmap(find_icon('receipt.svg')))
-        msg.exec_()
+        self.commands.receipt_msg(self.id[1:], self.filepath)
 
 
 class ItemCard(QtWidgets.QFrame):

@@ -227,7 +227,6 @@ class Sklad:
     def update_data(self):
         """Update 'goods' variable every 3 seconds"""
         self.version = self.goods.version
-        run_periodically(self.update_goods, 3)
 
     def update_goods(self):
         """
