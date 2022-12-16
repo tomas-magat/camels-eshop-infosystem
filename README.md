@@ -25,7 +25,7 @@
 ![](assets/docs/COMMANDS_5.png)
 
 ## Module structure and datafile format
-![](assets/docs/STRUCTURE_3.png)
+![](assets/docs/STRUCTURE_4.png)
 
 ## Setting up
 
