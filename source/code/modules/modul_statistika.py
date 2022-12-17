@@ -35,6 +35,10 @@ class Statistika:
         self.VyvojGraf()
         self.FunFacts()
 
+        self.commands.date_form(
+            [self.ui.dateFrom, self.ui.dateTo]
+        )
+
     def switch_screen(self):
         """Redirect to this statistika screen."""
         self.commands.redirect(self.ui.statistika)

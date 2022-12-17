@@ -1,4 +1,4 @@
-18
+19
 1001;Čierne tričko;tricko.jpg
 2001;Pánske nohavice;menpants.jpg
 2002;Modré džínsy;bluemenjeans.webp
@@ -16,4 +16,5 @@
 5004;Slnečné okuliare;sunglasses.webp
 3005;Adidas čiernobiele;tenisky.webp
 1002;Biele tričko;bieletricko.jpg
-3001;oooooooo;adidaswhite.webp
+3006;oooooooo;adidaswhite.webp
+1003;Zelené tričko;greenshirt.jpg

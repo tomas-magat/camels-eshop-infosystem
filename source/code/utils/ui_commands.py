@@ -1,4 +1,6 @@
 # UI Commands Simplified
+import datetime
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -80,14 +82,69 @@ class UI_Commands:
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
 
-    def date_changed(self, date_edit: QDateEdit, command):
+    def date_limits(self, date_edit: QDateEdit, date_min: datetime.date, date_max: datetime.date, min_add: int = 0, max_sub: int = 0):
+        """Sets minimum and maximum date of given date_edit."""
+
+        min_date = date_min + \
+            datetime.timedelta(days=min_add)
+        date_edit.setMinimumDate(min_date)
+        max_date = date_max - datetime.timedelta(days=max_sub)
+        date_edit.setMaximumDate(max_date)
+
+    def date_form(self, date_edits: list, date_list: list = []):
         """
-        After user changes datetime in QDateEdit widget,
-        run a command with 1 parameter: datetime.
+        After user changes datetime in one of QDateEdit widgets,
+        return a list of dates in specified range.
         """
 
-        value = date_edit.dateTime().toPyDateTime()
-        date_edit.dateTimeChanged.connect(lambda: command(value))
+        date_from = date_edits[0].dateTime().toPyDateTime()
+        date_to = date_edits[1].dateTime().toPyDateTime()
+
+        self.date_limits(
+            date_edits[0],
+            datetime.date(2022, 12, 12),
+            datetime.date.today(),
+            0, 1
+        )
+        self.date_limits(
+            date_edits[1],
+            datetime.date(2022, 12, 12),
+            datetime.date.today(),
+            1, 0
+        )
+        date_edits[1].setDate(datetime.date.today())
+
+        for i, date_edit in enumerate(date_edits):
+            date_edit.dateTimeChanged.connect(
+                lambda: self.set_date_limit(i, date_edits))
+
+        # self.dates_range(date_from, date_to, date_list)
+
+    def set_date_limit(self, i, date_edits):
+        if i == 0:
+            self.date_limits(
+                date_edits[1],
+                date_edits[0].date().toPyDate(),
+                datetime.date.today(),
+                1
+            )
+        else:
+            self.date_limits(
+                date_edits[0],
+                datetime.date(2022, 12, 12),
+                date_edits[1].date().toPyDate(),
+                0, 1
+            )
+
+    def dates_range(self, date_from, date_to, date_list):
+        """Return list of dates in specific range."""
+
+        result = []
+        for date in date_list:
+            if date_from <= date <= date_to:
+                result.append(date)
+
+        return result
 
     def receipt_msg(self, id: str, filepath, type: str = 'účtenku'):
         """Display message about created receipt."""

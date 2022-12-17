@@ -4401,7 +4401,7 @@ QTabBar::tab::selected {
             </widget>
            </item>
            <item>
-            <widget class="QDateEdit" name="dateEdit"/>
+            <widget class="QDateEdit" name="dateFrom"/>
            </item>
           </layout>
          </widget>
@@ -4435,7 +4435,7 @@ QTabBar::tab::selected {
             </widget>
            </item>
            <item>
-            <widget class="QDateEdit" name="dateEdit_2"/>
+            <widget class="QDateEdit" name="dateTo"/>
            </item>
           </layout>
          </widget>
