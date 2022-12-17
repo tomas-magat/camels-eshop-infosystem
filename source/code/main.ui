@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -307,8 +307,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>350</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="allLayout"/>
@@ -376,8 +376,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>479</width>
-                  <height>348</height>
+                  <width>98</width>
+                  <height>28</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -448,8 +448,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>350</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_40"/>
@@ -520,8 +520,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>350</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_42"/>
@@ -592,8 +592,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>350</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_44"/>
@@ -661,8 +661,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>350</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_46"/>
@@ -912,8 +912,8 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>329</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="cartLayout"/>
@@ -2621,8 +2621,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>351</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -2697,8 +2697,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>351</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_37"/>
@@ -2769,8 +2769,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>351</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_20"/>
@@ -2841,8 +2841,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>471</width>
-                  <height>351</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_28"/>
@@ -2910,8 +2910,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>351</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_31"/>
@@ -2979,8 +2979,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>481</width>
-                  <height>351</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_35"/>
@@ -3297,8 +3297,8 @@ padding-left: 20px</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>299</width>
-                <height>289</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
@@ -3850,7 +3850,7 @@ background-color :#BBBBBB;
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
+          <y>-79</y>
           <width>474</width>
           <height>250</height>
          </rect>
@@ -3954,16 +3954,19 @@ background-color :#BBBBBB;
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="widget_7" native="true">
+           <widget class="QWidget" name="widget_10" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <layout class="QHBoxLayout" name="horizontalLayout_13">
              <property name="spacing">
               <number>0</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
              </property>
              <property name="leftMargin">
               <number>30</number>
@@ -3978,9 +3981,9 @@ background-color :#BBBBBB;
               <number>0</number>
              </property>
              <item alignment="Qt::AlignLeft">
-              <widget class="QLabel" name="label_11">
+              <widget class="QLabel" name="label_19">
                <property name="text">
-                <string>najviac sa nakupuje v den: </string>
+                <string>priemerna cena jedneho nakupu: </string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3988,13 +3991,7 @@ background-color :#BBBBBB;
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_12">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
+              <widget class="QLabel" name="label_20">
                <property name="minimumSize">
                 <size>
                  <width>255</width>
@@ -4099,7 +4096,7 @@ background-color :#BBBBBB;
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_13">
                <property name="text">
-                <string>posledna objednavka(Z): </string>
+                <string>posledna objednavka(P): </string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -4166,7 +4163,7 @@ background-color :#BBBBBB;
              <item>
               <widget class="QLabel" name="label_2">
                <property name="text">
-                <string>posledna objednavka(F): </string>
+                <string>posledna objednavka(N): </string>
                </property>
               </widget>
              </item>
@@ -4187,19 +4184,16 @@ background-color :#BBBBBB;
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="widget_10" native="true">
+           <widget class="QWidget" name="widget_7" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_13">
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
              <property name="spacing">
               <number>0</number>
-             </property>
-             <property name="sizeConstraint">
-              <enum>QLayout::SetDefaultConstraint</enum>
              </property>
              <property name="leftMargin">
               <number>30</number>
@@ -4214,9 +4208,9 @@ background-color :#BBBBBB;
               <number>0</number>
              </property>
              <item alignment="Qt::AlignLeft">
-              <widget class="QLabel" name="label_19">
+              <widget class="QLabel" name="label_11">
                <property name="text">
-                <string>priemerna cena jedneho nakupu: </string>
+                <string>najviac sa nakupuje v den: </string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -4224,7 +4218,13 @@ background-color :#BBBBBB;
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_20">
+              <widget class="QLabel" name="label_12">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>255</width>
