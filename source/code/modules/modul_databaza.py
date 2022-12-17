@@ -244,8 +244,8 @@ class ItemDetails(QtWidgets.QFrame):
             "Images (*);; WEBP (*.webp);; JPG (*.jpg;*.jpeg;*.jpe;*jfif);; PNG (*.png)"
         )
 
-        if file:
-            self.image_path = file[0]
+        self.image_path = file[0]
+        if self.image_path != '':
             valid_image(self.image_path)
             self.filename = self.image_path.split("/", maxsplit=256)[-1]
             self.save_image()
@@ -288,9 +288,9 @@ class ItemDetails(QtWidgets.QFrame):
         self.nameLayout.setObjectName(self.name+"NameLayout")
         self.lineEdit = QtWidgets.QLineEdit(
             self.display_name, self.itemNameSection)
-        self.lineEdit.setMinimumHeight(20)
+        self.lineEdit.setMinimumHeight(24)
         self.lineEdit.setStyleSheet(
-            "background-color: rgb(255, 255, 255); border-radius: 10px; padding-left:5px;")
+            "background-color: rgb(255, 255, 255); border-radius: 12px; padding-left:6px;")
         self.lineEdit.setPlaceholderText("Zadajte názov produktu")
         self.lineEdit.setObjectName(self.name+"NameEdit")
         self.nameLayout.addWidget(self.lineEdit)
@@ -302,8 +302,8 @@ class ItemDetails(QtWidgets.QFrame):
         self.codeLayout.setObjectName(self.name+"CodeLayout")
         self.lineEdit_2 = QtWidgets.QLineEdit(self.code, self.itemCodeSection)
         self.lineEdit_2.setStyleSheet(
-            "background-color: rgb(255, 255, 255); border-radius: 10px; padding-left:5px;")
-        self.lineEdit_2.setMinimumHeight(20)
+            "background-color: rgb(255, 255, 255); border-radius: 12px; padding-left:6px;")
+        self.lineEdit_2.setMinimumHeight(24)
         self.lineEdit_2.setObjectName(self.name+"CodeEdit")
         self.lineEdit_2.setPlaceholderText("Zadajte kód produktu")
         self.codeLayout.addWidget(self.lineEdit_2)
@@ -321,12 +321,13 @@ class ItemDetails(QtWidgets.QFrame):
         self.imageLayout.setObjectName("imageLayout")
         self.image = QtWidgets.QPushButton(self.itemImageSection)
         self.image.setStyleSheet("border:none;")
+        self.image.setMinimumHeight(24)
         if not self.adding and self.image_path != '':
             self.update_image()
         else:
             self.image.setStyleSheet("background-color: #cad2c5;"
                                      "color: #2F3E46;"
-                                     "border-radius: 11px;"
+                                     "border-radius: 12px;"
                                      "border: 5px solid #cad2c5;")
             font = QtGui.QFont()
             font.setBold(True)
@@ -341,9 +342,10 @@ class ItemDetails(QtWidgets.QFrame):
         self.buttonLayout = QtWidgets.QVBoxLayout(self.saveButtonSection)
         self.buttonLayout.setObjectName(self.name+"ButtonLayout")
         self.pushButton = QtWidgets.QPushButton(self.button_text)
+        self.pushButton.setMinimumHeight(24)
         self.pushButton.setStyleSheet("background-color: #cad2c5;"
                                       "color: #2F3E46;"
-                                      "border-radius: 11px;"
+                                      "border-radius: 12px;"
                                       "border: 5px solid #cad2c5;")
         self.pushButton.setObjectName(self.name+"SaveButton")
         font = QtGui.QFont()
