@@ -1,12 +1,12 @@
-import os
 import shutil
+import re
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QMessageBox
+
 from utils.ui_commands import UI_Commands
-from utils.tools import find_image, find_code, search_items
+from utils.tools import *
 from utils.file import DataFile
-import re
 
 
 class Databaza:
@@ -202,8 +202,8 @@ class ItemDetails(QtWidgets.QFrame):
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
 
-        pattern = re.compile("[0-5]+$")
-        pattern2 = re.compile("[^.=,_'+><]")
+        pattern = re.compile("^[0-5]\d{3}$")
+        pattern2 = re.compile('^[^!.?"#]+$')
         other_codes = list(self.page.goods.data.keys())
         if not self.adding:
             other_codes.remove(self.code)
@@ -246,6 +246,7 @@ class ItemDetails(QtWidgets.QFrame):
 
         if file:
             self.image_path = file[0]
+            valid_image(self.image_path)
             self.filename = self.image_path.split("/", maxsplit=256)[-1]
             self.save_image()
             self.update_image()

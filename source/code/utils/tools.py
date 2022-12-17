@@ -5,6 +5,8 @@ import os
 import difflib
 import datetime
 import time
+import io
+from PIL import Image, ImageCms
 
 from .ENV_VARS import PATH
 from .file import DataFile
@@ -243,4 +245,33 @@ def find_code(category):
     int_codes = [int(code) for code in codes.keys()]
     if len(int_codes) < 1:
         int_codes.append(int(str(category)+'000'))
+
     return str(max(int_codes)+1)
+
+
+def valid_image(file_path):
+    """
+    If image on file_path is not a valid icc profile
+    convert it to PNG format.
+    """
+
+    img = Image.open(file_path)
+    icc = img.info.get('icc_profile', '')
+
+    if icc:
+        icc_conv, img_conv = convert_image(icc, img)
+        if icc != icc_conv:
+            img_conv.save(file_path, format='PNG',
+                          quality=50, icc_profile=icc_conv)
+
+
+def convert_image(icc, img):
+    """Convert PIL image to sRGB color space (if possible)."""
+
+    io_handle = io.BytesIO(icc)
+    src_profile = ImageCms.ImageCmsProfile(io_handle)
+    dst_profile = ImageCms.createProfile('sRGB')
+    img_conv = ImageCms.profileToProfile(img, src_profile, dst_profile)
+    icc_conv = img_conv.info.get('icc_profile', '')
+
+    return icc_conv, img_conv

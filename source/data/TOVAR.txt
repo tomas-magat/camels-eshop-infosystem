@@ -16,4 +16,4 @@
 5004;Slnečné okuliare;sunglasses.webp
 3005;Adidas čiernobiele;tenisky.webp
 1002;Biele tričko;bieletricko.jpg
-3001;oooooooo;adidaswhite.webp
+3006;oooooooo;adidaswhite.webp

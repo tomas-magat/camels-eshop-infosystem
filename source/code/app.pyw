@@ -2,7 +2,7 @@
 # after executing displays an App window
 
 # TODO
-# App - global file source
+#
 
 import sys
 import os
