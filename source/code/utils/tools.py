@@ -109,7 +109,7 @@ def validate_price(input_field, invalid_cmd=None):
     try:
         price = float(input_field.text())
     except:
-        if invalid_cmd != None:
+        if invalid_cmd != None and input_field.text() != '----':
             invalid_cmd()
         return None
     else:

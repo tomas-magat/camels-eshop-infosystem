@@ -132,8 +132,14 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.draw_ui()
 
     def getPrices(self):
-        new_buy = validate_price(self.lineEdit_4)
-        new_sell = validate_price(self.lineEdit_5)
+        new_buy = validate_price(
+            self.lineEdit_4,
+            lambda: self.commands.error('Zadajte správnu kúpnu cenu.')
+        )
+        new_sell = validate_price(
+            self.lineEdit_5,
+            lambda: self.commands.error('Zadajte správnu predajnú cenu.')
+        )
         if new_buy != None and new_sell != None:
             self.buy_price = new_buy
             self.sell_price = new_sell
