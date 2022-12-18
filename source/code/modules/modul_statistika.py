@@ -109,14 +109,6 @@ class Statistika:
             self.avPrice /= ttt
             self.avPrice = str(round(self.avPrice, 2))+'€'
 
-            self.posledna_objednavka_N = self.posledna_objednavka_N[0].split()[0].replace('-', '.')+' ' + \
-                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_N[3]+';'+ \
-                self.posledna_objednavka_N[4]+'ks'+';'+self.posledna_objednavka_N[5]+'€/ks'
-            
-            self.posledna_objednavka_P = self.posledna_objednavka_P[0].split()[0].replace('-', '.')+' ' + \
-                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_P[3]+';'+ \
-                self.posledna_objednavka_P[4]+'ks'+';'+self.posledna_objednavka_P[5]+'€/ks'
-
         
             for i in statistiky_prof_loss:
                 if i[1] == 'P':
@@ -153,6 +145,7 @@ class Statistika:
 
             if produkt_tovar[0] == self.posledna_objednavka_P[3]:
                 self.posledna_objednavka_P[3] = produkt_tovar[1]
+            
 
         if self.sklad:
             nove_produkty = str(self.najviac_mame_produkt[0][1])+'ks'
@@ -160,7 +153,15 @@ class Statistika:
                 nove_produkty += '\n'+i[0]
             self.najviac_mame_produkt = nove_produkty
 
+
         
+            self.posledna_objednavka_N = self.posledna_objednavka_N[0].split()[0].replace('-', '.')+' ' + \
+                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_N[3]+';'+ \
+                self.posledna_objednavka_N[4]+'ks'+';'+self.posledna_objednavka_N[5]+'€/ks'
+            
+            self.posledna_objednavka_P = self.posledna_objednavka_P[0].split()[0].replace('-', '.')+' ' + \
+                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_P[3]+';'+ \
+                self.posledna_objednavka_P[4]+'ks'+';'+self.posledna_objednavka_P[5]+'€/ks'
         
     
 
