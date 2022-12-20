@@ -165,75 +165,83 @@ class ItemDetails(QtWidgets.QFrame):
         self.draw_ui()
 
     def edit_items(self, new_code, new_name, new_text):
-        self.page.lists[self.page.category].currentItem().setText(new_text)
-        if new_code != self.code:
-            self.page.lists[self.page.category].currentItem().setText(
-                new_text)
-            prices_data = self.page.prices.data.get(self.code)
-            if prices_data != None:
-                self.page.prices.data[new_code] = prices_data
-                del self.page.prices.data[self.code]
-                self.page.prices.save_data()
+        if not self.page.storage.is_locked() and not self.page.prices.is_locked():
+            self.page.storage.lock()
+            self.page.prices.lock()
+            self.page.lists[self.page.category].currentItem().setText(new_text)
+            if new_code != self.code:
+                self.page.lists[self.page.category].currentItem().setText(
+                    new_text)
+                prices_data = self.page.prices.data.get(self.code)
+                if prices_data != None:
+                    self.page.prices.data[new_code] = prices_data
+                    del self.page.prices.data[self.code]
+                    self.page.prices.save_data()
 
-            storage_code = self.page.storage.data.get(self.code)
-            if storage_code != None:
-                self.page.storage.data[new_code] = storage_code
-                del self.page.storage.data[self.code]
-                self.page.storage.save_data()
+                storage_code = self.page.storage.data.get(self.code)
+                if storage_code != None:
+                    self.page.storage.data[new_code] = storage_code
+                    del self.page.storage.data[self.code]
+                    self.page.storage.save_data()
 
-            goods_code = self.page.goods.data.get(self.code)
-            self.page.goods.data[new_code] = goods_code
-            del self.page.goods.data[self.code]
-            self.page.goods.save_data()
-            self.page.goods.read()
-        else:
-            self.page.goods.data[new_code] = [
-                new_name, self.filename]
-            self.page.goods.save_data()
-            self.page.goods.read()
+                goods_code = self.page.goods.data.get(self.code)
+                self.page.goods.data[new_code] = goods_code
+                del self.page.goods.data[self.code]
+                self.page.goods.save_data()
+                self.page.goods.read()
+            else:
+                self.page.goods.data[new_code] = [
+                    new_name, self.filename]
+                self.page.goods.save_data()
+                self.page.goods.read()
 
-        self.code = new_code
-        self.name = new_name
+            self.code = new_code
+            self.name = new_name
 
     def update_list(self):
         """Update listWidget with currently entered values."""
+        if not self.page.goods.is_locked():
+            self.page.goods.lock()
+            new_name = self.lineEdit.text()
+            new_code = self.lineEdit_2.text()
 
-        new_name = self.lineEdit.text()
-        new_code = self.lineEdit_2.text()
+            pattern = re.compile("^[0-5]\d{3}$")
+            pattern2 = re.compile('^[^!.?"#]+$')
+            other_codes = list(self.page.goods.data.keys())
+            if not self.adding:
+                other_codes.remove(self.code)
+            unique = new_code not in other_codes
 
-        pattern = re.compile("^[0-5]\d{3}$")
-        pattern2 = re.compile('^[^!.?"#]+$')
-        other_codes = list(self.page.goods.data.keys())
-        if not self.adding:
-            other_codes.remove(self.code)
-        unique = new_code not in other_codes
+            if pattern.match(new_code) and pattern2.match(new_name) and unique:
+                new_text = "#"+new_code+" "+new_name
 
-        if pattern.match(new_code) and pattern2.match(new_name) and unique:
-            new_text = "#"+new_code+" "+new_name
-
-            if self.adding:
-                self.page.goods.data[new_code] = [new_name, self.filename]
-                self.page.goods.save_data()
-                self.page.goods.read()
-                self.page.lists[self.page.category].addItem(new_text)
-                self.adding = False
-                self.deleteLater()
+                if self.adding:
+                    self.page.goods.data[new_code] = [new_name, self.filename]
+                    self.page.goods.save_data()
+                    self.page.goods.read()
+                    self.page.lists[self.page.category].addItem(new_text)
+                    self.adding = False
+                    self.deleteLater()
+                else:
+                    old_text = self.page.lists[self.page.category].currentItem(
+                    ).text()
+                    if new_text != old_text:
+                        self.edit_items(new_code, new_name, new_text)
             else:
-                old_text = self.page.lists[self.page.category].currentItem(
-                ).text()
-                if new_text != old_text:
-                    self.edit_items(new_code, new_name, new_text)
-        else:
-            msg = QMessageBox()
-            msg.setWindowTitle("Error")
-            msg.setIcon(QMessageBox.Warning)
-            if pattern.match(new_code) == None:
-                msg.setText("Zadajte spravny kod")
-            elif pattern2.match(new_name) == None:
-                msg.setText("Zadajte vhodny nazov")
-            elif unique == False:
-                msg.setText("Zadaný kód už existuje")
-            msg.exec_()
+                msg = QMessageBox()
+                msg.setWindowTitle("Error")
+                msg.setIcon(QMessageBox.Warning)
+                if pattern.match(new_code) == None:
+                    msg.setText("Zadajte spravny kod")
+                elif pattern2.match(new_name) == None:
+                    msg.setText("Zadajte vhodny nazov")
+                elif unique == False:
+                    msg.setText("Zadaný kód už existuje")
+                msg.exec_()
+
+            self.page.goods.unlock()
+            self.page.storage.unlock()
+            self.page.prices.unlock()
 
     def pick_image(self):
         """Let user select image and save it."""
