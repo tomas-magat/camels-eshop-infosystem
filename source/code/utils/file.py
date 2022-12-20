@@ -9,8 +9,11 @@ from .ENV_VARS import DATAPATH
 class DataFile(QObject):
     """
     Required parameter: filename (string, lower or
-    uppercase, supports also filename without extension).
-    Get absolute path for the file using get_filepath().
+    uppercase, supports also filename without extension).\n
+    get_filepath() => Get absolute path for the file.\n
+    read_data() => Re-read data file.\n
+    save_data() => Write modified dict data safely to the file.\n
+    save_list() => Write modified list data safely to the file.
     """
 
     changed = pyqtSignal(dict)
@@ -22,24 +25,32 @@ class DataFile(QObject):
         self.filename = filename
         self.filepath = self.get_filepath()
 
+        self.read_data()
+
+    def read_data(self):
+        """
+        Simplify reading data from a specified filename 
+        and pass it to the data and data_list variables.
+        """
+
+        self.get_version()
         self.read()
 
     def read(self):
         """
-        Simplify reading data from a specified 
-        filename and return it in a dictionary format.
+        If file is not being used by another app (is locked),
+        read its contents and convert it to valid format.
         """
 
-        self.get_version()
-
-        with open(self.filepath, 'r', encoding='utf-8') as file:
-            lines = file.readlines()
-            self.data = self.scsv_to_dict(lines[1:])
-            self.data_list = self.scsv_to_list(lines[1:])
+        if not self.is_locked():
+            with open(self.filepath, 'r', encoding='utf-8') as file:
+                lines = file.readlines()
+                self.data = self.scsv_to_dict(lines[1:])
+                self.data_list = self.scsv_to_list(lines[1:])
 
     def save_data(self):
         """
-        Convert data to semi-colon separated 
+        Convert dictionary data to semi-colon separated 
         values and save it to the [filename].txt.
         Update version number of the saved [filename].
         """
@@ -49,12 +60,11 @@ class DataFile(QObject):
 
         scsv_data = self.dict_to_scsv(self.data)
 
-        with open(self.filepath, 'w', encoding='utf-8') as file:
-            file.writelines(scsv_data)
+        self.write(scsv_data)
 
     def save_list(self):
         """
-        Convert data to semi-colon separated 
+        Convert list data to semi-colon separated 
         values and save it to the [filename].txt.
         Update version number of the saved [filename].
         """
@@ -64,8 +74,19 @@ class DataFile(QObject):
 
         scsv_data = self.list_to_scsv(self.data_list)
 
-        with open(self.filepath, 'w', encoding='utf-8') as file:
-            file.writelines(scsv_data)
+        self.write(scsv_data)
+
+    def write(self, data):
+        """
+        If file is not locked, lock it, rewrite its contents
+        and unlock again for further use.
+        """
+
+        if not self.is_locked():
+            self.lock()
+            with open(self.filepath, 'w', encoding='utf-8') as file:
+                file.writelines(data)
+            self.unlock()
 
     def lock(self):
         """Simplify locking files that are currently in use."""
@@ -102,6 +123,18 @@ class DataFile(QObject):
             self.version += 1
             file.write(str(self.version))
 
+    def check_update_version(self, line):
+        """
+        If version file contains nothing or its contents are
+        invalid, set version to 1, otherwise change version property.
+        """
+
+        if line == '' or not line.isdigit():
+            self.version = 0
+            self.update_version()
+        else:
+            self.version = int(line)
+
     def get_version(self):
         """Return version integer from [filename]_VERZIA.txt."""
 
@@ -109,11 +142,7 @@ class DataFile(QObject):
 
         with open(version_path, 'r', encoding='utf-8') as file:
             line = file.read().rstrip('\n')
-            if line == '' or not line.isdigit():
-                self.version = 0
-                self.update_version()
-            else:
-                self.version = int(line)
+            self.check_update_version(line)
 
     def version_changed(self, command, dict_data=True):
         """
