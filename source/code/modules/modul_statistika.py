@@ -6,19 +6,20 @@ import numpy as np
 
 
 class Statistika:
-    def __init__(self, ui):
+    def __init__(self, ui, data):
 
         self.ui = ui
         self.commands = UI_Commands(self.ui)
+        self.data = data
 
         # Track button clicks
         self.commands.button_click(
             self.ui.statistikaButton, self.switch_screen)
 
-        self.statistiky = DataFile('statistiky').data_list
-        self.tovar = DataFile('tovar').data_list
-        self.sklad = DataFile('sklad').data_list
-        self.cennik = DataFile('cennik').data_list
+        self.statistiky = self.data['statistiky'].data_list
+        self.tovar = self.data['tovar'].data_list
+        self.sklad = self.data['sklad'].data_list
+        self.cennik = self.data['cennik'].data_list
         self.font = {'fontname': 'Arial'}
         self.edgecolor = '#CAD2C5'
         self.linewidth = 2
