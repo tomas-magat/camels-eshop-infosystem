@@ -2,18 +2,19 @@
 # after executing displays an App window
 
 # TODO
-#
+# refactor utils and modules
 
 import sys
 import os
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5 import uic
+from PyQt5.QtCore import QThread
 
 from utils.ui_commands import UI_Commands
 from utils.file import DataFile
-from utils.tools import Timer
 from utils.ENV_VARS import PATH
+from utils.tools import *
 from modules import *
 
 
@@ -55,7 +56,8 @@ class MainWindow:
         ]
         self.commands.buttons_click(self.home_buttons, self.index)
 
-        self.timer = Timer(list(self.data.values()), 5.0)
+        self.auto_updating()
+        self.thread.start()
 
     def show(self):
         """Show the main App UI window."""
@@ -64,14 +66,16 @@ class MainWindow:
     def index(self):
         self.commands.redirect(self.ui.index)
 
-
-def close_app(app, win):
-    win.timer.process.terminate()
-    app.exec_()
+    def auto_updating(self):
+        self.thread = QThread()
+        self.timer = Timer(self.data)
+        self.timer.moveToThread(self.thread)
+        self.thread.started.connect(self.timer.run)
+        self.thread.finished.connect(self.thread.deleteLater)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main_win = MainWindow()
     main_win.show()
-    sys.exit(close_app(app, main_win))
+    sys.exit(app.exec_())

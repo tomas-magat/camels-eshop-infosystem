@@ -50,6 +50,7 @@ class Portal:
         self.goods = self.data['tovar']
         self.prices = self.data['cennik']
         self.storage = self.data['sklad']
+        self.goods.version_changed(self.reload_items)
         self.update_category()
         self.ui.itemCategories.setCurrentIndex(0)
 

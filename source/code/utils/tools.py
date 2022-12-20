@@ -1,12 +1,13 @@
 # Other often used functions
 import random
-import multiprocessing
 import os
 import difflib
 import datetime
 import time
 import io
 from PIL import Image, ImageCms
+
+from PyQt5.QtCore import QObject, pyqtSignal
 
 from .ENV_VARS import PATH
 from .file import DataFile
@@ -26,48 +27,6 @@ def now():
     """Get current date in a string format YYYY-MM-DD HH-mm-SS."""
 
     return datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-
-
-class Timer:
-
-    def __init__(self, data, period=5.0):
-        self.period = period
-        self.data = data
-
-        self.versions = [file.version for file in self.data]
-        self.run_periodically()
-
-    def run_periodically(self):
-        """
-        Use multiprocessing to run function repeatedly
-        with delay while not affecting the runtime of an app.
-        """
-        self.process = multiprocessing.Process(
-            target=self.callback)
-        self.process.start()
-
-    def callback(self):
-        while True:
-            self.update_vars()
-            time.sleep(self.period)
-
-    def update_vars(self):
-        """Update data variables periodically."""
-        for i in range(len(self.data)):
-            update_var(self.data, self.versions, i)
-
-
-def update_var(data, versions, i):
-    """
-    Update data variable if version of its
-    datafile changed.
-    """
-    data[i].get_version()
-    current_version = data[i].version
-
-    if current_version != versions[i]:
-        data[i].read()
-        versions[i] = current_version
 
 
 def str_price(price: float, amount=1):
@@ -275,3 +234,40 @@ def convert_image(icc, img):
     icc_conv = img_conv.info.get('icc_profile', '')
 
     return icc_conv, img_conv
+
+
+class Timer(QObject):
+    """
+    Represents a Timer that does some functionality periodically,
+    but without freezing the main app thread (using QThread).
+    Has a command parameter representing target function to be
+    executed every period (second parameter) seconds.
+    """
+
+    def __init__(self, data, period=3.0):
+        super(Timer, self).__init__()
+        self.period = period
+        self.data = list(data.values())
+        self.versions = [file.version for file in self.data]
+
+    def run(self):
+        while True:
+            self.update_vars()
+            time.sleep(self.period)
+
+    def update_vars(self):
+        """Update data variables."""
+        for i in range(len(self.data)):
+            self.update_var(i)
+
+    def update_var(self, i):
+        """
+        Update data variable if version of its datafile changed.
+        """
+        self.data[i].get_version()
+        current_version = self.data[i].version
+
+        if current_version != self.versions[i]:
+            self.data[i].read()
+            self.versions[i] = current_version
+            self.data[i].changed.emit(self.data[i].data)

@@ -1,29 +1,36 @@
 # Simplify working with data files
 import os
 
+from PyQt5.QtCore import QObject, pyqtSignal
+
 from .ENV_VARS import DATAPATH
 
 
-class DataFile:
+class DataFile(QObject):
+    """
+    Required parameter: filename (string, lower or
+    uppercase, supports also filename without extension).
+    Get absolute path for the file using get_filepath().
+    """
+
+    changed = pyqtSignal(dict)
+    changed_list = pyqtSignal(list)
 
     def __init__(self, filename):
-        """
-        Required parameter: filename (string, lower or
-        uppercase, supports also filename without extension).
-        Get absolute path for the file using get_filepath().
-        """
+        super(DataFile, self).__init__()
 
         self.filename = filename
         self.filepath = self.get_filepath()
 
         self.read()
-        self.get_version()
 
     def read(self):
         """
         Simplify reading data from a specified 
         filename and return it in a dictionary format.
         """
+
+        self.get_version()
 
         with open(self.filepath, 'r', encoding='utf-8') as file:
             lines = file.readlines()
@@ -38,6 +45,7 @@ class DataFile:
         """
 
         self.update_version()
+        self.changed.emit(self.data)
 
         scsv_data = self.dict_to_scsv(self.data)
 
@@ -52,6 +60,7 @@ class DataFile:
         """
 
         self.update_version()
+        self.changed.emit(self.data_list)
 
         scsv_data = self.list_to_scsv(self.data_list)
 
@@ -106,10 +115,20 @@ class DataFile:
             else:
                 self.version = int(line)
 
+    def version_changed(self, command, dict_data=True):
+        """
+        After version changed execute given command. Parameter 
+        dict_data specify if the command takes parameter in 
+        dict or list format - If it takes list set dict_data=False.
+        """
+
+        if dict_data:
+            self.changed.connect(command)
+        else:
+            self.changed_list.connect(command)
+
     def get_filepath(self, ending='.txt'):
-        """
-        Get absolute path of data txt file. 
-        """
+        """Get absolute path of data txt file. """
 
         file_format = self.filename.split('.')
 
