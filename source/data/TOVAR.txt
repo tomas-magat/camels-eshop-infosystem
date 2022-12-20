@@ -1,12 +1,20 @@
-11
-1000;Cierne tricko;tricko.jpg
-1001;Biele tricko;tricko.jpg
-3000;Adidas tenisky;tenisky.webp
-3001;Nike tenisky;tenisky.webp
-3002;Cervene tenisky;tenisky.webp
-5000;Hodinky;hodinky.png
-2000;Nohavice;nohavice.png
-2001;Teplaky;nohavice.png
-4000;Zelena mikina;hoodie.png
-4002;pyzamo;p.jpg
-0000;novy;nike.png
+19
+1001;Čierne tričko;tricko.jpg
+2001;Pánske nohavice;menpants.jpg
+2002;Modré džínsy;bluemenjeans.webp
+2003;Biele nohavice;whitepants.jpg
+2004;Šortky;shorts.jpg
+3002;Adidas Ultraboost farebné;adidascolored.webp
+3003;Nike;nikered.webp
+3004;Nike tenisky biele;nikewhite.webp
+4001;Čierna mikina;blackHodie.png
+4002;Mikina YouNoob;younoobhoodie.jpg
+4003;Nike bunda;nike.png
+5001;Opasok;leatherbelt.jpg
+5002;Pánska peňaženka;leatherwallet.jpg
+5003;Strieborné hodinky;silverwatch.png
+5004;Slnečné okuliare;sunglasses.webp
+3005;Adidas čiernobiele;tenisky.webp
+1002;Biele tričko;bieletricko.jpg
+3006;oooooooo;adidaswhite.webp
+1003;Zelené tričko;greenshirt.jpg

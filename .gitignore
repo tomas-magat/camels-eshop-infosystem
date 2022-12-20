@@ -1,8 +1,9 @@
-# Datafiles - temporary ignore
-data/
-
 # Qt Designer
 main.py
+
+# DATA
+/source/data/objednavka*.txt
+/source/data/uctenka*.txt
 
 # Editors
 .idea/

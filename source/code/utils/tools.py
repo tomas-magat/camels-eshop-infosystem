@@ -1,10 +1,12 @@
 # Other often used functions
 import random
-import threading
-import time
+import multiprocessing
 import os
 import difflib
 import datetime
+import time
+import io
+from PIL import Image, ImageCms
 
 from .ENV_VARS import PATH
 from .file import DataFile
@@ -21,31 +23,57 @@ def random_id(type='N'):
 
 
 def now():
+    """Get current date in a string format YYYY-MM-DD HH-mm-SS."""
+
     return datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
 
-def run_periodically(function, period=5.0):
+class Timer:
+
+    def __init__(self, data, period=5.0):
+        self.period = period
+        self.data = data
+
+        self.versions = [file.version for file in self.data]
+        self.run_periodically()
+
+    def run_periodically(self):
+        """
+        Use multiprocessing to run function repeatedly
+        with delay while not affecting the runtime of an app.
+        """
+        self.process = multiprocessing.Process(
+            target=self.callback)
+        self.process.start()
+
+    def callback(self):
+        while True:
+            self.update_vars()
+            time.sleep(self.period)
+
+    def update_vars(self):
+        """Update data variables periodically."""
+        for i in range(len(self.data)):
+            update_var(self.data, self.versions, i)
+
+
+def update_var(data, versions, i):
     """
-    Use threading and time.sleep() to run function
-    with delay while not affecting the runtime of an app.
+    Update data variable if version of its
+    datafile changed.
     """
+    data[i].get_version()
+    current_version = data[i].version
 
-    background_timer = threading.Timer(float(period), function)
-    background_timer.start()
-
-
-def callback(function, delay):
-    """Run function forever with delays between each run."""
-
-    while True:
-        function()
-        time.sleep(delay)
+    if current_version != versions[i]:
+        data[i].read()
+        versions[i] = current_version
 
 
 def str_price(price: float, amount=1):
     """Return total price string - with 2 decimal places."""
 
-    return "%.2f" % (price*amount)
+    return "%.2f" % abs(price*amount)
 
 
 def find_image(image_name: str):
@@ -81,83 +109,98 @@ def validate_price(input_field, invalid_cmd=None):
     try:
         price = float(input_field.text())
     except:
-        if invalid_cmd != None:
+        if invalid_cmd != None and input_field.text() != '----':
             invalid_cmd()
+        return None
     else:
         return "%.2f" % price
 
 
-def search_items(query='', data={}, category=0):
+def search_items(query: str, data: dict, category=0):
     """
-    Search for items in TOVAR.txt matching with search
-    term (query) and return it joined with data in dict format.
+    Return items from data dictionary matching with search
+    term (query) and of the given category (0 = all).
     """
 
-    goods = DataFile('tovar').data
     result = {}
+    data = filter_category(data, category)
 
-    for key, val in goods.items():
-        for q in query.split():
-            code, ratio = get_match(q, key, val)
+    for k, v in data.items():
+        for term in query.split():
+            match = get_match(term, k, v)
+            if match:
+                result[k] = v
 
-            if int(key[0]) == category or category == 0:
-                if ratio > 0.2+code:
-                    result[key] = val
-                    data_list = data.get(key)
-
-                    if data_list != None:
-                        result[key] += data_list
     return result
 
 
-def sort_items(sort_state):
-    data = {}
-    goods = DataFile('tovar').data
-    prices = DataFile('cennik').data
-    default_goods = {}
-    result = {}
+def sort_items(sort_state, price_type='sell', category=0):
+    """
+    Return list of item codes sorted by prices
+    according to sort_state. Change price_type to
+    sort buy prices except of sell prices.
+    """
 
-    # GET all items that should be displayed
-    for key, val in goods.items():
-        result[key] = val
-        data_list = data.get(key)
-        if data_list != None:
-            result[key] += data_list
+    data = DataFile('cennik').data
+    prices = filter_category(data, category)
+    n = 1 if price_type == 'sell' else 0
 
-    # GET items price from cennik.txt
-    for key, values in prices.items():
-        default_goods[key] = values[1]
-    sorted_goods_lowest_first = sorted(
-        default_goods.items(), key=lambda x: float(x[1]))
-    sorted_goods_highest_first = sorted(
-        default_goods.items(), key=lambda x: float(x[1]), reverse=True)
-
-    # convert list back to dic
-    goods_lowest_first_dict = dict()
-    goods_highest_first_dict = dict()
-    for key, price in sorted_goods_lowest_first:
-        goods_lowest_first_dict.setdefault(key, []).append(price)
-    for key, price in sorted_goods_highest_first:
-        goods_highest_first_dict.setdefault(key, []).append(price)
-
-    out = {}
-    if sort_state == 2:
-        for key, values in goods_highest_first_dict.items():
-            out[key] = result.get(key)
-    elif sort_state == 3:
-        for key, values in goods_lowest_first_dict.items():
-            out[key] = result.get(key)
+    if sort_state == 1:
+        return sorted(prices.keys())
+    elif sort_state == 2:
+        return sorted(prices,
+                      key=lambda key: float(prices.get(key)[n]),
+                      reverse=True)
     else:
-        out = result
-    return out
+        return sorted(prices, key=lambda key: float(prices.get(key)[n]))
 
 
-def get_match(query, key, val):
-    code = len(query)/6 if query.isdigit() else 0.2
-    ratio = difflib.SequenceMatcher(
-        None, query, key if query.isdigit() else val[0]).ratio()
+def sort_counts(category=0):
+    """
+    Return list of item codes sorted by prices
+    according to sort_state. Change price_type to
+    sort buy prices except of sell prices.
+    """
 
-    return code, ratio
+    data = DataFile('sklad').data
+    counts = filter_category(data, category)
+
+    return sorted(counts,
+                  key=lambda key: int(counts.get(key)[0]),
+                  )
+
+
+def get_match(term, key, val):
+    """
+    Compare string similarity with items properties
+    and return True or False if term does not match.
+    """
+
+    code = len(term)/6 if term.isdigit() else 0.4
+    if term.isdigit():
+        ratio = difflib.SequenceMatcher(None, term, key).ratio()
+    else:
+        ratios = []
+        for name_part in val[0].split():
+            rat = difflib.SequenceMatcher(None, term, name_part).ratio()
+            ratios.append(rat)
+        ratio = max(ratios)
+
+    return ratio > 0.2+code
+
+
+def filter_category(data, category):
+    """
+    Return dictionary contaning only items of specific 
+    category (0 = all categories).
+    """
+
+    result = {}
+    for k, v in data.items():
+        if k[0] == str(category) or category == 0:
+            result[k] = v
+
+    return result
 
 
 def camelify(input_string: str):
@@ -168,3 +211,67 @@ def camelify(input_string: str):
 
     camel = input_string.title().replace(" ", "")
     return ''.join([camel[0].lower(), camel[1:]])
+
+
+def receipt_template(id, cashier_name, contents, total_price):
+    """
+    Template for common receipt. Requires receipt id, cashier
+    name, cart contents and total cart price parameters.
+    """
+
+    output = ['Camels E-shop s.r.o.',
+              '\nCislo uctenky: '+id,
+              '\nVytvorene dna: '+now(),
+              '\nVystavil pokladnik: '+cashier_name,
+              '\n\n===================================\n']
+    output += [
+        item.display_name+'\n\t'+str(item.amount)+'ks x ' +
+        str_price(item.price)+'\t\t' +
+        str_price(item.price, item.amount)+' €\n'
+        for item in list(contents.values())
+    ]
+    output += ['\n===================================',
+               '\nSpolu cena: '+str_price(total_price)+' €',
+               '\nDPH(20%): '+str_price(total_price*0.2)+' €']
+
+    return output
+
+
+def find_code(category):
+    """Find first unsettled item code of specific category."""
+
+    data = DataFile('tovar').data
+    codes = filter_category(data, category)
+    int_codes = [int(code) for code in codes.keys()]
+    if len(int_codes) < 1:
+        int_codes.append(int(str(category)+'000'))
+
+    return str(max(int_codes)+1)
+
+
+def valid_image(file_path):
+    """
+    If image on file_path is not a valid icc profile
+    convert it to PNG format.
+    """
+
+    img = Image.open(file_path)
+    icc = img.info.get('icc_profile', '')
+
+    if icc:
+        icc_conv, img_conv = convert_image(icc, img)
+        if icc != icc_conv:
+            img_conv.save(file_path, format='PNG',
+                          quality=50, icc_profile=icc_conv)
+
+
+def convert_image(icc, img):
+    """Convert PIL image to sRGB color space (if possible)."""
+
+    io_handle = io.BytesIO(icc)
+    src_profile = ImageCms.ImageCmsProfile(io_handle)
+    dst_profile = ImageCms.createProfile('sRGB')
+    img_conv = ImageCms.profileToProfile(img, src_profile, dst_profile)
+    icc_conv = img_conv.info.get('icc_profile', '')
+
+    return icc_conv, img_conv

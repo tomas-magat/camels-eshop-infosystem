@@ -4,6 +4,7 @@ from utils import tools
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 class Statistika:
     def __init__(self, ui):
 
@@ -13,11 +14,11 @@ class Statistika:
         # Track button clicks
         self.commands.button_click(
             self.ui.statistikaButton, self.switch_screen)
-        
-        self.statistiky = DataFile('statistiky').data
-        self.tovar = DataFile('tovar').data
-        self.sklad = DataFile('sklad').data
-        self.cennik = DataFile('cennik').data
+
+        self.statistiky = DataFile('statistiky').data_list
+        self.tovar = DataFile('tovar').data_list
+        self.sklad = DataFile('sklad').data_list
+        self.cennik = DataFile('cennik').data_list
         self.font = {'fontname': 'Arial'}
         self.edgecolor = '#CAD2C5'
         self.linewidth = 2
@@ -25,65 +26,191 @@ class Statistika:
         self.funFactsColor = '#2C57D8'
 
         self.Values()
+        # self.Values_statitiky()
+        # self.Values_tovar()
+        # self.Values_sklad()
+        # self.Values_cennik()
         self.NajviacGraf()
         self.NajmenejGraf()
         self.VyvojGraf()
         self.FunFacts()
 
+        self.commands.date_form(
+            [self.ui.dateFrom, self.ui.dateTo]
+        )
+
     def switch_screen(self):
         """Redirect to this statistika screen."""
         self.commands.redirect(self.ui.statistika)
 
-
     def Values(self):
-        self.pocet_produktov = 0
-        najviac_produkt = 0
-        self.posledna_objednavka = '2003-09-10 10-34-59;P;kosela;5ks;5.99/ks'
-
-        for k, v in self.sklad.items():
-            self.pocet_produktov += int(v[0])
-            if int(v[0]) > najviac_produkt:
-                najviac_produkt = int(v[0])
-                self.najviac_produkt = k
-
-        for k1, v1 in self.statistiky.items():
-            p=v1[2]
-
-        for k, v in self.tovar.items():
-            if k == p:
-                p = v[0]
-            if k == self.najviac_produkt:
-                self.najviac_produkt = v[0]+'-'+str(najviac_produkt)+'ks'
-
-        for k, v in self.cennik.items():
-            if k == v1[2]:
-                if v1[0] == 'P':
-                    if v[1] == v1[4]:
-                        t=True
-                    else:
-                        t=False
-                elif v1[0] == 'N':
-                    if v[0] == v1[4]:
-                        t=True
-                    else:
-                        t=False
-                else:
-                    t=False
-
-        if t:
-            k1 = k1.split()[0]+' '+k1.split()[1].replace('-', ':')
-            self.posledna_objednavka = k1+';'+v1[0]+';'+p+';'+v1[3]+'ks'+';'+v1[4]+'/ks'
+        if self.sklad:
+            self.celkovy_pocet_produktov_na_sklade = 0
+            self.najviac_mame_produkt = 0
         else:
-            self.posledna_objednavka = 'chyba v subore STATISTIKY alebo CENNIK v produkte '+k
-
-        self.x = [i for i in range(10)]
-        self.y = [i/2 for i in range(10)]
-        self.y1 = [i**2 for i in range(10)]
-        self.top_ten = sorted([15, 9, 80, 69, 25, 90, 63, 78, 54, 75], reverse=True)
-        self.top_ten_worst = sorted([70, 5, 69, 20, 25, 90, 63, 78, 54, 75])
+            self.celkovy_pocet_produktov_na_sklade = 'ziadne data v SKLAD.txt'
+            self.najviac_mame_produkt = 'ziadne data v SKLAD.txt'
+        self.top_ten_graf = [0]
+        self.top_ten = 0
+        self.top_ten_worst_graf = [0]
+        self.top_ten_worst = 0
+        if self.statistiky:
+            self.avPrice = 0
+        else:
+            self.avPrice = 'ziadne data v STATISTIKY.txt'
+        self.posledna_objednavka_P = 'ziadna'
+        self.posledna_objednavka_N = 'ziadna'
         self.profLoss = 0
-        self.avPrice = '23.58€'
-        self.najviac_den = 'Sobotu (87)'
+        
+        self.x_date = [0,1,2,5]
+        self.profit_all = [0,1,2,5]
+        self.loss_all = [0,1,2,5]
+        self.najviac_sa_nakupuje = 'Sobota (87)'
+
+
+
+        najviac_produkt = 0
+        for produkt_sklad in self.sklad:
+            self.celkovy_pocet_produktov_na_sklade += int(produkt_sklad[1])
+            if najviac_produkt == int(produkt_sklad[1]):
+                self.najviac_mame_produkt += produkt_sklad,
+            elif najviac_produkt < int(produkt_sklad[1]):
+                self.najviac_mame_produkt = produkt_sklad,
+                najviac_produkt = int(produkt_sklad[1])
+
+        
+
+        top_produkty = [[0,0]]
+        ttt = 0
+        statistiky_datum = self.statistiky[0][0].split()[0]
+        statistiky_prof_loss = []
+        if self.statistiky:
+            for objednavka in self.statistiky:
+                m = 0
+                if objednavka[1] == 'P':
+                    for i in range(len(top_produkty)):
+                        if objednavka[3] == top_produkty[i][0]:
+                            top_produkty[i][1] += 1
+                            m = 1
+                            break
+                    if m == 0:
+                        top_produkty.append([objednavka[3], 1])
+                    self.avPrice += int(objednavka[4])*float(objednavka[5])
+                    ttt += 1
+                    self.posledna_objednavka_P = objednavka
+                else:
+                    self.posledna_objednavka_N = objednavka
+                if statistiky_datum == objednavka[0].split()[0]:
+                    statistiky_prof_loss += objednavka,
+                else:
+                    statistiky_datum = objednavka[0].split()[0]
+                    statistiky_prof_loss = objednavka,
+                
+            self.avPrice /= ttt
+            self.avPrice = str(round(self.avPrice, 2))+'€'
+
+        
+            for i in statistiky_prof_loss:
+                if i[1] == 'P':
+                    self.profLoss += int(i[4])*float(i[5])
+                else:
+                    self.profLoss -= int(i[4])*float(i[5])
+            self.profLoss = round(self.profLoss, 2)
+
+        top_produkty.remove([0,0])
+
+        self.top_ten_graf = sorted(top_produkty, key=lambda x: x[1], reverse=True)
+        self.top_ten_graf = self.top_ten_graf[:10]
+        self.top_ten = [i[1] for i in self.top_ten_graf]
+
+        self.top_ten_worst_graf = sorted(top_produkty, key=lambda x: x[1])
+        self.top_ten_worst_graf = self.top_ten_worst_graf[:10]
+        self.top_ten_worst = [i[1] for i in self.top_ten_worst_graf]
+
+        for produkt_tovar in self.tovar:
+            for i in range(len(self.top_ten_graf)):
+                if produkt_tovar[0] == self.top_ten_graf[i][0]:
+                    self.top_ten_graf[i][0] = produkt_tovar[1]
+
+            for i in range(len(self.top_ten_worst_graf)):
+                if produkt_tovar[0] == self.top_ten_worst_graf[i][0]:
+                    self.top_ten_worst_graf[i][0] = produkt_tovar[1]
+
+            for i in range(len(self.najviac_mame_produkt)):
+                if self.najviac_mame_produkt[i][0] == produkt_tovar[0]:
+                    self.najviac_mame_produkt[i][0] = produkt_tovar[1]
+            
+            if produkt_tovar[0] == self.posledna_objednavka_N[3]:
+                self.posledna_objednavka_N[3] = produkt_tovar[1]
+
+            if produkt_tovar[0] == self.posledna_objednavka_P[3]:
+                self.posledna_objednavka_P[3] = produkt_tovar[1]
+            
+
+        if self.sklad:
+            nove_produkty = str(self.najviac_mame_produkt[0][1])+'ks'
+            for i in self.najviac_mame_produkt:
+                nove_produkty += '\n'+i[0]
+            self.najviac_mame_produkt = nove_produkty
+
+
+        
+            self.posledna_objednavka_N = self.posledna_objednavka_N[0].split()[0].replace('-', '.')+' ' + \
+                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_N[3]+';'+ \
+                self.posledna_objednavka_N[4]+'ks'+';'+self.posledna_objednavka_N[5]+'€/ks'
+            
+            self.posledna_objednavka_P = self.posledna_objednavka_P[0].split()[0].replace('-', '.')+' ' + \
+                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_P[3]+';'+ \
+                self.posledna_objednavka_P[4]+'ks'+';'+self.posledna_objednavka_P[5]+'€/ks'
+        
+    
+
+      
+
+
+        # self.x_date = []
+        # for i in self.statistika_list:
+        #     aa = i[0].split('-')[0][2:]
+        #     bb = i[0].split('-')[1]
+        #     cc = i[0].split('-')[2]
+        #     if not self.x_date:
+        #         self.x_date += cc+'.'+bb+'.'+aa,
+        #     elif cc+'.'+bb+'.'+aa != self.x_date[-1]:
+        #         self.x_date += cc+'.'+bb+'.'+aa,
+
+        # self.profit_all = [0]
+        # self.loss_all = [0]
+        # date_var1 = self.statistika_list[0][0]
+        # date_var2 = self.statistika_list[0][0]
+        # for am, i in enumerate(self.statistika_list):
+        #     print(i)
+        #     io = False
+        #     oi = False
+        #     if i[2] == 'P':
+        #         if date_var1 == self.statistika_list[am][0]:
+        #             self.profit_all[-1] += int(i[4])*float(i[5])
+        #         else:
+        #             self.profit_all += int(i[4])*float(i[5]),
+        #             date_var1 = self.statistika_list[am][0]
+        #             io = True
+        #     else:
+        #         if date_var2 == self.statistika_list[am][0]:
+        #             self.loss_all[-1] += int(i[4])*float(i[5])
+        #         else:
+        #             self.loss_all += int(i[4])*float(i[5]),
+        #             date_var2 = self.statistika_list[am][0]
+        #             oi = True
+        #     if io:
+        #         if self.loss_all != []:
+        #             self.loss_all += self.loss_all[-1],
+        #         else:
+        #             self.loss_all += 0,
+        #     elif oi:
+        #         if self.profit_all != []:
+        #             self.profit_all += self.profit_all[-1],
+        #         else:
+        #             self.profit_all += 0,
+
 
 
     def NajviacGraf(self):
@@ -97,23 +224,30 @@ class Statistika:
         a1.tick_params(axis='x', which='both', length=0)
         a1.set_title('Najpredavanejsie produkty', **
                      self.font, fontsize=15, weight='bold')
-        bar_X = [0,1,2,3,4,5,6,7,8,9]
+        bar_X = [i for i in range(len(self.top_ten_graf))]
         bars1 = a1.bar(bar_X, self.top_ten)
         bar_X = []
         for bar in bars1:
             bar_X.append(bar.get_x())
-        
+
         annot1 = a1.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot1.set_visible(False)
-        def update_annot1(event,bar_x_pos):
+
+        def update_annot1(event, bar_x_pos):
             x = event.xdata
-            y = event.ydata+5
+            y = event.ydata
             annot1.xy = (x, y)
             for c, i in enumerate(bar_X):
                 if i == bar_x_pos:
-                    text = self.top_ten[c]
+                    text_lomeno_n = ''
+                    text_bez_lomeno_n = self.top_ten_graf[c][0].split()
+                    for i in text_bez_lomeno_n:
+                        text_lomeno_n += i+'\n'
+                    text = text_lomeno_n+' ' + \
+                        str(self.top_ten_graf[c][1])+'ks'
             annot1.set_text(text)
+
         def hover1(event):
             vis = annot1.get_visible()
             if event.inaxes == a1:
@@ -121,7 +255,7 @@ class Statistika:
                     bar_x_pos = bar.get_x()
                     cont = bar.contains(event)
                     if cont[0]:
-                        update_annot1(event,bar_x_pos)
+                        update_annot1(event, bar_x_pos)
                         annot1.set_visible(True)
                         najviac.canvas.draw_idle()
                         return
@@ -131,7 +265,6 @@ class Statistika:
                             najviac.canvas.draw_idle()
         najviac.canvas.mpl_connect("motion_notify_event", hover1)
         self.commands.plot_graph(self.ui.najviacGraf, najviac)
-
 
     def NajmenejGraf(self):
         najmenej, a2 = plt.subplots(
@@ -144,7 +277,7 @@ class Statistika:
         a2.tick_params(axis='x', which='both', length=0)
         a2.set_title('Najmenej predavane produkty', **
                      self.font, fontsize=15, weight='bold')
-        bar_X = [0,1,2,3,4,5,6,7,8,9]
+        bar_X = [i for i in range(len(self.top_ten_worst_graf))]
         bars2 = a2.bar(bar_X, self.top_ten_worst)
         bar_X = []
         for bar in bars2:
@@ -153,14 +286,21 @@ class Statistika:
         annot2 = a2.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                              bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot2.set_visible(False)
-        def update_annot2(event,bar_x_pos):
+
+        def update_annot2(event, bar_x_pos):
             x = event.xdata
-            y = event.ydata+5
+            y = event.ydata
             annot2.xy = (x, y)
             for c, i in enumerate(bar_X):
                 if i == bar_x_pos:
-                    text = self.top_ten_worst[c]
+                    text_lomeno_n = ''
+                    text_bez_lomeno_n = self.top_ten_worst_graf[c][0].split()
+                    for i in text_bez_lomeno_n:
+                        text_lomeno_n += i+'\n'
+                    text = text_lomeno_n+' ' + \
+                        str(self.top_ten_worst_graf[c][1])+'ks'
             annot2.set_text(text)
+
         def hover2(event):
             vis = annot2.get_visible()
             if event.inaxes == a2:
@@ -168,7 +308,7 @@ class Statistika:
                     bar_x_pos = bar.get_x()
                     cont = bar.contains(event)
                     if cont[0]:
-                        update_annot2(event,bar_x_pos)
+                        update_annot2(event, bar_x_pos)
                         annot2.set_visible(True)
                         najmenej.canvas.draw_idle()
                         return
@@ -179,101 +319,71 @@ class Statistika:
         najmenej.canvas.mpl_connect("motion_notify_event", hover2)
         self.commands.plot_graph(self.ui.najmenejGraf, najmenej)
 
-
     def VyvojGraf(self):
-        x = np.arange(0, 1, 0.01)
-        y = np.sin(2 * 2 * np.pi * x)
 
-        fig, ax = plt.subplots()
-        ax.set_title('Blitted cursor')
-        ax.plot(x, y, 'o')
-        blitted_cursor = BlittedCursor(ax)
-        fig.canvas.mpl_connect('motion_notify_event', blitted_cursor.on_mouse_move)
-        self.commands.plot_graph(self.ui.trzbyNaklady, fig, size=68.5)
+        def set_cross_hair_visible(visible):
+            need_redraw = horizontal_line.get_visible() != visible
+            horizontal_line.set_visible(visible)
+            horizontal_line1.set_visible(visible)
+            vertical_line.set_visible(visible)
+            text.set_visible(visible)
+            return need_redraw
+
+        def on_mouse_move(event):
+            if not event.inaxes:
+                self.last_index = None
+                need_redraw = set_cross_hair_visible(False)
+                if need_redraw:
+                    a3.figure.canvas.draw()
+            else:
+                set_cross_hair_visible(True)
+                x1 = event.xdata
+                index = min(np.searchsorted(x_axis, x1), len(x) - 1)
+                if index == self.last_index:
+                    return
+                self.last_index = index
+
+                vertical_line.set_xdata(x[index])
+                horizontal_line.set_ydata(y[index])
+                horizontal_line1.set_ydata(z[index])
+                text.set_text('Dátum = %s\namount = %s' %
+                              (self.x_date[index], y[index]))
+                a3.figure.canvas.draw()
+
+        vyvoj_ceny, a3 = plt.subplots(
+            figsize=[7.18, 3.21], linewidth=self.linewidth, edgecolor=self.edgecolor)
+        vyvoj_ceny.set_facecolor(self.graph_color)
+        a3.set_facecolor(self.graph_color)
+        a3.spines['top'].set_visible(False)
+        a3.spines['right'].set_visible(False)
+        a3.set_title('Vyvoj ceny', **self.font, fontsize=15,
+                     weight='bold')
+        line, = a3.plot(self.x_date, self.profit_all, label='vynosy')
+        line1, = a3.plot(self.x_date, self.loss_all, label='naklady')
+        a3.legend(loc='upper left', frameon=False)
+        horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
+        horizontal_line1 = a3.axhline(color='k', lw=0.8, ls='--')
+        vertical_line = a3.axvline(color='k', lw=0.8, ls='--')
+        x, y = line.get_data()
+        x, z = line1.get_data()
+        x_axis = [i for i in range(len(self.x_date))]
+        self.last_index = None
+        text = a3.text(0.8, 0.9, '', transform=a3.transAxes)
+        vyvoj_ceny.canvas.mpl_connect('motion_notify_event', on_mouse_move)
+        self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny, size=68.5)
         plt.tight_layout()
 
-        # def on_draw(event):
-        #     create_new_background()
-
-        # def set_cross_hair_visible(visible):
-        #     need_redraw = horizontal_line.get_visible() != visible
-        #     horizontal_line.set_visible(visible)
-        #     horizontal_line1.set_visible(visible)
-        #     vertical_line.set_visible(visible)
-        #     text.set_visible(visible)
-        #     return need_redraw
-
-        # def create_new_background():
-        #     global background
-        #     if creating_background: 
-        #         return
-        #     creating_background = True
-        #     set_cross_hair_visible(False)
-        #     a3.figure.canvas.draw()
-        #     background = a3.figure.canvas.copy_from_bbox(a3.bbox)
-        #     set_cross_hair_visible(True)
-        #     creating_background = False
-
-        # def on_mouse_move(event):
-        #     if background is None:
-        #         create_new_background()
-        #     if not event.inaxes:
-        #         need_redraw = set_cross_hair_visible(False)
-        #         if need_redraw:
-        #             a3.figure.canvas.restore_region(background)
-        #             a3.figure.canvas.blit(a3.bbox)
-        #     else:
-        #         index = min(np.searchsorted(x, event.xdata), len(x) - 1)
-        #         set_cross_hair_visible(True)
-        #         horizontal_line.set_ydata(y[index])
-        #         horizontal_line1.set_ydata(z[index])
-        #         vertical_line.set_xdata(x[index])
-        #         text.set_text('x=%1.2f, y=%1.2f' % (event.xdata, event.ydata))
-
-        #         a3.figure.canvas.restore_region(background)
-        #         a3.draw_artist(horizontal_line)
-        #         a3.draw_artist(horizontal_line1)
-        #         a3.draw_artist(vertical_line)
-        #         a3.draw_artist(text)
-        #         a3.figure.canvas.blit(a3.bbox)
-
-
-
-        # vyvoj_ceny, a3 = plt.subplots(
-        #     figsize=[7.18, 3.21], linewidth=self.linewidth, edgecolor=self.edgecolor)
-        # vyvoj_ceny.set_facecolor(self.graph_color)
-        # a3.set_facecolor(self.graph_color)
-        # a3.spines['top'].set_visible(False)
-        # a3.spines['right'].set_visible(False)
-        # a3.set_title('Vyvoj ceny', **self.font, fontsize=15,
-        #              weight='bold')
-        # line, = a3.plot(self.x, self.y, label='naklady')
-        # line1, = a3.plot(self.x, self.y1, label='vynosy')
-        # background = None
-        # horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
-        # horizontal_line1 = a3.axhline(color='k', lw=0.8, ls='--')
-        # vertical_line = a3.axvline(color='k', lw=0.8, ls='--')
-        # x, y = line.get_data()
-        # x, z = line1.get_data()
-        # creating_background = False
-        # text = a3.text(0.72, 0.9, '', transform=a3.transAxes)
-        # a3.figure.canvas.mpl_connect('draw_event', on_draw)
-        # vyvoj_ceny.canvas.mpl_connect('motion_notify_event', on_mouse_move)
-        # self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny, size=68.5)
-        # plt.tight_layout()
-
-
     def FunFacts(self):
-        if self.profLoss < 0:
-            profLossColor = '#FF0000'
-        elif self.profLoss > 0:
-            profLossColor = '#21BF3E'
-        else:
-            profLossColor = '#717171'
 
+        profLossColor = '#717171'
+        if self.statistiky:
+            if self.profLoss < 0:
+                profLossColor = '#FF0000'
+            elif self.profLoss > 0:
+                profLossColor = '#21BF3E'
 
         self.ui.label_6.setText(str(self.profLoss)+'€')
-        self.ui.label_6.setToolTip('''tato cena s pravidla vyjadruje zisk alebo stratu firmy za jeden den
+        self.ui.label_6.setToolTip('''tato cena vyjadruje zisk alebo stratu firmy za jeden den
 napriklad od 2000.1.1 0:00:00 - 2000.1.1 23:59:59
 pre detailnejsie zobrazenie vyvoju ceny firmy pozri graf nizsie -->''')
         self.ui.label_6.setStyleSheet('''QToolTip {
@@ -282,72 +392,16 @@ pre detailnejsie zobrazenie vyvoju ceny firmy pozri graf nizsie -->''')
                                         background-color: #2F3E46;
                                         border: 1px solid #101416;}
                                         #label_6 {color: %s}''' % profLossColor)
-        self.ui.label_20.setText(self.avPrice)
+        self.ui.label_20.setText(str(self.avPrice))
         self.ui.label_20.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_10.setText(str(self.pocet_produktov))
+        self.ui.label_10.setText(str(self.celkovy_pocet_produktov_na_sklade))
         self.ui.label_10.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_12.setText(self.najviac_den)
+        self.ui.label_12.setText(str(self.najviac_sa_nakupuje))
         self.ui.label_12.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_16.setText(self.najviac_produkt)
+        self.ui.label_16.setText(str(self.najviac_mame_produkt))
         self.ui.label_16.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_14.setText(self.posledna_objednavka)
+        self.ui.label_14.setText(str(self.posledna_objednavka_P))
         self.ui.label_14.setStyleSheet('color:'+self.funFactsColor)
+        self.ui.label_3.setText(str(self.posledna_objednavka_N))
+        self.ui.label_3.setStyleSheet('color:'+self.funFactsColor)
         self.ui.camelLogo_2.setToolTip('')
-
-
-class BlittedCursor:
-    """
-    A cross hair cursor using blitting for faster redraw.
-    """
-    def __init__(self, ax):
-        self.ax = ax
-        self.background = None
-        self.horizontal_line = ax.axhline(color='k', lw=0.8, ls='--')
-        self.vertical_line = ax.axvline(color='k', lw=0.8, ls='--')
-        # text location in axes coordinates
-        self.text = ax.text(0.72, 0.9, '', transform=ax.transAxes)
-        self._creating_background = False
-        ax.figure.canvas.mpl_connect('draw_event', self.on_draw)
-
-    def on_draw(self, event):
-        self.create_new_background()
-
-    def set_cross_hair_visible(self, visible):
-        need_redraw = self.horizontal_line.get_visible() != visible
-        self.horizontal_line.set_visible(visible)
-        self.vertical_line.set_visible(visible)
-        self.text.set_visible(visible)
-        return need_redraw
-
-    def create_new_background(self):
-        if self._creating_background:
-            # discard calls triggered from within this function
-            return
-        self._creating_background = True
-        self.set_cross_hair_visible(False)
-        self.ax.figure.canvas.draw()
-        self.background = self.ax.figure.canvas.copy_from_bbox(self.ax.bbox)
-        self.set_cross_hair_visible(True)
-        self._creating_background = False
-
-    def on_mouse_move(self, event):
-        if self.background is None:
-            self.create_new_background()
-        if not event.inaxes:
-            need_redraw = self.set_cross_hair_visible(False)
-            if need_redraw:
-                self.ax.figure.canvas.restore_region(self.background)
-                self.ax.figure.canvas.blit(self.ax.bbox)
-        else:
-            self.set_cross_hair_visible(True)
-            # update the line positions
-            x, y = event.xdata, event.ydata
-            self.horizontal_line.set_ydata(y)
-            self.vertical_line.set_xdata(x)
-            self.text.set_text('x=%1.2f, y=%1.2f' % (x, y))
-
-            self.ax.figure.canvas.restore_region(self.background)
-            self.ax.draw_artist(self.horizontal_line)
-            self.ax.draw_artist(self.vertical_line)
-            self.ax.draw_artist(self.text)
-            self.ax.figure.canvas.blit(self.ax.bbox)
