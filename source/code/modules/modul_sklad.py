@@ -17,7 +17,7 @@ from utils.tools import *
 
 class Sklad:
 
-    def __init__(self, ui):
+    def __init__(self, ui, data):
         """
         This class handles everything done on the sklad
         screen (button clicks, item listing...).
@@ -25,6 +25,7 @@ class Sklad:
 
         self.ui = ui
         self.commands = UI_Commands(self.ui)
+        self.data = data
 
         # Init global variables
         self.cart = Cart(self)
@@ -62,9 +63,10 @@ class Sklad:
         self.catalog_action()
 
     def init_data(self):
-        self.goods = DataFile('tovar')
-        self.prices = DataFile('cennik')
-        self.storage = DataFile('sklad')
+        self.goods = self.data['tovar']
+        self.prices = self.data['cennik']
+        self.storage = self.data['sklad']
+        self.goods.version_changed(self.reload_items)
         self.update_category()
 
     # ==================== ACTIONS =======================

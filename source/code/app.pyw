@@ -2,7 +2,7 @@
 # after executing displays an App window
 
 # TODO
-# refactor utils and modules
+# refactor ui_commands.date_form
 
 import sys
 import os
@@ -11,10 +11,9 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5 import uic
 from PyQt5.QtCore import QThread
 
-from utils.ui_commands import UI_Commands
+from utils.ui_commands import UI_Commands, Timer
 from utils.file import DataFile
 from utils.ENV_VARS import PATH
-from utils.tools import *
 from modules import *
 
 
@@ -43,8 +42,8 @@ class MainWindow:
         self.portal = modul_portal.Portal(self.ui, self.data)
         self.databaza = modul_databaza.Databaza(self.ui, self.data)
         self.statistika = modul_statistika.Statistika(self.ui, self.data)
-        self.cenotvorba = modul_cenotvorba.Cenotvorba(self.ui)
-        self.sklad = modul_sklad.Sklad(self.ui)
+        self.cenotvorba = modul_cenotvorba.Cenotvorba(self.ui, self.data)
+        self.sklad = modul_sklad.Sklad(self.ui, self.data)
 
         # Track all home button clicks
         self.home_buttons = [

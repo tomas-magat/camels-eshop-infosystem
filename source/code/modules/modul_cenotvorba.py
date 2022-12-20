@@ -6,10 +6,11 @@ from utils.file import DataFile
 
 class Cenotvorba:
 
-    def __init__(self, ui):
+    def __init__(self, ui, data):
 
         self.ui = ui
         self.commands = UI_Commands(self.ui)
+        self.data = data
 
         self.layouts = [
             self.ui.verticalLayout_51,
@@ -34,8 +35,8 @@ class Cenotvorba:
         )
 
         self.price_cards = []
-        self.items = DataFile('TOVAR')
-        self.prices = DataFile('CENNIK')
+        self.items = self.data['tovar']
+        self.prices = self.data['cennik']
         self.ui.tabWidget_2.setCurrentIndex(0)
         self.update_category()
 

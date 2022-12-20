@@ -3,36 +3,50 @@ import random
 import os
 import difflib
 import datetime
-import time
 import io
 from PIL import Image, ImageCms
-
-from PyQt5.QtCore import QObject, pyqtSignal
 
 from .ENV_VARS import PATH
 from .file import DataFile
 
 
-def random_id(type='N'):
+def camelify(input_string: str):
     """
-    Generate id with type and 10 random digits:
-    [type]XXXXXXXXXX (type = 'N'/'P')
+    Make the input string camelCased so that 
+    it is valid PyQt5 object name.
     """
 
-    sequence = [str(random.randint(0, 9)) for _ in range(10)]
-    return type+''.join(sequence)
+    camel = input_string.title().replace(" ", "")
+    return ''.join([camel[0].lower(), camel[1:]])
 
 
-def now():
-    """Get current date in a string format YYYY-MM-DD HH-mm-SS."""
+def convert_image(icc, img):
+    """
+    Convert PIL image to sRGB color space (if possible)
+    to prevent problems in UI image displaying.
+    """
 
-    return datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    io_handle = io.BytesIO(icc)
+    src_profile = ImageCms.ImageCmsProfile(io_handle)
+    dst_profile = ImageCms.createProfile('sRGB')
+
+    img_conv = ImageCms.profileToProfile(img, src_profile, dst_profile)
+    icc_conv = img_conv.info.get('icc_profile', '')
+    return icc_conv, img_conv
 
 
-def str_price(price: float, amount=1):
-    """Return total price string - with 2 decimal places."""
+def filter_category(data: dict, category: int = 0):
+    """
+    Return dictionary contaning only items of specific 
+    category (0 = all categories).
+    """
 
-    return "%.2f" % abs(price*amount)
+    result = {}
+    for k, v in data.items():
+        if k[0] == str(category) or category == 0:
+            result[k] = v
+
+    return result
 
 
 def find_image(image_name: str):
@@ -45,6 +59,145 @@ def find_icon(icon_name: str):
     """Return absolute path of root/assets/icons/[icon_name]."""
 
     return os.path.join(PATH, "assets", "icons", icon_name)
+
+
+def find_code(category):
+    """Find first free item code of specific category."""
+
+    data = DataFile('tovar').data
+    codes = filter_category(data, category)
+    int_codes = [int(code) for code in codes.keys()]
+
+    if len(int_codes) < 1:
+        int_codes.append(int(str(category)+'000'))
+
+    return str(max(int_codes)+1)
+
+
+def get_match(term, key, val):
+    """
+    Compare string similarity with items properties
+    and return True or False if term does not match.
+    """
+
+    code = len(term)/6 if term.isdigit() else 0.4
+
+    if term.isdigit():
+        ratio = difflib.SequenceMatcher(None, term, key).ratio()
+    else:
+        ratios = []
+        for name_part in val[0].split():
+            rat = difflib.SequenceMatcher(None, term, name_part).ratio()
+            ratios.append(rat)
+        ratio = max(ratios)
+
+    return ratio > 0.2+code
+
+
+def now():
+    """Get current date in a string format YYYY-MM-DD HH-mm-SS."""
+
+    return datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+
+
+def random_id(type='N'):
+    """
+    Generate id with type and 10 random digits:
+    [type]XXXXXXXXXX (type = 'N'/'P')
+    """
+
+    sequence = [str(random.randint(0, 9)) for _ in range(10)]
+    return type+''.join(sequence)
+
+
+def receipt_template(
+    id: str, cashier_name: str,
+    contents: dict, total_price: float
+):
+    """
+    Template for common receipt. Requires receipt id, cashier
+    name, cart contents and total cart price parameters.
+    """
+
+    output = ['Camels E-shop s.r.o.',
+              '\nCislo uctenky: '+id,
+              '\nVytvorene dna: '+now(),
+              '\nVystavil pokladnik: '+cashier_name,
+              '\n\n===================================\n']
+    output += [
+        item.display_name+'\n\t'+str(item.amount)+'ks x ' +
+        str_price(item.price)+'\t\t' +
+        str_price(item.price, item.amount)+' €\n'
+        for item in list(contents.values())
+    ]
+    output += ['\n===================================',
+               '\nSpolu cena: '+str_price(total_price)+' €',
+               '\nDPH(20%): '+str_price(total_price*0.2)+' €']
+
+    return output
+
+
+def str_price(price: float, amount: int = 1):
+    """Return total price string - with 2 decimal places."""
+
+    return "%.2f" % abs(price*amount)
+
+
+def search_items(query: str, data: dict, category: int = 0):
+    """
+    Return items from data dictionary matching with search
+    term (query) and of the given category (0 = all).
+    """
+
+    result = {}
+    data = filter_category(data, category)
+
+    for k, v in data.items():
+        for term in query.split():
+            match = get_match(term, k, v)
+            if match:
+                result[k] = v
+
+    return result
+
+
+def sort_items(
+    sort_state: int, price_type: str = 'sell', category: int = 0
+):
+    """
+    Return list of item codes sorted by prices
+    according to sort_state. Change price_type to
+    sort buy prices except of sell prices.
+    """
+
+    data = DataFile('cennik').data
+    prices = filter_category(data, category)
+
+    n = 1 if price_type == 'sell' else 0
+
+    if sort_state == 1:
+        return sorted(prices.keys())
+    elif sort_state == 2:
+        return sorted(prices,
+                      key=lambda key: float(prices.get(key)[n]),
+                      reverse=True)
+    else:
+        return sorted(prices, key=lambda key: float(prices.get(key)[n]))
+
+
+def sort_counts(category: int = 0):
+    """
+    Return list of item codes sorted by prices
+    according to sort_state. Change price_type to
+    sort buy prices except of sell prices.
+    """
+
+    data = DataFile('sklad').data
+    counts = filter_category(data, category)
+
+    return sorted(counts,
+                  key=lambda key: int(counts.get(key)[0]),
+                  )
 
 
 def validate_int(input_field, invalid_cmd=None):
@@ -75,143 +228,10 @@ def validate_price(input_field, invalid_cmd=None):
         return "%.2f" % price
 
 
-def search_items(query: str, data: dict, category=0):
-    """
-    Return items from data dictionary matching with search
-    term (query) and of the given category (0 = all).
-    """
-
-    result = {}
-    data = filter_category(data, category)
-
-    for k, v in data.items():
-        for term in query.split():
-            match = get_match(term, k, v)
-            if match:
-                result[k] = v
-
-    return result
-
-
-def sort_items(sort_state, price_type='sell', category=0):
-    """
-    Return list of item codes sorted by prices
-    according to sort_state. Change price_type to
-    sort buy prices except of sell prices.
-    """
-
-    data = DataFile('cennik').data
-    prices = filter_category(data, category)
-    n = 1 if price_type == 'sell' else 0
-
-    if sort_state == 1:
-        return sorted(prices.keys())
-    elif sort_state == 2:
-        return sorted(prices,
-                      key=lambda key: float(prices.get(key)[n]),
-                      reverse=True)
-    else:
-        return sorted(prices, key=lambda key: float(prices.get(key)[n]))
-
-
-def sort_counts(category=0):
-    """
-    Return list of item codes sorted by prices
-    according to sort_state. Change price_type to
-    sort buy prices except of sell prices.
-    """
-
-    data = DataFile('sklad').data
-    counts = filter_category(data, category)
-
-    return sorted(counts,
-                  key=lambda key: int(counts.get(key)[0]),
-                  )
-
-
-def get_match(term, key, val):
-    """
-    Compare string similarity with items properties
-    and return True or False if term does not match.
-    """
-
-    code = len(term)/6 if term.isdigit() else 0.4
-    if term.isdigit():
-        ratio = difflib.SequenceMatcher(None, term, key).ratio()
-    else:
-        ratios = []
-        for name_part in val[0].split():
-            rat = difflib.SequenceMatcher(None, term, name_part).ratio()
-            ratios.append(rat)
-        ratio = max(ratios)
-
-    return ratio > 0.2+code
-
-
-def filter_category(data, category):
-    """
-    Return dictionary contaning only items of specific 
-    category (0 = all categories).
-    """
-
-    result = {}
-    for k, v in data.items():
-        if k[0] == str(category) or category == 0:
-            result[k] = v
-
-    return result
-
-
-def camelify(input_string: str):
-    """
-    Make the input string camelCased so that 
-    it is valid PyQt5 object name.
-    """
-
-    camel = input_string.title().replace(" ", "")
-    return ''.join([camel[0].lower(), camel[1:]])
-
-
-def receipt_template(id, cashier_name, contents, total_price):
-    """
-    Template for common receipt. Requires receipt id, cashier
-    name, cart contents and total cart price parameters.
-    """
-
-    output = ['Camels E-shop s.r.o.',
-              '\nCislo uctenky: '+id,
-              '\nVytvorene dna: '+now(),
-              '\nVystavil pokladnik: '+cashier_name,
-              '\n\n===================================\n']
-    output += [
-        item.display_name+'\n\t'+str(item.amount)+'ks x ' +
-        str_price(item.price)+'\t\t' +
-        str_price(item.price, item.amount)+' €\n'
-        for item in list(contents.values())
-    ]
-    output += ['\n===================================',
-               '\nSpolu cena: '+str_price(total_price)+' €',
-               '\nDPH(20%): '+str_price(total_price*0.2)+' €']
-
-    return output
-
-
-def find_code(category):
-    """Find first unsettled item code of specific category."""
-
-    data = DataFile('tovar').data
-    codes = filter_category(data, category)
-    int_codes = [int(code) for code in codes.keys()]
-    if len(int_codes) < 1:
-        int_codes.append(int(str(category)+'000'))
-
-    return str(max(int_codes)+1)
-
-
 def valid_image(file_path):
     """
     If image on file_path is not a valid icc profile
-    convert it to PNG format.
+    convert it to PNG format in lower quality.
     """
 
     img = Image.open(file_path)
@@ -220,54 +240,7 @@ def valid_image(file_path):
     if icc:
         icc_conv, img_conv = convert_image(icc, img)
         if icc != icc_conv:
-            img_conv.save(file_path, format='PNG',
-                          quality=50, icc_profile=icc_conv)
-
-
-def convert_image(icc, img):
-    """Convert PIL image to sRGB color space (if possible)."""
-
-    io_handle = io.BytesIO(icc)
-    src_profile = ImageCms.ImageCmsProfile(io_handle)
-    dst_profile = ImageCms.createProfile('sRGB')
-    img_conv = ImageCms.profileToProfile(img, src_profile, dst_profile)
-    icc_conv = img_conv.info.get('icc_profile', '')
-
-    return icc_conv, img_conv
-
-
-class Timer(QObject):
-    """
-    Represents a Timer that does some functionality periodically,
-    but without freezing the main app thread (using QThread).
-    Has a command parameter representing target function to be
-    executed every period (second parameter) seconds.
-    """
-
-    def __init__(self, data, period=3.0):
-        super(Timer, self).__init__()
-        self.period = period
-        self.data = list(data.values())
-        self.versions = [file.version for file in self.data]
-
-    def run(self):
-        while True:
-            self.update_vars()
-            time.sleep(self.period)
-
-    def update_vars(self):
-        """Update data variables."""
-        for i in range(len(self.data)):
-            self.update_var(i)
-
-    def update_var(self, i):
-        """
-        Update data variable if version of its datafile changed.
-        """
-        self.data[i].get_version()
-        current_version = self.data[i].version
-
-        if current_version != self.versions[i]:
-            self.data[i].read()
-            self.versions[i] = current_version
-            self.data[i].changed.emit(self.data[i].data)
+            img_conv.save(
+                file_path, format='PNG',
+                quality=50, icc_profile=icc_conv
+            )

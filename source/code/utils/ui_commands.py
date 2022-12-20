@@ -1,8 +1,10 @@
 # UI Commands Simplified
 import datetime
+import time
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from PyQt5.QtCore import QObject
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from .tools import find_icon
@@ -199,3 +201,34 @@ class Message(QMessageBox):
         self.setInformativeText(additional_text)
         self.setWindowTitle(window_title)
         self.exec_()
+
+
+class Timer(QObject):
+    """
+    Represents a Timer that updates data variables periodically,
+    but without freezing the main app thread (used with QThread).
+    """
+
+    def __init__(self, data, period=3.0):
+        super(Timer, self).__init__()
+        self.period = period
+        self.data = list(data.values())
+        self.versions = [file.version for file in self.data]
+
+    def run(self):
+        while True:
+            self.update_vars()
+            time.sleep(self.period)
+
+    def update_vars(self):
+        for i in range(len(self.data)):
+            self.update_var(i)
+
+    def update_var(self, i):
+        self.data[i].get_version()
+        current_version = self.data[i].version
+
+        if current_version != self.versions[i]:
+            self.data[i].read()
+            self.versions[i] = current_version
+            self.data[i].changed.emit(self.data[i].data)
