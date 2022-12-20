@@ -70,7 +70,7 @@ class DataFile(QObject):
         """
 
         self.update_version()
-        self.changed.emit(self.data_list)
+        self.changed_list.emit(self.data_list)
 
         scsv_data = self.list_to_scsv(self.data_list)
 
