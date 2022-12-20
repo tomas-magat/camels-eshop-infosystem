@@ -6,17 +6,16 @@ from PyQt5.QtWidgets import QMessageBox
 
 from utils.ui_commands import UI_Commands
 from utils.tools import *
-from utils.file import DataFile
 
 
 class Databaza:
 
-    def __init__(self, ui):
+    def __init__(self, ui, data):
         """
         This class handles everything done on the databaza
         screen (button clicks, item listing...).
         """
-
+        self.data = data
         self.ui = ui
         self.commands = UI_Commands(self.ui)
 
@@ -53,9 +52,9 @@ class Databaza:
             self.search
         )
 
-        self.goods = DataFile('tovar')
-        self.prices = DataFile('cennik')
-        self.storage = DataFile('sklad')
+        self.goods = self.data['tovar']
+        self.prices = self.data['cennik']
+        self.storage = self.data['sklad']
         self.tab.setCurrentIndex(0)
         self.update_category()
 

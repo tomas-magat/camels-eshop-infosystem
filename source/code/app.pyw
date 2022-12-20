@@ -40,7 +40,7 @@ class MainWindow:
 
         # Initialize modules
         self.portal = modul_portal.Portal(self.ui, self.data)
-        self.databaza = modul_databaza.Databaza(self.ui)
+        self.databaza = modul_databaza.Databaza(self.ui, self.data)
         self.statistika = modul_statistika.Statistika(self.ui, self.data)
         self.cenotvorba = modul_cenotvorba.Cenotvorba(self.ui)
         self.sklad = modul_sklad.Sklad(self.ui)
