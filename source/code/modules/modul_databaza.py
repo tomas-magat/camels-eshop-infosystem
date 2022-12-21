@@ -6,17 +6,16 @@ from PyQt5.QtWidgets import QMessageBox
 
 from utils.ui_commands import UI_Commands
 from utils.tools import *
-from utils.file import DataFile
 
 
 class Databaza:
 
-    def __init__(self, ui):
+    def __init__(self, ui, data):
         """
         This class handles everything done on the databaza
         screen (button clicks, item listing...).
         """
-
+        self.data = data
         self.ui = ui
         self.commands = UI_Commands(self.ui)
 
@@ -53,9 +52,10 @@ class Databaza:
             self.search
         )
 
-        self.goods = DataFile('tovar')
-        self.prices = DataFile('cennik')
-        self.storage = DataFile('sklad')
+        self.goods = self.data['tovar']
+        self.prices = self.data['cennik']
+        self.storage = self.data['sklad']
+        self.statistika = self.data['statistiky']
         self.tab.setCurrentIndex(0)
         self.update_category()
 
@@ -182,6 +182,12 @@ class ItemDetails(QtWidgets.QFrame):
                 del self.page.storage.data[self.code]
                 self.page.storage.save_data()
 
+            stats_list = self.page.statistika.data_list
+            for datapoint in stats_list:
+                if datapoint[3] == self.code:
+                    datapoint[3] = new_code
+            self.page.statistika.save_list()
+
             goods_code = self.page.goods.data.get(self.code)
             self.page.goods.data[new_code] = goods_code
             del self.page.goods.data[self.code]
@@ -198,7 +204,6 @@ class ItemDetails(QtWidgets.QFrame):
 
     def update_list(self):
         """Update listWidget with currently entered values."""
-
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
 

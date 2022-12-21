@@ -50,6 +50,7 @@ class Portal:
         self.goods = self.data['tovar']
         self.prices = self.data['cennik']
         self.storage = self.data['sklad']
+        self.goods.version_changed(self.reload_items)
         self.update_category()
         self.ui.itemCategories.setCurrentIndex(0)
 
@@ -291,6 +292,7 @@ class Cart:
 
     def add_stats(self):
         """Add datapoint from transaction to STATISTIKY.txt."""
+        self.statistics.read()
         for code, item in self.contents.items():
             self.statistics.data_list.append([
                 now(), 'P', self.id[1:], code,
