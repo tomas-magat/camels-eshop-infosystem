@@ -2,7 +2,7 @@
 # after executing displays an App window
 
 # TODO
-# refactor ui_commands.date_form
+# refactor ui_commands.date_range
 
 import sys
 import os

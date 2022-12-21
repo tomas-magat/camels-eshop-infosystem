@@ -36,10 +36,6 @@ class Statistika:
         self.VyvojGraf()
         self.FunFacts()
 
-        self.commands.date_form(
-            [self.ui.dateFrom, self.ui.dateTo]
-        )
-
     def switch_screen(self):
         """Redirect to this statistika screen."""
         self.commands.redirect(self.ui.statistika)
@@ -62,13 +58,11 @@ class Statistika:
         self.posledna_objednavka_P = 'ziadna'
         self.posledna_objednavka_N = 'ziadna'
         self.profLoss = 0
-        
-        self.x_date = [0,1,2,5]
-        self.profit_all = [0,1,2,5]
-        self.loss_all = [0,1,2,5]
+
+        self.x_date = [0, 1, 2, 5]
+        self.profit_all = [0, 1, 2, 5]
+        self.loss_all = [0, 1, 2, 5]
         self.najviac_sa_nakupuje = 'Sobota (87)'
-
-
 
         najviac_produkt = 0
         for produkt_sklad in self.sklad:
@@ -79,9 +73,7 @@ class Statistika:
                 self.najviac_mame_produkt = produkt_sklad,
                 najviac_produkt = int(produkt_sklad[1])
 
-        
-
-        top_produkty = [[0,0]]
+        top_produkty = [[0, 0]]
         ttt = 0
         statistiky_datum = self.statistiky[0][0].split()[0]
         statistiky_prof_loss = []
@@ -106,11 +98,10 @@ class Statistika:
                 else:
                     statistiky_datum = objednavka[0].split()[0]
                     statistiky_prof_loss = objednavka,
-                
+
             self.avPrice /= ttt
             self.avPrice = str(round(self.avPrice, 2))+'€'
 
-        
             for i in statistiky_prof_loss:
                 if i[1] == 'P':
                     self.profLoss += int(i[4])*float(i[5])
@@ -118,9 +109,10 @@ class Statistika:
                     self.profLoss -= int(i[4])*float(i[5])
             self.profLoss = round(self.profLoss, 2)
 
-        top_produkty.remove([0,0])
+        top_produkty.remove([0, 0])
 
-        self.top_ten_graf = sorted(top_produkty, key=lambda x: x[1], reverse=True)
+        self.top_ten_graf = sorted(
+            top_produkty, key=lambda x: x[1], reverse=True)
         self.top_ten_graf = self.top_ten_graf[:10]
         self.top_ten = [i[1] for i in self.top_ten_graf]
 
@@ -140,13 +132,12 @@ class Statistika:
             for i in range(len(self.najviac_mame_produkt)):
                 if self.najviac_mame_produkt[i][0] == produkt_tovar[0]:
                     self.najviac_mame_produkt[i][0] = produkt_tovar[1]
-            
+
             if produkt_tovar[0] == self.posledna_objednavka_N[3]:
                 self.posledna_objednavka_N[3] = produkt_tovar[1]
 
             if produkt_tovar[0] == self.posledna_objednavka_P[3]:
                 self.posledna_objednavka_P[3] = produkt_tovar[1]
-            
 
         if self.sklad:
             nove_produkty = str(self.najviac_mame_produkt[0][1])+'ks'
@@ -154,20 +145,15 @@ class Statistika:
                 nove_produkty += '\n'+i[0]
             self.najviac_mame_produkt = nove_produkty
 
-
-        
             self.posledna_objednavka_N = self.posledna_objednavka_N[0].split()[0].replace('-', '.')+' ' + \
-                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_N[3]+';'+ \
-                self.posledna_objednavka_N[4]+'ks'+';'+self.posledna_objednavka_N[5]+'€/ks'
-            
+                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_N[3]+';' + \
+                self.posledna_objednavka_N[4]+'ks'+';' + \
+                self.posledna_objednavka_N[5]+'€/ks'
+
             self.posledna_objednavka_P = self.posledna_objednavka_P[0].split()[0].replace('-', '.')+' ' + \
-                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_P[3]+';'+ \
-                self.posledna_objednavka_P[4]+'ks'+';'+self.posledna_objednavka_P[5]+'€/ks'
-        
-    
-
-      
-
+                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_P[3]+';' + \
+                self.posledna_objednavka_P[4]+'ks'+';' + \
+                self.posledna_objednavka_P[5]+'€/ks'
 
         # self.x_date = []
         # for i in self.statistika_list:
@@ -211,8 +197,6 @@ class Statistika:
         #             self.profit_all += self.profit_all[-1],
         #         else:
         #             self.profit_all += 0,
-
-
 
     def NajviacGraf(self):
         najviac, a1 = plt.subplots(
