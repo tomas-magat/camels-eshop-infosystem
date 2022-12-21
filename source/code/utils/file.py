@@ -25,18 +25,18 @@ class DataFile(QObject):
         self.filename = filename
         self.filepath = self.get_filepath()
 
-        self.read_data()
+        self.read()
 
-    def read_data(self):
+    def read(self):
         """
         Simplify reading data from a specified filename 
         and pass it to the data and data_list variables.
         """
 
         self.get_version()
-        self.read()
+        self.read_data()
 
-    def read(self):
+    def read_data(self):
         """
         If file is not being used by another app (is locked),
         read its contents and convert it to valid format.
