@@ -292,6 +292,7 @@ class Cart:
 
     def add_stats(self):
         """Add datapoint from transaction to STATISTIKY.txt."""
+        self.statistics.read()
         for code, item in self.contents.items():
             self.statistics.data_list.append([
                 now(), 'P', self.id[1:], code,
