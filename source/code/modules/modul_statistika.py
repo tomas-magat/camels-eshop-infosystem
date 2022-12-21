@@ -62,8 +62,8 @@ class Statistika:
         self.posledna_objednavka_N = 'ziadna'
         self.profLoss = 0
         
-        self.x_date = [0,1,2,5]
-        self.profit_all = [0,1,2,5]
+        self.x_date = ['12.1.22','12.2.22','12.3.22','12.4.22']
+        self.profit_all = [0,2,1,5]
         self.loss_all = [0,1,2,5]
         self.najviac_sa_nakupuje = 'Sobota (87)'
 
@@ -148,7 +148,7 @@ class Statistika:
             
 
         if self.sklad:
-            nove_produkty = str(self.najviac_mame_produkt[0][1])+'ks'
+            nove_produkty = str(self.najviac_mame_produkt[0][1])+' ks'
             for i in self.najviac_mame_produkt:
                 nove_produkty += '\n'+i[0]
             self.najviac_mame_produkt = nove_produkty
@@ -244,8 +244,14 @@ class Statistika:
                     text_bez_lomeno_n = self.top_ten_graf[c][0].split()
                     for i in text_bez_lomeno_n:
                         text_lomeno_n += i+'\n'
+                    if self.top_ten_graf[c][1] == 1:
+                        objednavka_text = ' objednavka'
+                    elif 1 < self.top_ten_graf[c][1] < 5:
+                        objednavka_text = ' objednavky'
+                    else:
+                        objednavka_text = ' objednavok'
                     text = text_lomeno_n+' ' + \
-                        str(self.top_ten_graf[c][1])+'ks'
+                        str(self.top_ten_graf[c][1])+objednavka_text
             annot1.set_text(text)
 
         def hover1(event):
@@ -297,8 +303,14 @@ class Statistika:
                     text_bez_lomeno_n = self.top_ten_worst_graf[c][0].split()
                     for i in text_bez_lomeno_n:
                         text_lomeno_n += i+'\n'
+                    if self.top_ten_worst_graf[c][1] == 1:
+                        objednavka_text = ' objednavka'
+                    elif 1 < self.top_ten_worst_graf[c][1] < 5:
+                        objednavka_text = ' objednavky'
+                    else:
+                        objednavka_text = ' objednavok'
                     text = text_lomeno_n+' ' + \
-                        str(self.top_ten_worst_graf[c][1])+'ks'
+                        str(self.top_ten_worst_graf[c][1])+objednavka_text
             annot2.set_text(text)
 
         def hover2(event):
