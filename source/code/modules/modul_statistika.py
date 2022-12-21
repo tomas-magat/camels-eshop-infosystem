@@ -75,9 +75,9 @@ class Statistika:
 
         top_produkty = [[0, 0]]
         ttt = 0
-        statistiky_datum = self.statistiky[0][0].split()[0]
-        statistiky_prof_loss = []
+        statistiky_list = []
         if self.statistiky:
+            statistiky_datum = self.statistiky[0][0].split()[0]
             for objednavka in self.statistiky:
                 m = 0
                 if objednavka[1] == 'P':
@@ -93,14 +93,18 @@ class Statistika:
                     self.posledna_objednavka_P = objednavka
                 else:
                     self.posledna_objednavka_N = objednavka
-                if statistiky_datum == objednavka[0].split()[0]:
-                    statistiky_prof_loss += objednavka,
-                else:
-                    statistiky_datum = objednavka[0].split()[0]
-                    statistiky_prof_loss = objednavka,
+                statistiky_list += objednavka,
 
             self.avPrice /= ttt
             self.avPrice = str(round(self.avPrice, 2))+'€'
+
+            statistiky_prof_loss1 = statistiky_list[-1]
+            statistiky_prof_loss = []
+            for i in reversed(statistiky_list):
+                if i[0].split()[0] == statistiky_prof_loss1[0].split()[0]:
+                    statistiky_prof_loss += i,
+                else:
+                    break
 
             for i in statistiky_prof_loss:
                 if i[1] == 'P':
@@ -155,48 +159,28 @@ class Statistika:
                 self.posledna_objednavka_P[4]+'ks'+';' + \
                 self.posledna_objednavka_P[5]+'€/ks'
 
-        # self.x_date = []
-        # for i in self.statistika_list:
-        #     aa = i[0].split('-')[0][2:]
-        #     bb = i[0].split('-')[1]
-        #     cc = i[0].split('-')[2]
-        #     if not self.x_date:
-        #         self.x_date += cc+'.'+bb+'.'+aa,
-        #     elif cc+'.'+bb+'.'+aa != self.x_date[-1]:
-        #         self.x_date += cc+'.'+bb+'.'+aa,
 
-        # self.profit_all = [0]
-        # self.loss_all = [0]
-        # date_var1 = self.statistika_list[0][0]
-        # date_var2 = self.statistika_list[0][0]
-        # for am, i in enumerate(self.statistika_list):
-        #     print(i)
-        #     io = False
-        #     oi = False
-        #     if i[2] == 'P':
-        #         if date_var1 == self.statistika_list[am][0]:
-        #             self.profit_all[-1] += int(i[4])*float(i[5])
-        #         else:
-        #             self.profit_all += int(i[4])*float(i[5]),
-        #             date_var1 = self.statistika_list[am][0]
-        #             io = True
-        #     else:
-        #         if date_var2 == self.statistika_list[am][0]:
-        #             self.loss_all[-1] += int(i[4])*float(i[5])
-        #         else:
-        #             self.loss_all += int(i[4])*float(i[5]),
-        #             date_var2 = self.statistika_list[am][0]
-        #             oi = True
-        #     if io:
-        #         if self.loss_all != []:
-        #             self.loss_all += self.loss_all[-1],
-        #         else:
-        #             self.loss_all += 0,
-        #     elif oi:
-        #         if self.profit_all != []:
-        #             self.profit_all += self.profit_all[-1],
-        #         else:
-        #             self.profit_all += 0,
+        self.x_date = []
+        self.profit_all = [0]
+        self.loss_all = [0]
+        for ah, i in enumerate(statistiky_list):
+            tr = False
+            fl = False
+            date_format_0 = i[0].split()[0]
+            date_format_1 = date_format_0.split('-')[2]+'.'+date_format_0.split('-')[1]+'.'+date_format_0.split('-')[0][2:]
+            self.x_date += date_format_1+str(ah),
+            if i[1] == 'P':
+                self.profit_all += int(i[4])*float(i[5]),
+                tr = True
+            else:
+                self.loss_all += int(i[4])*float(i[5]),
+                fl = True
+            if tr:
+                self.loss_all += self.loss_all[-1],
+            elif fl:
+                self.profit_all += self.profit_all[-1],
+        self.profit_all.pop(0)
+        self.loss_all.pop(0)
 
     def NajviacGraf(self):
         najviac, a1 = plt.subplots(
