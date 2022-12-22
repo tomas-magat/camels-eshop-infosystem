@@ -1,7 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 from utils.ui_commands import UI_Commands
 from utils.tools import *
-from utils.file import DataFile
 
 
 class Cenotvorba:
@@ -44,7 +43,6 @@ class Cenotvorba:
         self.commands.redirect(self.ui.cenotvorba)
 
     def update_category(self):
-        self.items.read()
         self.category = self.ui.tabWidget_2.currentIndex()
         self.loadfile(self.items.data)
 

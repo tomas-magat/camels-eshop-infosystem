@@ -223,7 +223,7 @@ class Timer(QObject):
     but without freezing the main app thread (used with QThread).
     """
 
-    def __init__(self, data, period=3.0):
+    def __init__(self, data, period=1.0):
         super(Timer, self).__init__()
         self.period = period
         self.data = list(data.values())

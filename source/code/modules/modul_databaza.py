@@ -116,7 +116,6 @@ class Databaza:
 
     def update_category(self):
         self.category = self.tab.currentIndex()
-        self.goods.read()
         self.reload_items(self.goods.data)
 
     def search(self):
@@ -192,14 +191,14 @@ class ItemDetails(QtWidgets.QFrame):
             self.page.goods.data[new_code] = goods_code
             del self.page.goods.data[self.code]
             self.page.goods.save_data()
-            self.page.goods.read()
+
+            self.code = new_code
         else:
             self.page.goods.data[new_code] = [
                 new_name, self.filename]
             self.page.goods.save_data()
-            self.page.goods.read()
+            print(self.page.goods.data)
 
-        self.code = new_code
         self.name = new_name
 
     def update_list(self):
@@ -209,26 +208,32 @@ class ItemDetails(QtWidgets.QFrame):
 
         pattern = re.compile("^[0-5]\d{3}$")
         pattern2 = re.compile('^[^!.?"#]+$')
-        other_codes = list(self.page.goods.data.keys())
-        if not self.adding:
-            other_codes.remove(self.code)
-        unique = new_code not in other_codes
 
-        if pattern.match(new_code) and pattern2.match(new_name) and unique:
+        if pattern.match(new_code) and pattern2.match(new_name):
+            other_codes = list(self.page.goods.data.keys())
+            if not self.adding:
+                other_codes.remove(self.code)
+            unique = new_code not in other_codes
             new_text = "#"+new_code+" "+new_name
 
-            if self.adding:
-                self.page.goods.data[new_code] = [new_name, self.filename]
-                self.page.goods.save_data()
-                self.page.goods.read()
-                self.page.lists[self.page.category].addItem(new_text)
-                self.adding = False
-                self.deleteLater()
+            if unique:
+                if self.adding:
+                    self.page.goods.data[new_code] = [new_name, self.filename]
+                    self.page.goods.save_data()
+                    self.page.lists[self.page.category].addItem(new_text)
+                    self.adding = False
+                    self.deleteLater()
+                else:
+                    old_text = self.page.lists[self.page.category].currentItem(
+                    ).text()
+                    if new_text != old_text:
+                        self.edit_items(new_code, new_name, new_text)
             else:
-                old_text = self.page.lists[self.page.category].currentItem(
-                ).text()
-                if new_text != old_text:
-                    self.edit_items(new_code, new_name, new_text)
+                msg = QMessageBox()
+                msg.setWindowTitle("Error")
+                msg.setIcon(QMessageBox.Warning)
+                msg.setText("Zadaný kód už existuje")
+                msg.exec_()
         else:
             msg = QMessageBox()
             msg.setWindowTitle("Error")
@@ -237,8 +242,6 @@ class ItemDetails(QtWidgets.QFrame):
                 msg.setText("Zadajte spravny kod")
             elif pattern2.match(new_name) == None:
                 msg.setText("Zadajte vhodny nazov")
-            elif unique == False:
-                msg.setText("Zadaný kód už existuje")
             msg.exec_()
 
     def pick_image(self):

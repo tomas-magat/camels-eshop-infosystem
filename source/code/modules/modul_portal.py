@@ -236,7 +236,6 @@ class Portal:
         """
         Set selected category and load items of that category.
         """
-        self.goods.read()
         self.category = self.ui.itemCategories.currentIndex()
         self.reload_items(self.goods.data)
 
@@ -292,7 +291,6 @@ class Cart:
 
     def add_stats(self):
         """Add datapoint from transaction to STATISTIKY.txt."""
-        self.statistics.read()
         for code, item in self.contents.items():
             self.statistics.data_list.append([
                 now(), 'P', self.id[1:], code,
@@ -301,7 +299,6 @@ class Cart:
 
     def update_storage(self):
         """Change amount of items in sklad.txt."""
-        self.storage.read()
         for code, item in self.contents.items():
             self.storage.data[code][0] = int(
                 self.storage.data[code][0]) - item.amount

@@ -53,7 +53,6 @@ class Sklad:
 
         self.init_actions()
         self.init_data()
-        self.update_data()
 
     def init_actions(self):
         self.manual()
@@ -223,24 +222,7 @@ class Sklad:
         Set selected category and load items of that category.
         """
         self.category = self.ui.itemCategories_2.currentIndex()
-        self.goods.read()
         self.load_counts_items()
-
-    def update_data(self):
-        """Update 'goods' variable every 3 seconds"""
-        self.version = self.goods.version
-
-    def update_goods(self):
-        """
-        Update 'goods' variable if version of the tovar.txt
-        datafile has changed.
-        """
-        current_version = self.goods.version
-
-        if current_version != self.version:
-            self.goods.read()
-            self.version = current_version
-            self.reload_items(self.goods.data)
 
     # =================== ORDER STATE ==================================
 

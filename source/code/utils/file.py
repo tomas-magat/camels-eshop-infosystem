@@ -61,6 +61,7 @@ class DataFile(QObject):
         scsv_data = self.dict_to_scsv(self.data)
 
         self.write(scsv_data)
+        self.read()
 
     def save_list(self):
         """
@@ -75,6 +76,7 @@ class DataFile(QObject):
         scsv_data = self.list_to_scsv(self.data_list)
 
         self.write(scsv_data)
+        self.read()
 
     def write(self, data):
         """
