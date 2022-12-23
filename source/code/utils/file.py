@@ -125,7 +125,7 @@ class DataFile(QObject):
             self.version += 1
             file.write(str(self.version))
 
-    def check_update_version(self, line):
+    def check_version(self, line):
         """
         If version file contains nothing or its contents are
         invalid, set version to 1, otherwise change version property.
@@ -144,12 +144,12 @@ class DataFile(QObject):
 
         with open(version_path, 'r', encoding='utf-8') as file:
             line = file.read().rstrip('\n')
-            self.check_update_version(line)
+            self.check_version(line)
 
     def version_changed(self, command, dict_data=True):
         """
         After version changed execute given command. Parameter 
-        dict_data specify if the command takes parameter in 
+        dict_data specifies if the command takes parameter in 
         dict or list format - If it takes list set dict_data=False.
         """
 
@@ -164,8 +164,7 @@ class DataFile(QObject):
         file_format = self.filename.split('.')
 
         if len(file_format) > 1 and file_format[1] != 'txt':
-            print("'filename' must be valid txt filename")
-            return
+            raise "'filename' must be valid txt filename"
 
         filename = file_format[0].upper() + ending
         filepath = os.path.join(DATAPATH, filename)

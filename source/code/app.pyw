@@ -19,27 +19,23 @@ from modules import *
 
 class MainWindow:
     """
-    Class containing the main window of the app.
-    On initializing, set the landing page to index, 
+    Class initializing the main window of the app.
+    On load, set the landing page to home, load datafiles,
     track home button clicks and initialize modules.
+    Updates data periodically to keep it up-to-date.
     Has a method .show() which displays this window.
     """
 
     def __init__(self):
         self.ui = uic.loadUi(
-            os.path.join(PATH, 'source', 'code', 'main.ui'))
-
+            os.path.join(PATH, 'source', 'code', 'main.ui')
+        )
         self.commands = UI_Commands(self.ui)
-        self.index()
-
-        # Load data globally
-        self.datafile_names = ['tovar', 'cennik', 'sklad', 'statistiky']
-        self.data = {}
-        for filename in self.datafile_names:
-            self.data[filename] = DataFile(filename)
+        self.home()
+        self.load_data()
 
         # Initialize modules
-        self.portal = modul_portal.Portal(self.ui, self.data)
+        self.portal = modul_portal.Portal(self)
         self.databaza = modul_databaza.Databaza(self.ui, self.data)
         self.statistika = modul_statistika.Statistika(self.ui, self.data)
         self.cenotvorba = modul_cenotvorba.Cenotvorba(self.ui, self.data)
@@ -53,24 +49,30 @@ class MainWindow:
             self.ui.homeArrow4,
             self.ui.homeArrow5,
         ]
-        self.commands.buttons_click(self.home_buttons, self.index)
+        self.commands.buttons_click(self.home_buttons, self.home)
 
-        self.auto_updating()
-        self.thread.start()
+        self.auto_update()
 
     def show(self):
         """Show the main App UI window."""
         self.ui.show()
 
-    def index(self):
+    def home(self):
         self.commands.redirect(self.ui.index)
 
-    def auto_updating(self):
+    def load_data(self):
+        self.datafile_names = ['tovar', 'cennik', 'sklad', 'statistiky']
+        self.data = {}
+        for filename in self.datafile_names:
+            self.data[filename] = DataFile(filename)
+
+    def auto_update(self):
         self.thread = QThread()
         self.timer = Timer(self.data)
         self.timer.moveToThread(self.thread)
         self.thread.started.connect(self.timer.run)
         self.thread.finished.connect(self.thread.deleteLater)
+        self.thread.start()
 
 
 if __name__ == '__main__':

@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import QObject
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.pyplot import close
 
 from .tools import find_icon
 
@@ -84,18 +85,19 @@ class UI_Commands():
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
 
-    def date_entries(self, date_edits: list, dates_list):
+    def date_entries(self, page, date_edits: list, dates_list):
         """
         After user changes datetime in one of QDateEdit widgets,
         return a list of dates in specified range.
         """
 
-        def command(): return self.dates_range(date_edits, dates_list)
         self.init_date_entries(date_edits)
         self.set_date_edits(date_edits)
 
         for edit in date_edits:
-            edit.dateChanged.connect(command)
+            edit.dateChanged.connect(
+                lambda: self.dates_range(page, date_edits, dates_list)
+            )
 
     def set_date_edits(self, date_edits):
         """After date changed in a field, validate the other field."""
@@ -144,25 +146,57 @@ class UI_Commands():
             min_add=1
         )
 
-    def dates_range(self, date_edits, date_list):
+    def dates_range(self, page, date_edits, stats_list):
         """Return list of dates in specific range."""
 
         date_from = date_edits[0].dateTime().toPyDateTime()
         date_to = date_edits[1].dateTime().toPyDateTime()
 
-        result = [datetime.datetime.strptime(datepoint, "%Y-%m-%d %H-%M-%S")
-                  for datepoint in list(set(date_list))]
-
-        for i, datepoint in enumerate(result):
-            if date_from > datepoint or datepoint > date_to:
+        result = self.datetime_list(stats_list)
+        for i, datapoint in enumerate(result):
+            if date_from > datapoint[0] or datapoint[0] > date_to:
                 result.pop(i)
 
-        result = [datepoint.strftime("%Y-%m-%d %H-%M-%S")
-                  for datepoint in sorted(result)]
+        result = self.string_date_list(result)
+        page.Values()
+        close(page.vyvoj_ceny)
+        page.VyvojGraf()
+        page.statistiky = result
 
-        # print(date_from, date_to, result)
+    @staticmethod
+    def datetime_list(stats_list):
+        """
+        Convert list of stats entries in format:
+        [['date', 'type', 'id', 'code', 'amount', 'price'], ...]
 
-    def receipt_msg(self, id: str, filepath, type: str = 'účtenku'):
+        into list of stats with date in datetime format:
+        [[datetime, 'type', 'id', 'code', 'amount', 'price'], ...]
+        """
+
+        return [[
+            datetime.datetime.strptime(
+                datapoint[0], "%Y-%m-%d %H-%M-%S"
+            )] + datapoint[1:] for datapoint in stats_list
+        ]
+
+    @staticmethod
+    def string_date_list(stats_list):
+        """
+        Convert list of stats with date in datetime format:
+        [[datetime, 'type', 'id', 'code', 'amount', 'price'], ...]
+
+        into list of stats in string format:
+        [['date', 'type', 'id', 'code', 'amount', 'price'], ...]
+        """
+
+        return [[
+            datapoint[0].strftime("%Y-%m-%d %H-%M-%S")
+        ] + datapoint[1:]
+            for datapoint in sorted(stats_list)
+        ]
+
+    @staticmethod
+    def receipt_msg(id: str, filepath, type: str = 'účtenku'):
         """Display message about created receipt."""
 
         receipt_icon = QIcon()
@@ -177,23 +211,27 @@ class UI_Commands():
         msg.setIconPixmap(QPixmap(find_icon('receipt.svg')))
         msg.exec_()
 
-    def error(self, message: str, additional_text=''):
+    @staticmethod
+    def error(message: str, additional_text=''):
         """Display simple error message."""
 
         Message(message, QMessageBox.Critical, 'Error', additional_text)
 
-    def info(self, message: str, additional_text=''):
+    @staticmethod
+    def info(message: str, additional_text=''):
         """Display simple info message."""
 
         Message(message, QMessageBox.Information,
                 'Information', additional_text)
 
-    def warning(self, message: str, additional_text=''):
+    @staticmethod
+    def warning(message: str, additional_text=''):
         """Display simple warrning message."""
 
         Message(message, QMessageBox.Warning, 'Warning', additional_text)
 
-    def confirm(self, page, message: str, ok_command):
+    @staticmethod
+    def confirm(page, message: str, ok_command):
         """Display message to confirm the action."""
 
         answer = QMessageBox.question(

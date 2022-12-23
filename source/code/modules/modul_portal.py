@@ -16,10 +16,10 @@ class Portal:
     screen (button clicks, item listing...).
     """
 
-    def __init__(self, ui, data):
-        self.ui = ui
-        self.commands = UI_Commands(self.ui)
-        self.data = data
+    def __init__(self, app):
+        self.ui = app.ui
+        self.commands = app.commands
+        self.data = app.data
 
         # Init category layouts
         self.layouts = [

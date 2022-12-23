@@ -6,8 +6,8 @@ import numpy as np
 
 
 class Statistika:
-    def __init__(self, ui, data):
 
+    def __init__(self, ui, data):
         self.ui = ui
         self.commands = UI_Commands(self.ui)
         self.data = data
@@ -36,6 +36,10 @@ class Statistika:
         self.VyvojGraf()
         self.FunFacts()
 
+        self.commands.date_entries(
+            self, [self.ui.dateFrom, self.ui.dateTo], self.statistiky
+        )
+
     def switch_screen(self):
         """Redirect to this statistika screen."""
         self.commands.redirect(self.ui.statistika)
@@ -58,10 +62,10 @@ class Statistika:
         self.posledna_objednavka_P = 'ziadna'
         self.posledna_objednavka_N = 'ziadna'
         self.profLoss = 0
-        
-        self.x_date = ['12.1.22','12.2.22','12.3.22','12.4.22']
-        self.profit_all = [0,2,1,5]
-        self.loss_all = [0,1,2,5]
+
+        self.x_date = ['12.1.22', '12.2.22', '12.3.22', '12.4.22']
+        self.profit_all = [0, 2, 1, 5]
+        self.loss_all = [0, 1, 2, 5]
         self.najviac_sa_nakupuje = 'Sobota (87)'
 
         najviac_produkt = 0
@@ -159,7 +163,6 @@ class Statistika:
                 self.posledna_objednavka_P[4]+'ks'+';' + \
                 self.posledna_objednavka_P[5]+'€/ks'
 
-
         self.x_date = []
         self.profit_all = [0]
         self.loss_all = [0]
@@ -167,7 +170,8 @@ class Statistika:
             tr = False
             fl = False
             date_format_0 = i[0].split()[0]
-            date_format_1 = date_format_0.split('-')[2]+'.'+date_format_0.split('-')[1]+'.'+date_format_0.split('-')[0][2:]
+            date_format_1 = date_format_0.split(
+                '-')[2]+'.'+date_format_0.split('-')[1]+'.'+date_format_0.split('-')[0][2:]
             self.x_date += date_format_1+str(ah),
             if i[1] == 'P':
                 self.profit_all += int(i[4])*float(i[5]),
@@ -331,9 +335,9 @@ class Statistika:
                               (self.x_date[index], y[index]))
                 a3.figure.canvas.draw()
 
-        vyvoj_ceny, a3 = plt.subplots(
+        self.vyvoj_ceny, a3 = plt.subplots(
             figsize=[7.18, 3.21], linewidth=self.linewidth, edgecolor=self.edgecolor)
-        vyvoj_ceny.set_facecolor(self.graph_color)
+        self.vyvoj_ceny.set_facecolor(self.graph_color)
         a3.set_facecolor(self.graph_color)
         a3.spines['top'].set_visible(False)
         a3.spines['right'].set_visible(False)
@@ -350,8 +354,10 @@ class Statistika:
         x_axis = [i for i in range(len(self.x_date))]
         self.last_index = None
         text = a3.text(0.8, 0.9, '', transform=a3.transAxes)
-        vyvoj_ceny.canvas.mpl_connect('motion_notify_event', on_mouse_move)
-        self.commands.plot_graph(self.ui.trzbyNaklady, vyvoj_ceny, size=68.5)
+        self.vyvoj_ceny.canvas.mpl_connect(
+            'motion_notify_event', on_mouse_move)
+        self.commands.plot_graph(self.ui.trzbyNaklady,
+                                 self.vyvoj_ceny, size=68.5)
         plt.tight_layout()
 
     def FunFacts(self):
