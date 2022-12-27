@@ -63,12 +63,12 @@ class UI_Commands():
         scene = QGraphicsScene()
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
-    
+
     def product_sorted_graph(self, main_list, x_date, profit, loss):
-        '''
-        create 3 lists from statistiky.txt 
-        needed to plot the graph vyvoj_ceny
-        '''
+        """
+        Create 3 lists from statistiky.txt 
+        needed to plot the graph vyvoj_ceny.
+        """
         for ah, i in enumerate(main_list):
             all_prof = False
             all_loss = False
@@ -88,7 +88,6 @@ class UI_Commands():
                 profit += profit[-1],
         profit.pop(0)
         loss.pop(0)
-        return
 
     def list_item_selected(self, list_widget, command):
         """
@@ -186,7 +185,7 @@ class UI_Commands():
         result = self.string_date_list(result)
         page.Values()
         close(page.vyvoj_ceny)
-        page.VyvojGraf()
+        page.VyvojGrafVsetky()
         page.statistiky = result
 
     @staticmethod

@@ -1,6 +1,4 @@
-from utils.file import DataFile
 from utils.ui_commands import UI_Commands
-from utils import tools
 import matplotlib.pyplot as plt
 import numpy as np
 from PyQt5.QtWidgets import QGraphicsScene
@@ -60,7 +58,6 @@ class Statistika:
         self.posledna_objednavka_N = 'ziadna'
         self.profLoss = 0
 
-        
         self.najviac_sa_nakupuje = 'Sobota (87)'
 
         najviac_produkt = 0
@@ -110,13 +107,12 @@ class Statistika:
                     self.profLoss -= int(i[4])*float(i[5])
             self.profLoss = round(self.profLoss, 2)
 
-
         statistiky_tricka = [1]
         statistiky_topanky = [3]
         statistiky_mikiny = [4]
         statistiky_nohavice = [2]
         statistiky_doplnky = [5]
-        for i in sorted(statistiky_list, key=lambda x:x[3]):
+        for i in sorted(statistiky_list, key=lambda x: x[3]):
             if i[3][0] == str(statistiky_tricka[0]):
                 statistiky_tricka += i,
             elif i[3][0] == str(statistiky_nohavice[0]):
@@ -134,7 +130,6 @@ class Statistika:
         statistiky_mikiny.pop(0)
         statistiky_nohavice.pop(0)
         statistiky_doplnky.pop(0)
-
 
         top_produkty.remove([0, 0])
         self.top_ten_graf = sorted(
@@ -183,39 +178,41 @@ class Statistika:
                 self.posledna_objednavka_P[4]+'ks'+';' + \
                 self.posledna_objednavka_P[5]+'€/ks'
 
-
-
         self.x_date = []
         self.profit_all = [0]
         self.loss_all = [0]
-        self.commands.product_sorted_graph(statistiky_list, self.x_date, self.profit_all, self.loss_all)
+        self.commands.product_sorted_graph(
+            statistiky_list, self.x_date, self.profit_all, self.loss_all)
 
         self.x_date_tricka = []
         self.profit_tricka = [0]
         self.loss_tricka = [0]
-        self.commands.product_sorted_graph(statistiky_tricka, self.x_date_tricka, self.profit_tricka, self.loss_tricka)
+        self.commands.product_sorted_graph(
+            statistiky_tricka, self.x_date_tricka, self.profit_tricka, self.loss_tricka)
 
         self.x_date_topanky = []
         self.profit_topanky = [0]
         self.loss_topanky = [0]
-        self.commands.product_sorted_graph(statistiky_topanky, self.x_date_topanky, self.profit_topanky, self.loss_topanky)
+        self.commands.product_sorted_graph(
+            statistiky_topanky, self.x_date_topanky, self.profit_topanky, self.loss_topanky)
 
         self.x_date_mikiny = []
         self.profit_mikiny = [0]
         self.loss_mikiny = [0]
-        self.commands.product_sorted_graph(statistiky_mikiny, self.x_date_mikiny, self.profit_mikiny, self.loss_mikiny)
+        self.commands.product_sorted_graph(
+            statistiky_mikiny, self.x_date_mikiny, self.profit_mikiny, self.loss_mikiny)
 
         self.x_date_nohavice = []
         self.profit_nohavice = [0]
         self.loss_nohavice = [0]
-        self.commands.product_sorted_graph(statistiky_nohavice, self.x_date_nohavice, self.profit_nohavice, self.loss_nohavice)
+        self.commands.product_sorted_graph(
+            statistiky_nohavice, self.x_date_nohavice, self.profit_nohavice, self.loss_nohavice)
 
         self.x_date_doplnky = []
         self.profit_doplnky = [0]
         self.loss_doplnky = [0]
-        self.commands.product_sorted_graph(statistiky_doplnky, self.x_date_doplnky, self.profit_doplnky, self.loss_doplnky)
-
-
+        self.commands.product_sorted_graph(
+            statistiky_doplnky, self.x_date_doplnky, self.profit_doplnky, self.loss_doplnky)
 
     def NajviacGraf(self):
         if self.statistiky:
@@ -228,7 +225,7 @@ class Statistika:
             a1.axes.xaxis.set_ticklabels([])
             a1.tick_params(axis='x', which='both', length=0)
             a1.set_title('Najpredavanejsie produkty', **
-                        self.font, fontsize=15, weight='bold')
+                         self.font, fontsize=15, weight='bold')
             bar_X = [i for i in range(len(self.top_ten_graf))]
             bars1 = a1.bar(bar_X, self.top_ten)
             bar_X = []
@@ -236,7 +233,7 @@ class Statistika:
                 bar_X.append(bar.get_x())
 
             annot1 = a1.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
-                                bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
+                                 bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
             annot1.set_visible(False)
 
             def update_annot1(event, bar_x_pos):
@@ -279,7 +276,7 @@ class Statistika:
         else:
             scene = QGraphicsScene()
             text = scene.addText('najpredavanejsie produkty')
-            text.setPos(0,-50)
+            text.setPos(0, -50)
             scene.addText('ziadne data v STATISTIKY.txt')
             self.ui.najviacGraf.setScene(scene)
 
@@ -294,7 +291,7 @@ class Statistika:
             a2.axes.xaxis.set_ticklabels([])
             a2.tick_params(axis='x', which='both', length=0)
             a2.set_title('Najmenej predavane produkty', **
-                        self.font, fontsize=15, weight='bold')
+                         self.font, fontsize=15, weight='bold')
             bar_X = [i for i in range(len(self.top_ten_worst_graf))]
             bars2 = a2.bar(bar_X, self.top_ten_worst)
             bar_X = []
@@ -302,7 +299,7 @@ class Statistika:
                 bar_X.append(bar.get_x())
 
             annot2 = a2.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
-                                bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
+                                 bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
             annot2.set_visible(False)
 
             def update_annot2(event, bar_x_pos):
@@ -312,7 +309,8 @@ class Statistika:
                 for c, i in enumerate(bar_X):
                     if i == bar_x_pos:
                         text_lomeno_n = ''
-                        text_bez_lomeno_n = self.top_ten_worst_graf[c][0].split()
+                        text_bez_lomeno_n = self.top_ten_worst_graf[c][0].split(
+                        )
                         for i in text_bez_lomeno_n:
                             text_lomeno_n += i+'\n'
                         if self.top_ten_worst_graf[c][1] == 1:
@@ -345,19 +343,24 @@ class Statistika:
         else:
             scene = QGraphicsScene()
             text = scene.addText('nejmenej predavane produkty')
-            text.setPos(0,-50)
+            text.setPos(0, -50)
             scene.addText('ziadne data v STATISTIKY.txt')
             self.ui.najmenejGraf.setScene(scene)
 
-
     def VyvojGrafVsetky(self):
         if self.statistiky:
-            self.VyvojGraf(self.x_date,self.profit_all,self.loss_all,self.ui.trzbyNakladyVsetko)
-            self.VyvojGraf(self.x_date_tricka,self.profit_tricka,self.loss_tricka,self.ui.trzbyNakladyTricka)
-            self.VyvojGraf(self.x_date_topanky,self.profit_topanky,self.loss_topanky,self.ui.trzbyNakladyTopanky)
-            self.VyvojGraf(self.x_date_mikiny,self.profit_mikiny,self.loss_mikiny,self.ui.trzbyNakladyMikiny)
-            self.VyvojGraf(self.x_date_nohavice,self.profit_nohavice,self.loss_nohavice,self.ui.trzbyNakladyNohavice)
-            self.VyvojGraf(self.x_date_doplnky,self.profit_doplnky,self.loss_doplnky,self.ui.trzbyNakladyDoplnky)
+            self.VyvojGraf(self.x_date, self.profit_all,
+                           self.loss_all, self.ui.trzbyNakladyVsetko)
+            self.VyvojGraf(self.x_date_tricka, self.profit_tricka,
+                           self.loss_tricka, self.ui.trzbyNakladyTricka)
+            self.VyvojGraf(self.x_date_topanky, self.profit_topanky,
+                           self.loss_topanky, self.ui.trzbyNakladyTopanky)
+            self.VyvojGraf(self.x_date_mikiny, self.profit_mikiny,
+                           self.loss_mikiny, self.ui.trzbyNakladyMikiny)
+            self.VyvojGraf(self.x_date_nohavice, self.profit_nohavice,
+                           self.loss_nohavice, self.ui.trzbyNakladyNohavice)
+            self.VyvojGraf(self.x_date_doplnky, self.profit_doplnky,
+                           self.loss_doplnky, self.ui.trzbyNakladyDoplnky)
         else:
             scene = QGraphicsScene()
             scene.addText('ziadne data v STATISTIKY.txt')
@@ -367,9 +370,8 @@ class Statistika:
             self.ui.trzbyNakladyMikiny.setScene(scene)
             self.ui.trzbyNakladyNohavice.setScene(scene)
             self.ui.trzbyNakladyDoplnky.setScene(scene)
-    
 
-    def VyvojGraf(self,x_date,profit,loss,qtgraf):
+    def VyvojGraf(self, x_date, profit, loss, qtgraf):
 
         def set_cross_hair_visible(visible):
             need_redraw = horizontal_line.get_visible() != visible
@@ -397,7 +399,7 @@ class Statistika:
                 horizontal_line.set_ydata(y[index])
                 horizontal_line1.set_ydata(z[index])
                 text.set_text('Dátum = %s\namount = %s' %
-                              (x_date[index], round(y[index],2)))
+                              (x_date[index], round(y[index], 2)))
                 a3.figure.canvas.draw()
 
         vyvoj_ceny, a3 = plt.subplots(

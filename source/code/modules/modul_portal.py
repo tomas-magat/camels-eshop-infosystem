@@ -6,7 +6,6 @@
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
-from utils.ui_commands import UI_Commands
 from utils.tools import *
 
 
@@ -51,8 +50,8 @@ class Portal:
         self.prices = self.data['cennik']
         self.storage = self.data['sklad']
         self.goods.version_changed(self.reload_items)
-        self.update_category()
         self.ui.itemCategories.setCurrentIndex(0)
+        self.update_category()
 
     # ==================== ACTIONS =======================
     def redirect_actions(self):

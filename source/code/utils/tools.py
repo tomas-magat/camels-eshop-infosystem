@@ -1,9 +1,10 @@
 # Other often used functions
 import random
 import os
+import re
 import difflib
-import datetime
 import io
+from datetime import datetime
 from PIL import Image, ImageCms
 
 from .ENV_VARS import PATH
@@ -20,10 +21,10 @@ def camelify(input_string: str):
     return ''.join([camel[0].lower(), camel[1:]])
 
 
-def convert_image(icc, img):
+def change_img_profile(icc, img):
     """
-    Convert PIL image to sRGB color space (if possible)
-    to prevent problems in UI image displaying.
+    Change PIL image profile from icc to sRGB color space 
+    (if possible) to prevent problems in UI image displaying.
     """
 
     io_handle = io.BytesIO(icc)
@@ -49,6 +50,22 @@ def filter_category(data: dict, category: int = 0):
     return result
 
 
+def filter_statistics_category(data_list: list, category: int = 0):
+    """
+    Return list contaning only purchases of items of specific 
+    category (0 = all categories).
+    """
+
+    if category != 0:
+        result = []
+        for purchase in data_list:
+            if purchase[3][0] == str(category):
+                result.append(purchase)
+        return result
+
+    return data_list
+
+
 def find_image(image_name: str):
     """Return absolute path of root/assets/images/[image_name]."""
 
@@ -62,7 +79,7 @@ def find_icon(icon_name: str):
 
 
 def find_code(category):
-    """Find first free item code of specific category."""
+    """Finds the first free item code of specific category."""
 
     data = DataFile('tovar').data
     codes = filter_category(data, category)
@@ -97,7 +114,7 @@ def get_match(term, key, val):
 def now():
     """Get current date in a string format YYYY-MM-DD HH-mm-SS."""
 
-    return datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    return datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
 
 def random_id(type='N'):
@@ -111,8 +128,7 @@ def random_id(type='N'):
 
 
 def receipt_template(
-    id: str, cashier_name: str,
-    contents: dict, total_price: float
+    id: str, contents: dict, total_price: float, cashier_name: str = ''
 ):
     """
     Template for common receipt. Requires receipt id, cashier
@@ -195,9 +211,30 @@ def sort_counts(category: int = 0):
     data = DataFile('sklad').data
     counts = filter_category(data, category)
 
-    return sorted(counts,
-                  key=lambda key: int(counts.get(key)[0]),
-                  )
+    return sorted(
+        counts, key=lambda key: int(counts.get(key)[0])
+    )
+
+
+def statistics_range(
+    date_from: datetime, date_to: datetime, category: int = 0
+):
+    """
+    Return list of statistics datapoints in specific item 
+    category and in specified datetime range.
+    """
+
+    data = DataFile('statistiky').data_list
+    category_stats = filter_statistics_category(data, category)
+
+    result = []
+    for purchase in category_stats:
+        purchase_date = datetime.strptime(
+            purchase[0], "%Y-%m-%d %H-%M-%S")
+        if date_from <= purchase_date <= date_to:
+            result.append(purchase)
+
+    return result
 
 
 def validate_int(input_field, invalid_cmd=None):
@@ -219,7 +256,8 @@ def validate_price(input_field, invalid_cmd=None):
     """
 
     try:
-        price = float(input_field.text())
+        text = re.sub(',|;', '.', input_field.text())
+        price = float(text)
     except:
         if invalid_cmd != None and input_field.text() != '----':
             invalid_cmd()
@@ -238,7 +276,7 @@ def valid_image(file_path):
     icc = img.info.get('icc_profile', '')
 
     if icc:
-        icc_conv, img_conv = convert_image(icc, img)
+        icc_conv, img_conv = change_img_profile(icc, img)
         if icc != icc_conv:
             img_conv.save(
                 file_path, format='PNG',
