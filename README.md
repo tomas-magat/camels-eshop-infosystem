@@ -21,9 +21,6 @@
 - Colors: [Palette](https://coolors.co/palette/cad2c5-84a98c-52796f-354f52-2f3e46)
 - Font: Default font - MS Shell Dlg 2, Bold; Myanmar Text, Bold
 
-## Commands and utils sheet
-![](assets/docs/COMMANDS_5.png)
-
 ## Module structure and datafile format
 ![](assets/docs/STRUCTURE_4.png)
 
