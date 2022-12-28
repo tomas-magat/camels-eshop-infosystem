@@ -41,6 +41,12 @@ class UI_Commands():
         button.clicked.connect(
             lambda: button.parentWidget().deleteLater())
 
+    def clear_layout(self, layout):
+        """Clear all items from existing layout object."""
+
+        for i in reversed(range(layout.count())):
+            layout.itemAt(i).widget().setParent(None)
+
     def form_submit(self, widgets: list, command):
         """
         After pressing enter key in any of the line edits
@@ -59,8 +65,8 @@ class UI_Commands():
         figure.set_dpi(size)
 
         canvas = FigureCanvas(figure)
-
         scene = QGraphicsScene()
+
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
 
@@ -104,35 +110,19 @@ class UI_Commands():
 
         tab_widget.currentChanged.connect(command)
 
-    def clear_layout(self, layout):
-        """Clear all items from existing layout object."""
-
-        for i in reversed(range(layout.count())):
-            layout.itemAt(i).widget().setParent(None)
-
-    def date_entries(self, page, date_edits: list, dates_list):
+    def date_changed(self, date_edits: list, command):
         """
-        After user changes datetime in one of QDateEdit widgets,
-        return a list of dates in specified range.
+        Execute a command after user changes datetime 
+        in one of the given QDateEdit widgets.
         """
 
-        self.init_date_entries(date_edits)
-        self.set_date_edits(date_edits)
+        self.init_date_edits(date_edits)
 
         for edit in date_edits:
-            edit.dateChanged.connect(
-                lambda: self.dates_range(page, date_edits, dates_list)
-            )
+            edit.dateChanged.connect(command)
+            edit.dateChanged.connect(lambda: self.set_limits(date_edits))
 
-    def set_date_edits(self, date_edits):
-        """After date changed in a field, validate the other field."""
-
-        date_edits[0].dateChanged.connect(
-            lambda: self._set_date(date_edits))
-        date_edits[1].dateChanged.connect(
-            lambda: self._set_date(date_edits))
-
-    def init_date_entries(self, date_edits: list):
+    def init_date_edits(self, date_edits: list):
         """
         Initialize valid dates in given date edits on first run.
         """
@@ -146,28 +136,28 @@ class UI_Commands():
         date_edits[1].setDate(datetime.date.today())
 
     def date_limits(
-        self, date_edit: QDateEdit, date_min: datetime.date,
-        date_max: datetime.date, min_add: int = 0, max_sub: int = 0
+        self, date_edit: QDateEdit,
+        date_min=datetime.date(2022, 12, 12),
+        date_max=datetime.date.today(),
+        min_add: int = 0, max_sub: int = 0
     ):
         """Sets minimum and maximum date of given date_edit."""
 
-        min_date = date_min + \
-            datetime.timedelta(days=min_add)
+        min_date = date_min + datetime.timedelta(days=min_add)
         date_edit.setMinimumDate(min_date)
+
         max_date = date_max - datetime.timedelta(days=max_sub)
         date_edit.setMaximumDate(max_date)
 
-    def _set_date(self, date_edits):
+    def set_limits(self, date_edits: list):
         self.date_limits(
             date_edits[0],
-            datetime.date(2022, 12, 12),
-            date_edits[1].date().toPyDate(),
+            date_max=date_edits[1].date().toPyDate(),
             max_sub=1
         )
         self.date_limits(
             date_edits[1],
-            date_edits[0].date().toPyDate(),
-            datetime.date.today(),
+            date_min=date_edits[0].date().toPyDate(),
             min_add=1
         )
 

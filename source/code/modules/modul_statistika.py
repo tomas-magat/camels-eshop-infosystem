@@ -31,8 +31,8 @@ class Statistika:
         self.VyvojGrafVsetky()
         self.FunFacts()
 
-        self.commands.date_entries(
-            self, [self.ui.dateFrom, self.ui.dateTo], self.statistiky
+        self.commands.date_changed(
+            [self.ui.dateFrom, self.ui.dateTo], lambda x: x
         )
 
     def switch_screen(self):
@@ -425,7 +425,6 @@ class Statistika:
             'motion_notify_event', on_mouse_move)
         self.commands.plot_graph(qtgraf,
                                  vyvoj_ceny, size=68.5)
-        plt.tight_layout()
 
     def FunFacts(self):
 
