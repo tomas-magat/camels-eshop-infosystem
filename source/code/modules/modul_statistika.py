@@ -2,7 +2,7 @@ from utils.ui_commands import UI_Commands
 import matplotlib.pyplot as plt
 import numpy as np
 from PyQt5.QtWidgets import QGraphicsScene
-
+from utils.tools import find_image
 
 class Statistika:
 
@@ -25,15 +25,24 @@ class Statistika:
         self.graph_color = '#CAD2C5'
         self.funFactsColor = '#2C57D8'
 
+
+        self.data['statistiky'].version_changed(self.reload, dict_data=False) 
+        # find_image('tricko.jpg')
+        self.reload(self.statistiky)
+        
+
+
+        self.commands.date_entries(
+            self, [self.ui.dateFrom, self.ui.dateTo], self.statistiky
+        )
+
+    def reload(self, data_list):
+        self.statistiky = data_list
         self.Values()
         self.NajviacGraf()
         self.NajmenejGraf()
         self.VyvojGrafVsetky()
         self.FunFacts()
-
-        self.commands.date_entries(
-            self, [self.ui.dateFrom, self.ui.dateTo], self.statistiky
-        )
 
     def switch_screen(self):
         """Redirect to this statistika screen."""
@@ -412,6 +421,7 @@ class Statistika:
                      weight='bold')
         line, = a3.plot(x_date, profit, label='vynosy')
         line1, = a3.plot(x_date, loss, label='naklady')
+        a3.xaxis.set_major_locator(plt.MaxNLocator(5))
         a3.legend(loc='upper left', frameon=False)
         horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
         horizontal_line1 = a3.axhline(color='k', lw=0.8, ls='--')

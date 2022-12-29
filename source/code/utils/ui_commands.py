@@ -67,7 +67,7 @@ class UI_Commands():
     def product_sorted_graph(self, main_list, x_date, profit, loss):
         """
         Create 3 lists from statistiky.txt 
-        needed to plot the graph vyvoj_ceny.
+        needed to plot the graph vyvoj_ceny
         """
         for ah, i in enumerate(main_list):
             all_prof = False
