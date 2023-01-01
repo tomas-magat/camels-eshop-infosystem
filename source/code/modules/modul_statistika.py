@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PyQt5.QtWidgets import QGraphicsScene
 from utils.tools import find_image
+import datetime
 
 class Statistika:
 
@@ -29,12 +30,12 @@ class Statistika:
         self.data['statistiky'].version_changed(self.reload, dict_data=False) 
         # find_image('tricko.jpg')
         self.reload(self.statistiky)
-        
 
-
-        self.commands.date_entries(
-            self, [self.ui.dateFrom, self.ui.dateTo], self.statistiky
+        self.commands.date_changed(
+            [self.ui.dateFrom, self.ui.dateTo], lambda x: x
         )
+
+
 
     def reload(self, data_list):
         self.statistiky = data_list
@@ -44,9 +45,6 @@ class Statistika:
         self.VyvojGrafVsetky()
         self.FunFacts()
 
-        self.commands.date_changed(
-            [self.ui.dateFrom, self.ui.dateTo], lambda x: x
-        )
 
     def switch_screen(self):
         """Redirect to this statistika screen."""
@@ -82,9 +80,13 @@ class Statistika:
                 self.najviac_mame_produkt = produkt_sklad,
                 najviac_produkt = int(produkt_sklad[1])
 
+        statistiky_tricka = [1]
+        statistiky_topanky = [3]
+        statistiky_mikiny = [4]
+        statistiky_nohavice = [2]
+        statistiky_doplnky = [5]
         top_produkty = [[0, 0]]
         ttt = 0
-        statistiky_list = []
         if self.statistiky:
             for objednavka in self.statistiky:
                 m = 0
@@ -101,13 +103,33 @@ class Statistika:
                     self.posledna_objednavka_P = objednavka
                 else:
                     self.posledna_objednavka_N = objednavka
-                statistiky_list += objednavka,
-            self.avPrice /= ttt
-            self.avPrice = str(round(self.avPrice, 2))+'€'
+                if objednavka[3][0] == str(statistiky_tricka[0]):
+                    statistiky_tricka += objednavka,
+                elif objednavka[3][0] == str(statistiky_topanky[0]):
+                    statistiky_topanky += objednavka,
+                elif objednavka[3][0] == str(statistiky_mikiny[0]):
+                    statistiky_mikiny += objednavka,
+                elif objednavka[3][0] == str(statistiky_nohavice[0]):
+                    statistiky_nohavice += objednavka,
+                elif objednavka[3][0] == str(statistiky_doplnky[0]):
+                    statistiky_doplnky += objednavka,
+                else:
+                    print('chyba v kode produktu -',objednavka)
+                
 
-            statistiky_prof_loss1 = statistiky_list[-1]
+            if ttt != 0:
+                self.avPrice /= ttt
+                self.avPrice = str(round(self.avPrice, 2))+'€'
+
+            statistiky_tricka.pop(0)
+            statistiky_topanky.pop(0)
+            statistiky_mikiny.pop(0)
+            statistiky_nohavice.pop(0)
+            statistiky_doplnky.pop(0)
+
+            statistiky_prof_loss1 = self.statistiky[-1]
             statistiky_prof_loss = []
-            for i in reversed(statistiky_list):
+            for i in reversed(self.statistiky):
                 if i[0].split()[0] == statistiky_prof_loss1[0].split()[0]:
                     statistiky_prof_loss += i,
                 else:
@@ -120,29 +142,7 @@ class Statistika:
                     self.profLoss -= int(i[4])*float(i[5])
             self.profLoss = round(self.profLoss, 2)
 
-        statistiky_tricka = [1]
-        statistiky_topanky = [3]
-        statistiky_mikiny = [4]
-        statistiky_nohavice = [2]
-        statistiky_doplnky = [5]
-        for i in sorted(statistiky_list, key=lambda x: x[3]):
-            if i[3][0] == str(statistiky_tricka[0]):
-                statistiky_tricka += i,
-            elif i[3][0] == str(statistiky_nohavice[0]):
-                statistiky_nohavice += i,
-            elif i[3][0] == str(statistiky_topanky[0]):
-                statistiky_topanky += i,
-            elif i[3][0] == str(statistiky_mikiny[0]):
-                statistiky_mikiny += i,
-            elif i[3][0] == str(statistiky_doplnky[0]):
-                statistiky_doplnky += i,
-            else:
-                print('chyba v kode produktu'+str(i))
-        statistiky_tricka.pop(0)
-        statistiky_topanky.pop(0)
-        statistiky_mikiny.pop(0)
-        statistiky_nohavice.pop(0)
-        statistiky_doplnky.pop(0)
+
 
         top_produkty.remove([0, 0])
         self.top_ten_graf = sorted(
@@ -150,9 +150,24 @@ class Statistika:
         self.top_ten_graf = self.top_ten_graf[:10]
         self.top_ten = [i[1] for i in self.top_ten_graf]
 
-        self.top_ten_worst_graf = sorted(top_produkty, key=lambda x: x[1])
+        self.top_ten_worst_graf = sorted(
+            top_produkty, key=lambda x: x[1])
         self.top_ten_worst_graf = self.top_ten_worst_graf[:10]
         self.top_ten_worst = [i[1] for i in self.top_ten_worst_graf]
+
+        if len(top_produkty) != len(self.sklad):
+            product_worst = []
+            product_non = []
+            product_non_index = []
+            for product_worst_i in top_produkty:
+                product_worst += product_worst_i[0],
+            for product_sklad in self.sklad:
+                if product_sklad[0] not in product_worst:
+                    product_non += [product_sklad[0],0],
+                    product_non_index += 0.5,
+            self.top_ten_worst = (product_non_index + self.top_ten_worst)[:10]
+            self.top_ten_worst_graf = (product_non + self.top_ten_worst_graf)[:10]
+
 
         for produkt_tovar in self.tovar:
             for i in range(len(self.top_ten_graf)):
@@ -174,58 +189,72 @@ class Statistika:
             if produkt_tovar[0] == self.posledna_objednavka_P[3]:
                 self.posledna_objednavka_P[3] = produkt_tovar[1]
 
+
         if self.sklad and self.najviac_mame_produkt != 0:
             nove_produkty = str(self.najviac_mame_produkt[0][1])+' ks'
             for i in self.najviac_mame_produkt:
                 nove_produkty += '\n'+i[0]
             self.najviac_mame_produkt = nove_produkty
 
-        if self.statistiky:
+        
+
+        if self.posledna_objednavka_N != 'ziadna':
+            # self.posledna_objednavka_N[0] = self.posledna_objednavka_N[0].split()[0].split('-')[2] +'-'+ \
+            #     self.posledna_objednavka_N[0].split()[0].split('-')[1]+'-'+self.posledna_objednavka_N[0].split()[0].split('-')[0] + \
+            #     ' '+self.posledna_objednavka_N[0].split()[1]
+
             self.posledna_objednavka_N = self.posledna_objednavka_N[0].split()[0].replace('-', '.')+' ' + \
-                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_N[3]+';' + \
+                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+'\n'+self.posledna_objednavka_N[3]+'\n' + \
                 self.posledna_objednavka_N[4]+'ks'+';' + \
                 self.posledna_objednavka_N[5]+'€/ks'
 
+        if self.posledna_objednavka_P != 'ziadna':
+            # self.posledna_objednavka_P[0] = self.posledna_objednavka_P[0].split()[0].split('-')[2] +'-'+ \
+            #     self.posledna_objednavka_P[0].split()[0].split('-')[1]+'-'+self.posledna_objednavka_P[0].split()[0].split('-')[0] + \
+            #     ' '+self.posledna_objednavka_P[0].split()[1]
+
             self.posledna_objednavka_P = self.posledna_objednavka_P[0].split()[0].replace('-', '.')+' ' + \
-                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+';'+self.posledna_objednavka_P[3]+';' + \
+                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+'\n'+self.posledna_objednavka_P[3]+'\n' + \
                 self.posledna_objednavka_P[4]+'ks'+';' + \
                 self.posledna_objednavka_P[5]+'€/ks'
 
-        self.x_date = []
-        self.profit_all = [0]
-        self.loss_all = [0]
-        self.commands.product_sorted_graph(
-            statistiky_list, self.x_date, self.profit_all, self.loss_all)
 
-        self.x_date_tricka = []
-        self.profit_tricka = [0]
-        self.loss_tricka = [0]
-        self.commands.product_sorted_graph(
-            statistiky_tricka, self.x_date_tricka, self.profit_tricka, self.loss_tricka)
+        if self.statistiky:
+            self.x_date_all = []
+            self.price_graph_all = []
+            self.commands.product_sorted_graph(
+                self.statistiky, self.x_date_all, self.price_graph_all)
 
-        self.x_date_topanky = []
-        self.profit_topanky = [0]
-        self.loss_topanky = [0]
-        self.commands.product_sorted_graph(
-            statistiky_topanky, self.x_date_topanky, self.profit_topanky, self.loss_topanky)
+        # if statistiky_tricka:
+        #     self.x_date_tricka = []
+        #     self.price_graph_tricka= []
+        #     self.commands.product_sorted_graph(
+        #         statistiky_tricka, self.x_date_tricka, self.price_graph_tricka)
 
-        self.x_date_mikiny = []
-        self.profit_mikiny = [0]
-        self.loss_mikiny = [0]
-        self.commands.product_sorted_graph(
-            statistiky_mikiny, self.x_date_mikiny, self.profit_mikiny, self.loss_mikiny)
+        # if statistiky_topanky:
+        #     self.x_date_topanky = []
+        #     self.price_graph_topanky = []
+        #     self.commands.product_sorted_graph(
+        #         statistiky_topanky, self.x_date_topanky, self.price_graph_topanky)
 
-        self.x_date_nohavice = []
-        self.profit_nohavice = [0]
-        self.loss_nohavice = [0]
-        self.commands.product_sorted_graph(
-            statistiky_nohavice, self.x_date_nohavice, self.profit_nohavice, self.loss_nohavice)
+        # if statistiky_mikiny:
+        #     self.x_date_mikiny = []
+        #     self.price_graph_mikiny = []
+        #     self.commands.product_sorted_graph(
+        #         statistiky_mikiny, self.x_date_mikiny, self.price_graph_mikiny)
 
-        self.x_date_doplnky = []
-        self.profit_doplnky = [0]
-        self.loss_doplnky = [0]
-        self.commands.product_sorted_graph(
-            statistiky_doplnky, self.x_date_doplnky, self.profit_doplnky, self.loss_doplnky)
+        # if statistiky_nohavice:
+        #     self.x_date_nohavice = []
+        #     self.price_graph_nohavice = []
+        #     self.commands.product_sorted_graph(
+        #         statistiky_nohavice, self.x_date_nohavice, self.price_graph_nohavice)
+
+        # if statistiky_doplnky:
+        #     self.x_date_doplnky = []
+        #     self.price_graph_doplnky = []
+        #     self.commands.product_sorted_graph(
+        #         statistiky_doplnky, self.x_date_doplnky, self.price_graph_doplnky)
+
 
     def NajviacGraf(self):
         if self.statistiky:
@@ -322,11 +351,12 @@ class Statistika:
                 for c, i in enumerate(bar_X):
                     if i == bar_x_pos:
                         text_lomeno_n = ''
-                        text_bez_lomeno_n = self.top_ten_worst_graf[c][0].split(
-                        )
+                        text_bez_lomeno_n = self.top_ten_worst_graf[c][0].split()
                         for i in text_bez_lomeno_n:
                             text_lomeno_n += i+'\n'
-                        if self.top_ten_worst_graf[c][1] == 1:
+                        if self.top_ten_worst_graf[c][1] == 0.5:
+                            objednavka_text = 'objednavok'
+                        elif self.top_ten_worst_graf[c][1] == 1:
                             objednavka_text = ' objednavka'
                         elif 1 < self.top_ten_worst_graf[c][1] < 5:
                             objednavka_text = ' objednavky'
@@ -362,29 +392,23 @@ class Statistika:
 
     def VyvojGrafVsetky(self):
         if self.statistiky:
-            self.VyvojGraf(self.x_date, self.profit_all,
-                           self.loss_all, self.ui.trzbyNakladyVsetko)
-            self.VyvojGraf(self.x_date_tricka, self.profit_tricka,
-                           self.loss_tricka, self.ui.trzbyNakladyTricka)
-            self.VyvojGraf(self.x_date_topanky, self.profit_topanky,
-                           self.loss_topanky, self.ui.trzbyNakladyTopanky)
-            self.VyvojGraf(self.x_date_mikiny, self.profit_mikiny,
-                           self.loss_mikiny, self.ui.trzbyNakladyMikiny)
-            self.VyvojGraf(self.x_date_nohavice, self.profit_nohavice,
-                           self.loss_nohavice, self.ui.trzbyNakladyNohavice)
-            self.VyvojGraf(self.x_date_doplnky, self.profit_doplnky,
-                           self.loss_doplnky, self.ui.trzbyNakladyDoplnky)
-        else:
-            scene = QGraphicsScene()
-            scene.addText('ziadne data v STATISTIKY.txt')
-            self.ui.trzbyNakladyVsetko.setScene(scene)
-            self.ui.trzbyNakladyTricka.setScene(scene)
-            self.ui.trzbyNakladyTopanky.setScene(scene)
-            self.ui.trzbyNakladyMikiny.setScene(scene)
-            self.ui.trzbyNakladyNohavice.setScene(scene)
-            self.ui.trzbyNakladyDoplnky.setScene(scene)
+            self.VyvojGraf(self.x_date_all, self.price_graph_all, self.ui.trzbyNakladyVsetko)
+            # self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka, self.ui.trzbyNakladyTricka)
+        #     self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky, self.ui.trzbyNakladyTopanky)
+        #     self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny, self.ui.trzbyNakladyMikiny)
+        #     self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice, self.ui.trzbyNakladyNohavice)
+        #     self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky, self.ui.trzbyNakladyDoplnky)
+        # else:
+        #     scene = QGraphicsScene()
+        #     scene.addText('ziadne data v STATISTIKY.txt')
+        #     self.ui.trzbyNakladyVsetko.setScene(scene)
+        #     self.ui.trzbyNakladyTricka.setScene(scene)
+        #     self.ui.trzbyNakladyTopanky.setScene(scene)
+        #     self.ui.trzbyNakladyMikiny.setScene(scene)
+        #     self.ui.trzbyNakladyNohavice.setScene(scene)
+        #     self.ui.trzbyNakladyDoplnky.setScene(scene)
 
-    def VyvojGraf(self, x_date, profit, loss, qtgraf):
+    def VyvojGraf(self, x_date, price_graph, qtgraf):
 
         def set_cross_hair_visible(visible):
             need_redraw = horizontal_line.get_visible() != visible
@@ -423,10 +447,10 @@ class Statistika:
         a3.spines['right'].set_visible(False)
         a3.set_title('Vyvoj ceny', **self.font, fontsize=15,
                      weight='bold')
-        line, = a3.plot(x_date, profit, label='vynosy')
-        line1, = a3.plot(x_date, loss, label='naklady')
+        line, = a3.plot(x_date, price_graph, label='vynosy')
+        line1, = a3.plot(x_date, price_graph, label='naklady')
         a3.xaxis.set_major_locator(plt.MaxNLocator(5))
-        a3.legend(loc='upper left', frameon=False)
+        # a3.legend(loc='upper left', frameon=False)
         horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
         horizontal_line1 = a3.axhline(color='k', lw=0.8, ls='--')
         vertical_line = a3.axvline(color='k', lw=0.8, ls='--')

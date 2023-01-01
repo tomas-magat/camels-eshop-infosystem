@@ -70,30 +70,63 @@ class UI_Commands():
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
 
-    def product_sorted_graph(self, main_list, x_date, profit, loss):
+    def product_sorted_graph(self, main_list, x_date, price_graph):
         """
-        Create 3 lists from statistiky.txt 
+        Create 2 lists from statistiky.txt 
         needed to plot the graph vyvoj_ceny
         """
-        for ah, i in enumerate(main_list):
-            all_prof = False
-            all_loss = False
-            date_format_0 = i[0].split()[0]
-            date_format_1 = date_format_0.split(
-                '-')[2]+'.'+date_format_0.split('-')[1]+'.'+date_format_0.split('-')[0][2:]
-            x_date += date_format_1+str(ah),
-            if i[1] == 'P':
-                profit += int(i[4])*float(i[5]),
-                all_prof = True
+        deka = main_list[0][0]
+        deta = deka.split()[0]
+        x_date_unedited = [deka.split()[0].split('-')]
+        price_graph_unedited = [0]
+        for i in main_list:
+            i[0] = i[0].split()
+            if x_date_unedited[-1] != i[0][0].split('-'):
+                x_date_unedited += i[0][0].split('-'),
+            if i[0][0] == deta:
+                if i[1] == 'N':
+                    price_graph_unedited[-1] -= int(i[4])*float(i[5])
+                else:
+                    price_graph_unedited[-1] += int(i[4])*float(i[5])
             else:
-                loss += int(i[4])*float(i[5]),
-                all_loss = True
-            if all_prof:
-                loss += loss[-1],
-            elif all_loss:
-                profit += profit[-1],
-        profit.pop(0)
-        loss.pop(0)
+                deta = i[0][0]
+                if i[1] == 'N':
+                    price_graph_unedited += (int(i[4])*float(i[5]))*-1,
+                else:
+                    price_graph_unedited += int(i[4])*float(i[5]),
+        for i in price_graph_unedited:
+            price_graph += round(i,2),
+        for i in x_date_unedited:
+            x_date += i[2]+'.'+i[1]+'.'+i[0][2:],
+        b = 0
+        for i in range(len(x_date_unedited)-1):
+            d1 = datetime.date(
+                int(x_date_unedited[i][0]), int(x_date_unedited[i][1]), int(x_date_unedited[i][2]))
+            d2 = datetime.date(
+                int(x_date_unedited[i+1][0]), int(x_date_unedited[i+1][1]), int(x_date_unedited[i+1][2]))
+            x = x_date_unedited[i]
+            y = x_date_unedited[i+1]
+            price_connection = round(price_graph_unedited[i],2)
+            if x[0] == y[0] and x[1] == y[1]:
+                date_connection = '.'+x[1]+'.'+x[0][2:]
+                for date_number in range(int(x[2])+1, int(y[2])):
+                    b += 1
+                    x_date.insert(i+b, str(date_number)+date_connection)
+                    price_graph.insert(i+b, price_connection)
+            else:
+                days_number = (d2-d1).days-1
+                days_number_before = days_number-(int(y[2])-1)
+                if days_number_before != 0:
+                    date_connection = '.'+x[1]+'.'+x[0][2:]
+                    for date_number in range(int(x[2]), int(x[2])+days_number_before):
+                        b += 1
+                        x_date.insert(i+b, str(date_number+1)+date_connection)
+                        price_graph.insert(i+b, price_connection)
+                date_connection = '.'+y[1]+'.'+y[0][2:]
+                for date_number in range(1,int(y[2])):
+                    b += 1
+                    x_date.insert(i+b, str(date_number)+date_connection)
+                    price_graph.insert(i+b, price_connection)
 
     def list_item_selected(self, list_widget, command):
         """

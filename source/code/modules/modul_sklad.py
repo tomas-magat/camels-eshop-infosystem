@@ -227,7 +227,8 @@ class Sklad:
     # =================== ORDER STATE ==================================
 
     def order(self):
-        print(self.order_mode)
+        pass
+    #     print(self.order_mode)
 
     def automatic(self):
         self.order_mode = 1
