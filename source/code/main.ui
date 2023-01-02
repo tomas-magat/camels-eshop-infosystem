@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -307,8 +307,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>350</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="allLayout"/>
@@ -376,8 +376,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>98</width>
-                  <height>28</height>
+                  <width>479</width>
+                  <height>348</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -448,8 +448,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>350</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_40"/>
@@ -520,8 +520,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>350</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_42"/>
@@ -592,8 +592,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>350</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_44"/>
@@ -661,8 +661,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>350</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_46"/>
@@ -912,8 +912,8 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="cartLayout"/>
@@ -2552,9 +2552,9 @@ color: rgb(125, 125, 125);</string>
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>10</y>
+            <y>50</y>
             <width>481</width>
-            <height>371</height>
+            <height>331</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -2573,7 +2573,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>351</height>
+              <height>301</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2621,8 +2621,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>301</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -2649,7 +2649,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>351</height>
+              <height>311</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2697,8 +2697,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>311</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_37"/>
@@ -2721,7 +2721,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>351</height>
+              <height>311</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2769,8 +2769,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>311</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_20"/>
@@ -2792,8 +2792,8 @@ color: rgb(125, 125, 125);</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>471</width>
-              <height>351</height>
+              <width>481</width>
+              <height>311</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2841,8 +2841,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>311</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_28"/>
@@ -2862,7 +2862,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>351</height>
+              <height>311</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2910,8 +2910,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>311</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_31"/>
@@ -2931,7 +2931,7 @@ color: rgb(125, 125, 125);</string>
               <x>0</x>
               <y>0</y>
               <width>481</width>
-              <height>351</height>
+              <height>311</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2979,8 +2979,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>311</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_35"/>
@@ -2994,9 +2994,9 @@ color: rgb(125, 125, 125);</string>
          <widget class="QFrame" name="sortSection_2">
           <property name="geometry">
            <rect>
-            <x>400</x>
+            <x>370</x>
             <y>0</y>
-            <width>91</width>
+            <width>121</width>
             <height>31</height>
            </rect>
           </property>
@@ -3047,7 +3047,7 @@ color: rgb(125, 125, 125);</string>
 }</string>
              </property>
              <property name="text">
-              <string>Sort by price</string>
+              <string>Zoradiť podľa ceny</string>
              </property>
              <property name="icon">
               <iconset>
@@ -3063,6 +3063,98 @@ color: rgb(125, 125, 125);</string>
               <bool>true</bool>
              </property>
             </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QFrame" name="horizontalFrame">
+          <property name="geometry">
+           <rect>
+            <x>14</x>
+            <y>0</y>
+            <width>261</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QLabel" name="Alert_text">
+             <property name="font">
+              <font>
+               <family>MS Shell Dlg 2</family>
+               <pointsize>8</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>false</underline>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: black;
+padding-left: 10px</string>
+             </property>
+             <property name="text">
+              <string>Upozorniť pri počte:   </string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::PlainText</enum>
+             </property>
+             <property name="indent">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_23">
+             <item>
+              <widget class="QLineEdit" name="Alert">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(248, 248, 248);</string>
+               </property>
+               <property name="inputMethodHints">
+                <set>Qt::ImhDigitsOnly</set>
+               </property>
+               <property name="text">
+                <string>5</string>
+               </property>
+               <property name="maxLength">
+                <number>20</number>
+               </property>
+               <property name="frame">
+                <bool>true</bool>
+               </property>
+               <property name="placeholderText">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item>
+              <widget class="QPushButton" name="alert_button">
+               <property name="styleSheet">
+                <string notr="true">#alert_button{border: 1px solid #2f3e46; 
+						background-color: #2f3e46;
+						color: #cad2c5;
+}
+#alert_button:hover {
+	border-color: #354f52; 
+	background-color: #354f52;
+}
+#alert_button:pressed {
+	border-color: #354f52; 
+	background-color: #354f52;
+}</string>
+               </property>
+               <property name="text">
+                <string>Potvrdiť</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -3297,8 +3389,8 @@ padding-left: 20px</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>289</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_34"/>
@@ -3573,7 +3665,7 @@ padding-left: 20px</string>
 }</string>
                 </property>
                 <property name="text">
-                 <string>Buy</string>
+                 <string>Kúpiť</string>
                 </property>
                </widget>
               </item>
