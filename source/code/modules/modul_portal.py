@@ -316,8 +316,8 @@ class Cart:
 
         with open(self.filepath, 'w', encoding='utf-8') as receipt:
             receipt.writelines(receipt_template(
-                self.id[1:], self.page.cashier_name,
-                self.contents, self.price
+                self.id[1:], self.contents,
+                self.price, self.page.cashier_name
             ))
 
     def purchase_message(self):

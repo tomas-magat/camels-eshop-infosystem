@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QGraphicsScene
 from utils.tools import find_image
 from datetime import datetime
 
+
 class Statistika:
 
     def __init__(self, ui, data):
@@ -25,8 +26,7 @@ class Statistika:
         self.graph_color = '#CAD2C5'
         self.funFactsColor = '#2C57D8'
 
-
-        self.data['statistiky'].version_changed(self.reload, dict_data=False) 
+        self.data['statistiky'].version_changed(self.reload, dict_data=False)
         # find_image('tricko.jpg')
         self.reload(self.statistiky)
 
@@ -34,16 +34,14 @@ class Statistika:
             [self.ui.dateFrom, self.ui.dateTo], lambda x: x
         )
 
-
-
     def reload(self, data_list):
         self.statistiky = data_list
+        self.commands.close_all_graphs()
         self.Values()
         self.NajviacGraf()
         self.NajmenejGraf()
         self.VyvojGrafVsetky()
         self.FunFacts()
-
 
     def switch_screen(self):
         """Redirect to this statistika screen."""
@@ -112,8 +110,7 @@ class Statistika:
                 elif objednavka[3][0] == str(statistiky_doplnky[0]):
                     statistiky_doplnky += objednavka,
                 else:
-                    print('chyba v kode produktu -',objednavka)
-                
+                    print('chyba v kode produktu -', objednavka)
 
             if ttt != 0:
                 self.avPrice /= ttt
@@ -140,8 +137,6 @@ class Statistika:
                     self.profLoss -= int(i[4])*float(i[5])
             self.profLoss = round(self.profLoss, 2)
 
-
-
         top_produkty.remove([0, 0])
         self.top_ten_graf = sorted(
             top_produkty, key=lambda x: x[1], reverse=True)
@@ -161,12 +156,12 @@ class Statistika:
                 product_worst += product_worst_i[0],
             for product_sklad in self.sklad:
                 if product_sklad[0] not in product_worst:
-                    product_non += [product_sklad[0],0],
+                    product_non += [product_sklad[0], 0],
                     product_non_index += 0.5,
             self.top_ten_worst = (product_non_index + self.top_ten_worst)[:10]
-            self.top_ten_worst_graf = (product_non + self.top_ten_worst_graf)[:10]
+            self.top_ten_worst_graf = (
+                product_non + self.top_ten_worst_graf)[:10]
 
-        
         for produkt_tovar in self.tovar:
             for i in range(len(self.top_ten_graf)):
                 if produkt_tovar[0] == self.top_ten_graf[i][0]:
@@ -187,7 +182,6 @@ class Statistika:
             if produkt_tovar[0] == self.posledna_objednavka_P[3]:
                 self.posledna_objednavka_P[3] = produkt_tovar[1]
 
-
         if self.sklad and self.najviac_mame_produkt != 0:
             nove_produkty = str(self.najviac_mame_produkt[0][1])+' ks'
             for i in self.najviac_mame_produkt:
@@ -203,7 +197,7 @@ class Statistika:
 
             self.posledna_objednavka_N = self.posledna_objednavka_N[3]+'\n' + \
                 self.posledna_objednavka_N[0].split()[0].replace('-', '.')+' ' + \
-                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+';'+ \
+                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+';' + \
                 self.posledna_objednavka_N[4]+'ks'+';' + \
                 self.posledna_objednavka_N[5]+'€/ks'
 
@@ -215,11 +209,10 @@ class Statistika:
 
             self.posledna_objednavka_P = self.posledna_objednavka_P[3]+'\n' + \
                 self.posledna_objednavka_P[0].split()[0].replace('-', '.')+' ' + \
-                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+';'+ \
+                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+';' + \
                 self.posledna_objednavka_P[4]+'ks'+';' + \
                 self.posledna_objednavka_P[5]+'€/ks'
 
-        
         if self.statistiky:
             self.x_date_all = []
             self.price_graph_all = []
@@ -232,7 +225,7 @@ class Statistika:
         #         print(k)
         if statistiky_tricka:
             self.x_date_tricka = []
-            self.price_graph_tricka= []
+            self.price_graph_tricka = []
             self.date_info_tricka = [[]]
             self.commands.product_sorted_graph(
                 statistiky_tricka, self.x_date_tricka, self.price_graph_tricka, self.date_info_tricka)
@@ -250,7 +243,7 @@ class Statistika:
             self.date_info_mikiny = [[]]
             self.commands.product_sorted_graph(
                 statistiky_mikiny, self.x_date_mikiny, self.price_graph_mikiny, self.date_info_mikiny)
-        
+
         if statistiky_nohavice:
             self.x_date_nohavice = []
             self.price_graph_nohavice = []
@@ -265,18 +258,17 @@ class Statistika:
             self.commands.product_sorted_graph(
                 statistiky_doplnky, self.x_date_doplnky, self.price_graph_doplnky, self.date_info_doplnky)
 
-        
         if self.statistiky:
             days = [datetime.strptime(i[0], "%Y-%m-%d %H-%M-%S").strftime("%A")
-                for i in self.statistiky]
+                    for i in self.statistiky]
             self.top_day = max(set(days), key=days.count)
-            
 
     def NajviacGraf(self):
         if self.statistiky:
             najviac, a1 = plt.subplots(
                 figsize=[4.9, 3.15], linewidth=self.linewidth, edgecolor=self.edgecolor)
             najviac.patch.set_facecolor(self.graph_color)
+            self.commands.track_graph(najviac)
             a1.set_facecolor(self.graph_color)
             a1.spines['top'].set_visible(False)
             a1.spines['right'].set_visible(False)
@@ -343,6 +335,7 @@ class Statistika:
             najmenej, a2 = plt.subplots(
                 figsize=[4.9, 3.15], linewidth=self.linewidth, edgecolor=self.edgecolor)
             najmenej.patch.set_facecolor(self.graph_color)
+            self.commands.track_graph(najmenej)
             a2.set_facecolor(self.graph_color)
             a2.spines['top'].set_visible(False)
             a2.spines['right'].set_visible(False)
@@ -367,7 +360,8 @@ class Statistika:
                 for c, i in enumerate(bar_X):
                     if i == bar_x_pos:
                         text_lomeno_n = ''
-                        text_bez_lomeno_n = self.top_ten_worst_graf[c][0].split()
+                        text_bez_lomeno_n = self.top_ten_worst_graf[c][0].split(
+                        )
                         for i in text_bez_lomeno_n:
                             text_lomeno_n += i+'\n'
                         if self.top_ten_worst_graf[c][1] == 0.5:
@@ -408,12 +402,18 @@ class Statistika:
 
     def VyvojGrafVsetky(self):
         if self.statistiky:
-            self.VyvojGraf(self.x_date_all, self.price_graph_all, self.ui.trzbyNakladyVsetko, self.date_info_all)
-            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka, self.ui.trzbyNakladyTricka, self.date_info_tricka)
-            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky, self.ui.trzbyNakladyTopanky, self.date_info_topanky)
-            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny, self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
-            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice, self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
-            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky, self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
+            self.VyvojGraf(self.x_date_all, self.price_graph_all,
+                           self.ui.trzbyNakladyVsetko, self.date_info_all)
+            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka,
+                           self.ui.trzbyNakladyTricka, self.date_info_tricka)
+            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky,
+                           self.ui.trzbyNakladyTopanky, self.date_info_topanky)
+            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny,
+                           self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
+            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice,
+                           self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
+            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky,
+                           self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
         else:
             scene = QGraphicsScene()
             scene.addText('ziadne data v STATISTIKY.txt')
@@ -443,17 +443,17 @@ class Statistika:
             else:
                 x1 = event.xdata
                 if x1 < mid_x:
-                    annot3.xy = (mid_x+1/6*(x_axis_lim[1]-mid_x),\
-                        mid_y+3/4*(y_axis_lim[1]-mid_y))
+                    annot3.xy = (mid_x+1/6*(x_axis_lim[1]-mid_x),
+                                 mid_y+3/4*(y_axis_lim[1]-mid_y))
                 else:
-                    annot3.xy = (mid_x-15/16*(x_axis_lim[1]-mid_x),\
-                        mid_y+3/4*(y_axis_lim[1]-mid_y))
+                    annot3.xy = (mid_x-15/16*(x_axis_lim[1]-mid_x),
+                                 mid_y+3/4*(y_axis_lim[1]-mid_y))
                 set_cross_hair_visible(True)
 
                 if x1 < 0:
                     searchsorted = 0
                 else:
-                    searchsorted = str(round(x1,0))[:-2]
+                    searchsorted = str(round(x1, 0))[:-2]
                 index = min(int(searchsorted), len(x) - 1)
 
                 date_info_graph_index = date_info_graph[index]
@@ -484,7 +484,7 @@ Hrubý zisk za deň: %s€''' %
                             round(n_value,2), round(value_day,2)))
                 else:
                     annot3.set_text('Dátum: %s\n%s' %
-                                (x_date[index], date_info_graph[index][0][0]))
+                                    (x_date[index], date_info_graph[index][0][0]))
 
                 if index == self.last_index:
                     return
@@ -498,6 +498,7 @@ Hrubý zisk za deň: %s€''' %
         vyvoj_ceny, a3 = plt.subplots(
             figsize=[7.18, 3.21], linewidth=self.linewidth, edgecolor=self.edgecolor)
         vyvoj_ceny.set_facecolor(self.graph_color)
+        self.commands.track_graph(vyvoj_ceny)
         a3.set_facecolor(self.graph_color)
         a3.spines['top'].set_visible(False)
         a3.spines['right'].set_visible(False)
@@ -513,8 +514,8 @@ Hrubý zisk za deň: %s€''' %
         x, y = line.get_data()
         # x, z = line1.get_data()
         self.last_index = None
-        annot3 = a3.annotate("", xy=(0, 0), xytext=(0,0), textcoords='offset points', ha='left', va='top',color='white', size=15,
-                                 bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
+        annot3 = a3.annotate("", xy=(0, 0), xytext=(0, 0), textcoords='offset points', ha='left', va='top', color='white', size=15,
+                             bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot3.set_visible(False)
         x_axis_lim = a3.set_xlim()
         y_axis_lim = a3.set_ylim()
