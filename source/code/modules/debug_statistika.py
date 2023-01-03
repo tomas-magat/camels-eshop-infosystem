@@ -45,6 +45,8 @@ class Statistika:
         self.init_data()
         self.init_stats()
 
+        self.statistics.version_changed(lambda x: print(x), dict_data=False)
+
     def init_data(self):
         self.statistics = self.data['statistiky']
         self.goods = self.data['tovar']

@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QGraphicsScene
 from utils.tools import find_image
 import datetime
 
+
 class Statistika:
 
     def __init__(self, ui, data):
@@ -26,16 +27,13 @@ class Statistika:
         self.graph_color = '#CAD2C5'
         self.funFactsColor = '#2C57D8'
 
-
-        self.data['statistiky'].version_changed(self.reload, dict_data=False) 
+        self.data['statistiky'].version_changed(self.reload, dict_data=False)
         # find_image('tricko.jpg')
         self.reload(self.statistiky)
 
         self.commands.date_changed(
             [self.ui.dateFrom, self.ui.dateTo], lambda x: x
         )
-
-
 
     def reload(self, data_list):
         self.statistiky = data_list
@@ -44,7 +42,6 @@ class Statistika:
         self.NajmenejGraf()
         self.VyvojGrafVsetky()
         self.FunFacts()
-
 
     def switch_screen(self):
         """Redirect to this statistika screen."""
@@ -114,8 +111,7 @@ class Statistika:
                 elif objednavka[3][0] == str(statistiky_doplnky[0]):
                     statistiky_doplnky += objednavka,
                 else:
-                    print('chyba v kode produktu -',objednavka)
-                
+                    print('chyba v kode produktu -', objednavka)
 
             if ttt != 0:
                 self.avPrice /= ttt
@@ -142,8 +138,6 @@ class Statistika:
                     self.profLoss -= int(i[4])*float(i[5])
             self.profLoss = round(self.profLoss, 2)
 
-
-
         top_produkty.remove([0, 0])
         self.top_ten_graf = sorted(
             top_produkty, key=lambda x: x[1], reverse=True)
@@ -163,11 +157,11 @@ class Statistika:
                 product_worst += product_worst_i[0],
             for product_sklad in self.sklad:
                 if product_sklad[0] not in product_worst:
-                    product_non += [product_sklad[0],0],
+                    product_non += [product_sklad[0], 0],
                     product_non_index += 0.5,
             self.top_ten_worst = (product_non_index + self.top_ten_worst)[:10]
-            self.top_ten_worst_graf = (product_non + self.top_ten_worst_graf)[:10]
-
+            self.top_ten_worst_graf = (
+                product_non + self.top_ten_worst_graf)[:10]
 
         for produkt_tovar in self.tovar:
             for i in range(len(self.top_ten_graf)):
@@ -189,14 +183,11 @@ class Statistika:
             if produkt_tovar[0] == self.posledna_objednavka_P[3]:
                 self.posledna_objednavka_P[3] = produkt_tovar[1]
 
-
         if self.sklad and self.najviac_mame_produkt != 0:
             nove_produkty = str(self.najviac_mame_produkt[0][1])+' ks'
             for i in self.najviac_mame_produkt:
                 nove_produkty += '\n'+i[0]
             self.najviac_mame_produkt = nove_produkty
-
-        
 
         if self.posledna_objednavka_N != 'ziadna':
             # self.posledna_objednavka_N[0] = self.posledna_objednavka_N[0].split()[0].split('-')[2] +'-'+ \
@@ -217,7 +208,6 @@ class Statistika:
                 self.posledna_objednavka_P[0].split()[1].replace('-', ':')+'\n'+self.posledna_objednavka_P[3]+'\n' + \
                 self.posledna_objednavka_P[4]+'ks'+';' + \
                 self.posledna_objednavka_P[5]+'€/ks'
-
 
         if self.statistiky:
             self.x_date_all = []
@@ -254,7 +244,6 @@ class Statistika:
         #     self.price_graph_doplnky = []
         #     self.commands.product_sorted_graph(
         #         statistiky_doplnky, self.x_date_doplnky, self.price_graph_doplnky)
-
 
     def NajviacGraf(self):
         if self.statistiky:
@@ -351,7 +340,8 @@ class Statistika:
                 for c, i in enumerate(bar_X):
                     if i == bar_x_pos:
                         text_lomeno_n = ''
-                        text_bez_lomeno_n = self.top_ten_worst_graf[c][0].split()
+                        text_bez_lomeno_n = self.top_ten_worst_graf[c][0].split(
+                        )
                         for i in text_bez_lomeno_n:
                             text_lomeno_n += i+'\n'
                         if self.top_ten_worst_graf[c][1] == 0.5:
@@ -392,7 +382,8 @@ class Statistika:
 
     def VyvojGrafVsetky(self):
         if self.statistiky:
-            self.VyvojGraf(self.x_date_all, self.price_graph_all, self.ui.trzbyNakladyVsetko)
+            self.VyvojGraf(self.x_date_all, self.price_graph_all,
+                           self.ui.trzbyNakladyVsetko)
             # self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka, self.ui.trzbyNakladyTricka)
         #     self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky, self.ui.trzbyNakladyTopanky)
         #     self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny, self.ui.trzbyNakladyMikiny)
