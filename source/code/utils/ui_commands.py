@@ -70,7 +70,7 @@ class UI_Commands():
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
 
-    def product_sorted_graph(self, main_list, x_date, price_graph):
+    def product_sorted_graph(self, main_list, x_date, price_graph, date_info):
         """
         Create 2 lists from statistiky.txt 
         needed to plot the graph vyvoj_ceny
@@ -83,6 +83,9 @@ class UI_Commands():
             split_date = i[0].split()
             if x_date_unedited[-1] != split_date[0].split('-'):
                 x_date_unedited += split_date[0].split('-'),
+                date_info += [i],
+            else:
+                date_info[-1] += [i]
             if split_date[0] == deta:
                 if i[1] == 'N':
                     price_graph_unedited[-1] -= int(i[4])*float(i[5])
@@ -113,6 +116,7 @@ class UI_Commands():
                     b += 1
                     x_date.insert(i+b, str(date_number)+date_connection)
                     price_graph.insert(i+b, price_connection)
+                    date_info.insert(i+b, [['žiadne objednávky\nv tento deň']])
             else:
                 days_number = (d2-d1).days-1
                 days_number_before = days_number-(int(y[2])-1)
@@ -122,11 +126,13 @@ class UI_Commands():
                         b += 1
                         x_date.insert(i+b, str(date_number+1)+date_connection)
                         price_graph.insert(i+b, price_connection)
+                        date_info.insert(i+b, [['ziadna objednavka']])
                 date_connection = '.'+y[1]+'.'+y[0][2:]
                 for date_number in range(1,int(y[2])):
                     b += 1
                     x_date.insert(i+b, str(date_number)+date_connection)
                     price_graph.insert(i+b, price_connection)
+                    date_info.insert(i+b, [['ziadna objednavka']])
 
     def list_item_selected(self, list_widget, command):
         """

@@ -224,38 +224,47 @@ class Statistika:
         if self.statistiky:
             self.x_date_all = []
             self.price_graph_all = []
+            self.date_info_all = [[]]
             self.commands.product_sorted_graph(
-                self.statistiky, self.x_date_all, self.price_graph_all)
-
+                self.statistiky, self.x_date_all, self.price_graph_all, self.date_info_all)
+        # for i in self.date_info_all:
+        #     print()
+        #     for k in i:
+        #         print(k)
         if statistiky_tricka:
             self.x_date_tricka = []
             self.price_graph_tricka= []
+            self.date_info_tricka = [[]]
             self.commands.product_sorted_graph(
-                statistiky_tricka, self.x_date_tricka, self.price_graph_tricka)
+                statistiky_tricka, self.x_date_tricka, self.price_graph_tricka, self.date_info_tricka)
 
         if statistiky_topanky:
             self.x_date_topanky = []
             self.price_graph_topanky = []
+            self.date_info_topanky = [[]]
             self.commands.product_sorted_graph(
-                statistiky_topanky, self.x_date_topanky, self.price_graph_topanky)
+                statistiky_topanky, self.x_date_topanky, self.price_graph_topanky, self.date_info_topanky)
 
         if statistiky_mikiny:
             self.x_date_mikiny = []
             self.price_graph_mikiny = []
+            self.date_info_mikiny = [[]]
             self.commands.product_sorted_graph(
-                statistiky_mikiny, self.x_date_mikiny, self.price_graph_mikiny)
+                statistiky_mikiny, self.x_date_mikiny, self.price_graph_mikiny, self.date_info_mikiny)
         
         if statistiky_nohavice:
             self.x_date_nohavice = []
             self.price_graph_nohavice = []
+            self.date_info_nohavice = [[]]
             self.commands.product_sorted_graph(
-                statistiky_nohavice, self.x_date_nohavice, self.price_graph_nohavice)
+                statistiky_nohavice, self.x_date_nohavice, self.price_graph_nohavice, self.date_info_nohavice)
 
         if statistiky_doplnky:
             self.x_date_doplnky = []
             self.price_graph_doplnky = []
+            self.date_info_doplnky = [[]]
             self.commands.product_sorted_graph(
-                statistiky_doplnky, self.x_date_doplnky, self.price_graph_doplnky)
+                statistiky_doplnky, self.x_date_doplnky, self.price_graph_doplnky, self.date_info_doplnky)
 
         
         if self.statistiky:
@@ -400,12 +409,12 @@ class Statistika:
 
     def VyvojGrafVsetky(self):
         if self.statistiky:
-            self.VyvojGraf(self.x_date_all, self.price_graph_all, self.ui.trzbyNakladyVsetko)
-            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka, self.ui.trzbyNakladyTricka)
-            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky, self.ui.trzbyNakladyTopanky)
-            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny, self.ui.trzbyNakladyMikiny)
-            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice, self.ui.trzbyNakladyNohavice)
-            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky, self.ui.trzbyNakladyDoplnky)
+            self.VyvojGraf(self.x_date_all, self.price_graph_all, self.ui.trzbyNakladyVsetko, self.date_info_all)
+            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka, self.ui.trzbyNakladyTricka, self.date_info_tricka)
+            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky, self.ui.trzbyNakladyTopanky, self.date_info_topanky)
+            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny, self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
+            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice, self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
+            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky, self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
         else:
             scene = QGraphicsScene()
             scene.addText('ziadne data v STATISTIKY.txt')
@@ -416,7 +425,7 @@ class Statistika:
             self.ui.trzbyNakladyNohavice.setScene(scene)
             self.ui.trzbyNakladyDoplnky.setScene(scene)
 
-    def VyvojGraf(self, x_date, price_graph, qtgraf):
+    def VyvojGraf(self, x_date, price_graph, qtgraf, date_info_graph):
 
         def set_cross_hair_visible(visible):
             need_redraw = horizontal_line.get_visible() != visible
@@ -434,18 +443,46 @@ class Statistika:
                     a3.figure.canvas.draw()
             else:
                 x1 = event.xdata
-                if x1 < (x_axis_lim[0]+x_axis_lim[1])/2:
-                    annot3.xy = ((x_axis_lim[0]+x_axis_lim[1])/2+\
-                        (1/3.1*x_axis_lim[1]), (y_axis_lim[0]+y_axis_lim[1])/2)
+                if x1 < mid_x:
+                    annot3.xy = (mid_x+1/6*(x_axis_lim[1]-mid_x),\
+                        mid_y+3/4*(y_axis_lim[1]-mid_y))
                 else:
-                    annot3.xy = ((x_axis_lim[0]+x_axis_lim[1])/2-\
-                        (1/3.1*x_axis_lim[1]), (y_axis_lim[0]+y_axis_lim[1])/2)
+                    annot3.xy = (mid_x-15/16*(x_axis_lim[1]-mid_x),\
+                        mid_y+3/4*(y_axis_lim[1]-mid_y))
                 set_cross_hair_visible(True)
+
                 if x1 < 0:
                     searchsorted = 0
                 else:
                     searchsorted = str(round(x1,0))[:-2]
                 index = min(int(searchsorted), len(x) - 1)
+
+                date_info_graph_index = date_info_graph[index]
+                if date_info_graph_index != [['žiadne objednávky\nv tento deň']]:
+                    date_info_p = 0
+                    date_info_n = 0
+                    p_value = 0
+                    n_value = 0
+                    for i in date_info_graph_index:
+                        if i[1] == 'P':
+                            date_info_p += 1
+                            p_value += int(i[4])*float(i[5])
+                        else:
+                            date_info_n += 1
+                            n_value += int(i[4])*float(i[5])
+                    annot3.set_text('''Dátum: %s
+Počet objednávok: %s
+Počet predajov: %s
+Hodnota predajov: %s
+Počet nákupov: %s
+Hodnota nákupov: %s
+Hrubý zisk: %s€''' %
+                            (x_date[index], len(date_info_graph[index]),\
+                            date_info_p, round(p_value,2), date_info_n, round(n_value,2), y[index]))
+                else:
+                    annot3.set_text('Dátum: %s\n%s' %
+                                (x_date[index], date_info_graph[index][0][0]))
+
                 if index == self.last_index:
                     return
                 self.last_index = index
@@ -453,8 +490,6 @@ class Statistika:
                 vertical_line.set_xdata(x[index])
                 horizontal_line.set_ydata(y[index])
                 # horizontal_line1.set_ydata(z[index])
-                annot3.set_text('Dátum = %s\namount = %s' %
-                              (x_date[index], round(y[index], 2)))
                 a3.figure.canvas.draw()
 
         vyvoj_ceny, a3 = plt.subplots(
@@ -463,7 +498,7 @@ class Statistika:
         a3.set_facecolor(self.graph_color)
         a3.spines['top'].set_visible(False)
         a3.spines['right'].set_visible(False)
-        a3.set_title('Vyvoj ceny', **self.font, fontsize=15,
+        a3.set_title('Zisk firmy', **self.font, fontsize=15,
                      weight='bold')
         line, = a3.plot(x_date, price_graph, label='vynosy')
         # line1, = a3.plot(x_date, price_graph, label='naklady')
@@ -474,13 +509,14 @@ class Statistika:
         vertical_line = a3.axvline(color='k', lw=0.8, ls='--')
         x, y = line.get_data()
         # x, z = line1.get_data()
-        x_axis = [i for i in range(len(x_date))]
         self.last_index = None
-        annot3 = a3.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
+        annot3 = a3.annotate("", xy=(0, 0), xytext=(0,0), textcoords='offset points', ha='left', va='top',color='white', size=15,
                                  bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
         annot3.set_visible(False)
         x_axis_lim = a3.set_xlim()
         y_axis_lim = a3.set_ylim()
+        mid_x = (x_axis_lim[0]+x_axis_lim[1])/2
+        mid_y = (y_axis_lim[0]+y_axis_lim[1])/2
         vyvoj_ceny.canvas.mpl_connect(
             'motion_notify_event', on_mouse_move)
         self.commands.plot_graph(qtgraf,
