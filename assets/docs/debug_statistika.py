@@ -38,14 +38,14 @@ class Statistika:
         self.commands.button_click(
             self.ui.statistikaButton, self.switch_screen
         )
+        self.commands.tab_selected(
+            self.ui.tabWidget, self.update_category
+        )
         self.commands.date_changed(
             [self.ui.dateFrom, self.ui.dateTo], self.reload
         )
 
         self.init_data()
-        self.init_stats()
-
-        self.statistics.version_changed(lambda x: print(x), dict_data=False)
 
     def init_data(self):
         self.statistics = self.data['statistiky']
@@ -118,7 +118,7 @@ class Statistika:
             counts[code] = 0
             for purchase in self.statistics.data_list:
                 if purchase[3] == code and purchase[1] == 'P':
-                    counts[code] += int(purchase[4])
+                    counts[code] += 1
 
         result = []
         for code, count in counts.items():
