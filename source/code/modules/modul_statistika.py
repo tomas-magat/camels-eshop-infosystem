@@ -98,9 +98,9 @@ class Statistika:
                         top_produkty.append([objednavka[3], 1])
                     self.avPrice += int(objednavka[4])*float(objednavka[5])
                     ttt += 1
-                    self.posledna_objednavka_P = objednavka
+                    self.posledna_objednavka_P = objednavka.copy()
                 else:
-                    self.posledna_objednavka_N = objednavka
+                    self.posledna_objednavka_N = objednavka.copy()
                 if objednavka[3][0] == str(statistiky_tricka[0]):
                     statistiky_tricka += objednavka,
                 elif objednavka[3][0] == str(statistiky_topanky[0]):
@@ -166,7 +166,7 @@ class Statistika:
             self.top_ten_worst = (product_non_index + self.top_ten_worst)[:10]
             self.top_ten_worst_graf = (product_non + self.top_ten_worst_graf)[:10]
 
-
+        
         for produkt_tovar in self.tovar:
             for i in range(len(self.top_ten_graf)):
                 if produkt_tovar[0] == self.top_ten_graf[i][0]:
@@ -195,12 +195,11 @@ class Statistika:
             self.najviac_mame_produkt = nove_produkty
 
         
-
         if self.posledna_objednavka_N != 'ziadna':
-            # self.posledna_objednavka_N[0] = self.posledna_objednavka_N[0].split()[0].split('-')[2] +'-'+ \
-            #     self.posledna_objednavka_N[0].split()[0].split('-')[1]+\
-            #     '-'+self.posledna_objednavka_N[0].split()[0].split('-')[0] + \
-            #     ' '+self.posledna_objednavka_N[0].split()[1]
+            self.posledna_objednavka_N[0] = self.posledna_objednavka_N[0].split()[0].split('-')[2] +'-'+ \
+                self.posledna_objednavka_N[0].split()[0].split('-')[1]+\
+                '-'+self.posledna_objednavka_N[0].split()[0].split('-')[0] + \
+                ' '+self.posledna_objednavka_N[0].split()[1]
 
             self.posledna_objednavka_N = self.posledna_objednavka_N[3]+'\n' + \
                 self.posledna_objednavka_N[0].split()[0].replace('-', '.')+' ' + \
@@ -209,10 +208,10 @@ class Statistika:
                 self.posledna_objednavka_N[5]+'€/ks'
 
         if self.posledna_objednavka_P != 'ziadna':
-            # self.posledna_objednavka_P[0] = self.posledna_objednavka_P[0].split()[0].split('-')[2] +'-'+ \
-            #     self.posledna_objednavka_P[0].split()[0].split('-')[1]+\
-            #     '-'+self.posledna_objednavka_P[0].split()[0].split('-')[0] + \
-            #     ' '+self.posledna_objednavka_P[0].split()[1]
+            self.posledna_objednavka_P[0] = self.posledna_objednavka_P[0].split()[0].split('-')[2] +'-'+ \
+                self.posledna_objednavka_P[0].split()[0].split('-')[1]+\
+                '-'+self.posledna_objednavka_P[0].split()[0].split('-')[0] + \
+                ' '+self.posledna_objednavka_P[0].split()[1]
 
             self.posledna_objednavka_P = self.posledna_objednavka_P[3]+'\n' + \
                 self.posledna_objednavka_P[0].split()[0].replace('-', '.')+' ' + \
@@ -463,22 +462,26 @@ class Statistika:
                     date_info_n = 0
                     p_value = 0
                     n_value = 0
+                    value_day = 0
                     for i in date_info_graph_index:
                         if i[1] == 'P':
                             date_info_p += 1
                             p_value += int(i[4])*float(i[5])
+                            value_day += int(i[4])*float(i[5])
                         else:
                             date_info_n += 1
                             n_value += int(i[4])*float(i[5])
+                            value_day -= int(i[4])*float(i[5])
                     annot3.set_text('''Dátum: %s
 Počet objednávok: %s
 Počet predajov: %s
 Hodnota predajov: %s
 Počet nákupov: %s
 Hodnota nákupov: %s
-Hrubý zisk: %s€''' %
+Hrubý zisk za deň: %s€''' %
                             (x_date[index], len(date_info_graph[index]),\
-                            date_info_p, round(p_value,2), date_info_n, round(n_value,2), y[index]))
+                            date_info_p, round(p_value,2), date_info_n,\
+                            round(n_value,2), round(value_day,2)))
                 else:
                     annot3.set_text('Dátum: %s\n%s' %
                                 (x_date[index], date_info_graph[index][0][0]))

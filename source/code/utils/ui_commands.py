@@ -94,9 +94,11 @@ class UI_Commands():
             else:
                 deta = split_date[0]
                 if i[1] == 'N':
-                    price_graph_unedited += (int(i[4])*float(i[5]))*-1,
+                    price_graph_unedited += price_graph_unedited[-1]-\
+                                            int(i[4])*float(i[5]),
                 else:
-                    price_graph_unedited += int(i[4])*float(i[5]),
+                    price_graph_unedited += price_graph_unedited[-1]+\
+                                            int(i[4])*float(i[5]),
         for i in price_graph_unedited:
             price_graph += round(i,2),
         for i in x_date_unedited:
@@ -126,13 +128,13 @@ class UI_Commands():
                         b += 1
                         x_date.insert(i+b, str(date_number+1)+date_connection)
                         price_graph.insert(i+b, price_connection)
-                        date_info.insert(i+b, [['ziadna objednavka']])
+                        date_info.insert(i+b, [['žiadne objednávky\nv tento deň']])
                 date_connection = '.'+y[1]+'.'+y[0][2:]
                 for date_number in range(1,int(y[2])):
                     b += 1
                     x_date.insert(i+b, str(date_number)+date_connection)
                     price_graph.insert(i+b, price_connection)
-                    date_info.insert(i+b, [['ziadna objednavka']])
+                    date_info.insert(i+b, [['žiadne objednávky\nv tento deň']])
 
     def list_item_selected(self, list_widget, command):
         """
