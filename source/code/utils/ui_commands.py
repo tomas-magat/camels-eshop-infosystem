@@ -80,16 +80,16 @@ class UI_Commands():
         x_date_unedited = [deka.split()[0].split('-')]
         price_graph_unedited = [0]
         for i in main_list:
-            i[0] = i[0].split()
-            if x_date_unedited[-1] != i[0][0].split('-'):
-                x_date_unedited += i[0][0].split('-'),
-            if i[0][0] == deta:
+            split_date = i[0].split()
+            if x_date_unedited[-1] != split_date[0].split('-'):
+                x_date_unedited += split_date[0].split('-'),
+            if split_date[0] == deta:
                 if i[1] == 'N':
                     price_graph_unedited[-1] -= int(i[4])*float(i[5])
                 else:
                     price_graph_unedited[-1] += int(i[4])*float(i[5])
             else:
-                deta = i[0][0]
+                deta = split_date[0]
                 if i[1] == 'N':
                     price_graph_unedited += (int(i[4])*float(i[5]))*-1,
                 else:

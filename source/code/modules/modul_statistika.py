@@ -1,9 +1,8 @@
 from utils.ui_commands import UI_Commands
 import matplotlib.pyplot as plt
-import numpy as np
 from PyQt5.QtWidgets import QGraphicsScene
 from utils.tools import find_image
-import datetime
+from datetime import datetime
 
 class Statistika:
 
@@ -68,8 +67,7 @@ class Statistika:
         self.posledna_objednavka_P = 'ziadna'
         self.posledna_objednavka_N = 'ziadna'
         self.profLoss = 0
-
-        self.najviac_sa_nakupuje = 'Sobota (87)'
+        self.top_day = 'ziadne data v STATISTIKY.txt'
 
         najviac_produkt = 0
         for produkt_sklad in self.sklad:
@@ -200,61 +198,71 @@ class Statistika:
 
         if self.posledna_objednavka_N != 'ziadna':
             # self.posledna_objednavka_N[0] = self.posledna_objednavka_N[0].split()[0].split('-')[2] +'-'+ \
-            #     self.posledna_objednavka_N[0].split()[0].split('-')[1]+'-'+self.posledna_objednavka_N[0].split()[0].split('-')[0] + \
+            #     self.posledna_objednavka_N[0].split()[0].split('-')[1]+\
+            #     '-'+self.posledna_objednavka_N[0].split()[0].split('-')[0] + \
             #     ' '+self.posledna_objednavka_N[0].split()[1]
 
-            self.posledna_objednavka_N = self.posledna_objednavka_N[0].split()[0].replace('-', '.')+' ' + \
-                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+'\n'+self.posledna_objednavka_N[3]+'\n' + \
+            self.posledna_objednavka_N = self.posledna_objednavka_N[3]+'\n' + \
+                self.posledna_objednavka_N[0].split()[0].replace('-', '.')+' ' + \
+                self.posledna_objednavka_N[0].split()[1].replace('-', ':')+';'+ \
                 self.posledna_objednavka_N[4]+'ks'+';' + \
                 self.posledna_objednavka_N[5]+'€/ks'
 
         if self.posledna_objednavka_P != 'ziadna':
             # self.posledna_objednavka_P[0] = self.posledna_objednavka_P[0].split()[0].split('-')[2] +'-'+ \
-            #     self.posledna_objednavka_P[0].split()[0].split('-')[1]+'-'+self.posledna_objednavka_P[0].split()[0].split('-')[0] + \
+            #     self.posledna_objednavka_P[0].split()[0].split('-')[1]+\
+            #     '-'+self.posledna_objednavka_P[0].split()[0].split('-')[0] + \
             #     ' '+self.posledna_objednavka_P[0].split()[1]
 
-            self.posledna_objednavka_P = self.posledna_objednavka_P[0].split()[0].replace('-', '.')+' ' + \
-                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+'\n'+self.posledna_objednavka_P[3]+'\n' + \
+            self.posledna_objednavka_P = self.posledna_objednavka_P[3]+'\n' + \
+                self.posledna_objednavka_P[0].split()[0].replace('-', '.')+' ' + \
+                self.posledna_objednavka_P[0].split()[1].replace('-', ':')+';'+ \
                 self.posledna_objednavka_P[4]+'ks'+';' + \
                 self.posledna_objednavka_P[5]+'€/ks'
 
-
+        
         if self.statistiky:
             self.x_date_all = []
             self.price_graph_all = []
             self.commands.product_sorted_graph(
                 self.statistiky, self.x_date_all, self.price_graph_all)
 
-        # if statistiky_tricka:
-        #     self.x_date_tricka = []
-        #     self.price_graph_tricka= []
-        #     self.commands.product_sorted_graph(
-        #         statistiky_tricka, self.x_date_tricka, self.price_graph_tricka)
+        if statistiky_tricka:
+            self.x_date_tricka = []
+            self.price_graph_tricka= []
+            self.commands.product_sorted_graph(
+                statistiky_tricka, self.x_date_tricka, self.price_graph_tricka)
 
-        # if statistiky_topanky:
-        #     self.x_date_topanky = []
-        #     self.price_graph_topanky = []
-        #     self.commands.product_sorted_graph(
-        #         statistiky_topanky, self.x_date_topanky, self.price_graph_topanky)
+        if statistiky_topanky:
+            self.x_date_topanky = []
+            self.price_graph_topanky = []
+            self.commands.product_sorted_graph(
+                statistiky_topanky, self.x_date_topanky, self.price_graph_topanky)
 
-        # if statistiky_mikiny:
-        #     self.x_date_mikiny = []
-        #     self.price_graph_mikiny = []
-        #     self.commands.product_sorted_graph(
-        #         statistiky_mikiny, self.x_date_mikiny, self.price_graph_mikiny)
+        if statistiky_mikiny:
+            self.x_date_mikiny = []
+            self.price_graph_mikiny = []
+            self.commands.product_sorted_graph(
+                statistiky_mikiny, self.x_date_mikiny, self.price_graph_mikiny)
+        
+        if statistiky_nohavice:
+            self.x_date_nohavice = []
+            self.price_graph_nohavice = []
+            self.commands.product_sorted_graph(
+                statistiky_nohavice, self.x_date_nohavice, self.price_graph_nohavice)
 
-        # if statistiky_nohavice:
-        #     self.x_date_nohavice = []
-        #     self.price_graph_nohavice = []
-        #     self.commands.product_sorted_graph(
-        #         statistiky_nohavice, self.x_date_nohavice, self.price_graph_nohavice)
+        if statistiky_doplnky:
+            self.x_date_doplnky = []
+            self.price_graph_doplnky = []
+            self.commands.product_sorted_graph(
+                statistiky_doplnky, self.x_date_doplnky, self.price_graph_doplnky)
 
-        # if statistiky_doplnky:
-        #     self.x_date_doplnky = []
-        #     self.price_graph_doplnky = []
-        #     self.commands.product_sorted_graph(
-        #         statistiky_doplnky, self.x_date_doplnky, self.price_graph_doplnky)
-
+        
+        if self.statistiky:
+            days = [datetime.strptime(i[0], "%Y-%m-%d %H-%M-%S").strftime("%A")
+                for i in self.statistiky]
+            self.top_day = max(set(days), key=days.count)
+            
 
     def NajviacGraf(self):
         if self.statistiky:
@@ -393,29 +401,29 @@ class Statistika:
     def VyvojGrafVsetky(self):
         if self.statistiky:
             self.VyvojGraf(self.x_date_all, self.price_graph_all, self.ui.trzbyNakladyVsetko)
-            # self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka, self.ui.trzbyNakladyTricka)
-        #     self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky, self.ui.trzbyNakladyTopanky)
-        #     self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny, self.ui.trzbyNakladyMikiny)
-        #     self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice, self.ui.trzbyNakladyNohavice)
-        #     self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky, self.ui.trzbyNakladyDoplnky)
-        # else:
-        #     scene = QGraphicsScene()
-        #     scene.addText('ziadne data v STATISTIKY.txt')
-        #     self.ui.trzbyNakladyVsetko.setScene(scene)
-        #     self.ui.trzbyNakladyTricka.setScene(scene)
-        #     self.ui.trzbyNakladyTopanky.setScene(scene)
-        #     self.ui.trzbyNakladyMikiny.setScene(scene)
-        #     self.ui.trzbyNakladyNohavice.setScene(scene)
-        #     self.ui.trzbyNakladyDoplnky.setScene(scene)
+            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka, self.ui.trzbyNakladyTricka)
+            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky, self.ui.trzbyNakladyTopanky)
+            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny, self.ui.trzbyNakladyMikiny)
+            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice, self.ui.trzbyNakladyNohavice)
+            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky, self.ui.trzbyNakladyDoplnky)
+        else:
+            scene = QGraphicsScene()
+            scene.addText('ziadne data v STATISTIKY.txt')
+            self.ui.trzbyNakladyVsetko.setScene(scene)
+            self.ui.trzbyNakladyTricka.setScene(scene)
+            self.ui.trzbyNakladyTopanky.setScene(scene)
+            self.ui.trzbyNakladyMikiny.setScene(scene)
+            self.ui.trzbyNakladyNohavice.setScene(scene)
+            self.ui.trzbyNakladyDoplnky.setScene(scene)
 
     def VyvojGraf(self, x_date, price_graph, qtgraf):
 
         def set_cross_hair_visible(visible):
             need_redraw = horizontal_line.get_visible() != visible
             horizontal_line.set_visible(visible)
-            horizontal_line1.set_visible(visible)
+            # horizontal_line1.set_visible(visible)
             vertical_line.set_visible(visible)
-            text.set_visible(visible)
+            annot3.set_visible(visible)
             return need_redraw
 
         def on_mouse_move(event):
@@ -425,17 +433,27 @@ class Statistika:
                 if need_redraw:
                     a3.figure.canvas.draw()
             else:
-                set_cross_hair_visible(True)
                 x1 = event.xdata
-                index = min(np.searchsorted(x_axis, x1), len(x) - 1)
+                if x1 < (x_axis_lim[0]+x_axis_lim[1])/2:
+                    annot3.xy = ((x_axis_lim[0]+x_axis_lim[1])/2+\
+                        (1/3.1*x_axis_lim[1]), (y_axis_lim[0]+y_axis_lim[1])/2)
+                else:
+                    annot3.xy = ((x_axis_lim[0]+x_axis_lim[1])/2-\
+                        (1/3.1*x_axis_lim[1]), (y_axis_lim[0]+y_axis_lim[1])/2)
+                set_cross_hair_visible(True)
+                if x1 < 0:
+                    searchsorted = 0
+                else:
+                    searchsorted = str(round(x1,0))[:-2]
+                index = min(int(searchsorted), len(x) - 1)
                 if index == self.last_index:
                     return
                 self.last_index = index
 
                 vertical_line.set_xdata(x[index])
                 horizontal_line.set_ydata(y[index])
-                horizontal_line1.set_ydata(z[index])
-                text.set_text('Dátum = %s\namount = %s' %
+                # horizontal_line1.set_ydata(z[index])
+                annot3.set_text('Dátum = %s\namount = %s' %
                               (x_date[index], round(y[index], 2)))
                 a3.figure.canvas.draw()
 
@@ -448,17 +466,21 @@ class Statistika:
         a3.set_title('Vyvoj ceny', **self.font, fontsize=15,
                      weight='bold')
         line, = a3.plot(x_date, price_graph, label='vynosy')
-        line1, = a3.plot(x_date, price_graph, label='naklady')
+        # line1, = a3.plot(x_date, price_graph, label='naklady')
         a3.xaxis.set_major_locator(plt.MaxNLocator(5))
         # a3.legend(loc='upper left', frameon=False)
         horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
-        horizontal_line1 = a3.axhline(color='k', lw=0.8, ls='--')
+        # horizontal_line1 = a3.axhline(color='k', lw=0.8, ls='--')
         vertical_line = a3.axvline(color='k', lw=0.8, ls='--')
         x, y = line.get_data()
-        x, z = line1.get_data()
+        # x, z = line1.get_data()
         x_axis = [i for i in range(len(x_date))]
         self.last_index = None
-        text = a3.text(0.8, 0.9, '', transform=a3.transAxes)
+        annot3 = a3.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
+                                 bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
+        annot3.set_visible(False)
+        x_axis_lim = a3.set_xlim()
+        y_axis_lim = a3.set_ylim()
         vyvoj_ceny.canvas.mpl_connect(
             'motion_notify_event', on_mouse_move)
         self.commands.plot_graph(qtgraf,
@@ -487,7 +509,7 @@ pre detailnejsie zobrazenie vyvoju ceny firmy pozri graf nizsie -->''')
         self.ui.label_20.setStyleSheet('color:'+self.funFactsColor)
         self.ui.label_10.setText(str(self.celkovy_pocet_produktov_na_sklade))
         self.ui.label_10.setStyleSheet('color:'+self.funFactsColor)
-        self.ui.label_12.setText(str(self.najviac_sa_nakupuje))
+        self.ui.label_12.setText(str(self.top_day))
         self.ui.label_12.setStyleSheet('color:'+self.funFactsColor)
         self.ui.label_16.setText(str(self.najviac_mame_produkt))
         self.ui.label_16.setStyleSheet('color:'+self.funFactsColor)
