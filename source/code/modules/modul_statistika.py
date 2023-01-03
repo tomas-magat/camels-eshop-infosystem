@@ -36,6 +36,7 @@ class Statistika:
 
     def reload(self, data_list):
         self.statistiky = data_list
+        self.commands.close_all_graphs()
         self.Values()
         self.NajviacGraf()
         self.NajmenejGraf()
@@ -266,6 +267,7 @@ class Statistika:
             najviac, a1 = plt.subplots(
                 figsize=[4.9, 3.15], linewidth=self.linewidth, edgecolor=self.edgecolor)
             najviac.patch.set_facecolor(self.graph_color)
+            self.commands.track_graph(najviac)
             a1.set_facecolor(self.graph_color)
             a1.spines['top'].set_visible(False)
             a1.spines['right'].set_visible(False)
@@ -332,6 +334,7 @@ class Statistika:
             najmenej, a2 = plt.subplots(
                 figsize=[4.9, 3.15], linewidth=self.linewidth, edgecolor=self.edgecolor)
             najmenej.patch.set_facecolor(self.graph_color)
+            self.commands.track_graph(najmenej)
             a2.set_facecolor(self.graph_color)
             a2.spines['top'].set_visible(False)
             a2.spines['right'].set_visible(False)
@@ -490,6 +493,7 @@ Hrubý zisk: %s€''' %
         vyvoj_ceny, a3 = plt.subplots(
             figsize=[7.18, 3.21], linewidth=self.linewidth, edgecolor=self.edgecolor)
         vyvoj_ceny.set_facecolor(self.graph_color)
+        self.commands.track_graph(vyvoj_ceny)
         a3.set_facecolor(self.graph_color)
         a3.spines['top'].set_visible(False)
         a3.spines['right'].set_visible(False)

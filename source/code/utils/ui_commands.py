@@ -15,6 +15,7 @@ class UI_Commands():
 
     def __init__(self, ui):
         self.ui = ui
+        self.graphs = []
 
     def redirect(self, screen: QWidget):
         """
@@ -59,6 +60,20 @@ class UI_Commands():
             else:
                 self.button_click(widget, command)
 
+    def track_graph(self, figure):
+        """If graph exists track its figure to be closed later."""
+
+        self.graphs.append(figure)
+
+    def close_all_graphs(self):
+        """Close all existing graphs to save memory."""
+
+        for figure in self.graphs:
+            try:
+                close(figure)
+            except:
+                pass
+
     def plot_graph(self, graphics_view: QGraphicsView, figure, size=58.5):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""
 
@@ -98,7 +113,7 @@ class UI_Commands():
                 else:
                     price_graph_unedited += int(i[4])*float(i[5]),
         for i in price_graph_unedited:
-            price_graph += round(i,2),
+            price_graph += round(i, 2),
         for i in x_date_unedited:
             x_date += i[2]+'.'+i[1]+'.'+i[0][2:],
         b = 0
@@ -109,7 +124,7 @@ class UI_Commands():
                 int(x_date_unedited[i+1][0]), int(x_date_unedited[i+1][1]), int(x_date_unedited[i+1][2]))
             x = x_date_unedited[i]
             y = x_date_unedited[i+1]
-            price_connection = round(price_graph_unedited[i],2)
+            price_connection = round(price_graph_unedited[i], 2)
             if x[0] == y[0] and x[1] == y[1]:
                 date_connection = '.'+x[1]+'.'+x[0][2:]
                 for date_number in range(int(x[2])+1, int(y[2])):
@@ -128,7 +143,7 @@ class UI_Commands():
                         price_graph.insert(i+b, price_connection)
                         date_info.insert(i+b, [['ziadna objednavka']])
                 date_connection = '.'+y[1]+'.'+y[0][2:]
-                for date_number in range(1,int(y[2])):
+                for date_number in range(1, int(y[2])):
                     b += 1
                     x_date.insert(i+b, str(date_number)+date_connection)
                     price_graph.insert(i+b, price_connection)
