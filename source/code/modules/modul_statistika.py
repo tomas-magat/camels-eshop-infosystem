@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QGraphicsScene
 from utils.tools import find_image
 from datetime import datetime
 
-
 class Statistika:
 
     def __init__(self, ui, data):
@@ -26,21 +25,31 @@ class Statistika:
         self.graph_color = '#CAD2C5'
         self.funFactsColor = '#2C57D8'
 
-        self.data['statistiky'].version_changed(self.reload, dict_data=False)
+        self.data['statistiky'].version_changed(self.reload_statistiky, dict_data=False)
+        self.data['tovar'].version_changed(self.reload_tovar, dict_data=False)
         # find_image('tricko.jpg')
-        self.reload(self.statistiky)
+        self.reload_statistiky(self.statistiky)
+        self.reload_tovar(self.tovar)
 
         self.commands.date_changed(
             [self.ui.dateFrom, self.ui.dateTo], lambda x: x
         )
 
-    def reload(self, data_list):
+    def reload_statistiky(self, data_list):
         self.statistiky = data_list
         self.commands.close_all_graphs()
         self.Values()
         self.NajviacGraf()
         self.NajmenejGraf()
         self.VyvojGrafVsetky()
+        self.FunFacts()
+    
+    def reload_tovar(self, data_list):
+        self.tovar = data_list
+        self.commands.close_najviac_najmenej_graphs()
+        self.Values()
+        self.NajviacGraf()
+        self.NajmenejGraf()
         self.FunFacts()
 
     def switch_screen(self):
@@ -161,7 +170,7 @@ class Statistika:
             self.top_ten_worst = (product_non_index + self.top_ten_worst)[:10]
             self.top_ten_worst_graf = (
                 product_non + self.top_ten_worst_graf)[:10]
-
+        
         for produkt_tovar in self.tovar:
             for i in range(len(self.top_ten_graf)):
                 if produkt_tovar[0] == self.top_ten_graf[i][0]:

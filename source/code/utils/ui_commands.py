@@ -74,6 +74,12 @@ class UI_Commands():
             except:
                 pass
 
+    def close_najviac_najmenej_graphs(self):
+        '''Close najviac and najmenejgraphs to save memory'''
+
+        close(self.graphs[0])
+        close(self.graphs[1])
+
     def plot_graph(self, graphics_view: QGraphicsView, figure, size=58.5):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""
 
@@ -131,7 +137,11 @@ class UI_Commands():
                 date_connection = '.'+x[1]+'.'+x[0][2:]
                 for date_number in range(int(x[2])+1, int(y[2])):
                     b += 1
-                    x_date.insert(i+b, str(date_number)+date_connection)
+                    if len(str(date_number)) == 1:
+                        date_number_changed = '0'+str(date_number)
+                    else:
+                        date_number_changed = str(date_number)
+                    x_date.insert(i+b, date_number_changed+date_connection)
                     price_graph.insert(i+b, price_connection)
                     date_info.insert(i+b, [['žiadne objednávky\nv tento deň']])
             else:
@@ -141,13 +151,21 @@ class UI_Commands():
                     date_connection = '.'+x[1]+'.'+x[0][2:]
                     for date_number in range(int(x[2]), int(x[2])+days_number_before):
                         b += 1
-                        x_date.insert(i+b, str(date_number+1)+date_connection)
+                        if len(str(date_number+1)) == 1:
+                            date_number_changed = '0'+str(date_number+1)
+                        else:
+                            date_number_changed = str(date_number+1)
+                        x_date.insert(i+b, date_number_changed+date_connection)
                         price_graph.insert(i+b, price_connection)
                         date_info.insert(i+b, [['žiadne objednávky\nv tento deň']])
                 date_connection = '.'+y[1]+'.'+y[0][2:]
                 for date_number in range(1, int(y[2])):
                     b += 1
-                    x_date.insert(i+b, str(date_number)+date_connection)
+                    if len(str(date_number)) == 1:
+                        date_number_changed = '0'+str(date_number)
+                    else:
+                        date_number_changed = str(date_number)
+                    x_date.insert(i+b, date_number_changed+date_connection)
                     price_graph.insert(i+b, price_connection)
                     date_info.insert(i+b, [['žiadne objednávky\nv tento deň']])
 
