@@ -33,7 +33,7 @@ class Sklad:
         self.total_price = 0
         self.sort_state = 1
         self.order_mode = 3
-        self.highlight_threshold = 5
+        self.highlight_threshold = int(self.ui.Alert.text())
 
         # Track UI actions
         self.button_clicks()
@@ -60,6 +60,7 @@ class Sklad:
         self.search_action()
         self.sort_action()
         self.catalog_action()
+        self.alert_action()
 
     def init_data(self):
         self.goods = self.data['tovar']
@@ -90,6 +91,12 @@ class Sklad:
     def catalog_action(self):
         self.commands.tab_selected(
             self.ui.itemCategories_2, self.update_category
+        )
+
+    def alert_action(self):
+        self.commands.form_submit(
+            [self.ui.alert_button, self.ui.Alert],
+            self.alert
         )
 
     # ==================== REDIRECTS =======================
@@ -257,7 +264,11 @@ class Sklad:
         self.commands.button_click(
             self.ui.manual, self.manual)
 
-
+    #=========================== ALERT =========================
+    def alert(self):
+        print("1")
+        self.highlight_threshold = int(self.ui.Alert.text())
+        self.reload_items(self.result)
 class Cart:
     """This class represents a cart with its contents and price."""
 
