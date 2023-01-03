@@ -209,7 +209,7 @@ class ItemDetails(QtWidgets.QFrame):
         pattern = re.compile("^[0-5]\d{3}$")
         pattern2 = re.compile('^[^!.?"#]+$')
 
-        if pattern.match(new_code) and pattern2.match(new_name):
+        if pattern.match(new_code) and pattern2.match(new_name) and self.filename != "":
             other_codes = list(self.page.goods.data.keys())
             if not self.adding:
                 other_codes.remove(self.code)
@@ -242,6 +242,8 @@ class ItemDetails(QtWidgets.QFrame):
                 msg.setText("Zadajte spravny kod")
             elif pattern2.match(new_name) == None:
                 msg.setText("Zadajte vhodny nazov")
+            elif self.filename == '':
+                msg.setText("Vyberte obrázok")
             msg.exec_()
 
     def pick_image(self):
