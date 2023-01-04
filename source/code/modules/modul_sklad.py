@@ -66,7 +66,10 @@ class Sklad:
         self.goods = self.data['tovar']
         self.prices = self.data['cennik']
         self.storage = self.data['sklad']
-        self.goods.version_changed(self.reload_items)
+        self.storage.version_changed(
+            lambda: self.reload_items(self.goods.data))
+        self.prices.version_changed(
+            lambda: self.reload_items(self.goods.data))
         self.update_category()
 
     # ==================== ACTIONS =======================
@@ -264,11 +267,13 @@ class Sklad:
         self.commands.button_click(
             self.ui.manual, self.manual)
 
-    #=========================== ALERT =========================
+    # =========================== ALERT =========================
     def alert(self):
         print("1")
         self.highlight_threshold = int(self.ui.Alert.text())
         self.reload_items(self.result)
+
+
 class Cart:
     """This class represents a cart with its contents and price."""
 
