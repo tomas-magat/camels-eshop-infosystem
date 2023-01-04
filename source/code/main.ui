@@ -3070,15 +3070,39 @@ color: rgb(125, 125, 125);</string>
           <property name="geometry">
            <rect>
             <x>14</x>
-            <y>0</y>
-            <width>261</width>
-            <height>41</height>
+            <y>5</y>
+            <width>240</width>
+            <height>20</height>
            </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: none;</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::Box</enum>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <property name="spacing">
+            <number>5</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QLabel" name="Alert_text">
              <property name="font">
@@ -3107,8 +3131,38 @@ padding-left: 10px</string>
            </item>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_23">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
              <item>
               <widget class="QLineEdit" name="Alert">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>50</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(248, 248, 248);</string>
                </property>
@@ -3124,6 +3178,9 @@ padding-left: 10px</string>
                <property name="frame">
                 <bool>true</bool>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
                <property name="placeholderText">
                 <string/>
                </property>
@@ -3133,12 +3190,27 @@ padding-left: 10px</string>
            </item>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_11">
+             <property name="spacing">
+              <number>0</number>
+             </property>
              <item>
               <widget class="QPushButton" name="alert_button">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="styleSheet">
                 <string notr="true">#alert_button{border: 1px solid #2f3e46; 
 						background-color: #2f3e46;
 						color: #cad2c5;
+						margin: 0px;
+						padding-left: 5px;
+						padding-right: 5px;
 }
 #alert_button:hover {
 	border-color: #354f52; 
@@ -3231,7 +3303,7 @@ padding-left: 10px</string>
 padding-left: 10px</string>
               </property>
               <property name="text">
-               <string>Objednávka :   </string>
+               <string>Objednávka      </string>
               </property>
               <property name="textFormat">
                <enum>Qt::PlainText</enum>
@@ -3293,7 +3365,7 @@ padding-left: 20px</string>
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>25</y>
+                 <y>18</y>
                  <width>107</width>
                  <height>20</height>
                 </rect>
@@ -3305,7 +3377,7 @@ padding-left: 20px</string>
                 <set>Qt::ImhDigitsOnly</set>
                </property>
                <property name="text">
-                <string/>
+                <string>10</string>
                </property>
                <property name="maxLength">
                 <number>20</number>
@@ -3333,7 +3405,7 @@ padding-left: 20px</string>
                 <set>Qt::ImhDigitsOnly</set>
                </property>
                <property name="text">
-                <string/>
+                <string>5</string>
                </property>
                <property name="maxLength">
                 <number>20</number>
@@ -3342,6 +3414,40 @@ padding-left: 20px</string>
                 <bool>true</bool>
                </property>
                <property name="placeholderText">
+                <string>Doplnit pri pocte</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_4">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>100</width>
+                 <height>15</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #cad2c5;
+</string>
+               </property>
+               <property name="text">
+                <string>Pocet na dolpnenie</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_5">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>40</y>
+                 <width>100</width>
+                 <height>15</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #cad2c5;
+</string>
+               </property>
+               <property name="text">
                 <string>Doplnit pri pocte</string>
                </property>
               </widget>
@@ -3943,7 +4049,7 @@ background-color :#BBBBBB;
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>474</width>
+          <width>98</width>
           <height>250</height>
          </rect>
         </property>

@@ -7,6 +7,7 @@
 # TODO
 # nastavenie [self.highlight_threshold] - user moze nastavit kedy bude polozka zvyraznena
 # pri nakupe na portaly, update sklad [relaod. items]
+# vzdy pri otvoreni skladu reload tovaru
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -33,6 +34,8 @@ class Sklad:
         self.sort_state = 1
         self.order_mode = 3
         self.highlight_threshold = int(self.ui.Alert.text())
+        # ['Automatic = 'auto' / semiautomatic ='semi', kod tovaru, HowManyToBuy, CountWhenToBuy] 
+        self.orderRules = []
 
         # Track UI actions
         self.button_clicks()
@@ -233,26 +236,18 @@ class Sklad:
         self.category = self.ui.itemCategories_2.currentIndex()
         self.load_counts_items()
 
-    # =================== ORDER STATE ==================================
-
-    def order(self):
-        pass
-    #     print(self.order_mode)
-
+    # =================== UPDATE ORDER STATE ====================
     def automatic(self):
         self.order_mode = 1
         self.ui.input_widget.setVisible(True)
-        self.order()
 
     def semiautomatic(self):
         self.order_mode = 2
         self.ui.input_widget.setVisible(True)
-        self.order()
 
     def manual(self):
         self.order_mode = 3
         self.ui.input_widget.setVisible(False)
-        self.order()
 
     def button_clicks(self):
         """All button click commands of sklad screen here."""
@@ -299,7 +294,12 @@ class Cart:
 
     def buy(self):
         if len(self.contents) > 0:
-            self.execute_purchase()
+            if int(self.page.ui.HowManyToBuy.text()) > 0:
+                self.execute_purchase()
+            else:
+                self.commands.warning(
+                    'Prosím skontrolujte údaje objednávky',
+                    'Pole \'Pocet na doplnenie\' musi byt kladne nenulove cislo')
         else:
             self.commands.warning(
                 'Prázdny košík',
@@ -313,9 +313,43 @@ class Cart:
         """
         self.create_receipt()
         self.add_stats()
-        self.update_storage()
-        self.clear_cart()
-        self.purchase_message()
+        HowManyToBuy = self.page.ui.HowManyToBuy.text() 
+        CountWhenToBuy = self.page.ui.CountWhenToBuy.text()
+    
+        # MANUAL
+        if self.page.order_mode == 3:
+            self.update_storage()
+            self.clear_cart()
+            self.purchase_message()
+
+        # SEMIAUTOMATIC
+        if self.page.order_mode == 2:
+            self.create_rule('semi', HowManyToBuy, CountWhenToBuy)
+
+        # AUTOMATIC
+        if self.page.order_mode == 1:
+            self.create_rule('auto', HowManyToBuy, CountWhenToBuy)
+        
+        print(self.page.orderRules)
+
+
+    def create_rule(self, rule_type: str, HowManyToBuy, CountWhenToBuy):
+        """
+        Add order rule instruction to orderRules 
+        for every item in itemCart.
+        Note that if rule for specific code already exists,
+        rewrite the old rule and aply the new one.
+        """
+        for code in self.contents.items():  
+            if len(self.page.orderRules) == 0:
+                self.page.orderRules.append([rule_type, code[0], HowManyToBuy, CountWhenToBuy])
+            if code[0] in (item for sublist in self.page.orderRules for item in sublist):
+                for i,lst in enumerate(self.page.orderRules):
+                    for element in lst:
+                        if element == code[0]:
+                            self.page.orderRules[i] = [rule_type, code[0], HowManyToBuy, CountWhenToBuy]
+            else:
+                self.page.orderRules.append([rule_type, code[0], HowManyToBuy, CountWhenToBuy])
 
     def clear_cart(self):
         """Remove everything from the cart."""
