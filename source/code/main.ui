@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -4780,6 +4780,9 @@ QPushButton:pressed {
         <height>80</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>Otvoriť štatistiku</string>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
 	background: #84a98c;
@@ -4816,6 +4819,9 @@ QPushButton:pressed {
         <width>80</width>
         <height>80</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>Otvoriť sklad</string>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
@@ -4943,6 +4949,9 @@ QPushButton:pressed {
         <width>80</width>
         <height>80</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>Otvoriť predajný portál</string>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {

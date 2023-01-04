@@ -271,14 +271,17 @@ def valid_image(file_path):
     If image on file_path is not a valid icc profile
     convert it to PNG format in lower quality.
     """
-
-    img = Image.open(file_path)
-    icc = img.info.get('icc_profile', '')
-
-    if icc:
-        icc_conv, img_conv = change_img_profile(icc, img)
-        if icc != icc_conv:
-            img_conv.save(
-                file_path, format='PNG',
-                quality=50, icc_profile=icc_conv
-            )
+    try:
+        img = Image.open(file_path)
+        icc = img.info.get('icc_profile', '')
+    except:
+        return False
+    else:
+        if icc:
+            icc_conv, img_conv = change_img_profile(icc, img)
+            if icc != icc_conv:
+                img_conv.save(
+                    file_path, format='PNG',
+                    quality=50, icc_profile=icc_conv
+                )
+        return True

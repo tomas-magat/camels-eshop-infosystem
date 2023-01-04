@@ -36,10 +36,10 @@ class MainWindow:
 
         # Initialize modules
         self.portal = modul_portal.Portal(self)
-        self.databaza = modul_databaza.Databaza(self.ui, self.data)
-        self.statistika = modul_statistika.Statistika(self.ui, self.data)
-        self.cenotvorba = modul_cenotvorba.Cenotvorba(self.ui, self.data)
-        self.sklad = modul_sklad.Sklad(self.ui, self.data)
+        self.databaza = modul_databaza.Databaza(self)
+        self.statistika = modul_statistika.Statistika(self)
+        self.cenotvorba = modul_cenotvorba.Cenotvorba(self)
+        self.sklad = modul_sklad.Sklad(self)
 
         # Track all home button clicks
         self.home_buttons = [

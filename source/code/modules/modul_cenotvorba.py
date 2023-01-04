@@ -5,11 +5,11 @@ from utils.tools import *
 
 class Cenotvorba:
 
-    def __init__(self, ui, data):
+    def __init__(self, app):
 
-        self.ui = ui
-        self.commands = UI_Commands(self.ui)
-        self.data = data
+        self.ui = app.ui
+        self.commands = app.commands
+        self.data = app.data
 
         self.layouts = [
             self.ui.verticalLayout_51,

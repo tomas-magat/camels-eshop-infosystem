@@ -11,21 +11,20 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.ui_commands import UI_Commands
-from utils.file import DataFile
 from utils.tools import *
 
 
 class Sklad:
 
-    def __init__(self, ui, data):
+    def __init__(self, app):
         """
         This class handles everything done on the sklad
         screen (button clicks, item listing...).
         """
 
-        self.ui = ui
-        self.commands = UI_Commands(self.ui)
-        self.data = data
+        self.ui = app.ui
+        self.commands = app.commands
+        self.data = app.data
 
         # Init global variables
         self.cart = Cart(self)

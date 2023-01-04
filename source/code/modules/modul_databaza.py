@@ -10,14 +10,14 @@ from utils.tools import *
 
 class Databaza:
 
-    def __init__(self, ui, data):
+    def __init__(self, app):
         """
         This class handles everything done on the databaza
         screen (button clicks, item listing...).
         """
-        self.data = data
-        self.ui = ui
-        self.commands = UI_Commands(self.ui)
+        self.ui = app.ui
+        self.commands = app.commands
+        self.data = app.data
 
         self.lists = [
             self.ui.listWidget,
@@ -29,6 +29,7 @@ class Databaza:
         ]
         self.tab = self.ui.tabWidget_databaza
         self.category = 0
+        self.no_res = False
 
         self.commands.button_click(
             self.ui.databazaButton, self.switch_screen)
@@ -82,6 +83,7 @@ class Databaza:
     def add_item(self):
         """Display empty item details to enter new."""
 
+        self.clear_no_results()
         prefilled_code = '' if self.category == 0 else find_code(self.category)
         ItemDetails(self, self.ui.right_database, '',
                     prefilled_code, add_button=True)
@@ -102,9 +104,10 @@ class Databaza:
             pass
 
     def delete_item(self):
-        self.commands.confirm(
-            self.ui, "Chcete natrvalo vymazať produkt?",
-            ok_command=self.delete_item_txt)
+        if self.clear_no_results():
+            self.commands.confirm(
+                self.ui, "Chcete natrvalo vymazať produkt?",
+                ok_command=self.delete_item_txt)
 
     def delete_item_txt(self):
         text = self.lists[self.category].currentItem().text().split()
@@ -140,6 +143,14 @@ class Databaza:
         self.lists[self.category].clear()
         prvok = 'Produkt sa nenasiel'
         self.lists[self.category].addItem(prvok)
+        self.no_res = True
+
+    def clear_no_results(self):
+        if self.no_res:
+            self.reload_items(self.goods.data)
+            self.no_res = False
+            return False
+        return True
 
 
 class ItemDetails(QtWidgets.QFrame):
@@ -197,7 +208,6 @@ class ItemDetails(QtWidgets.QFrame):
             self.page.goods.data[new_code] = [
                 new_name, self.filename]
             self.page.goods.save_data()
-            print(self.page.goods.data)
 
         self.name = new_name
 
@@ -222,6 +232,7 @@ class ItemDetails(QtWidgets.QFrame):
                     self.page.goods.save_data()
                     self.page.lists[self.page.category].addItem(new_text)
                     self.adding = False
+                    self.ui.list
                     self.deleteLater()
                 else:
                     old_text = self.page.lists[self.page.category].currentItem(
@@ -256,10 +267,10 @@ class ItemDetails(QtWidgets.QFrame):
 
         self.image_path = file[0]
         if self.image_path != '':
-            valid_image(self.image_path)
-            self.filename = self.image_path.split("/", maxsplit=256)[-1]
-            self.save_image()
-            self.update_image()
+            if valid_image(self.image_path):
+                self.filename = self.image_path.split("/", maxsplit=256)[-1]
+                self.save_image()
+                self.update_image()
 
     def save_image(self):
         """Copy selected image to the assets/images/ directory."""
