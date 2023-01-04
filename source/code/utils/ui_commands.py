@@ -314,8 +314,9 @@ class Timer(QObject):
             time.sleep(self.period)
 
     def update_vars(self):
-        for i, file in enumerate(self.data):
+        for i, file in enumerate(self.data[:3]):
             self.update_var(file, i)
+        self.update_stats()
 
     def update_var(self, file, i):
         file.get_version()
@@ -325,3 +326,12 @@ class Timer(QObject):
             file.read_data()
             self.versions[i] = current_version
             file.changed.emit(file.data)
+
+    def update_stats(self):
+        self.data[-1].get_version()
+        current_version = self.data[-1].version
+
+        if current_version != self.versions[-1]:
+            self.data[-1].read_data()
+            self.versions[-1] = current_version
+            self.data[-1].changed_list.emit(self.data[-1].data_list)
