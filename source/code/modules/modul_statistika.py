@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QGraphicsScene
 from utils.tools import find_image
 from datetime import datetime
 
+
 class Statistika:
 
     def __init__(self, ui, data):
@@ -25,7 +26,8 @@ class Statistika:
         self.graph_color = '#CAD2C5'
         self.funFactsColor = '#2C57D8'
 
-        self.data['statistiky'].version_changed(self.reload_statistiky, dict_data=False)
+        self.data['statistiky'].version_changed(
+            self.reload_statistiky, dict_data=False)
         self.data['tovar'].version_changed(self.reload_tovar, dict_data=False)
         # find_image('tricko.jpg')
         self.reload_statistiky(self.statistiky)
@@ -43,7 +45,7 @@ class Statistika:
         self.NajmenejGraf()
         self.VyvojGrafVsetky()
         self.FunFacts()
-    
+
     def reload_tovar(self, data_list):
         self.tovar = data_list
         self.commands.close_najviac_najmenej_graphs()
@@ -170,7 +172,7 @@ class Statistika:
             self.top_ten_worst = (product_non_index + self.top_ten_worst)[:10]
             self.top_ten_worst_graf = (
                 product_non + self.top_ten_worst_graf)[:10]
-        
+
         for produkt_tovar in self.tovar:
             for i in range(len(self.top_ten_graf)):
                 if produkt_tovar[0] == self.top_ten_graf[i][0]:
@@ -197,10 +199,9 @@ class Statistika:
                 nove_produkty += '\n'+i[0]
             self.najviac_mame_produkt = nove_produkty
 
-        
         if self.posledna_objednavka_N != 'ziadna':
-            self.posledna_objednavka_N[0] = self.posledna_objednavka_N[0].split()[0].split('-')[2] +'-'+ \
-                self.posledna_objednavka_N[0].split()[0].split('-')[1]+\
+            self.posledna_objednavka_N[0] = self.posledna_objednavka_N[0].split()[0].split('-')[2] + '-' + \
+                self.posledna_objednavka_N[0].split()[0].split('-')[1] +\
                 '-'+self.posledna_objednavka_N[0].split()[0].split('-')[0] + \
                 ' '+self.posledna_objednavka_N[0].split()[1]
 
@@ -211,8 +212,8 @@ class Statistika:
                 self.posledna_objednavka_N[5]+'€/ks'
 
         if self.posledna_objednavka_P != 'ziadna':
-            self.posledna_objednavka_P[0] = self.posledna_objednavka_P[0].split()[0].split('-')[2] +'-'+ \
-                self.posledna_objednavka_P[0].split()[0].split('-')[1]+\
+            self.posledna_objednavka_P[0] = self.posledna_objednavka_P[0].split()[0].split('-')[2] + '-' + \
+                self.posledna_objednavka_P[0].split()[0].split('-')[1] +\
                 '-'+self.posledna_objednavka_P[0].split()[0].split('-')[0] + \
                 ' '+self.posledna_objednavka_P[0].split()[1]
 
@@ -488,9 +489,10 @@ Hodnota predajov: %s
 Počet nákupov: %s
 Hodnota nákupov: %s
 Hrubý zisk za deň: %s€''' %
-                            (x_date[index], len(date_info_graph[index]),\
-                            date_info_p, round(p_value,2), date_info_n,\
-                            round(n_value,2), round(value_day,2)))
+                                    (x_date[index], len(date_info_graph[index]),
+                                     date_info_p, round(
+                                         p_value, 2), date_info_n,
+                                     round(n_value, 2), round(value_day, 2)))
                 else:
                     annot3.set_text('Dátum: %s\n%s' %
                                     (x_date[index], date_info_graph[index][0][0]))

@@ -282,11 +282,13 @@ class Cart:
         self.ui = page.ui
         self.commands = page.commands
 
+        # Init data
+        self.statistics = self.page.data['statistiky']
+        self.storage = self.page.data['sklad']
+
         # Init cart global variables
         self.price = 0
         self.contents = {}
-        self.statistics = DataFile('statistiky')
-        self.storage = DataFile('sklad')
         self.id = random_id('N')
 
         self.buy_click()
@@ -315,8 +317,6 @@ class Cart:
         self.update_storage()
         self.clear_cart()
         self.purchase_message()
-        self.page.init_data()
-        self.page.load_counts_items()
 
     def clear_cart(self):
         """Remove everything from the cart."""
