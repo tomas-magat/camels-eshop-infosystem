@@ -33,7 +33,7 @@ class Portal:
         self.init_actions()
         self.init_data()
 
-        # Init catalog global variables
+        # Init global variables
         self.cart = Cart(self)
         self.cashier_name = ""
         self.sort_state = 1
@@ -197,7 +197,7 @@ class Portal:
     # ===================== LOADING =======================
     def reload_items(self, data):
         """
-        Clear catalog of current selected category and load new items.
+        Clear items in currently selected category and load new.
         """
         self.commands.clear_layout(self.layouts[self.category])
         self.load_items(data)

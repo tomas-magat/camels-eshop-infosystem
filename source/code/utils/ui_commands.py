@@ -236,55 +236,6 @@ class UI_Commands():
             min_add=1
         )
 
-    def dates_range(self, page, date_edits, stats_list):
-        """Return list of dates in specific range."""
-
-        date_from = date_edits[0].dateTime().toPyDateTime()
-        date_to = date_edits[1].dateTime().toPyDateTime()
-
-        result = self.datetime_list(stats_list)
-        for i, datapoint in enumerate(result):
-            if date_from > datapoint[0] or datapoint[0] > date_to:
-                result.pop(i)
-
-        result = self.string_date_list(result)
-        page.Values()
-        close(page.vyvoj_ceny)
-        page.VyvojGrafVsetky()
-        page.statistiky = result
-
-    @staticmethod
-    def datetime_list(stats_list):
-        """
-        Convert list of stats entries in format:
-        [['date', 'type', 'id', 'code', 'amount', 'price'], ...]
-
-        into list of stats with date in datetime format:
-        [[datetime, 'type', 'id', 'code', 'amount', 'price'], ...]
-        """
-
-        return [[
-            datetime.datetime.strptime(
-                datapoint[0], "%Y-%m-%d %H-%M-%S"
-            )] + datapoint[1:] for datapoint in stats_list
-        ]
-
-    @staticmethod
-    def string_date_list(stats_list):
-        """
-        Convert list of stats with date in datetime format:
-        [[datetime, 'type', 'id', 'code', 'amount', 'price'], ...]
-
-        into list of stats in string format:
-        [['date', 'type', 'id', 'code', 'amount', 'price'], ...]
-        """
-
-        return [[
-            datapoint[0].strftime("%Y-%m-%d %H-%M-%S")
-        ] + datapoint[1:]
-            for datapoint in sorted(stats_list)
-        ]
-
     @staticmethod
     def receipt_msg(id: str, filepath, type: str = 'účtenku'):
         """Display message about created receipt."""
@@ -351,7 +302,7 @@ class Timer(QObject):
     but without freezing the main app thread (used with QThread).
     """
 
-    def __init__(self, data, period=1.0):
+    def __init__(self, data, period=5.0):
         super(Timer, self).__init__()
         self.period = period
         self.data = list(data.values())
@@ -363,14 +314,14 @@ class Timer(QObject):
             time.sleep(self.period)
 
     def update_vars(self):
-        for i in range(len(self.data)):
-            self.update_var(i)
+        for i, file in enumerate(self.data):
+            self.update_var(file, i)
 
-    def update_var(self, i):
-        self.data[i].get_version()
-        current_version = self.data[i].version
+    def update_var(self, file, i):
+        file.get_version()
+        current_version = file.version
 
         if current_version != self.versions[i]:
-            self.data[i].read()
+            file.read_data()
             self.versions[i] = current_version
-            self.data[i].changed.emit(self.data[i].data)
+            file.changed.emit(file.data)

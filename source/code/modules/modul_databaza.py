@@ -2,23 +2,22 @@ import shutil
 import re
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QMessageBox
 
-from utils.ui_commands import UI_Commands
 from utils.tools import *
 
 
 class Databaza:
+    """
+    This class handles everything done on the databaza
+    screen (button clicks, item listing...).
+    """
 
     def __init__(self, app):
-        """
-        This class handles everything done on the databaza
-        screen (button clicks, item listing...).
-        """
         self.ui = app.ui
         self.commands = app.commands
         self.data = app.data
 
+        # Init lists of categories
         self.lists = [
             self.ui.listWidget,
             self.ui.listWidget_shirts,
@@ -27,66 +26,80 @@ class Databaza:
             self.ui.listWidget_hoodies,
             self.ui.listWidget_accesories,
         ]
-        self.tab = self.ui.tabWidget_databaza
-        self.category = 0
+
+        # Init global variables
+        self.tabs = self.ui.tabWidget_databaza
         self.no_res = False
 
+        self.init_actions()
+        self.init_data()
+
+    def init_actions(self):
+        self.redirect_action()
+        self.search_action()
+        self.item_actions()
+        self.lists_actions()
+
+    def init_data(self):
+        self.goods = self.data['tovar']
+        self.prices = self.data['cennik']
+        self.storage = self.data['sklad']
+        self.statistika = self.data['statistiky']
+        self.goods.version_changed(self.reload_items)
+        self.tabs.setCurrentIndex(0)
+        self.update_category()
+
+    # ==================== ACTIONS =======================
+    def redirect_action(self):
         self.commands.button_click(
-            self.ui.databazaButton, self.switch_screen)
-
-        self.commands.button_click(
-            self.ui.deleteItem, self.delete_item)
-
-        self.commands.button_click(
-            self.ui.addItem, self.add_item)
-
-        for listw in self.lists:
-            self.commands.list_item_selected(
-                listw, self.change_item)
-
-        self.commands.tab_selected(
-            self.tab, self.update_category
+            self.ui.databazaButton, self.switch_screen
         )
 
+    def lists_actions(self):
+        for listw in self.lists:
+            self.commands.list_item_selected(listw, self.change_item)
+
+        self.commands.tab_selected(
+            self.tabs, self.update_category
+        )
+
+    def item_actions(self):
+        self.commands.button_click(
+            self.ui.deleteItem, self.delete_item
+        )
+        self.commands.button_click(
+            self.ui.addItem, self.add_item
+        )
+
+    def search_action(self):
         self.commands.form_submit(
             [self.ui.searchButton_database, self.ui.searchField_database],
             self.search
         )
 
-        self.goods = self.data['tovar']
-        self.prices = self.data['cennik']
-        self.storage = self.data['sklad']
-        self.statistika = self.data['statistiky']
-        self.tab.setCurrentIndex(0)
-        self.update_category()
-
+    # ===================== LOADING =======================
     def reload_items(self, data):
         self.lists[self.category].clear()
         self.load_items(data)
-        self.lists[self.category].setCurrentRow(0)
 
     def load_items(self, data):
-        for code, vals in data.items():
+        for code, vals in filter_category(
+                data, self.category).items():
             self.load_item(code, vals)
 
     def load_item(self, code, vals):
-        codes = '12345' if self.category == 0 else str(self.category)
-
-        if code[0] in codes:
-            self.lists[self.category].addItem('#' + code + ' ' + vals[0])
+        self.lists[self.category].addItem('#' + code + ' ' + vals[0])
 
     def switch_screen(self):
         """Redirect to this databaza screen."""
-
         self.commands.redirect(self.ui.databaza)
 
     def add_item(self):
         """Display empty item details to enter new."""
-
         self.clear_no_results()
         prefilled_code = '' if self.category == 0 else find_code(self.category)
         ItemDetails(self, self.ui.right_database, '',
-                    prefilled_code, add_button=True)
+                    prefilled_code, adding=True)
 
     def change_item(self):
         """
@@ -112,14 +125,22 @@ class Databaza:
     def delete_item_txt(self):
         text = self.lists[self.category].currentItem().text().split()
         code = text[0].lstrip("#")
+
         self.lists[self.category].takeItem(
             self.lists[self.category].currentRow())
         del self.goods.data[code]
         self.goods.save_data()
+        if self.storage.data.get(code) != None:
+            del self.storage.data[code]
+            self.storage.save_data()
+        if self.prices.data.get(code) != None:
+            del self.prices.data[code]
+            self.prices.save_data()
 
     def update_category(self):
-        self.category = self.tab.currentIndex()
+        self.category = self.tabs.currentIndex()
         self.reload_items(self.goods.data)
+        self.lists[self.category].setCurrentRow(0)
 
     def search(self):
         """
@@ -155,8 +176,9 @@ class Databaza:
 
 class ItemDetails(QtWidgets.QFrame):
 
-    def __init__(self, page, parent, display_name: str, code: str,
-                 image_path="", add_button=False):
+    def __init__(
+            self, page, parent, display_name: str,
+            code: str, image_path="", adding=False):
 
         super(ItemDetails, self).__init__(parent)
 
@@ -166,96 +188,92 @@ class ItemDetails(QtWidgets.QFrame):
 
         self.name = "itemDetails"
         self.display_name = display_name
-        self.image_path = find_image(image_path)
         self.filename = image_path
+        self.image_path = find_image(self.filename)
         self.code = code
 
-        self.adding = add_button
+        self.patterns = {
+            'code': re.compile("^[0-5]\d{3}$"),
+            'name': re.compile('^[^!.?"#]+$'),
+        }
+
+        self.adding = adding
         self.button_text = "Pridať produkt" if self.adding else "Uložiť zmeny"
 
         self.draw_ui()
 
-    def edit_items(self, new_code, new_name, new_text):
-        self.page.lists[self.page.category].currentItem().setText(new_text)
-        if new_code != self.code:
-            self.page.lists[self.page.category].currentItem().setText(
-                new_text)
-            prices_data = self.page.prices.data.get(self.code)
-            if prices_data != None:
-                self.page.prices.data[new_code] = prices_data
-                del self.page.prices.data[self.code]
-                self.page.prices.save_data()
-
-            storage_code = self.page.storage.data.get(self.code)
-            if storage_code != None:
-                self.page.storage.data[new_code] = storage_code
-                del self.page.storage.data[self.code]
-                self.page.storage.save_data()
-
-            stats_list = self.page.statistika.data_list
-            for datapoint in stats_list:
-                if datapoint[3] == self.code:
-                    datapoint[3] = new_code
-            self.page.statistika.save_list()
-
-            goods_code = self.page.goods.data.get(self.code)
-            self.page.goods.data[new_code] = goods_code
-            del self.page.goods.data[self.code]
-            self.page.goods.save_data()
-
-            self.code = new_code
-        else:
-            self.page.goods.data[new_code] = [
-                new_name, self.filename]
-            self.page.goods.save_data()
-
-        self.name = new_name
-
-    def update_list(self):
+    def submit(self):
         """Update listWidget with currently entered values."""
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
 
-        pattern = re.compile("^[0-5]\d{3}$")
-        pattern2 = re.compile('^[^!.?"#]+$')
-
-        if pattern.match(new_code) and pattern2.match(new_name) and self.filename != "":
-            other_codes = list(self.page.goods.data.keys())
-            if not self.adding:
-                other_codes.remove(self.code)
-            unique = new_code not in other_codes
-            new_text = "#"+new_code+" "+new_name
-
-            if unique:
-                if self.adding:
-                    self.page.goods.data[new_code] = [new_name, self.filename]
-                    self.page.goods.save_data()
-                    self.page.lists[self.page.category].addItem(new_text)
-                    self.adding = False
-                    self.ui.list
-                    self.deleteLater()
-                else:
-                    old_text = self.page.lists[self.page.category].currentItem(
-                    ).text()
-                    if new_text != old_text:
-                        self.edit_items(new_code, new_name, new_text)
+        if self.validate_fields(new_code, new_name) \
+                and self.unique_code(new_code):
+            if self.adding:
+                self.create(new_code, new_name)
             else:
-                msg = QMessageBox()
-                msg.setWindowTitle("Error")
-                msg.setIcon(QMessageBox.Warning)
-                msg.setText("Zadaný kód už existuje")
-                msg.exec_()
+                self.update(new_code, new_name)
+
+    def create(self, code, name):
+        self.page.goods.data[code] = [name, self.filename]
+        self.page.goods.save_data()
+        self.adding = False
+        self.page.lists[self.page.category].setCurrentRow(
+            self.page.lists[self.page.category].count()-1
+        )
+
+    def update(self, code, name):
+        if code != self.code:
+            self.update_code(self.page.prices, code)
+            self.update_code(self.page.storage, code)
+            self.update_code(self.page.goods, code)
+            self.update_stats_code(code)
+
+        elif name != self.name or self.filename != '':
+            self.page.goods.data[code] = [name, self.filename]
+            self.page.goods.save_data()
+
+        self.display_name, self.code = name, code
+
+    def update_code(self, data, code):
+        datapoint = data.data.get(self.code)
+        if datapoint != None:
+            data.data[code] = datapoint
+            del data.data[self.code]
+            data.save_data()
+
+    def update_stats_code(self, code):
+        stats_list = self.page.statistika.data_list
+        for datapoint in stats_list:
+            if datapoint[3] == self.code:
+                datapoint[3] = code
+        self.page.statistika.save_list()
+
+    def validate_fields(self, code, name):
+        code_valid = self.patterns['code'].match(code)
+        name_valid = self.patterns['name'].match(name)
+        image_valid = self.filename != ''
+
+        if code_valid and name_valid and image_valid:
+            return True
+        elif code_valid == None:
+            self.commands.warning("Zadajte správny kód produktu")
+        elif name_valid == None:
+            self.commands.warning("Zadajte vhodný názov produktu")
+        elif not image_valid:
+            self.commands.warning("Vyberte obrázok produktu")
+        return False
+
+    def unique_code(self, code):
+        other_codes = list(self.page.goods.data.keys())
+        if not self.adding:
+            other_codes.remove(self.code)
+
+        if code not in other_codes:
+            return True
         else:
-            msg = QMessageBox()
-            msg.setWindowTitle("Error")
-            msg.setIcon(QMessageBox.Warning)
-            if pattern.match(new_code) == None:
-                msg.setText("Zadajte spravny kod")
-            elif pattern2.match(new_name) == None:
-                msg.setText("Zadajte vhodny nazov")
-            elif self.filename == '':
-                msg.setText("Vyberte obrázok")
-            msg.exec_()
+            self.commands.error("Zadaný kód už existuje, vyberte iný")
+            return False
 
     def pick_image(self):
         """Let user select image and save it."""
@@ -372,7 +390,7 @@ class ItemDetails(QtWidgets.QFrame):
         font = QtGui.QFont()
         font.setBold(True)
         self.pushButton.setFont(font)
-        self.commands.button_click(self.pushButton, self.update_list)
+        self.commands.button_click(self.pushButton, self.submit)
         self.buttonLayout.addWidget(self.pushButton)
         self.mainLayout.addWidget(self.saveButtonSection)
         self.commands.clear_layout(self.ui.verticalLayout_12)
