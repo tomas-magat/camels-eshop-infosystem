@@ -240,14 +240,17 @@ class Sklad:
     def automatic(self):
         self.order_mode = 1
         self.ui.input_widget.setVisible(True)
+        self.ui.buyButton_7.setText('Nastaviť')
 
     def semiautomatic(self):
         self.order_mode = 2
         self.ui.input_widget.setVisible(True)
+        self.ui.buyButton_7.setText('Nastaviť')
 
     def manual(self):
         self.order_mode = 3
         self.ui.input_widget.setVisible(False)
+        self.ui.buyButton_7.setText('Kúpiť')
 
     def button_clicks(self):
         """All button click commands of sklad screen here."""
