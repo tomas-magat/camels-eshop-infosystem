@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from PyQt5.QtWidgets import QGraphicsScene
 from utils.tools import find_image
 from datetime import datetime
+import matplotlib.image as image
+from matplotlib.offsetbox import (OffsetImage, AnnotationBbox)
 
 
 class Statistika:
@@ -28,8 +30,8 @@ class Statistika:
 
         self.data['statistiky'].version_changed(
             self.reload_statistiky, dict_data=False)
-        self.data['tovar'].version_changed(self.reload_tovar, dict_data=False)
-        # find_image('tricko.jpg')
+        self.data['tovar'].version_changed(
+            self.reload_tovar, dict_data=False)
         self.reload_statistiky(self.statistiky)
         self.reload_tovar(self.tovar)
 
@@ -229,10 +231,7 @@ class Statistika:
             self.date_info_all = [[]]
             self.commands.product_sorted_graph(
                 self.statistiky, self.x_date_all, self.price_graph_all, self.date_info_all)
-        # for i in self.date_info_all:
-        #     print()
-        #     for k in i:
-        #         print(k)
+
         if statistiky_tricka:
             self.x_date_tricka = []
             self.price_graph_tricka = []
@@ -280,12 +279,14 @@ class Statistika:
             najviac.patch.set_facecolor(self.graph_color)
             self.commands.track_graph(najviac)
             a1.set_facecolor(self.graph_color)
-            a1.spines['top'].set_visible(False)
-            a1.spines['right'].set_visible(False)
+            a1.spines.top.set_visible(False)
+            a1.spines.right.set_visible(False)
             a1.axes.xaxis.set_ticklabels([])
             a1.tick_params(axis='x', which='both', length=0)
             a1.set_title('Najpredavanejsie produkty', **
                          self.font, fontsize=15, weight='bold')
+            logo = image.imread(find_image('tricko.jpg'))
+            imagebox = OffsetImage(logo, zoom = 0.15)
             bar_X = [i for i in range(len(self.top_ten_graf))]
             bars1 = a1.bar(bar_X, self.top_ten)
             bar_X = []
