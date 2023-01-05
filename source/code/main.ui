@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="portal">
      <widget class="QWidget" name="left" native="true">
@@ -307,8 +307,8 @@ color: rgb(125, 125, 125);</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>481</width>
+                  <height>350</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="allLayout"/>
@@ -912,8 +912,8 @@ text-align: right;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>299</width>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="cartLayout"/>
@@ -1318,16 +1318,18 @@ color: rgb(125, 125, 125);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">#addItem {
-  color: #000000;
-  background-color: rgb(132, 169, 140);
-  border-radius: 13px;
-  border: none;
+	border: 5px solid #2f3e46; 
+	border-radius: 14px;
+	background-color: #2f3e46;
+	color: #cad2c5;
 }
-
 #addItem:hover {
-  background-color:rgb(47, 62, 70);
-  color: #ffffff;
-
+	border-color: #354f52; 
+	background-color: #354f52;
+}
+#addItem:pressed {
+	border-color: #354f52; 
+	background-color: #354f52;
 }</string>
           </property>
           <property name="text">
@@ -1351,15 +1353,18 @@ color: rgb(125, 125, 125);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">#deleteItem {
-  color: #000000;
-  background-color: rgb(132, 169, 140);
-  border-radius: 13px;
-  border: none;
+	border: 5px solid #2f3e46; 
+	border-radius: 14px;
+	background-color: #2f3e46;
+	color: #cad2c5;
 }
-
 #deleteItem:hover {
-  background-color:rgb(47, 62, 70);
-  color: #ffffff;
+	border-color: #354f52; 
+	background-color: #354f52;
+}
+#deleteItem:pressed {
+	border-color: #354f52; 
+	background-color: #354f52;
 }</string>
           </property>
           <property name="text">

@@ -325,11 +325,22 @@ class ItemDetails(QtWidgets.QFrame):
         self.itemNameSection.setObjectName(self.name+"NameSection")
         self.nameLayout = QtWidgets.QVBoxLayout(self.itemNameSection)
         self.nameLayout.setObjectName(self.name+"NameLayout")
+        self.entryStyle = """QLineEdit { 
+                background-color: white;
+                border-style: outset;
+                border-width: 2px;
+                border-radius: 12px;
+                border-color: #cad2c5;
+                padding-left: 4px;
+            }
+            QLineEdit:hover { 
+                background-color: rgb(218, 218, 218);
+                border-color: beige;
+            }"""
         self.lineEdit = QtWidgets.QLineEdit(
             self.display_name, self.itemNameSection)
         self.lineEdit.setMinimumHeight(24)
-        self.lineEdit.setStyleSheet(
-            "background-color: rgb(255, 255, 255); border-radius: 12px; padding-left:6px;")
+        self.lineEdit.setStyleSheet(self.entryStyle)
         self.lineEdit.setPlaceholderText("Zadajte názov produktu")
         self.lineEdit.setObjectName(self.name+"NameEdit")
         self.nameLayout.addWidget(self.lineEdit)
@@ -340,8 +351,7 @@ class ItemDetails(QtWidgets.QFrame):
         self.codeLayout = QtWidgets.QVBoxLayout(self.itemCodeSection)
         self.codeLayout.setObjectName(self.name+"CodeLayout")
         self.lineEdit_2 = QtWidgets.QLineEdit(self.code, self.itemCodeSection)
-        self.lineEdit_2.setStyleSheet(
-            "background-color: rgb(255, 255, 255); border-radius: 12px; padding-left:6px;")
+        self.lineEdit_2.setStyleSheet(self.entryStyle)
         self.lineEdit_2.setMinimumHeight(24)
         self.lineEdit_2.setObjectName(self.name+"CodeEdit")
         self.lineEdit_2.setPlaceholderText("Zadajte kód produktu")
