@@ -35,9 +35,7 @@ class Statistika:
         self.reload_statistiky(self.statistiky)
         self.reload_tovar(self.tovar)
 
-        self.commands.date_changed(
-            [self.ui.dateFrom, self.ui.dateTo], lambda x: x
-        )
+        self.commands.date_changed(self.ui.dateFrom, lambda x: x)
 
     def reload_statistiky(self, data_list):
         self.statistiky = data_list
@@ -286,7 +284,7 @@ class Statistika:
             a1.set_title('Najpredavanejsie produkty', **
                          self.font, fontsize=15, weight='bold')
             logo = image.imread(find_image('tricko.jpg'))
-            imagebox = OffsetImage(logo, zoom = 0.15)
+            imagebox = OffsetImage(logo, zoom=0.15)
             bar_X = [i for i in range(len(self.top_ten_graf))]
             bars1 = a1.bar(bar_X, self.top_ten)
             bar_X = []
