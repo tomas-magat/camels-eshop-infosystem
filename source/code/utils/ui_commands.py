@@ -196,7 +196,7 @@ class UI_Commands():
     def get_date(self, edit):
         """Get python datetime from QDateEdit."""
 
-        edit.dateTime.toPyDateTime()
+        return edit.dateTime.toPyDateTime()
 
     # def init_date_edits(self, date_edits: list):
     #     """
