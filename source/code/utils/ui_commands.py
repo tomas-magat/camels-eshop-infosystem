@@ -185,56 +185,57 @@ class UI_Commands():
 
         tab_widget.currentChanged.connect(command)
 
-    def date_changed(self, date_edits: list, command):
+    def date_changed(self, edit, command):
         """
-        Execute a command after user changes datetime 
-        in one of the given QDateEdit widgets.
-        """
-
-        self.init_date_edits(date_edits)
-
-        for edit in date_edits:
-            edit.dateChanged.connect(command)
-            edit.dateChanged.connect(lambda: self.set_limits(date_edits))
-
-    def init_date_edits(self, date_edits: list):
-        """
-        Initialize valid dates in given date edits on first run.
+        Execute a command after user changes 
+        datetime in QDateEdit widget.
         """
 
-        self.date_limits(
-            date_edits[0], datetime.date(2022, 12, 12), datetime.date.today(), max_sub=1
-        )
-        self.date_limits(
-            date_edits[1], datetime.date(2022, 12, 12), datetime.date.today(), min_add=1
-        )
-        date_edits[1].setDate(datetime.date.today())
+        edit.dateChanged.connect(command)
 
-    def date_limits(
-        self, date_edit: QDateEdit,
-        date_min=datetime.date(2022, 12, 12),
-        date_max=datetime.date.today(),
-        min_add: int = 0, max_sub: int = 0
-    ):
-        """Sets minimum and maximum date of given date_edit."""
+    def get_date(self, edit):
+        """Get python datetime from QDateEdit."""
 
-        min_date = date_min + datetime.timedelta(days=min_add)
-        date_edit.setMinimumDate(min_date)
+        return edit.dateTime.toPyDateTime()
 
-        max_date = date_max - datetime.timedelta(days=max_sub)
-        date_edit.setMaximumDate(max_date)
+    # def init_date_edits(self, date_edits: list):
+    #     """
+    #     Initialize valid dates in given date edits on first run.
+    #     """
 
-    def set_limits(self, date_edits: list):
-        self.date_limits(
-            date_edits[0],
-            date_max=date_edits[1].date().toPyDate(),
-            max_sub=1
-        )
-        self.date_limits(
-            date_edits[1],
-            date_min=date_edits[0].date().toPyDate(),
-            min_add=1
-        )
+    #     self.date_limits(
+    #         date_edits[0], datetime.date(2022, 12, 12), datetime.date.today(), max_sub=1
+    #     )
+    #     self.date_limits(
+    #         date_edits[1], datetime.date(2022, 12, 12), datetime.date.today(), min_add=1
+    #     )
+    #     date_edits[1].setDate(datetime.date.today())
+
+    # def date_limits(
+    #     self, date_edit: QDateEdit,
+    #     date_min=datetime.date(2022, 12, 12),
+    #     date_max=datetime.date.today(),
+    #     min_add: int = 0, max_sub: int = 0
+    # ):
+    #     """Sets minimum and maximum date of given date_edit."""
+
+    #     min_date = date_min + datetime.timedelta(days=min_add)
+    #     date_edit.setMinimumDate(min_date)
+
+    #     max_date = date_max - datetime.timedelta(days=max_sub)
+    #     date_edit.setMaximumDate(max_date)
+
+    # def set_limits(self, date_edits: list):
+    #     self.date_limits(
+    #         date_edits[0],
+    #         date_max=date_edits[1].date().toPyDate(),
+    #         max_sub=1
+    #     )
+    #     self.date_limits(
+    #         date_edits[1],
+    #         date_min=date_edits[0].date().toPyDate(),
+    #         min_add=1
+    #     )
 
     @staticmethod
     def receipt_msg(id: str, filepath, type: str = 'účtenku'):
