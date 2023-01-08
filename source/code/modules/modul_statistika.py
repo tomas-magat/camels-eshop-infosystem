@@ -35,9 +35,7 @@ class Statistika:
         self.reload_statistiky(self.statistiky)
         self.reload_tovar(self.tovar)
 
-        self.commands.date_changed(
-            [self.ui.dateFrom, self.ui.dateTo], lambda x: x
-        )
+        self.commands.date_changed(self.ui.dateFrom, lambda x: x)
         self.reload_graph_date(self.ui.dateFrom, self.ui.dateTo)
         
     def reload_graph_date(self, date_from, date_to):
