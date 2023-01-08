@@ -1,11 +1,11 @@
-from utils.ui_commands import UI_Commands
+# from utils.ui_commands import UI_Commands
 import matplotlib.pyplot as plt
 from PyQt5.QtWidgets import QGraphicsScene
-from utils.tools import find_image
+# from utils.tools import find_image
 from datetime import datetime
-import matplotlib.image as image
-from matplotlib.offsetbox import (OffsetImage, AnnotationBbox)
-
+# import matplotlib.image as image
+# from matplotlib.offsetbox import (OffsetImage, AnnotationBbox)
+from datetime import date
 
 class Statistika:
 
@@ -38,6 +38,12 @@ class Statistika:
         self.commands.date_changed(
             [self.ui.dateFrom, self.ui.dateTo], lambda x: x
         )
+        self.reload_graph_date(self.ui.dateFrom, self.ui.dateTo)
+        
+    def reload_graph_date(self, date_from, date_to):
+        # print(date_from.date())
+        # print(date_to.date())
+        pass
 
     def reload_statistiky(self, data_list):
         self.statistiky = data_list
@@ -63,7 +69,7 @@ class Statistika:
     def Values(self):
         if self.sklad:
             self.celkovy_pocet_produktov_na_sklade = 0
-            self.najviac_mame_produkt = 0
+            self.najviac_mame_produkt = []
         else:
             self.celkovy_pocet_produktov_na_sklade = 'ziadne data v SKLAD.txt'
             self.najviac_mame_produkt = 'ziadne data v SKLAD.txt'
@@ -88,6 +94,7 @@ class Statistika:
             elif najviac_produkt < int(produkt_sklad[1]):
                 self.najviac_mame_produkt = produkt_sklad,
                 najviac_produkt = int(produkt_sklad[1])
+        
 
         statistiky_tricka = [1]
         statistiky_topanky = [3]
@@ -179,15 +186,18 @@ class Statistika:
             for i in range(len(self.top_ten_graf)):
                 if produkt_tovar[0] == self.top_ten_graf[i][0]:
                     self.top_ten_graf[i][0] = produkt_tovar[1]
+                    break
 
             for i in range(len(self.top_ten_worst_graf)):
                 if produkt_tovar[0] == self.top_ten_worst_graf[i][0]:
                     self.top_ten_worst_graf[i][0] = produkt_tovar[1]
+                    break
 
             if self.najviac_mame_produkt != 0:
                 for i in range(len(self.najviac_mame_produkt)):
                     if self.najviac_mame_produkt[i][0] == produkt_tovar[0]:
                         self.najviac_mame_produkt[i][0] = produkt_tovar[1]
+                        break
 
             if produkt_tovar[0] == self.posledna_objednavka_N[3]:
                 self.posledna_objednavka_N[3] = produkt_tovar[1]
@@ -272,6 +282,13 @@ class Statistika:
                     for i in self.statistiky]
             self.top_day = max(set(days), key=days.count)
 
+        self.zisk_firmy_za_obdobie = 0
+        for obj in self.statistiky:
+            if obj[1] == 'P':
+                self.zisk_firmy_za_obdobie += int(obj[4])*float(obj[5])
+            else:
+                self.zisk_firmy_za_obdobie -= int(obj[4])*float(obj[5])
+
     def NajviacGraf(self):
         if self.statistiky:
             najviac, a1 = plt.subplots(
@@ -279,29 +296,31 @@ class Statistika:
             najviac.patch.set_facecolor(self.graph_color)
             self.commands.track_graph(najviac)
             a1.set_facecolor(self.graph_color)
+            bar_X = [i for i in range(len(self.top_ten_graf))]
+            a1.tick_params(axis='x', which='both', length=0)
             a1.spines.top.set_visible(False)
             a1.spines.right.set_visible(False)
             a1.axes.xaxis.set_ticklabels([])
-            a1.tick_params(axis='x', which='both', length=0)
             a1.set_title('Najpredavanejsie produkty', **
-                         self.font, fontsize=15, weight='bold')
-            logo = image.imread(find_image('tricko.jpg'))
-            imagebox = OffsetImage(logo, zoom = 0.15)
-            bar_X = [i for i in range(len(self.top_ten_graf))]
+                        self.font, fontsize=15, weight='bold')
             bars1 = a1.bar(bar_X, self.top_ten)
-            bar_X = []
+            bar_X_new = []
             for bar in bars1:
-                bar_X.append(bar.get_x())
+                bar_X_new.append(bar.get_x())
 
-            annot1 = a1.annotate("", xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
+            annot1 = a1.annotate('', xy=(0, 0), xytext=(0, 10), textcoords='offset points', ha='center', color='white', size=15,
                                  bbox=dict(boxstyle="round", fc='#2F3E46', alpha=1, ec="#101416", lw=2))
             annot1.set_visible(False)
-
+            # logo = image.imread(find_image('tricko.jpg'))
+            # imagebox = OffsetImage(logo, zoom = 0.1)
+            # ab = AnnotationBbox(imagebox, (0,0), frameon = False)
+            # a1.add_artist(imagebox)
+            # len(a1.get_children())
             def update_annot1(event, bar_x_pos):
                 x = event.xdata
                 y = event.ydata
                 annot1.xy = (x, y)
-                for c, i in enumerate(bar_X):
+                for c, i in enumerate(bar_X_new):
                     if i == bar_x_pos:
                         text_lomeno_n = ''
                         text_bez_lomeno_n = self.top_ten_graf[c][0].split()
@@ -316,8 +335,16 @@ class Statistika:
                         text = text_lomeno_n+' ' + \
                             str(self.top_ten_graf[c][1])+objednavka_text
                 annot1.set_text(text)
+                
 
             def hover1(event):
+                x = event.xdata
+                y = event.xdata
+                # ab = AnnotationBbox(imagebox, (x,y), frameon = False)
+                # if len(a1.get_children()) == 21:
+                #     a1.add_artist(ab)
+                # if len(a1.get_children()) == 22:
+                #     ab.remove()
                 vis = annot1.get_visible()
                 if event.inaxes == a1:
                     for bar in bars1:
@@ -538,19 +565,30 @@ Hrubý zisk za deň: %s€''' %
         self.commands.plot_graph(qtgraf,
                                  vyvoj_ceny, size=68.5)
 
-    def FunFacts(self):
+        ziskFirmyColor = '#717171' 
+        if self.zisk_firmy_za_obdobie < 0:
+                ziskFirmyColor = '#FF0000'
+        elif self.zisk_firmy_za_obdobie > 0:
+            ziskFirmyColor = '#21BF3E'
+        self.ui.label_17.setText(str(round(self.zisk_firmy_za_obdobie,2)))
+        self.ui.label_17.setStyleSheet('color:'+ziskFirmyColor)
 
-        profLossColor = '#717171'
-        if self.statistiky:
-            if self.profLoss < 0:
-                profLossColor = '#FF0000'
-            elif self.profLoss > 0:
-                profLossColor = '#21BF3E'
+    def FunFacts(self):
+        if str(date.today()) == self.statistiky[-1][0].split()[0]:
+            profLossColor = '#717171'
+            if self.statistiky:
+                if self.profLoss < 0:
+                    profLossColor = '#FF0000'
+                elif self.profLoss > 0:
+                    profLossColor = '#21BF3E'
+        else:
+            profLossColor = '#717171'
+            self.profLoss = 0
 
         self.ui.label_6.setText(str(self.profLoss)+'€')
-        self.ui.label_6.setToolTip('''tato cena vyjadruje zisk alebo stratu firmy za jeden den
-napriklad od 2000.1.1 0:00:00 - 2000.1.1 23:59:59
-pre detailnejsie zobrazenie vyvoju ceny firmy pozri graf nizsie -->''')
+        self.ui.label_6.setToolTip('''tato cena vyjadruje zisk alebo stratu firmy za momentalny den
+od 0:00:00 az po 23:59:59
+pre detailnejsie zobrazenie vyvoju zisku firmy pozri graf nizsie -->''')
         self.ui.label_6.setStyleSheet('''QToolTip {
                                         font-size:9pt;
                                         color:white;
