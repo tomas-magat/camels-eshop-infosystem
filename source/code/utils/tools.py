@@ -254,8 +254,12 @@ def convert_price(input_field):
     Return input text if it is valid price format.
     """
 
-    text = re.sub(',|;', '.', input_field.text())
-    price = float(text)
+    try:
+        text = re.sub(',|;', '.', input_field.text())
+        price = float(text)
+    except:
+        if '-' in input_field.text():
+            return '----'
 
     return "%.2f" % price
 
