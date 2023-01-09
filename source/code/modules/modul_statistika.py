@@ -33,15 +33,56 @@ class Statistika:
         self.data['tovar'].version_changed(
             self.reload_tovar, dict_data=False)
         self.reload_statistiky(self.statistiky)
-        self.reload_tovar(self.tovar)
 
-        self.commands.date_changed(self.ui.dateFrom, lambda x: x)
-        self.reload_graph_date(self.ui.dateFrom, self.ui.dateTo)
+        self.commands.date_changed(self.ui.dateFrom, self.reload_graph_date_from)
+        self.commands.date_changed(self.ui.dateTo, self.reload_graph_date_to)
+        self.date_from = self.ui.dateFrom.date().toPyDate()
+        self.date_to = self.ui.dateTo.date().toPyDate()
+        first_day = datetime.strptime(self.statistiky[0][0].split()[0], '%Y-%m-%d').date()
+        self.ui.dateFrom.setDate(first_day)
+        self.ui.dateTo.setDate(datetime.today())
+
         
-    def reload_graph_date(self, date_from, date_to):
-        # print(date_from.date())
-        # print(date_to.date())
-        pass
+    def reload_graph_date_from(self, date_from):
+        self.date_from = date_from.toPyDate()
+        self.check_date()
+    def reload_graph_date_to(self, date_to):
+        self.date_to = date_to.toPyDate()
+        self.check_date()
+    def check_date(self):
+        if self.date_from <= self.date_to:
+            new_statistiky_data = []
+            if self.statistiky:
+                for i in self.statistiky:
+                    date_time = datetime.strptime(i[0].split()[0], '%Y-%m-%d').date()
+                    if date_time >= self.date_from and date_time <= self.date_to:
+                        new_statistiky_data += i,
+            if new_statistiky_data:
+                self.change_graph_date(new_statistiky_data)
+            else:
+                scene = QGraphicsScene()
+                scene.addText(
+                    'ziadne data v STATISTIKY.txt v tomto rozmedzi datumov')
+                self.ui.trzbyNakladyVsetko.setScene(scene)
+                self.ui.trzbyNakladyTricka.setScene(scene)
+                self.ui.trzbyNakladyTopanky.setScene(scene)
+                self.ui.trzbyNakladyMikiny.setScene(scene)
+                self.ui.trzbyNakladyNohavice.setScene(scene)
+                self.ui.trzbyNakladyDoplnky.setScene(scene)
+                self.ui.label_17.setText('--')
+                self.ui.label_17.setStyleSheet('color: #717171')
+
+        else:
+            scene = QGraphicsScene()
+            scene.addText('datum DO musi byt vacsi nez datum OD')
+            self.ui.trzbyNakladyVsetko.setScene(scene)
+            self.ui.trzbyNakladyTricka.setScene(scene)
+            self.ui.trzbyNakladyTopanky.setScene(scene)
+            self.ui.trzbyNakladyMikiny.setScene(scene)
+            self.ui.trzbyNakladyNohavice.setScene(scene)
+            self.ui.trzbyNakladyDoplnky.setScene(scene)
+            self.ui.label_17.setText('--')
+            self.ui.label_17.setStyleSheet('color: #717171')
 
     def reload_statistiky(self, data_list):
         self.statistiky = data_list
@@ -64,7 +105,83 @@ class Statistika:
         """Redirect to this statistika screen."""
         self.commands.redirect(self.ui.statistika)
 
+    def change_graph_date(self, new_statistiky_data):
+
+        statistiky_tricka = [1]
+        statistiky_topanky = [3]
+        statistiky_mikiny = [4]
+        statistiky_nohavice = [2]
+        statistiky_doplnky = [5]
+        self.zisk_firmy_za_obdobie = 0
+        for objednavka in new_statistiky_data:
+            if objednavka[1] == 'P':
+                self.zisk_firmy_za_obdobie += int(objednavka[4])*float(objednavka[5])
+            else:
+                self.zisk_firmy_za_obdobie -= int(objednavka[4])*float(objednavka[5])
+            if objednavka[3][0] == str(statistiky_tricka[0]):
+                statistiky_tricka += objednavka,
+            elif objednavka[3][0] == str(statistiky_topanky[0]):
+                statistiky_topanky += objednavka,
+            elif objednavka[3][0] == str(statistiky_mikiny[0]):
+                statistiky_mikiny += objednavka,
+            elif objednavka[3][0] == str(statistiky_nohavice[0]):
+                statistiky_nohavice += objednavka,
+            elif objednavka[3][0] == str(statistiky_doplnky[0]):
+                statistiky_doplnky += objednavka,
+            else:
+                print('chyba v kode produktu -', objednavka)
+        statistiky_tricka.pop(0)
+        statistiky_topanky.pop(0)
+        statistiky_mikiny.pop(0)
+        statistiky_nohavice.pop(0)
+        statistiky_doplnky.pop(0)
+
+        self.x_date_all = []
+        self.price_graph_all = []
+        self.date_info_all = [[]]
+        self.commands.product_sorted_graph(
+            new_statistiky_data, self.x_date_all, self.price_graph_all, self.date_info_all)
+
+        if statistiky_tricka:
+            self.x_date_tricka = []
+            self.price_graph_tricka = []
+            self.date_info_tricka = [[]]
+            self.commands.product_sorted_graph(
+                statistiky_tricka, self.x_date_tricka, self.price_graph_tricka, self.date_info_tricka)
+
+        if statistiky_topanky:
+            self.x_date_topanky = []
+            self.price_graph_topanky = []
+            self.date_info_topanky = [[]]
+            self.commands.product_sorted_graph(
+                statistiky_topanky, self.x_date_topanky, self.price_graph_topanky, self.date_info_topanky)
+
+        if statistiky_mikiny:
+            self.x_date_mikiny = []
+            self.price_graph_mikiny = []
+            self.date_info_mikiny = [[]]
+            self.commands.product_sorted_graph(
+                statistiky_mikiny, self.x_date_mikiny, self.price_graph_mikiny, self.date_info_mikiny)
+
+        if statistiky_nohavice:
+            self.x_date_nohavice = []
+            self.price_graph_nohavice = []
+            self.date_info_nohavice = [[]]
+            self.commands.product_sorted_graph(
+                statistiky_nohavice, self.x_date_nohavice, self.price_graph_nohavice, self.date_info_nohavice)
+
+        if statistiky_doplnky:
+            self.x_date_doplnky = []
+            self.price_graph_doplnky = []
+            self.date_info_doplnky = [[]]
+            self.commands.product_sorted_graph(
+                statistiky_doplnky, self.x_date_doplnky, self.price_graph_doplnky, self.date_info_doplnky)
+
+        self.commands.close_graph_vyvoj_ceny()
+        self.VyvojGrafVsetky()
+
     def Values(self):
+        
         if self.sklad:
             self.celkovy_pocet_produktov_na_sklade = 0
             self.najviac_mame_produkt = []
@@ -568,7 +685,7 @@ Hrubý zisk za deň: %s€''' %
                 ziskFirmyColor = '#FF0000'
         elif self.zisk_firmy_za_obdobie > 0:
             ziskFirmyColor = '#21BF3E'
-        self.ui.label_17.setText(str(round(self.zisk_firmy_za_obdobie,2)))
+        self.ui.label_17.setText(str(round(self.zisk_firmy_za_obdobie,2))+'€')
         self.ui.label_17.setStyleSheet('color:'+ziskFirmyColor)
 
     def FunFacts(self):

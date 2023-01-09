@@ -75,10 +75,22 @@ class UI_Commands():
                 pass
 
     def close_najviac_najmenej_graphs(self):
-        """Close najviac and najmenejgraphs to save memory"""
+        """Close najviac and najmenej graphs to save memory"""
 
-        close(self.graphs[0])
-        close(self.graphs[1])
+        try:
+            close(self.graphs[0])
+            close(self.graphs[1])
+        except:
+            pass
+
+    def close_graph_vyvoj_ceny(self):
+        '''close graph vyvoj_ceny to save memory'''
+
+        for figure in self.graphs[2:]:
+            try:
+                close(figure)
+            except:
+                pass
 
     def plot_graph(self, graphics_view: QGraphicsView, figure, size=58.5):
         """Add matplotlib graph to 'UI canvas' (graphics_view)."""
