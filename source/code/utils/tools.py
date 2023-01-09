@@ -249,21 +249,15 @@ def validate_int(input_field, invalid_cmd=None):
         invalid_cmd()
 
 
-def validate_price(input_field, invalid_cmd=None):
+def convert_price(input_field):
     """
-    Return input text if it is valid price 
-    format else run invalid_cmd() function.
+    Return input text if it is valid price format.
     """
 
-    try:
-        text = re.sub(',|;', '.', input_field.text())
-        price = float(text)
-    except:
-        if invalid_cmd != None and input_field.text() != '----':
-            invalid_cmd()
-        return None
-    else:
-        return "%.2f" % price
+    text = re.sub(',|;', '.', input_field.text())
+    price = float(text)
+
+    return "%.2f" % price
 
 
 def valid_image(file_path):

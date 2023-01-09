@@ -1,4 +1,4 @@
-19
+20
 1001;Čierne tričko;tricko.jpg
 2001;Pánske nohavice;menpants.jpg
 2003;Biele nohavice;whitepants.jpg
@@ -18,3 +18,4 @@
 3001;Adidas biele;adidaswhite.webp
 2002;Modré džínsy;bluemenjeans.webp
 3006;Adidas farebné;adidascolored.webp
+3007;Adidas;tenisky.webp

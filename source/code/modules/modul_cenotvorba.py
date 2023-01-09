@@ -1,5 +1,4 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
-from utils.ui_commands import UI_Commands
 from utils.tools import *
 
 
@@ -22,9 +21,11 @@ class Cenotvorba:
         ]
 
         self.commands.button_click(
-            self.ui.cenotvorbaButton, self.switch_screen)
+            self.ui.cenotvorbaButton, self.switch_screen
+        )
         self.commands.buttons_click(
-            [self.ui.saveButton, self.ui.homeArrow3], self.savefile)
+            [self.ui.saveButton, self.ui.homeArrow3], self.savefile
+        )
         self.commands.form_submit(
             [self.ui.searchButton_2, self.ui.searchField_2],
             self.search
@@ -36,6 +37,9 @@ class Cenotvorba:
         self.price_cards = []
         self.items = self.data['tovar']
         self.prices = self.data['cennik']
+        self.items.version_changed(self.loadfile)
+        self.prices.version_changed(
+            lambda x: self.loadfile(self.items.data))
         self.ui.tabWidget_2.setCurrentIndex(0)
         self.update_category()
 
@@ -48,12 +52,14 @@ class Cenotvorba:
 
     def loadfile(self, data):
         self.commands.clear_layout(self.layouts[self.category])
+        data = filter_category(data, self.category)
+
         for code, value in data.items():
             self.load_item(code, value)
 
     def load_item(self, code, value):
-        codes = '12345' if self.category == 0 else str(self.category)
         item_price = self.prices.data.get(code)
+
         if item_price != None:
             price = item_price
         else:
@@ -62,15 +68,15 @@ class Cenotvorba:
                                       value[0], code, price, value[1])
             self.price_cards.append(item_card)
 
-        if code[0] in codes:
-            item_card = ItemPriceCard(self, self.layouts[self.category],
-                                      value[0], code, price, value[1])
-            self.price_cards.append(item_card)
+        item_card = ItemPriceCard(self, self.layouts[self.category],
+                                  value[0], code, price, value[1])
+        self.price_cards.append(item_card)
 
     def savefile(self):
         self.changed = False
         for item in self.price_cards:
             prices = item.getPrices()
+
             if self.prices.data.get(item.code) != prices:
                 if prices != ['----', '----']:
                     self.prices.data[item.code] = prices
@@ -84,6 +90,7 @@ class Cenotvorba:
         self.result = search_items(
             self.query, self.items.data, self.category
         ) if self.query != '' else self.items.data
+
         self.search_results()
 
     def search_results(self):
@@ -127,22 +134,32 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.buy_price = str(price[0])
         self.sell_price = str(price[1])
         self.image = find_image(image)
+        self.valid = [True, True]
 
         self.draw_ui()
 
     def getPrices(self):
-        new_buy = validate_price(
-            self.lineEdit_4,
-            lambda: self.commands.error('Zadajte správnu kúpnu cenu.')
-        )
-        new_sell = validate_price(
-            self.lineEdit_5,
-            lambda: self.commands.error('Zadajte správnu predajnú cenu.')
-        )
-        if new_buy != None and new_sell != None:
-            self.buy_price = new_buy
-            self.sell_price = new_sell
+        if self.valid[0]:
+            self.buy_price = convert_price(self.lineEdit_4)
+        else:
+            self.commands.error('Zadajte správnu kúpnu cenu.')
+        if self.valid[1]:
+            self.sell_price = convert_price(self.lineEdit_5)
+        else:
+            self.commands.error('Zadajte správnu predajnú cenu.')
+
         return [self.buy_price, self.sell_price]
+
+    def validate_field(self, line_edit, i):
+        try:
+            text = re.sub(',|;', '.', line_edit.text())
+            float(text)
+        except:
+            self.valid[i] = False
+            line_edit.setStyleSheet("border: 1px solid red;")
+        else:
+            self.valid[i] = True
+            line_edit.setStyleSheet("")
 
     def draw_ui(self):
         self.setMinimumSize(QtCore.QSize(0, 60))
@@ -206,6 +223,10 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.lineEdit_4.setMaximumSize(QtCore.QSize(60, 16777215))
         self.lineEdit_4.setStyleSheet("background-color: #FFF")
         self.lineEdit_4.setObjectName(self.name+"lineEdit_4")
+        self.commands.text_changed(
+            self.lineEdit_4,
+            lambda: self.validate_field(self.lineEdit_4, 0)
+        )
         self.horizontalLayout_6.addWidget(self.lineEdit_4)
         self.label_5 = QtWidgets.QLabel("Predajná cena: ")
         self.label_5.setAlignment(
@@ -216,6 +237,10 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.lineEdit_5.setMaximumSize(QtCore.QSize(60, 16777215))
         self.lineEdit_5.setStyleSheet("background-color: #FFF")
         self.lineEdit_5.setObjectName(self.name+"lineEdit_5")
+        self.commands.text_changed(
+            self.lineEdit_5,
+            lambda: self.validate_field(self.lineEdit_5, 1)
+        )
         self.horizontalLayout_6.addWidget(self.lineEdit_5)
         self.horizontalLayout_2.addWidget(self.widget_6)
         self.parent_layout.addWidget(self)
