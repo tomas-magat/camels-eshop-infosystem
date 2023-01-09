@@ -60,6 +60,13 @@ class UI_Commands():
             else:
                 self.button_click(widget, command)
 
+    def text_changed(self, line_edit: QLineEdit, command):
+        """
+        After the text value in line_edit changes execute the command.
+        """
+
+        line_edit.textChanged.connect(command)
+
     def track_graph(self, figure):
         """If graph exists track its figure to be closed later."""
 
