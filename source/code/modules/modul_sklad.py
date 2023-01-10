@@ -5,8 +5,6 @@
 # creating objednavka_[id_transakcie].txt
 
 # TODO
-# nastavenie [self.highlight_threshold] - user moze nastavit kedy bude polozka zvyraznena
-# pocet na doplnenie musi byt vacsi ako doplnit pri pocte
 # pri nakupe na portaly, update sklad [relaod. items]
 # vzdy pri otvoreni skladu reload tovaru
 
@@ -69,12 +67,16 @@ class Sklad:
         self.goods = self.data['tovar']
         self.prices = self.data['cennik']
         self.storage = self.data['sklad']
+
         self.storage.version_changed(
             lambda: self.update_database(self.goods.data))
+
         self.storage.version_changed(
             lambda: self.reload_items(self.goods.data))
+
         self.prices.version_changed(
             lambda: self.reload_items(self.goods.data))
+
         self.update_category()
 
     # ==================== ACTIONS =======================
@@ -269,9 +271,6 @@ class Sklad:
 
     #----------------------UPDATE SKLAD DB-----------------------
 
-
-
-
     def update_database(self, data):
         """Update sklad database according to order_rules whenever its version is changed"""
         for code, item in data.items():
@@ -290,13 +289,13 @@ class Sklad:
 
                     if self.orderRules[index][0] == 'semi':
                         self.commands.confirm(
-                            self.ui, "Chcete dokupit produkt $NAME na sklad?",
+                            self.ui, f"Chcete doskladniť produkt {item[0]}?",
                             ok_command=lambda: self.refill_sklad(code,item,index))
 
     def refill_sklad(self, code, item, index):
         self.storage.data[code] = [int(self.orderRules[index][2])]
         self.storage.save_data()
-        self.commands.info(f'Tovar {item[0]} #{code} bol naskladnen=y')
+        self.commands.info(f'Tovar {item[0]} #{code} bol naskladnenź')
 
     # =========================== ALERT =========================
     def alert(self):
@@ -333,11 +332,11 @@ class Cart:
         if len(self.contents) > 0:
             if int(self.page.ui.HowManyToBuy.text()) > 0:
                 self.execute_purchase()
-                # update_database
+                self.page.update_database(self.page.goods.data)
             else:
                 self.commands.warning(
                     'Prosím skontrolujte údaje objednávky',
-                    'Pole \'Pocet na doplnenie\' musi byt kladne nenulove cislo')
+                    'Pole \'Počet na doplnenie\' musí byť kladné nenulové číslo')
         else:
             self.commands.warning(
                 'Prázdny košík',
@@ -362,17 +361,21 @@ class Cart:
 
         # SEMIAUTOMATIC
         if self.page.order_mode == 2:
-            self.create_rule('semi', HowManyToBuy, CountWhenToBuy)
-            # self.page.update_database()
-            self.clear_cart()
-            self.commands.info('Poloautomatická objednávka bola zaregistrovana')
+            if int(HowManyToBuy) > int(CountWhenToBuy):  
+                self.create_rule('semi', HowManyToBuy, CountWhenToBuy)
+                self.clear_cart()
+                self.commands.info('Poloautomatická objednávka bola zaregistrovaná')
+            else:
+                self.commands.warning('Údaj \'Počet na doplnenie\' musí byť väčší než údaj \'Doplniť pri počte\'')
 
         # AUTOMATIC
         if self.page.order_mode == 1:
-            self.create_rule('auto', HowManyToBuy, CountWhenToBuy)
-            # self.page.update_database()
-            self.clear_cart()
-            self.commands.info('Automatická objednávka bola zaregistrovana')
+            if int(HowManyToBuy) > int(CountWhenToBuy):  
+                self.create_rule('auto', HowManyToBuy, CountWhenToBuy)
+                self.clear_cart()
+                self.commands.info('Automatická objednávka bola zaregistrovaná')
+            else:
+                self.commands.warning('Údaj \'Počet na doplnenie\' musí byť väčší než údaj \'Doplniť pri počte\'')
         
         print(self.page.orderRules)
 
@@ -515,7 +518,7 @@ class ItemCard(QtWidgets.QFrame):
             self.itemButton.setMaximumWidth(130)
             self.addButton.setText("Update amount")
         else:
-            self.spinBox.setValue(0)
+            self.spinBox.setValue(1)
             self.itemButton.setMaximumWidth(110)
             self.addButton.setText("Add to cart")
 
@@ -560,6 +563,7 @@ class ItemCard(QtWidgets.QFrame):
         self.countLayout = QtWidgets.QVBoxLayout(self.itemCount)
         self.countLayout.setObjectName(self.name+"CountLayout")
         self.spinBox = QtWidgets.QSpinBox(self.itemCount)
+        self.spinBox.setValue(1)
         self.spinBox.setObjectName(self.name+"SpinBox")
         self.countLayout.addWidget(self.spinBox)
         self.mainLayout_2.addWidget(self.itemCount)
