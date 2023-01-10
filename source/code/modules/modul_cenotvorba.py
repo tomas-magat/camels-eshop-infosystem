@@ -37,9 +37,9 @@ class Cenotvorba:
         self.price_cards = []
         self.items = self.data['tovar']
         self.prices = self.data['cennik']
-        self.items.version_changed(self.loadfile)
-        self.prices.version_changed(
-            lambda x: self.loadfile(self.items.data))
+        # self.items.version_changed(self.loadfile)
+        # self.prices.version_changed(
+        #     lambda x: self.loadfile(self.items.data))
         self.ui.tabWidget_2.setCurrentIndex(0)
         self.update_category()
 
@@ -65,12 +65,13 @@ class Cenotvorba:
         else:
             price = ['----', '----']
             item_card = ItemPriceCard(self, self.layouts[6],
-                                      value[0], code, price, value[1])
+                                      value[0], code, price, value[1], )
             self.price_cards.append(item_card)
 
-        item_card = ItemPriceCard(self, self.layouts[self.category],
-                                  value[0], code, price, value[1])
-        self.price_cards.append(item_card)
+        if self.category != 6:
+            item_card = ItemPriceCard(self, self.layouts[self.category],
+                                      value[0], code, price, value[1])
+            self.price_cards.append(item_card)
 
     def savefile(self):
         self.changed = False
@@ -78,7 +79,7 @@ class Cenotvorba:
             prices = item.getPrices()
 
             if self.prices.data.get(item.code) != prices:
-                if prices != ['----', '----']:
+                if '----' not in prices:
                     self.prices.data[item.code] = prices
                     self.changed = True
 
@@ -117,8 +118,8 @@ class Cenotvorba:
 
 class ItemPriceCard(QtWidgets.QFrame):
 
-    def __init__(self, page, layout, name: str,
-                 code: str, price=['----', '----'], image: str = ''):
+    def __init__(self, page, layout, name: str, code: str,
+                 price=['----', '----'], image: str = ''):
 
         super(ItemPriceCard, self).__init__(layout.parent())
 
@@ -155,8 +156,12 @@ class ItemPriceCard(QtWidgets.QFrame):
             text = re.sub(',|;', '.', line_edit.text())
             float(text)
         except:
-            self.valid[i] = False
-            line_edit.setStyleSheet("border: 1px solid red;")
+            if '----' not in line_edit.text():
+                self.valid[i] = False
+                line_edit.setStyleSheet("border: 1px solid red;")
+            else:
+                self.valid[i] = True
+                line_edit.setStyleSheet("")
         else:
             self.valid[i] = True
             line_edit.setStyleSheet("")
@@ -165,7 +170,9 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.setMinimumSize(QtCore.QSize(0, 60))
         self.setMaximumSize(QtCore.QSize(16777215, 60))
         self.setFrameShape(QtWidgets.QFrame.Box)
-        self.setObjectName(self.name)
+        self.setObjectName("Frame")
+        if '----' in self.buy_price or '----' in self.sell_price:
+            self.setStyleSheet("#Frame{border: 2px solid red}")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setSpacing(0)

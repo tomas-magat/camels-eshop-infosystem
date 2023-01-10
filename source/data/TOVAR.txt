@@ -1,4 +1,4 @@
-20
+19
 1001;Čierne tričko;tricko.jpg
 2001;Pánske nohavice;menpants.jpg
 2003;Biele nohavice;whitepants.jpg
@@ -12,10 +12,9 @@
 5002;Pánska peňaženka;leatherwallet.jpg
 5003;Strieborné hodinky;silverwatch.png
 5004;Slnečné okuliare;sunglasses.webp
-3005;Adidas čiernobiele;tenisky.webp
 1002;Biele tričko;bieletricko.jpg
 1003;Zelené tričko;greenshirt.jpg
 3001;Adidas biele;adidaswhite.webp
 2002;Modré džínsy;bluemenjeans.webp
 3006;Adidas farebné;adidascolored.webp
-3007;Adidas;tenisky.webp
+3007;Adidas test;tenisky.webp

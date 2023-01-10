@@ -44,7 +44,7 @@ def filter_category(data: dict, category: int = 0):
 
     result = {}
     for k, v in data.items():
-        if k[0] == str(category) or category == 0:
+        if k[0] == str(category) or category == 0 or category > 5:
             result[k] = v
 
     return result
