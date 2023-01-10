@@ -5,8 +5,7 @@
 # creating objednavka_[id_transakcie].txt
 
 # TODO
-# pri nakupe na portaly, update sklad [relaod. items]
-# vzdy pri otvoreni skladu reload tovaru
+# done probably
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
