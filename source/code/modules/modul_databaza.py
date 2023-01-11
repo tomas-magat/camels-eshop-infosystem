@@ -30,6 +30,7 @@ class Databaza:
         # Init global variables
         self.tabs = self.ui.tabWidget_databaza
         self.no_res = False
+        self.adding = False
 
         self.init_actions()
         self.init_data()
@@ -96,6 +97,7 @@ class Databaza:
 
     def add_item(self):
         """Display empty item details to enter new."""
+        self.adding = True
         self.clear_no_results()
         prefilled_code = '' if self.category == 0 else find_code(self.category)
         ItemDetails(self, self.ui.right_database, '',
@@ -106,6 +108,8 @@ class Databaza:
         Display item details on the right side of the
         databaza screen and allow user to modify them.
         """
+        if self.adding:
+            self.adding = False
         try:
             text = self.lists[self.category].currentItem().text().split()
             code = text[0].lstrip("#")
@@ -117,9 +121,11 @@ class Databaza:
             pass
 
     def delete_item(self):
-        if self.clear_no_results():
+        if self.clear_no_results() and not self.adding:
+            text = self.lists[self.category].currentItem().text().split()
+            item_name = ' '.join(text[1:])
             self.commands.confirm(
-                self.ui, "Chcete natrvalo vymazať produkt?",
+                self.ui, f"Chcete natrvalo vymazať produkt {item_name}?",
                 ok_command=self.delete_item_txt)
 
     def delete_item_txt(self):
@@ -218,6 +224,7 @@ class ItemDetails(QtWidgets.QFrame):
         self.page.goods.data[code] = [name, self.filename]
         self.page.goods.save_data()
         self.adding = False
+        self.page.adding = False
         self.page.lists[self.page.category].setCurrentRow(
             self.page.lists[self.page.category].count()-1
         )

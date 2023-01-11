@@ -295,10 +295,20 @@ class UI_Commands():
     def confirm(page, message: str, ok_command):
         """Display message to confirm the action."""
 
-        answer = QMessageBox.question(
-            page, 'Confirm', message, QMessageBox.Yes | QMessageBox.No)
+        question = QMessageBox(
+            QMessageBox.Question,
+            "Confirm", message,
+            buttons=QMessageBox.Yes | QMessageBox.No,
+            parent=page,
+        )
+        question.setDefaultButton(QMessageBox.No)
+        question.setStyleSheet(
+            'background-color: rgb(248, 248, 248); font-weight: bold'
+        )
+        question.exec_()
 
-        if answer == QMessageBox.Yes:
+        reply = question.standardButton(question.clickedButton())
+        if reply == QMessageBox.Yes:
             ok_command()
 
 

@@ -32,6 +32,7 @@ class Portal:
 
         self.init_actions()
         self.init_data()
+        self.init_tabs()
 
         # Init global variables
         self.cart = Cart(self)
@@ -49,7 +50,9 @@ class Portal:
         self.goods = self.data['tovar']
         self.prices = self.data['cennik']
         self.storage = self.data['sklad']
-        self.goods.version_changed(self.reload_items)
+        self.versions_check()
+
+    def init_tabs(self):
         self.ui.itemCategories.setCurrentIndex(0)
         self.update_category()
 
@@ -228,7 +231,7 @@ class Portal:
         except:
             return False
         else:
-            return price != None and amount != None and available
+            return price != None and available
 
     # ==================== PORTAL UPDATING =======================
     def update_category(self):
@@ -237,6 +240,18 @@ class Portal:
         """
         self.category = self.ui.itemCategories.currentIndex()
         self.reload_items(self.goods.data)
+
+    def versions_check(self):
+        """
+        Automatically detect if datafiles' versions changed.
+        """
+        self.goods.version_changed(self.reload_items)
+        self.storage.version_changed(
+            lambda: self.reload_items(self.goods.data)
+        )
+        self.prices.version_changed(
+            lambda: self.reload_items(self.goods.data)
+        )
 
 
 class Cart:
