@@ -275,7 +275,8 @@ class Sklad:
         for code, item in data.items():
 
             if code in (element1 for sublist in self.orderRules for element1 in sublist):
-                current_count = str(self.storage.data.get(code)).strip('[]').strip("''")
+                current_count = self.storage.data.get(code)
+                current_count = 0 if current_count == None else current_count[0]
 
                 for index_of_item, lst in enumerate(self.orderRules):
                     for element2 in lst:
