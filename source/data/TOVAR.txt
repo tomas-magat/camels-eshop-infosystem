@@ -17,4 +17,4 @@
 3001;Adidas biele;adidaswhite.webp
 2002;Modré džínsy;bluemenjeans.webp
 3006;Adidas farebné;adidascolored.webp
-3007;Adidas test;tenisky.webp
+4004;Zelena mikina;hoodie.png

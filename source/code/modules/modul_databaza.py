@@ -29,11 +29,12 @@ class Databaza:
 
         # Init global variables
         self.tabs = self.ui.tabWidget_databaza
-        self.no_res = False
+        self.not_found = False
         self.adding = False
 
         self.init_actions()
         self.init_data()
+        self.init_tabs()
 
     def init_actions(self):
         self.redirect_action()
@@ -47,6 +48,8 @@ class Databaza:
         self.storage = self.data['sklad']
         self.statistika = self.data['statistiky']
         self.goods.version_changed(self.reload_items)
+
+    def init_tabs(self):
         self.tabs.setCurrentIndex(0)
         self.update_category()
 
@@ -78,6 +81,11 @@ class Databaza:
             self.search
         )
 
+    # =================== REDIRECTING =====================
+    def switch_screen(self):
+        """Redirect to this databaza screen."""
+        self.commands.redirect(self.ui.databaza)
+
     # ===================== LOADING =======================
     def reload_items(self, data):
         self.lists[self.category].clear()
@@ -90,10 +98,6 @@ class Databaza:
 
     def load_item(self, code, vals):
         self.lists[self.category].addItem('#' + code + ' ' + vals[0])
-
-    def switch_screen(self):
-        """Redirect to this databaza screen."""
-        self.commands.redirect(self.ui.databaza)
 
     def add_item(self):
         """Display empty item details to enter new."""
@@ -170,12 +174,12 @@ class Databaza:
         self.lists[self.category].clear()
         prvok = 'Produkt sa nenasiel'
         self.lists[self.category].addItem(prvok)
-        self.no_res = True
+        self.not_found = True
 
     def clear_no_results(self):
-        if self.no_res:
+        if self.not_found:
             self.reload_items(self.goods.data)
-            self.no_res = False
+            self.not_found = False
             return False
         return True
 
@@ -296,6 +300,8 @@ class ItemDetails(QtWidgets.QFrame):
                 self.filename = self.image_path.split("/", maxsplit=256)[-1]
                 self.save_image()
                 self.update_image()
+            else:
+                self.commands.warning('Vyberte správny formát obrázka')
 
     def save_image(self):
         """Copy selected image to the assets/images/ directory."""
