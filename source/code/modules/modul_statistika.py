@@ -31,7 +31,7 @@ class Statistika:
         self.data['statistiky'].version_changed(
             self.reload_statistiky, dict_data=False)
         self.data['tovar'].version_changed(
-            self.reload_tovar, dict_data=False)
+            self.reload_tovar)
         self.reload_statistiky(self.statistiky)
 
         self.commands.date_changed(self.ui.dateFrom, self.reload_graph_date_from)
@@ -42,7 +42,7 @@ class Statistika:
         self.ui.dateFrom.setDate(first_day)
         self.ui.dateTo.setDate(datetime.today())
 
-        
+
     def reload_graph_date_from(self, date_from):
         self.date_from = date_from.toPyDate()
         self.check_date()
@@ -85,7 +85,6 @@ class Statistika:
             self.ui.label_17.setStyleSheet('color: #717171')
 
     def reload_statistiky(self, data_list):
-        self.statistiky = data_list
         self.commands.close_all_graphs()
         self.Values()
         self.NajviacGraf()
@@ -93,8 +92,8 @@ class Statistika:
         self.VyvojGrafVsetky()
         self.FunFacts()
 
-    def reload_tovar(self, data_list):
-        self.tovar = data_list
+    def reload_tovar(self, data_dict):
+        self.tovar = self.data['tovar'].data_list
         self.commands.close_najviac_najmenej_graphs()
         self.Values()
         self.NajviacGraf()
@@ -106,7 +105,6 @@ class Statistika:
         self.commands.redirect(self.ui.statistika)
 
     def change_graph_date(self, new_statistiky_data):
-
         statistiky_tricka = [1]
         statistiky_topanky = [3]
         statistiky_mikiny = [4]
