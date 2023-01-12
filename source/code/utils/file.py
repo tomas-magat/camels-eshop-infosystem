@@ -209,7 +209,7 @@ class DataFile(QObject):
 
         return result_dict
 
-    @staticmethod
+    @staticmethod 
     def scsv_to_list(data: list):
         """
         Converts data in semi-colon separated format:
@@ -223,7 +223,8 @@ class DataFile(QObject):
 
         for line in data:
             datapoint = line.rstrip('\n').split(';')
-            result_list.append(datapoint)
+            if datapoint != []:
+                result_list.append(datapoint)
 
         return result_list
 
