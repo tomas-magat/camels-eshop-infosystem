@@ -44,9 +44,9 @@ class DataFile(QObject):
 
         if not self.is_locked():
             with open(self.filepath, 'r', encoding='utf-8') as file:
-                lines = file.readlines()
-                self.data = self.scsv_to_dict(lines[1:])
-                self.data_list = self.scsv_to_list(lines[1:])
+                lines = self.clear_blank(file.read().splitlines())
+                self.data = self.scsv_to_dict(lines)
+                self.data_list = self.scsv_to_list(lines)
 
     def save_data(self):
         """
@@ -172,6 +172,21 @@ class DataFile(QObject):
         return filepath
 
     @staticmethod
+    def clear_blank(lines: list):
+        """
+        Out of given list of lines, 
+        remove first line and all blank lines.
+        """
+
+        result = []
+
+        for line in lines[1:]:
+            if line != '':
+                result.append(line)
+
+        return result
+
+    @staticmethod
     def dict_to_scsv(data: dict):
         """
         Converts data in dictionary format:
@@ -204,12 +219,12 @@ class DataFile(QObject):
         result_dict = {}
 
         for line in data:
-            datapoint = line.rstrip('\n').split(';')
+            datapoint = line.split(';')
             result_dict[datapoint[0]] = datapoint[1:]
 
         return result_dict
 
-    @staticmethod 
+    @staticmethod
     def scsv_to_list(data: list):
         """
         Converts data in semi-colon separated format:
@@ -222,9 +237,8 @@ class DataFile(QObject):
         result_list = []
 
         for line in data:
-            datapoint = line.rstrip('\n').split(';')
-            if datapoint != []:
-                result_list.append(datapoint)
+            datapoint = line.split(';')
+            result_list.append(datapoint)
 
         return result_list
 
