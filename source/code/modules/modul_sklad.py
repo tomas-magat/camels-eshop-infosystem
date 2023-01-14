@@ -9,7 +9,6 @@
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
-from utils.ui_commands import UI_Commands
 from utils.tools import *
 
 
@@ -27,16 +26,12 @@ class Sklad:
 
         # Init global variables
         self.cart = Cart(self)
-        # self.category = 0
         self.total_price = 0
         self.sort_state = 1
         self.order_mode = 3
         self.highlight_threshold = int(self.ui.Alert.text())
-        # ['Automatic = 'auto' / semiautomatic ='semi', kod tovaru, HowManyToBuy, CountWhenToBuy] 
+        # ['Automatic = 'auto' / semiautomatic ='semi', kod tovaru, HowManyToBuy, CountWhenToBuy]
         self.orderRules = []
-
-        # Track UI actions
-        self.button_clicks()
 
         # Set Vsetko page
         self.ui.itemCategories_2.setCurrentIndex(0)
@@ -56,6 +51,7 @@ class Sklad:
 
     def init_actions(self):
         self.manual()
+        self.order_modes()
         self.redirect_action()
         self.search_action()
         self.sort_action()
@@ -66,20 +62,10 @@ class Sklad:
         self.goods = self.data['tovar']
         self.prices = self.data['cennik']
         self.storage = self.data['sklad']
-
-        self.storage.version_changed(
-            lambda: self.update_database(self.goods.data))
-
-        self.storage.version_changed(
-            lambda: self.reload_items(self.goods.data))
-
-        self.prices.version_changed(
-            lambda: self.reload_items(self.goods.data))
-
+        self.versions_check()
         self.update_category()
 
     # ==================== ACTIONS =======================
-
     def redirect_action(self):
         self.commands.button_click(
             self.ui.skladButton,
@@ -206,7 +192,6 @@ class Sklad:
         self.ui.sortButton_2.setIcon(icon)
 
     # ===================== LOADING =======================
-
     def reload_items(self, data):
         """
         Clear catalog of current selected category and load new items.
@@ -216,6 +201,7 @@ class Sklad:
 
     def load_items(self, data):
         """Display item cards in the catalog."""
+        data = filter_category(data, self.category)
         for code, vals in data.items():
             self.load_item(code, vals)
 
@@ -223,9 +209,8 @@ class Sklad:
         price = self.prices.data.get(code)
         count = self.storage.data.get(code)
         count = [0] if count == None else count
-        codes = '12345' if self.category == 0 else str(self.category)
 
-        if price != None and code[0] in codes:
+        if price != None:
             ItemCard(
                 self, self.layouts[self.category], vals[0],
                 code, float(price[0]), vals[1], int(
@@ -239,6 +224,14 @@ class Sklad:
         """
         self.category = self.ui.itemCategories_2.currentIndex()
         self.load_counts_items()
+
+    def versions_check(self):
+        """Check for Datafile versions and update on change."""
+        self.storage.version_changed(
+            lambda: self.reload_items(self.goods.data))
+
+        self.prices.version_changed(
+            lambda: self.reload_items(self.goods.data))
 
     # =================== UPDATE ORDER STATE ====================
     def automatic(self):
@@ -256,8 +249,8 @@ class Sklad:
         self.ui.input_widget.setVisible(False)
         self.ui.buyButton_7.setText('Kúpiť')
 
-    def button_clicks(self):
-        """All button click commands of sklad screen here."""
+    def order_modes(self):
+        """Set order mode based on currently selected radio button."""
 
         self.commands.button_click(
             self.ui.automatic, self.automatic)
@@ -268,8 +261,7 @@ class Sklad:
         self.commands.button_click(
             self.ui.manual, self.manual)
 
-    #----------------------UPDATE SKLAD DB-----------------------
-
+    # =================== UPDATE SKLAD DB ===================
     def update_database(self, data):
         """Update sklad database according to order_rules whenever its version is changed"""
         for code, item in data.items():
@@ -283,19 +275,19 @@ class Sklad:
                         if element2 == code:
                             index = index_of_item
 
-                if int(current_count) < int(self.orderRules[index][3]):
+                if int(current_count) <= int(self.orderRules[index][3]):
                     if self.orderRules[index][0] == 'auto':
-                        self.refill_sklad(code,item,index)
+                        self.refill_sklad(code, item, index)
 
                     if self.orderRules[index][0] == 'semi':
                         self.commands.confirm(
                             self.ui, f"Chcete doskladniť produkt {item[0]}?",
-                            ok_command=lambda: self.refill_sklad(code,item,index))
+                            ok_command=lambda: self.refill_sklad(code, item, index))
 
     def refill_sklad(self, code, item, index):
         self.storage.data[code] = [int(self.orderRules[index][2])]
         self.storage.save_data()
-        self.commands.info(f'Tovar {item[0]} #{code} bol naskladnenź')
+        self.commands.info(f'Tovar {item[0]} #{code} bol naskladnený.')
 
     # =========================== ALERT =========================
     def alert(self):
@@ -330,10 +322,15 @@ class Cart:
 
     def buy(self):
         if len(self.contents) > 0:
-            if int(self.page.ui.HowManyToBuy.text()) > 0:
-                self.execute_purchase()
-                self.page.update_database(self.page.goods.data)
-            else:
+            try:
+                if int(self.page.ui.HowManyToBuy.text()) > 0:
+                    self.execute_purchase()
+                    self.page.update_database(self.page.goods.data)
+                else:
+                    self.commands.warning(
+                        'Prosím skontrolujte údaje objednávky',
+                        'Pole \'Počet na doplnenie\' musí byť kladné nenulové číslo')
+            except:
                 self.commands.warning(
                     'Prosím skontrolujte údaje objednávky',
                     'Pole \'Počet na doplnenie\' musí byť kladné nenulové číslo')
@@ -350,9 +347,9 @@ class Cart:
         """
         self.create_receipt()
         self.add_stats()
-        HowManyToBuy = self.page.ui.HowManyToBuy.text() 
+        HowManyToBuy = self.page.ui.HowManyToBuy.text()
         CountWhenToBuy = self.page.ui.CountWhenToBuy.text()
-    
+
         # MANUAL
         if self.page.order_mode == 3:
             self.update_storage()
@@ -361,24 +358,27 @@ class Cart:
 
         # SEMIAUTOMATIC
         if self.page.order_mode == 2:
-            if int(HowManyToBuy) > int(CountWhenToBuy):  
+            if int(HowManyToBuy) > int(CountWhenToBuy):
                 self.create_rule('semi', HowManyToBuy, CountWhenToBuy)
                 self.clear_cart()
-                self.commands.info('Poloautomatická objednávka bola zaregistrovaná')
+                self.commands.info(
+                    'Poloautomatická objednávka bola zaregistrovaná')
             else:
-                self.commands.warning('Údaj \'Počet na doplnenie\' musí byť väčší než údaj \'Doplniť pri počte\'')
+                self.commands.warning(
+                    'Údaj \'Počet na doplnenie\' musí byť väčší než údaj \'Doplniť pri počte\'')
 
         # AUTOMATIC
         if self.page.order_mode == 1:
-            if int(HowManyToBuy) > int(CountWhenToBuy):  
+            if int(HowManyToBuy) > int(CountWhenToBuy):
                 self.create_rule('auto', HowManyToBuy, CountWhenToBuy)
                 self.clear_cart()
-                self.commands.info('Automatická objednávka bola zaregistrovaná')
+                self.commands.info(
+                    'Automatická objednávka bola zaregistrovaná')
             else:
-                self.commands.warning('Údaj \'Počet na doplnenie\' musí byť väčší než údaj \'Doplniť pri počte\'')
-        
-        print(self.page.orderRules)
+                self.commands.warning(
+                    'Údaj \'Počet na doplnenie\' musí byť väčší než údaj \'Doplniť pri počte\'')
 
+        print(self.page.orderRules)
 
     def create_rule(self, rule_type: str, HowManyToBuy, CountWhenToBuy):
         """
@@ -387,16 +387,19 @@ class Cart:
         Note that if rule for specific code already exists,
         rewrite the old rule and aply the new one.
         """
-        for code in self.contents.items():  
+        for code in self.contents.items():
             if len(self.page.orderRules) == 0:
-                self.page.orderRules.append([rule_type, code[0], HowManyToBuy, CountWhenToBuy])
+                self.page.orderRules.append(
+                    [rule_type, code[0], HowManyToBuy, CountWhenToBuy])
             if code[0] in (item for sublist in self.page.orderRules for item in sublist):
-                for i,lst in enumerate(self.page.orderRules):
+                for i, lst in enumerate(self.page.orderRules):
                     for element in lst:
                         if element == code[0]:
-                            self.page.orderRules[i] = [rule_type, code[0], HowManyToBuy, CountWhenToBuy]
+                            self.page.orderRules[i] = [
+                                rule_type, code[0], HowManyToBuy, CountWhenToBuy]
             else:
-                self.page.orderRules.append([rule_type, code[0], HowManyToBuy, CountWhenToBuy])
+                self.page.orderRules.append(
+                    [rule_type, code[0], HowManyToBuy, CountWhenToBuy])
 
     def clear_cart(self):
         """Remove everything from the cart."""
