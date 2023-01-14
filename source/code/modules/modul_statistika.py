@@ -462,7 +462,6 @@ class Statistika:
         self.last_order()
 
     def most_product(self):
-        print(self.najviac_mame_produkt)
         # Replace the code with the
         # name in the most we have product
         if self.sklad and self.najviac_mame_produkt != 0:
