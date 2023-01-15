@@ -31,8 +31,9 @@ class Statistika:
         # Track date button clicks
         self.commands.button_click(
             self.ui.pushButton_2, self.reload_graph_date)
-        self.ui.dateFrom.setDate(self.first_day)
-        self.ui.dateTo.setDate(datetime.date.today())
+        if self.statistiky:
+            self.ui.dateFrom.setDate(self.first_day)
+            self.ui.dateTo.setDate(datetime.date.today())
 
         # Track version changed
         self.data['statistiky'].version_changed(
@@ -43,7 +44,7 @@ class Statistika:
 
     def init_variables(self):
 
-        # Create variables needed later on
+        # Create variables needed later
         self.font = {'fontname': 'Arial'}
         self.edgecolor = '#CAD2C5'
         self.linewidth = 2
@@ -57,10 +58,11 @@ class Statistika:
             self.ui.trzbyNakladyNohavice,
             self.ui.trzbyNakladyDoplnky,
         ]
-        self.first_day = datetime.datetime.strptime(
-            self.statistiky[0][0].split()[0], '%Y-%m-%d').date()
-        self.last_day = datetime.datetime.strptime(
-            self.statistiky[-1][0].split()[0], '%Y-%m-%d').date()
+        if self.statistiky:
+            self.first_day = datetime.datetime.strptime(
+                self.statistiky[0][0].split()[0], '%Y-%m-%d').date()
+            self.last_day = datetime.datetime.strptime(
+                self.statistiky[-1][0].split()[0], '%Y-%m-%d').date()
 
     def reload_statistiky(self, data_list):
         
@@ -131,6 +133,10 @@ class Statistika:
             self.ui.label_17.setStyleSheet('color: #717171')
 
     def change_graph_date(self, new_statistiky_data):
+
+        # Reload graph zisk
+        # firmy based on new
+        # statistiky data
         statistiky_tricka = [1]
         statistiky_topanky = [3]
         statistiky_mikiny = [4]
@@ -165,46 +171,47 @@ class Statistika:
         self.x_date_all = []
         self.price_graph_all = []
         self.date_info_all = [[]]
-        self.commands.product_sorted_graph(
-            new_statistiky_data, self.x_date_all,
-            self.price_graph_all, self.date_info_all)
+        if new_statistiky_data:
+            self.commands.product_sorted_graph(
+                new_statistiky_data, self.x_date_all,
+                self.price_graph_all, self.date_info_all)
 
+        self.x_date_tricka = []
+        self.price_graph_tricka = []
+        self.date_info_tricka = [[]]
         if statistiky_tricka:
-            self.x_date_tricka = []
-            self.price_graph_tricka = []
-            self.date_info_tricka = [[]]
             self.commands.product_sorted_graph(
                 statistiky_tricka, self.x_date_tricka,
                 self.price_graph_tricka, self.date_info_tricka)
 
+        self.x_date_topanky = []
+        self.price_graph_topanky = []
+        self.date_info_topanky = [[]]
         if statistiky_topanky:
-            self.x_date_topanky = []
-            self.price_graph_topanky = []
-            self.date_info_topanky = [[]]
             self.commands.product_sorted_graph(
                 statistiky_topanky, self.x_date_topanky,
                 self.price_graph_topanky, self.date_info_topanky)
 
+        self.x_date_mikiny = []
+        self.price_graph_mikiny = []
+        self.date_info_mikiny = [[]]
         if statistiky_mikiny:
-            self.x_date_mikiny = []
-            self.price_graph_mikiny = []
-            self.date_info_mikiny = [[]]
             self.commands.product_sorted_graph(
                 statistiky_mikiny, self.x_date_mikiny,
                 self.price_graph_mikiny, self.date_info_mikiny)
 
+        self.x_date_nohavice = []
+        self.price_graph_nohavice = []
+        self.date_info_nohavice = [[]]
         if statistiky_nohavice:
-            self.x_date_nohavice = []
-            self.price_graph_nohavice = []
-            self.date_info_nohavice = [[]]
             self.commands.product_sorted_graph(
                 statistiky_nohavice, self.x_date_nohavice,
                 self.price_graph_nohavice, self.date_info_nohavice)
 
+        self.x_date_doplnky = []
+        self.price_graph_doplnky = []
+        self.date_info_doplnky = [[]]
         if statistiky_doplnky:
-            self.x_date_doplnky = []
-            self.price_graph_doplnky = []
-            self.date_info_doplnky = [[]]
             self.commands.product_sorted_graph(
                 statistiky_doplnky, self.x_date_doplnky,
                 self.price_graph_doplnky, self.date_info_doplnky)
@@ -222,171 +229,105 @@ class Statistika:
             self.najviac_mame_produkt = []
         else:
             self.celkovy_pocet_produktov_na_sklade = 'ziadne data v SKLAD.txt'
-            self.najviac_mame_produkt = 'ziadne data v SKLAD.txt'
+            self.najviac_mame_produkt_ui = 'ziadne data v SKLAD.txt'
+            self.najviac_mame_produkt = ''
         if self.statistiky:
             self.avPrice = 0
         else:
             self.avPrice = 'ziadne data v STATISTIKY.txt'
-        self.posledna_objednavka_P = 'ziadna'
-        self.posledna_objednavka_N = 'ziadna'
+        self.top_ten_graf =\
+        self.top_ten_worst_graf =\
+            ''
+        self.posledna_objednavka_P_ui =\
+        self.posledna_objednavka_P =\
+        self.posledna_objednavka_N_ui =\
+        self.posledna_objednavka_N =\
+            'ziadna'
         self.profLoss = 0
         self.top_day = 'ziadne data v STATISTIKY.txt'
-        self.zisk_firmy_za_obdobie = 0
 
 
     def sklad_loop(self):
 
         # Make the loop necessary
         # for given variables
-        najviac_produkt = 0
-        for produkt_sklad in self.sklad:
-            self.celkovy_pocet_produktov_na_sklade += int(produkt_sklad[1])
-            if najviac_produkt == int(produkt_sklad[1]):
-                self.najviac_mame_produkt += produkt_sklad,
-            elif najviac_produkt < int(produkt_sklad[1]):
-                self.najviac_mame_produkt = produkt_sklad,
-                najviac_produkt = int(produkt_sklad[1])
+        if self.sklad:
+            najviac_produkt = int(self.sklad[0][1])
+            for produkt_sklad in self.sklad:
+                self.celkovy_pocet_produktov_na_sklade += int(produkt_sklad[1])
+                if najviac_produkt == int(produkt_sklad[1]):
+                    self.najviac_mame_produkt += produkt_sklad,
+                elif najviac_produkt < int(produkt_sklad[1]):
+                    self.najviac_mame_produkt = produkt_sklad,
+                    najviac_produkt = int(produkt_sklad[1])
 
 
     def statistiky_loop(self):
 
         # Make the loop necessary
         # for given variables
-        statistiky_tricka = [1]
-        statistiky_topanky = [3]
-        statistiky_mikiny = [4]
-        statistiky_nohavice = [2]
-        statistiky_doplnky = [5]
-        ttt = 0
         if self.statistiky:
+            ttt = 0
             for objednavka in self.statistiky:
                 if objednavka[1] == 'P':
                     self.avPrice += int(objednavka[4])*float(objednavka[5])
-                    self.zisk_firmy_za_obdobie += int(
-                        objednavka[4])*float(objednavka[5])
                     ttt += 1
                     self.posledna_objednavka_P = objednavka.copy()
                 else:
-                    self.zisk_firmy_za_obdobie -= int(
-                        objednavka[4])*float(objednavka[5])
                     self.posledna_objednavka_N = objednavka.copy()
-                if objednavka[3][0] == str(statistiky_tricka[0]):
-                    statistiky_tricka += objednavka,
-                elif objednavka[3][0] == str(statistiky_topanky[0]):
-                    statistiky_topanky += objednavka,
-                elif objednavka[3][0] == str(statistiky_mikiny[0]):
-                    statistiky_mikiny += objednavka,
-                elif objednavka[3][0] == str(statistiky_nohavice[0]):
-                    statistiky_nohavice += objednavka,
-                elif objednavka[3][0] == str(statistiky_doplnky[0]):
-                    statistiky_doplnky += objednavka,
-                else:
-                    print('chyba v kode produktu -', objednavka)
 
             if ttt != 0:
                 self.avPrice /= ttt
                 self.avPrice = str(round(self.avPrice, 2))+'€'
 
-            statistiky_tricka.pop(0)
-            statistiky_topanky.pop(0)
-            statistiky_mikiny.pop(0)
-            statistiky_nohavice.pop(0)
-            statistiky_doplnky.pop(0)
-
-            self.x_date_all = []
-            self.price_graph_all = []
-            self.date_info_all = [[]]
-            self.commands.product_sorted_graph(
-                self.statistiky, self.x_date_all,
-                self.price_graph_all, self.date_info_all)
-
-            if statistiky_tricka:
-                self.x_date_tricka = []
-                self.price_graph_tricka = []
-                self.date_info_tricka = [[]]
-                self.commands.product_sorted_graph(
-                    statistiky_tricka, self.x_date_tricka,
-                    self.price_graph_tricka, self.date_info_tricka)
-
-            if statistiky_topanky:
-                self.x_date_topanky = []
-                self.price_graph_topanky = []
-                self.date_info_topanky = [[]]
-                self.commands.product_sorted_graph(
-                    statistiky_topanky, self.x_date_topanky,
-                    self.price_graph_topanky, self.date_info_topanky)
-
-            if statistiky_mikiny:
-                self.x_date_mikiny = []
-                self.price_graph_mikiny = []
-                self.date_info_mikiny = [[]]
-                self.commands.product_sorted_graph(
-                    statistiky_mikiny, self.x_date_mikiny,
-                    self.price_graph_mikiny, self.date_info_mikiny)
-
-            if statistiky_nohavice:
-                self.x_date_nohavice = []
-                self.price_graph_nohavice = []
-                self.date_info_nohavice = [[]]
-                self.commands.product_sorted_graph(
-                    statistiky_nohavice, self.x_date_nohavice,
-                    self.price_graph_nohavice, self.date_info_nohavice)
-
-            if statistiky_doplnky:
-                self.x_date_doplnky = []
-                self.price_graph_doplnky = []
-                self.date_info_doplnky = [[]]
-                self.commands.product_sorted_graph(
-                    statistiky_doplnky, self.x_date_doplnky,
-                    self.price_graph_doplnky, self.date_info_doplnky)
-
-
+            
     def prof_loss_current_day(self):
 
         # Show profit or loss
         # for the current day
-        statistiky_prof_loss1 = self.statistiky[-1]
-        statistiky_prof_loss = []
-        for i in reversed(self.statistiky):
-            if i[0].split()[0] == statistiky_prof_loss1[0].split()[0]:
-                statistiky_prof_loss += i,
-            else:
-                break
+        if self.statistiky:
+            statistiky_prof_loss1 = self.statistiky[-1]
+            statistiky_prof_loss = []
+            for i in reversed(self.statistiky):
+                if i[0].split()[0] == statistiky_prof_loss1[0].split()[0]:
+                    statistiky_prof_loss += i,
+                else:
+                    break
 
-        for i in statistiky_prof_loss:
-            if i[1] == 'P':
-                self.profLoss += int(i[4])*float(i[5])
-            else:
-                self.profLoss -= int(i[4])*float(i[5])
-        self.profLoss = round(self.profLoss, 2)
+            for i in statistiky_prof_loss:
+                if i[1] == 'P':
+                    self.profLoss += int(i[4])*float(i[5])
+                else:
+                    self.profLoss -= int(i[4])*float(i[5])
+            self.profLoss = round(self.profLoss, 2)
 
 
     def top_products(self):
 
         # Creates a top produkty list
         # with the last 30 days of data
-        top_produkty = [[0, 0]]
-        first_day_top_ten = self.last_day - datetime.timedelta(30)
-        first_day_top_ten = datetime.date(2022,12,18)
-        if self.first_day >= first_day_top_ten:
-            index = 0
-        else:
-            for i, obj in enumerate(self.statistiky):
-                if str(first_day_top_ten) == obj[0].split()[0]:
-                    index = i
-                    break
-        for objednavka in self.statistiky[index:]:
-            m = 0
-            if objednavka[1] == 'P':
-                for i in range(len(top_produkty)):
-                    if objednavka[3] == top_produkty[i][0]:
-                        top_produkty[i][1] += 1
-                        m = 1
+        if self.statistiky:
+            top_produkty = [[0, 0]]
+            first_day_top_ten = self.last_day - datetime.timedelta(30)
+            if self.first_day >= first_day_top_ten:
+                index = 0
+            else:
+                for i, obj in enumerate(self.statistiky):
+                    if str(first_day_top_ten) == obj[0].split()[0]:
+                        index = i
                         break
-                if m == 0:
-                    top_produkty.append([objednavka[3], 1])
-        top_produkty.remove([0, 0])
-        self.top_products_graph(top_produkty)
+            for objednavka in self.statistiky[index:]:
+                m = 0
+                if objednavka[1] == 'P':
+                    for i in range(len(top_produkty)):
+                        if objednavka[3] == top_produkty[i][0]:
+                            top_produkty[i][1] += 1
+                            m = 1
+                            break
+                    if m == 0:
+                        top_produkty.append([objednavka[3], 1])
+            top_produkty.remove([0, 0])
+            self.top_products_graph(top_produkty)
 
     def top_products_graph(self, top_produkty):
 
@@ -426,10 +367,11 @@ class Statistika:
         
         # Return day with the
         # highest number of sales
-        days = [datetime.datetime.strptime(i[0],
-                "%Y-%m-%d %H-%M-%S").strftime("%A")
-                for i in self.statistiky]
-        self.top_day = max(set(days), key=days.count)
+        if self.statistiky:
+            days = [datetime.datetime.strptime(i[0],
+                    "%Y-%m-%d %H-%M-%S").strftime("%A")
+                    for i in self.statistiky]
+            self.top_day = max(set(days), key=days.count)
 
                     
     def tovar_loop(self):
@@ -447,7 +389,7 @@ class Statistika:
                     self.top_ten_worst_graf[i][0] = produkt_tovar[1]
                     break
 
-            if self.najviac_mame_produkt != 0:
+            if self.najviac_mame_produkt:
                 for i in range(len(self.najviac_mame_produkt)):
                     if self.najviac_mame_produkt[i][0] == produkt_tovar[0]:
                         self.najviac_mame_produkt[i][0] = produkt_tovar[1]
@@ -462,9 +404,10 @@ class Statistika:
         self.last_order()
 
     def most_product(self):
+
         # Replace the code with the
         # name in the most we have product
-        if self.sklad and self.najviac_mame_produkt != 0:
+        if self.sklad and self.najviac_mame_produkt:
             nove_produkty = str(self.najviac_mame_produkt[0][1])+' ks'
             for i in self.najviac_mame_produkt:
                 nove_produkty += '\n'+i[0]
@@ -653,24 +596,21 @@ class Statistika:
 
     def VyvojGrafVsetky(self):
 
-        if self.statistiky:
-            self.VyvojGraf(self.x_date_all, self.price_graph_all,
-                           self.ui.trzbyNakladyVsetko, self.date_info_all)
-            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka,
-                           self.ui.trzbyNakladyTricka, self.date_info_tricka)
-            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky,
-                           self.ui.trzbyNakladyTopanky, self.date_info_topanky)
-            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny,
-                           self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
-            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice,
-                           self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
-            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky,
-                           self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
-        else:
-            scene = QGraphicsScene()
-            scene.addText('ziadne data v STATISTIKY.txt')
-            for i in self.list_kategorie:
-                    i.setScene(scene)
+        # Plot all graphs
+        # based on categories
+        # self.ui.tabWidget.currentIndex()
+        self.VyvojGraf(self.x_date_all, self.price_graph_all,
+                        self.ui.trzbyNakladyVsetko, self.date_info_all)
+        self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka,
+                        self.ui.trzbyNakladyTricka, self.date_info_tricka)
+        self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky,
+                        self.ui.trzbyNakladyTopanky, self.date_info_topanky)
+        self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny,
+                        self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
+        self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice,
+                        self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
+        self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky,
+                        self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
 
     def VyvojGraf(self, x_date, price_graph, qtgraf, date_info_graph):
 
@@ -769,9 +709,14 @@ Hrubý zisk za deň: %s€''' %
         mid_x = (x_axis_lim[0]+x_axis_lim[1])/2
         mid_y = (y_axis_lim[0]+y_axis_lim[1])/2
 
-        vyvoj_ceny.canvas.mpl_connect(
-            'motion_notify_event', on_mouse_move)
-        self.commands.plot_graph(qtgraf,vyvoj_ceny, size=68.5)
+        if x_date:
+            vyvoj_ceny.canvas.mpl_connect(
+                'motion_notify_event', on_mouse_move)
+            self.commands.plot_graph(qtgraf,vyvoj_ceny, size=68.5)
+        else:
+            scene = QGraphicsScene()
+            scene.addText('ziadne data v STATISTIKY.txt')
+            qtgraf.setScene(scene)
 
 
 
@@ -779,38 +724,54 @@ Hrubý zisk za deň: %s€''' %
 
         # Sets zisk firmy color
         ziskFirmyColor = '#717171' 
-        if self.zisk_firmy_za_obdobie < 0:
-                ziskFirmyColor = '#FF0000'
-        elif self.zisk_firmy_za_obdobie > 0:
-            ziskFirmyColor = '#21BF3E'
-        self.ui.label_17.setText(str(round(self.zisk_firmy_za_obdobie,2))+'€')
-        self.ui.label_17.setStyleSheet('color:'+ziskFirmyColor)
+        if self.statistiky:
+            if self.zisk_firmy_za_obdobie < 0:
+                    ziskFirmyColor = '#FF0000'
+            elif self.zisk_firmy_za_obdobie > 0:
+                ziskFirmyColor = '#21BF3E'
+            self.ui.label_17.setText(str(round(self.zisk_firmy_za_obdobie,2))+'€')
+            self.ui.label_17.setStyleSheet('color:'+ziskFirmyColor)
+        else:
+            self.ui.label_17.setText('--')
+            self.ui.label_17.setStyleSheet('color:'+ziskFirmyColor)
 
 
 
     def FunFacts(self):
+        
+        # Display fun facts
+        # about camels eshop
+        profLossColor = '#717171'
+        if self.statistiky:
+            if str(datetime.date.today()) == self.statistiky[-1][0].split()[0]:
+                if self.statistiky:
+                    if self.profLoss < 0:
+                        profLossColor = '#FF0000'
+                    elif self.profLoss > 0:
+                        profLossColor = '#21BF3E'
+            else:
+                profLossColor = '#717171'
+                self.profLoss = 0
 
-        if str(datetime.date.today()) == self.statistiky[-1][0].split()[0]:
-            profLossColor = '#717171'
-            if self.statistiky:
-                if self.profLoss < 0:
-                    profLossColor = '#FF0000'
-                elif self.profLoss > 0:
-                    profLossColor = '#21BF3E'
-        else:
-            profLossColor = '#717171'
-            self.profLoss = 0
-
-        self.ui.label_6.setText(str(self.profLoss)+'€')
-        self.ui.label_6.setToolTip('''tato cena vyjadruje zisk alebo stratu za aktualny den
+            self.ui.label_6.setText(str(self.profLoss)+'€')
+            self.ui.label_6.setToolTip('''tato cena vyjadruje zisk alebo stratu za aktualny den
 od 0:00:00 az do 23:59:59
 pre detailnejsie zobrazenie vyvoju zisku firmy pozri graf nizsie -->''')
-        self.ui.label_6.setStyleSheet('''QToolTip {
-                                        font-size:9pt;
-                                        color:white;
-                                        background-color: #2F3E46;
-                                        border: 1px solid #101416;}
-                                        #label_6 {color: %s}''' % profLossColor)
+            self.ui.label_6.setStyleSheet('''QToolTip {
+                                            font-size:9pt;
+                                            color:white;
+                                            background-color: #2F3E46;
+                                            border: 1px solid #101416;}
+                                            #label_6 {color: %s}''' % profLossColor)
+        else:
+            self.ui.label_6.setText('--')
+            self.ui.label_6.setToolTip('ziadne data v STATISTIKY.txt')
+            self.ui.label_6.setStyleSheet('''QToolTip {
+                                            font-size:9pt;
+                                            color:white;
+                                            background-color: #2F3E46;
+                                            border: 1px solid #101416;}
+                                            #label_6 {color: %s}''' % profLossColor)
         self.ui.label_20.setText(str(self.avPrice))
         self.ui.label_20.setStyleSheet('color:'+self.funFactsColor)
         self.ui.label_10.setText(str(self.celkovy_pocet_produktov_na_sklade))
