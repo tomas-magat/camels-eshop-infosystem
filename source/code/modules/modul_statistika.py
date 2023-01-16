@@ -73,6 +73,7 @@ class Statistika:
         
         # Reload necessary definitions
         self.statistiky = data_list
+        self.sklad = self.sklad
         self.commands.close_all_graphs()
         self.Values()
         self.sklad_loop()
@@ -135,7 +136,7 @@ class Statistika:
             else:
                 scene = QGraphicsScene()
                 scene.addText(
-                    'ziadne data v STATISTIKY.txt v tomto rozmedzi datumov')
+                    'Žiadne dáta v STATISTIKY.txt v tomto rozmedzí dátumov')
                 for i in self.list_kategorie:
                     i.setScene(scene)
                 self.ui.label_17.setText('--')
@@ -143,7 +144,7 @@ class Statistika:
 
         else:
             scene = QGraphicsScene()
-            scene.addText('datum DO musi byt vacsi nez datum OD')
+            scene.addText('Dátum ''DO'' musí byť väčší než dátum ''OD''')
             for i in self.list_kategorie:
                     i.setScene(scene)
             self.ui.label_17.setText('--')
@@ -244,13 +245,13 @@ class Statistika:
             self.celkovy_pocet_produktov_na_sklade = 0
             self.najviac_mame_produkt = []
         else:
-            self.celkovy_pocet_produktov_na_sklade = 'ziadne data v SKLAD.txt'
-            self.najviac_mame_produkt_ui = 'ziadne data v SKLAD.txt'
+            self.celkovy_pocet_produktov_na_sklade = 'Žiadne dáta v SKLAD.txt'
+            self.najviac_mame_produkt_ui = 'Žiadne dáta v SKLAD.txt'
             self.najviac_mame_produkt = ''
         if self.statistiky:
             self.avPrice = 0
         else:
-            self.avPrice = 'ziadne data v STATISTIKY.txt'
+            self.avPrice = 'Žiadne dáta v STATISTIKY.txt'
         self.top_ten_graf =\
         self.top_ten_worst_graf =\
             ''
@@ -258,9 +259,9 @@ class Statistika:
         self.posledna_objednavka_P =\
         self.posledna_objednavka_N_ui =\
         self.posledna_objednavka_N =\
-            'ziadna'
+            'Žiadna'
         self.profLoss = 0
-        self.top_day = 'ziadne data v STATISTIKY.txt'
+        self.top_day = 'Žiadne dáta v STATISTIKY.txt'
 
 
     def sklad_loop(self):
@@ -276,6 +277,7 @@ class Statistika:
                 elif najviac_produkt < int(produkt_sklad[1]):
                     self.najviac_mame_produkt = produkt_sklad,
                     najviac_produkt = int(produkt_sklad[1])
+            print(self.celkovy_pocet_produktov_na_sklade)
 
 
     def statistiky_loop(self):
@@ -436,7 +438,7 @@ class Statistika:
 
         # Adjust last order
         # variables as needed
-        if self.posledna_objednavka_N != 'ziadna':
+        if self.posledna_objednavka_N != 'Žiadna':
             posledna_objednavka_date_N = \
                 self.posledna_objednavka_N[0].split()[0].split('-')[2] + '-' + \
                 self.posledna_objednavka_N[0].split()[0].split('-')[1] +\
@@ -449,7 +451,7 @@ class Statistika:
                 self.posledna_objednavka_N[4]+'ks'+';' + \
                 self.posledna_objednavka_N[5]+'€/ks'
 
-        if self.posledna_objednavka_P != 'ziadna':
+        if self.posledna_objednavka_P != 'Žiadna':
             posledna_objednavka_date_P = \
                 self.posledna_objednavka_P[0].split()[0].split('-')[2] + '-' + \
                 self.posledna_objednavka_P[0].split()[0].split('-')[1] +\
@@ -478,11 +480,11 @@ class Statistika:
                         for i in text_bez_lomeno_n:
                             text_lomeno_n += i+'\n'
                         if self.top_ten_graf[c][1] == 1:
-                            objednavka_text = ' objednavka'
+                            objednavka_text = ' objednávka'
                         elif 1 < self.top_ten_graf[c][1] < 5:
-                            objednavka_text = ' objednavky'
+                            objednavka_text = ' objednávky'
                         else:
-                            objednavka_text = ' objednavok'
+                            objednavka_text = ' objednávok'
                         text = text_lomeno_n+' ' + \
                             str(self.top_ten_graf[c][1])+objednavka_text
                 annot1.set_text(text)
@@ -514,7 +516,7 @@ class Statistika:
             a1.spines.top.set_visible(False)
             a1.spines.right.set_visible(False)
             a1.axes.xaxis.set_ticklabels([])
-            a1.set_title('Najpredavanejsie produkty', **
+            a1.set_title('Najpredávanejšie produkty', **
                         self.font, fontsize=15, weight='bold')
             bars1 = a1.bar(bar_X, self.top_ten)
             bar_X_new = []
@@ -531,9 +533,9 @@ class Statistika:
             self.commands.plot_graph(self.ui.najviacGraf, najviac)
         else:
             scene = QGraphicsScene()
-            text = scene.addText('najpredavanejsie produkty')
+            text = scene.addText('Najpredávanejšie produkty')
             text.setPos(0, -50)
-            scene.addText('ziadne data v STATISTIKY.txt')
+            scene.addText('Žiadne dáta v STATISTIKY.txt')
             self.ui.najviacGraf.setScene(scene)
 
 
@@ -552,13 +554,13 @@ class Statistika:
                         for i in text_bez_lomeno_n:
                             text_lomeno_n += i+'\n'
                         if self.top_ten_worst_graf[c][1] == 0.5:
-                            objednavka_text = 'objednavok'
+                            objednavka_text = 'objednávok'
                         elif self.top_ten_worst_graf[c][1] == 1:
-                            objednavka_text = ' objednavka'
+                            objednavka_text = ' objednávka'
                         elif 1 < self.top_ten_worst_graf[c][1] < 5:
-                            objednavka_text = ' objednavky'
+                            objednavka_text = ' objednávky'
                         else:
-                            objednavka_text = ' objednavok'
+                            objednavka_text = ' objednávok'
                         text = text_lomeno_n+' ' + \
                             str(self.top_ten_worst_graf[c][1])+objednavka_text
                 annot2.set_text(text)
@@ -589,7 +591,7 @@ class Statistika:
             a2.spines['right'].set_visible(False)
             a2.axes.xaxis.set_ticklabels([])
             a2.tick_params(axis='x', which='both', length=0)
-            a2.set_title('Najmenej predavane produkty', **
+            a2.set_title('Najmenej predávané produkty', **
                          self.font, fontsize=15, weight='bold')
             bar_X = [i for i in range(len(self.top_ten_worst_graf))]
             bars2 = a2.bar(bar_X, self.top_ten_worst, color='#d88c00')
@@ -607,9 +609,9 @@ class Statistika:
             self.commands.plot_graph(self.ui.najmenejGraf, najmenej)
         else:
             scene = QGraphicsScene()
-            text = scene.addText('nejmenej predavane produkty')
+            text = scene.addText('Najmenej predávané produkty')
             text.setPos(0, -50)
-            scene.addText('ziadne data v STATISTIKY.txt')
+            scene.addText('Žiadne dáta v STATISTIKY.txt')
             self.ui.najmenejGraf.setScene(scene)
 
 
@@ -729,7 +731,7 @@ class Statistika:
                 index = min(int(searchsorted), len(x) - 1)
 
                 date_info_graph_index = date_info_graph[index]
-                if date_info_graph_index != [['žiadne objednávky\nv tento deň']]:
+                if date_info_graph_index != [['Žiadne objednávky\nv tento deň']]:
                     date_info_p = 0
                     date_info_n = 0
                     p_value = 0
@@ -776,7 +778,7 @@ Hrubý zisk za deň: %s€''' %
         a3.spines['right'].set_visible(False)
         a3.set_title('Zisk firmy', **self.font, fontsize=15,
                      weight='bold')
-        line, = a3.plot(x_date, price_graph, label='vynosy')
+        line, = a3.plot(x_date, price_graph)
         a3.xaxis.set_major_locator(plt.MaxNLocator(5))
         horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
         vertical_line = a3.axvline(color='k', lw=0.8, ls='--')
@@ -800,7 +802,7 @@ Hrubý zisk za deň: %s€''' %
             self.commands.plot_graph(qtgraf,vyvoj_ceny, size=68.5)
         else:
             scene = QGraphicsScene()
-            scene.addText('ziadne data v STATISTIKY.txt')
+            scene.addText('Žiadne dáta v STATISTIKY.txt')
             qtgraf.setScene(scene)
 
 
@@ -839,9 +841,9 @@ Hrubý zisk za deň: %s€''' %
                 self.profLoss = 0
 
             self.ui.label_6.setText(str(self.profLoss)+'€')
-            self.ui.label_6.setToolTip('''tato cena vyjadruje zisk alebo stratu za aktualny den
-od 0:00:00 az do 23:59:59
-pre detailnejsie zobrazenie vyvoju zisku firmy pozri graf nizsie -->''')
+            self.ui.label_6.setToolTip('''Táto cena vyjadruje zisk alebo stratu za aktuálny deň
+od 0:00:00 až do 23:59:59.
+Pre detailnejšie zobrazenie vývoju zisku firmy pozri graf nižšie -->''')
             self.ui.label_6.setStyleSheet('''QToolTip {
                                             font-size:9pt;
                                             color:white;
@@ -850,7 +852,7 @@ pre detailnejsie zobrazenie vyvoju zisku firmy pozri graf nizsie -->''')
                                             #label_6 {color: %s}''' % profLossColor)
         else:
             self.ui.label_6.setText('--')
-            self.ui.label_6.setToolTip('ziadne data v STATISTIKY.txt')
+            self.ui.label_6.setToolTip('Žiadne dáta v STATISTIKY.txt')
             self.ui.label_6.setStyleSheet('''QToolTip {
                                             font-size:9pt;
                                             color:white;
@@ -879,19 +881,19 @@ pre detailnejsie zobrazenie vyvoju zisku firmy pozri graf nizsie -->''')
                                         background-color: #2F3E46;
                                         border: 1px solid #101416;}''')
         self.ui.label_18.setText('''
--Grafy najpredavanejsie a najmenej predavane produkty
- ukazuju produkty predane za poslednych 30 dni
+-Grafy najpredávanejsie a najmenej predávané produkty,
+ ukazujú produkty predané za posledných 30 dní
 
--Posledna objednavka N - nakup ktory urobila firma
--Posledna objednavka P - nakup ktory urobil zakaznik
+-Posledná objednávka N - nákup, ktorý urobila firma
+-Posledná objednávka P - nákup, ktorý urobil zákazník
 
--Cena nalavo od info ukazuje zisk alebo stratu firmy
- za aktualny den
+-Cena naľavo od ''INFO'' ukazuje zisk alebo stratu firmy
+ za aktuálny deň
 
--''Zisk firmy za dane casove obdobie'' udava zisk alebo stratu firmy
- za vami zvolene obdobie
+-''Zisk firmy za dané časové obdobie'' udáva zisk alebo stratu firmy
+ za vami zvolené obdobie
 
--Graf Zisk Firmy ukzauje krivku vyvoja akcii spolocnosti CAMELS s.r.o
- za vami zvolene casove obdobie, pomocou tlacidla ''OK'' nalavo od
- datumov sa graf updatne
-        ''')
+-Graf ''Zisk firmy'' ukazuje krivku vývoja akcii spoločnosti CAMELS s.r.o,
+ za vami zvolené časové obdobie
+ Pomocou tlačidla ''OK'' naľavo od dátumov, sa graf updatne
+''')

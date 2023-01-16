@@ -4070,7 +4070,7 @@ background-color :#BBBBBB;
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
+          <y>-79</y>
           <width>474</width>
           <height>250</height>
          </rect>
@@ -4136,7 +4136,7 @@ background-color :#BBBBBB;
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_19">
                <property name="text">
-                <string>priemerna cena jedneho nakupu: </string>
+                <string>Priemerná cena jedného nákupu: </string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -4191,7 +4191,7 @@ background-color :#BBBBBB;
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_11">
                <property name="text">
-                <string>najviac sa nakupuje v den: </string>
+                <string>Najviac sa nakupuje v deň: </string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -4255,7 +4255,7 @@ background-color :#BBBBBB;
                 <enum>Qt::LeftToRight</enum>
                </property>
                <property name="text">
-                <string>celkovy pocet produktov na sklade: </string>
+                <string>Celkový počet produktov na sklade: </string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -4319,7 +4319,7 @@ background-color :#BBBBBB;
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_15">
                <property name="text">
-                <string>najviac mame z produktu: </string>
+                <string>Najviac máme z produktu: </string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -4377,7 +4377,7 @@ background-color :#BBBBBB;
              <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="label_13">
                <property name="text">
-                <string>posledna objednavka(P): </string>
+                <string>Posledná objednávka(P): </string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -4444,7 +4444,7 @@ background-color :#BBBBBB;
              <item>
               <widget class="QLabel" name="label_2">
                <property name="text">
-                <string>posledna objednavka(N): </string>
+                <string>Posledná objednávka(N): </string>
                </property>
               </widget>
              </item>
@@ -4500,7 +4500,7 @@ QTabBar::tab::selected {
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>5</number>
        </property>
        <property name="iconSize">
         <size>
@@ -4513,7 +4513,7 @@ QTabBar::tab::selected {
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
-         <string>Vsetko</string>
+         <string>Všetko</string>
         </attribute>
         <widget class="QGraphicsView" name="trzbyNakladyVsetko">
          <property name="geometry">
@@ -4540,7 +4540,7 @@ QTabBar::tab::selected {
        </widget>
        <widget class="QWidget" name="tab_2">
         <attribute name="title">
-         <string>Tricka</string>
+         <string>Tričká</string>
         </attribute>
         <widget class="QGraphicsView" name="trzbyNakladyTricka">
          <property name="geometry">
@@ -4567,7 +4567,7 @@ QTabBar::tab::selected {
        </widget>
        <widget class="QWidget" name="tab_4">
         <attribute name="title">
-         <string>Topanky</string>
+         <string>Topánky</string>
         </attribute>
         <widget class="QGraphicsView" name="trzbyNakladyTopanky">
          <property name="geometry">
@@ -4785,7 +4785,7 @@ QTabBar::tab::selected {
         <item>
          <widget class="QLabel" name="label_8">
           <property name="text">
-           <string>zisk firmy za dane casove obdobie: </string>
+           <string>Zisk firmy za dané časové obdobie: </string>
           </property>
          </widget>
         </item>

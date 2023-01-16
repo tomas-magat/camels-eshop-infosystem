@@ -166,7 +166,7 @@ class UI_Commands():
                         date_number_changed = str(date_number)
                     x_date.insert(i+b, date_number_changed+date_connection)
                     price_graph.insert(i+b, price_connection)
-                    date_info.insert(i+b, [['žiadne objednávky\nv tento deň']])
+                    date_info.insert(i+b, [['Žiadne objednávky\nv tento deň']])
             else:
                 days_number = (d2-d1).days-1
                 days_number_before = days_number-(int(y[2])-1)
@@ -182,7 +182,7 @@ class UI_Commands():
                         x_date.insert(i+b, date_number_changed+date_connection)
                         price_graph.insert(i+b, price_connection)
                         date_info.insert(
-                            i+b, [['žiadne objednávky\nv tento deň']])
+                            i+b, [['Žiadne objednávky\nv tento deň']])
                 date_connection = '.'+y[1]+'.'+y[0][2:]
                 for date_number in range(1, int(y[2])):
                     b += 1
@@ -192,7 +192,7 @@ class UI_Commands():
                         date_number_changed = str(date_number)
                     x_date.insert(i+b, date_number_changed+date_connection)
                     price_graph.insert(i+b, price_connection)
-                    date_info.insert(i+b, [['žiadne objednávky\nv tento deň']])
+                    date_info.insert(i+b, [['Žiadne objednávky\nv tento deň']])
 
     def list_item_selected(self, list_widget, command):
         """
