@@ -3989,7 +3989,7 @@ background-color :#BBBBBB;
 </string>
              </property>
              <property name="text">
-              <string>info</string>
+              <string>INFO</string>
              </property>
             </widget>
            </item>
