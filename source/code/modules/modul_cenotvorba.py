@@ -235,6 +235,12 @@ class ItemPriceCard(QtWidgets.QFrame):
             lambda: self.validate_field(self.lineEdit_4, 0)
         )
         self.horizontalLayout_6.addWidget(self.lineEdit_4)
+        self.label_6 = QtWidgets.QLabel("€")
+        self.label_6.setMaximumWidth(6)
+        self.label_6.setAlignment(
+            QtCore.Qt.AlignLeft | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.label_6.setObjectName(self.name+"label_6")
+        self.horizontalLayout_6.addWidget(self.label_6)
         self.label_5 = QtWidgets.QLabel("Predajná cena: ")
         self.label_5.setAlignment(
             QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
@@ -249,5 +255,11 @@ class ItemPriceCard(QtWidgets.QFrame):
             lambda: self.validate_field(self.lineEdit_5, 1)
         )
         self.horizontalLayout_6.addWidget(self.lineEdit_5)
+        self.label_7 = QtWidgets.QLabel("€")
+        self.label_7.setMaximumWidth(6)
+        self.label_7.setAlignment(
+            QtCore.Qt.AlignLeft | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.label_7.setObjectName(self.name+"label_7")
+        self.horizontalLayout_6.addWidget(self.label_7)
         self.horizontalLayout_2.addWidget(self.widget_6)
         self.parent_layout.addWidget(self)
