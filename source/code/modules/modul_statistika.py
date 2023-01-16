@@ -277,7 +277,6 @@ class Statistika:
                 elif najviac_produkt < int(produkt_sklad[1]):
                     self.najviac_mame_produkt = produkt_sklad,
                     najviac_produkt = int(produkt_sklad[1])
-            print(self.celkovy_pocet_produktov_na_sklade)
 
 
     def statistiky_loop(self):
