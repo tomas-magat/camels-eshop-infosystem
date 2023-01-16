@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from PyQt5.QtWidgets import QGraphicsScene
 import datetime
+from PyQt5.QtCore import QTimer
 
 class Statistika:
 
@@ -41,6 +42,10 @@ class Statistika:
         self.data['tovar'].version_changed(
             self.reload_tovar)
         self.reload_statistiky(self.statistiky)
+
+        # Track info button clicks
+        self.commands.button_click(
+            self.ui.pushButton_3, self.show_hide_info)
 
     def init_variables(self):
 
@@ -97,12 +102,24 @@ class Statistika:
 
         # Redirect to this statistika screen
         self.commands.redirect(self.ui.statistika)
+    
+    def show_hide_info(self):
+
+        # First press shows the info
+        # second press hides the info
+        if self.ui.label_18.isHidden():
+            self.ui.label_18.setHidden(False)
+        else:
+            self.ui.label_18.setHidden(True)
 
 
     def reload_graph_date(self):
 
         # Create new statistika variable
         # based on new date changed
+        self.ui.pushButton_2.setEnabled(False)
+        QTimer.singleShot(
+            500, lambda: self.ui.pushButton_2.setDisabled(False))
         self.date_from = self.ui.dateFrom.date().toPyDate()
         self.date_to = self.ui.dateTo.date().toPyDate()
         if self.date_from <= self.date_to:
@@ -160,8 +177,7 @@ class Statistika:
                 statistiky_nohavice += objednavka,
             elif objednavka[3][0] == str(statistiky_doplnky[0]):
                 statistiky_doplnky += objednavka,
-            else:
-                print('chyba v kode produktu -', objednavka)
+
         statistiky_tricka.pop(0)
         statistiky_topanky.pop(0)
         statistiky_mikiny.pop(0)
@@ -315,6 +331,9 @@ class Statistika:
                 for i, obj in enumerate(self.statistiky):
                     if str(first_day_top_ten) == obj[0].split()[0]:
                         index = i
+                        break
+                    else:
+                        index = len(self.statistiky)//2
                         break
             for objednavka in self.statistiky[index:]:
                 m = 0
@@ -573,7 +592,7 @@ class Statistika:
             a2.set_title('Najmenej predavane produkty', **
                          self.font, fontsize=15, weight='bold')
             bar_X = [i for i in range(len(self.top_ten_worst_graf))]
-            bars2 = a2.bar(bar_X, self.top_ten_worst)
+            bars2 = a2.bar(bar_X, self.top_ten_worst, color='#d88c00')
             bar_X = []
             for bar in bars2:
                 bar_X.append(bar.get_x())
@@ -598,20 +617,86 @@ class Statistika:
 
         # Plot all graphs
         # based on categories
-        # self.ui.tabWidget.currentIndex()
-        self.VyvojGraf(self.x_date_all, self.price_graph_all,
-                        self.ui.trzbyNakladyVsetko, self.date_info_all)
-        self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka,
-                        self.ui.trzbyNakladyTricka, self.date_info_tricka)
-        self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky,
-                        self.ui.trzbyNakladyTopanky, self.date_info_topanky)
-        self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny,
-                        self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
-        self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice,
-                        self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
-        self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky,
-                        self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
-
+        tab_index = self.ui.tabWidget.currentIndex()
+        if tab_index == 0:
+            self.VyvojGraf(self.x_date_all, self.price_graph_all,
+                            self.ui.trzbyNakladyVsetko, self.date_info_all)
+            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka,
+                            self.ui.trzbyNakladyTricka, self.date_info_tricka)
+            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky,
+                            self.ui.trzbyNakladyTopanky, self.date_info_topanky)
+            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny,
+                            self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
+            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice,
+                            self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
+            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky,
+                            self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
+        elif tab_index == 1:
+            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka,
+                            self.ui.trzbyNakladyTricka, self.date_info_tricka)
+            self.VyvojGraf(self.x_date_all, self.price_graph_all,
+                            self.ui.trzbyNakladyVsetko, self.date_info_all)
+            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky,
+                            self.ui.trzbyNakladyTopanky, self.date_info_topanky)
+            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny,
+                            self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
+            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice,
+                            self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
+            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky,
+                            self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
+        elif tab_index == 2:
+            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky,
+                            self.ui.trzbyNakladyTopanky, self.date_info_topanky)
+            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka,
+                            self.ui.trzbyNakladyTricka, self.date_info_tricka)
+            self.VyvojGraf(self.x_date_all, self.price_graph_all,
+                            self.ui.trzbyNakladyVsetko, self.date_info_all)
+            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny,
+                            self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
+            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice,
+                            self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
+            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky,
+                            self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
+        elif tab_index == 3:
+            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny,
+                            self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
+            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka,
+                            self.ui.trzbyNakladyTricka, self.date_info_tricka)
+            self.VyvojGraf(self.x_date_all, self.price_graph_all,
+                            self.ui.trzbyNakladyVsetko, self.date_info_all)
+            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky,
+                            self.ui.trzbyNakladyTopanky, self.date_info_topanky)
+            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice,
+                            self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
+            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky,
+                            self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
+        elif tab_index == 4:
+            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice,
+                            self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
+            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka,
+                            self.ui.trzbyNakladyTricka, self.date_info_tricka)
+            self.VyvojGraf(self.x_date_all, self.price_graph_all,
+                            self.ui.trzbyNakladyVsetko, self.date_info_all)
+            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky,
+                            self.ui.trzbyNakladyTopanky, self.date_info_topanky)
+            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny,
+                            self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
+            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky,
+                            self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
+        elif tab_index == 5:
+            self.VyvojGraf(self.x_date_doplnky, self.price_graph_doplnky,
+                            self.ui.trzbyNakladyDoplnky, self.date_info_doplnky)
+            self.VyvojGraf(self.x_date_tricka, self.price_graph_tricka,
+                            self.ui.trzbyNakladyTricka, self.date_info_tricka)
+            self.VyvojGraf(self.x_date_all, self.price_graph_all,
+                            self.ui.trzbyNakladyVsetko, self.date_info_all)
+            self.VyvojGraf(self.x_date_topanky, self.price_graph_topanky,
+                            self.ui.trzbyNakladyTopanky, self.date_info_topanky)
+            self.VyvojGraf(self.x_date_mikiny, self.price_graph_mikiny,
+                            self.ui.trzbyNakladyMikiny, self.date_info_mikiny)
+            self.VyvojGraf(self.x_date_nohavice, self.price_graph_nohavice,
+                            self.ui.trzbyNakladyNohavice, self.date_info_nohavice)
+        
     def VyvojGraf(self, x_date, price_graph, qtgraf, date_info_graph):
 
         def set_cross_hair_visible(visible):
@@ -781,7 +866,27 @@ pre detailnejsie zobrazenie vyvoju zisku firmy pozri graf nizsie -->''')
         self.ui.label_16.setText(str(self.najviac_mame_produkt_ui))
         self.ui.label_16.setStyleSheet('color:'+self.funFactsColor)
         self.ui.label_14.setText(str(self.posledna_objednavka_P_ui))
-        self.ui.label_14.setStyleSheet('color:'+self.funFactsColor)
+        self.ui.label_14.setStyleSheet('color:%s' % self.funFactsColor)
+        self.ui.label_14.setToolTip('P - predaj firmy')
+        self.ui.label_13.setToolTip('P - predaj firmy')
         self.ui.label_3.setText(str(self.posledna_objednavka_N_ui))
-        self.ui.label_3.setStyleSheet('color:'+self.funFactsColor)
+        self.ui.label_3.setStyleSheet('color:%s' % self.funFactsColor)
         self.ui.camelLogo_2.setToolTip('')
+        self.ui.label_18.setHidden(True)
+        self.ui.label_18.setStyleSheet('''QLabel {
+                                        font-size:9pt;
+                                        color:white;
+                                        background-color: #2F3E46;
+                                        border: 1px solid #101416;}''')
+        self.ui.label_18.setText('''
+-Grafy najpredavanejsie a najmenej predavane produkty
+ ukazuju produkty predane za poslednych 30 dni
+
+-Posledna objednavka N - nakup ktory urobila firma
+-Posledna objednavka P - nakup ktory urobil zakaznik
+
+-Cena nalavo od info ukazuje zisk alebo stratu firmy
+ za aktualny den
+
+-
+        ''')
