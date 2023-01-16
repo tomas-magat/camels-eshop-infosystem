@@ -23,8 +23,8 @@ class Cenotvorba:
         self.commands.button_click(
             self.ui.cenotvorbaButton, self.switch_screen
         )
-        self.commands.buttons_click(
-            [self.ui.saveButton, self.ui.homeArrow3], self.savefile
+        self.commands.button_click(
+            self.ui.saveButton, self.savefile
         )
         self.commands.form_submit(
             [self.ui.searchButton_2, self.ui.searchField_2],

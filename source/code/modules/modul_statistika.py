@@ -888,5 +888,10 @@ pre detailnejsie zobrazenie vyvoju zisku firmy pozri graf nizsie -->''')
 -Cena nalavo od info ukazuje zisk alebo stratu firmy
  za aktualny den
 
--
+-''Zisk firmy za dane casove obdobie'' udava zisk alebo stratu firmy
+ za vami zvolene obdobie
+
+-Graf Zisk Firmy ukzauje krivku vyvoja akcii spolocnosti CAMELS s.r.o
+ za vami zvolene casove obdobie, pomocou tlacidla ''OK'' nalavo od
+ datumov sa graf updatne
         ''')
