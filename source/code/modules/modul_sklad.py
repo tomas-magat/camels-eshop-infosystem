@@ -329,11 +329,11 @@ class Cart:
                 else:
                     self.commands.warning(
                         'Prosím skontrolujte údaje objednávky',
-                        'Pole \'Počet na doplnenie\' musí byť kladné nenulové číslo')
+                        'Pole \'Doplniť do počtu\' musí byť kladné nenulové číslo')
             except:
                 self.commands.warning(
                     'Prosím skontrolujte údaje objednávky',
-                    'Pole \'Počet na doplnenie\' musí byť kladné nenulové číslo')
+                    'Pole \'Doplniť do počtu\' musí byť kladné nenulové číslo')
         else:
             self.commands.warning(
                 'Prázdny košík',
@@ -365,7 +365,7 @@ class Cart:
                     'Poloautomatická objednávka bola zaregistrovaná')
             else:
                 self.commands.warning(
-                    'Údaj \'Počet na doplnenie\' musí byť väčší než údaj \'Doplniť pri počte\'')
+                    'Údaj \'Doplniť do počtu\' musí byť väčší než údaj \'Doplniť pri počte\'')
 
         # AUTOMATIC
         if self.page.order_mode == 1:
@@ -376,7 +376,7 @@ class Cart:
                     'Automatická objednávka bola zaregistrovaná')
             else:
                 self.commands.warning(
-                    'Údaj \'Počet na doplnenie\' musí byť väčší než údaj \'Doplniť pri počte\'')
+                    'Údaj \'Doplniť do počtu\' musí byť väčší než údaj \'Doplniť pri počte\'')
 
         print(self.page.orderRules)
 
