@@ -7,7 +7,7 @@ import io
 from datetime import datetime
 from PIL import Image, ImageCms
 
-from .ENV_VARS import PATH
+from .ENV_VARS import PATH, IMGPATH
 from .file import DataFile
 
 
@@ -17,7 +17,7 @@ def camelify(input_string: str):
     it is valid PyQt5 object name.
     """
 
-    camel = input_string.title().replace(" ", "")
+    camel = input_string.title().replace(' ', '')
     return ''.join([camel[0].lower(), camel[1:]])
 
 
@@ -69,13 +69,16 @@ def filter_statistics_category(data_list: list, category: int = 0):
 def find_image(image_name: str):
     """Return absolute path of root/assets/images/[image_name]."""
 
-    return os.path.join(PATH, "assets", "images", image_name)
+    if IMGPATH == '':
+        return os.path.join(PATH, 'assets', 'images', image_name)
+    else:
+        return os.path.join(IMGPATH, image_name)
 
 
 def find_icon(icon_name: str):
     """Return absolute path of root/assets/icons/[icon_name]."""
 
-    return os.path.join(PATH, "assets", "icons", icon_name)
+    return os.path.join(PATH, 'assets', 'icons', icon_name)
 
 
 def find_code(category):
@@ -114,7 +117,7 @@ def get_match(term, key, val):
 def now():
     """Get current date in a string format YYYY-MM-DD HH-mm-SS."""
 
-    return datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    return datetime.now().strftime('%Y-%m-%d %H-%M-%S')
 
 
 def random_id(type='N'):
@@ -156,7 +159,7 @@ def receipt_template(
 def str_price(price: float, amount: int = 1):
     """Return total price string - with 2 decimal places."""
 
-    return "%.2f" % abs(price*amount)
+    return '%.2f' % abs(price*amount)
 
 
 def search_items(query: str, data: dict, category: int = 0):
@@ -216,27 +219,6 @@ def sort_counts(category: int = 0):
     )
 
 
-def statistics_range(
-    date_from: datetime, date_to: datetime, category: int = 0
-):
-    """
-    Return list of statistics datapoints in specific item 
-    category and in specified datetime range.
-    """
-
-    data = DataFile('statistiky').data_list
-    category_stats = filter_statistics_category(data, category)
-
-    result = []
-    for purchase in category_stats:
-        purchase_date = datetime.strptime(
-            purchase[0], "%Y-%m-%d %H-%M-%S")
-        if date_from <= purchase_date <= date_to:
-            result.append(purchase)
-
-    return result
-
-
 def validate_int(input_field, invalid_cmd=None):
     """
     Return input text if it is integer 
@@ -261,7 +243,7 @@ def convert_price(input_field):
         if '-' in input_field.text():
             return '----'
 
-    return "%.2f" % price
+    return '%.2f' % price
 
 
 def valid_image(file_path):

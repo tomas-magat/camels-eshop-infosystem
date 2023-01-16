@@ -29,10 +29,12 @@ class Databaza:
 
         # Init global variables
         self.tabs = self.ui.tabWidget_databaza
-        self.no_res = False
+        self.not_found = False
+        self.adding = False
 
         self.init_actions()
         self.init_data()
+        self.init_tabs()
 
     def init_actions(self):
         self.redirect_action()
@@ -46,6 +48,8 @@ class Databaza:
         self.storage = self.data['sklad']
         self.statistika = self.data['statistiky']
         self.goods.version_changed(self.reload_items)
+
+    def init_tabs(self):
         self.tabs.setCurrentIndex(0)
         self.update_category()
 
@@ -77,6 +81,11 @@ class Databaza:
             self.search
         )
 
+    # =================== REDIRECTING =====================
+    def switch_screen(self):
+        """Redirect to this databaza screen."""
+        self.commands.redirect(self.ui.databaza)
+
     # ===================== LOADING =======================
     def reload_items(self, data):
         self.lists[self.category].clear()
@@ -90,12 +99,9 @@ class Databaza:
     def load_item(self, code, vals):
         self.lists[self.category].addItem('#' + code + ' ' + vals[0])
 
-    def switch_screen(self):
-        """Redirect to this databaza screen."""
-        self.commands.redirect(self.ui.databaza)
-
     def add_item(self):
         """Display empty item details to enter new."""
+        self.adding = True
         self.clear_no_results()
         prefilled_code = '' if self.category == 0 else find_code(self.category)
         ItemDetails(self, self.ui.right_database, '',
@@ -106,6 +112,8 @@ class Databaza:
         Display item details on the right side of the
         databaza screen and allow user to modify them.
         """
+        if self.adding:
+            self.adding = False
         try:
             text = self.lists[self.category].currentItem().text().split()
             code = text[0].lstrip("#")
@@ -117,9 +125,11 @@ class Databaza:
             pass
 
     def delete_item(self):
-        if self.clear_no_results():
+        if self.clear_no_results() and not self.adding:
+            text = self.lists[self.category].currentItem().text().split()
+            item_name = ' '.join(text[1:])
             self.commands.confirm(
-                self.ui, "Chcete natrvalo vymazať produkt?",
+                self.ui, f"Chcete natrvalo vymazať produkt {item_name}?",
                 ok_command=self.delete_item_txt)
 
     def delete_item_txt(self):
@@ -164,12 +174,12 @@ class Databaza:
         self.lists[self.category].clear()
         prvok = 'Produkt sa nenasiel'
         self.lists[self.category].addItem(prvok)
-        self.no_res = True
+        self.not_found = True
 
     def clear_no_results(self):
-        if self.no_res:
+        if self.not_found:
             self.reload_items(self.goods.data)
-            self.no_res = False
+            self.not_found = False
             return False
         return True
 
@@ -218,6 +228,7 @@ class ItemDetails(QtWidgets.QFrame):
         self.page.goods.data[code] = [name, self.filename]
         self.page.goods.save_data()
         self.adding = False
+        self.page.adding = False
         self.page.lists[self.page.category].setCurrentRow(
             self.page.lists[self.page.category].count()-1
         )
@@ -289,6 +300,8 @@ class ItemDetails(QtWidgets.QFrame):
                 self.filename = self.image_path.split("/", maxsplit=256)[-1]
                 self.save_image()
                 self.update_image()
+            else:
+                self.commands.warning('Vyberte správny formát obrázka')
 
     def save_image(self):
         """Copy selected image to the assets/images/ directory."""

@@ -37,9 +37,9 @@ class Cenotvorba:
         self.price_cards = []
         self.items = self.data['tovar']
         self.prices = self.data['cennik']
-        # self.items.version_changed(self.loadfile)
-        # self.prices.version_changed(
-        #     lambda x: self.loadfile(self.items.data))
+        self.items.version_changed(self.loadfile)
+        self.prices.version_changed(
+            lambda x: self.loadfile(self.items.data))
         self.ui.tabWidget_2.setCurrentIndex(0)
         self.update_category()
 

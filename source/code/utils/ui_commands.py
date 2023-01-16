@@ -146,9 +146,13 @@ class UI_Commands():
         b = 0
         for i in range(len(x_date_unedited)-1):
             d1 = datetime.date(
-                int(x_date_unedited[i][0]), int(x_date_unedited[i][1]), int(x_date_unedited[i][2]))
+                int(x_date_unedited[i][0]),
+                int(x_date_unedited[i][1]),
+                int(x_date_unedited[i][2]))
             d2 = datetime.date(
-                int(x_date_unedited[i+1][0]), int(x_date_unedited[i+1][1]), int(x_date_unedited[i+1][2]))
+                int(x_date_unedited[i+1][0]),
+                int(x_date_unedited[i+1][1]),
+                int(x_date_unedited[i+1][2]))
             x = x_date_unedited[i]
             y = x_date_unedited[i+1]
             price_connection = round(price_graph_unedited[i], 2)
@@ -168,7 +172,8 @@ class UI_Commands():
                 days_number_before = days_number-(int(y[2])-1)
                 if days_number_before != 0:
                     date_connection = '.'+x[1]+'.'+x[0][2:]
-                    for date_number in range(int(x[2]), int(x[2])+days_number_before):
+                    for date_number in range(
+                        int(x[2]), int(x[2])+days_number_before):
                         b += 1
                         if len(str(date_number+1)) == 1:
                             date_number_changed = '0'+str(date_number+1)
@@ -295,10 +300,20 @@ class UI_Commands():
     def confirm(page, message: str, ok_command):
         """Display message to confirm the action."""
 
-        answer = QMessageBox.question(
-            page, 'Confirm', message, QMessageBox.Yes | QMessageBox.No)
+        question = QMessageBox(
+            QMessageBox.Question,
+            "Confirm", message,
+            buttons=QMessageBox.Yes | QMessageBox.No,
+            parent=page,
+        )
+        question.setDefaultButton(QMessageBox.No)
+        question.setStyleSheet(
+            'background-color: rgb(248, 248, 248); font-weight: bold'
+        )
+        question.exec_()
 
-        if answer == QMessageBox.Yes:
+        reply = question.standardButton(question.clickedButton())
+        if reply == QMessageBox.Yes:
             ok_command()
 
 
