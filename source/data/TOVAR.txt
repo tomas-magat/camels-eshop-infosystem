@@ -7,6 +7,7 @@
 2003;Biele nohavice;whitepants.jpg
 2004;Šortky;shorts.jpg
 3001;Adidas biele;adidaswhite.webp
+3002;Adidas čiernobiele;tenisky.webp
 3003;Nike;nikered.webp
 3004;Nike tenisky biele;nikewhite.webp
 3005;Adidas farebné;adidascolored.webp
@@ -18,4 +19,3 @@
 5002;Pánska peňaženka;leatherwallet.jpg
 5003;Strieborné hodinky;silverwatch.png
 5004;Slnečné okuliare;sunglasses.webp
-3002;Adidas čiernobiele;tenisky.webp
