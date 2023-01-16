@@ -73,7 +73,7 @@ class Statistika:
         
         # Reload necessary definitions
         self.statistiky = data_list
-        self.sklad = self.sklad
+        self.sklad = self.data['sklad'].data_list
         self.commands.close_all_graphs()
         self.Values()
         self.sklad_loop()
@@ -330,13 +330,12 @@ class Statistika:
                 index = 0
             else:
                 for i, obj in enumerate(self.statistiky):
-                    if str(first_day_top_ten) == obj[0].split()[0]:
+                    if first_day_top_ten <= datetime.datetime.strptime(
+                                    obj[0].split()[0], '%Y-%m-%d').date():
                         index = i
                         break
-                    else:
-                        index = len(self.statistiky)//2
-                        break
             for objednavka in self.statistiky[index:]:
+                print(objednavka)
                 m = 0
                 if objednavka[1] == 'P':
                     for i in range(len(top_produkty)):
