@@ -335,7 +335,6 @@ class Statistika:
                         index = i
                         break
             for objednavka in self.statistiky[index:]:
-                print(objednavka)
                 m = 0
                 if objednavka[1] == 'P':
                     for i in range(len(top_produkty)):
