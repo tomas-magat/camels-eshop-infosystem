@@ -189,7 +189,7 @@ class Statistika:
         self.price_graph_all = []
         self.date_info_all = [[]]
         if new_statistiky_data:
-            self.commands.product_sorted_graph(
+            self.product_sorted_graph(
                 new_statistiky_data, self.x_date_all,
                 self.price_graph_all, self.date_info_all)
 
@@ -197,7 +197,7 @@ class Statistika:
         self.price_graph_tricka = []
         self.date_info_tricka = [[]]
         if statistiky_tricka:
-            self.commands.product_sorted_graph(
+            self.product_sorted_graph(
                 statistiky_tricka, self.x_date_tricka,
                 self.price_graph_tricka, self.date_info_tricka)
 
@@ -205,7 +205,7 @@ class Statistika:
         self.price_graph_topanky = []
         self.date_info_topanky = [[]]
         if statistiky_topanky:
-            self.commands.product_sorted_graph(
+            self.product_sorted_graph(
                 statistiky_topanky, self.x_date_topanky,
                 self.price_graph_topanky, self.date_info_topanky)
 
@@ -213,7 +213,7 @@ class Statistika:
         self.price_graph_mikiny = []
         self.date_info_mikiny = [[]]
         if statistiky_mikiny:
-            self.commands.product_sorted_graph(
+            self.product_sorted_graph(
                 statistiky_mikiny, self.x_date_mikiny,
                 self.price_graph_mikiny, self.date_info_mikiny)
 
@@ -221,7 +221,7 @@ class Statistika:
         self.price_graph_nohavice = []
         self.date_info_nohavice = [[]]
         if statistiky_nohavice:
-            self.commands.product_sorted_graph(
+            self.product_sorted_graph(
                 statistiky_nohavice, self.x_date_nohavice,
                 self.price_graph_nohavice, self.date_info_nohavice)
 
@@ -229,13 +229,97 @@ class Statistika:
         self.price_graph_doplnky = []
         self.date_info_doplnky = [[]]
         if statistiky_doplnky:
-            self.commands.product_sorted_graph(
+            self.product_sorted_graph(
                 statistiky_doplnky, self.x_date_doplnky,
                 self.price_graph_doplnky, self.date_info_doplnky)
 
         self.commands.close_graph_vyvoj_ceny()
         self.VyvojGrafVsetky()
         self.zisk_firmy_color()
+    
+    def product_sorted_graph(self, main_list, x_date, price_graph, date_info):
+        """
+        Create 2 lists from statistiky.txt 
+        needed to plot the graph vyvoj_ceny
+        """
+        deka = main_list[0][0]
+        deta = deka.split()[0]
+        x_date_unedited = [deka.split()[0].split('-')]
+        price_graph_unedited = [0]
+        for i in main_list:
+            split_date = i[0].split()
+            if x_date_unedited[-1] != split_date[0].split('-'):
+                x_date_unedited += split_date[0].split('-'),
+                date_info += [i],
+            else:
+                date_info[-1] += [i]
+            if split_date[0] == deta:
+                if i[1] == 'N':
+                    price_graph_unedited[-1] -= int(i[4])*float(i[5])
+                else:
+                    price_graph_unedited[-1] += int(i[4])*float(i[5])
+            else:
+                deta = split_date[0]
+                if i[1] == 'N':
+                    price_graph_unedited += price_graph_unedited[-1] -\
+                        int(i[4])*float(i[5]),
+                else:
+                    price_graph_unedited += price_graph_unedited[-1] +\
+                        int(i[4])*float(i[5]),
+        for i in price_graph_unedited:
+            price_graph += round(i, 2),
+        for i in x_date_unedited:
+            x_date += i[2]+'.'+i[1]+'.'+i[0][2:],
+        b = 0
+        for i in range(len(x_date_unedited)-1):
+            d1 = datetime.date(
+                int(x_date_unedited[i][0]),
+                int(x_date_unedited[i][1]),
+                int(x_date_unedited[i][2]))
+            d2 = datetime.date(
+                int(x_date_unedited[i+1][0]),
+                int(x_date_unedited[i+1][1]),
+                int(x_date_unedited[i+1][2]))
+            x = x_date_unedited[i]
+            y = x_date_unedited[i+1]
+            price_connection = round(price_graph_unedited[i], 2)
+            if x[0] == y[0] and x[1] == y[1]:
+                date_connection = '.'+x[1]+'.'+x[0][2:]
+                for date_number in range(int(x[2])+1, int(y[2])):
+                    b += 1
+                    if len(str(date_number)) == 1:
+                        date_number_changed = '0'+str(date_number)
+                    else:
+                        date_number_changed = str(date_number)
+                    x_date.insert(i+b, date_number_changed+date_connection)
+                    price_graph.insert(i+b, price_connection)
+                    date_info.insert(i+b, [['Žiadne objednávky\nv tento deň']])
+            else:
+                days_number = (d2-d1).days-1
+                days_number_before = days_number-(int(y[2])-1)
+                if days_number_before != 0:
+                    date_connection = '.'+x[1]+'.'+x[0][2:]
+                    for date_number in range(
+                        int(x[2]), int(x[2])+days_number_before):
+                        b += 1
+                        if len(str(date_number+1)) == 1:
+                            date_number_changed = '0'+str(date_number+1)
+                        else:
+                            date_number_changed = str(date_number+1)
+                        x_date.insert(i+b, date_number_changed+date_connection)
+                        price_graph.insert(i+b, price_connection)
+                        date_info.insert(
+                            i+b, [['Žiadne objednávky\nv tento deň']])
+                date_connection = '.'+y[1]+'.'+y[0][2:]
+                for date_number in range(1, int(y[2])):
+                    b += 1
+                    if len(str(date_number)) == 1:
+                        date_number_changed = '0'+str(date_number)
+                    else:
+                        date_number_changed = str(date_number)
+                    x_date.insert(i+b, date_number_changed+date_connection)
+                    price_graph.insert(i+b, price_connection)
+                    date_info.insert(i+b, [['Žiadne objednávky\nv tento deň']])
 
 
     def Values(self):
