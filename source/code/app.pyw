@@ -67,12 +67,8 @@ class MainWindow:
             self.data[filename] = DataFile(filename)
 
     def auto_update(self):
-        self.thread = QThread()
         self.timer = Timer(self.data)
-        self.timer.moveToThread(self.thread)
-        self.thread.started.connect(self.timer.run)
-        self.thread.finished.connect(self.thread.deleteLater)
-        self.thread.start()
+        self.timer.run()
 
 
 if __name__ == '__main__':

@@ -1,10 +1,9 @@
 # UI Commands Simplified
-import time
 import datetime
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QObject, QTimer, pyqtSignal
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.pyplot import close
 
@@ -17,6 +16,7 @@ class UI_Commands():
         self.ui = ui
         self.graphs = []
 
+    # ===================== GENERAL =====================
     def redirect(self, screen: QWidget):
         """
         Switch the current screen on the app window to 
@@ -25,6 +25,7 @@ class UI_Commands():
 
         self.ui.screens.setCurrentWidget(screen)
 
+    # ===================== BUTTONS =====================
     def button_click(self, button, command):
         """After button clicked execute given command."""
 
@@ -42,12 +43,22 @@ class UI_Commands():
         button.clicked.connect(
             lambda: button.parentWidget().deleteLater())
 
+    def freeze_button(self, button, duration=200):
+        """Allow user only click button once per duration."""
+
+        button.setEnabled(False)
+        QTimer.singleShot(
+            duration, lambda: button.setDisabled(False)
+        )
+
+    # ===================== LAYOUTS =====================
     def clear_layout(self, layout):
         """Clear all items from existing layout object."""
 
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
 
+    # ===================== LINE EDITS =====================
     def form_submit(self, widgets: list, command):
         """
         After pressing enter key in any of the line edits
@@ -67,6 +78,7 @@ class UI_Commands():
 
         line_edit.textChanged.connect(command)
 
+    # ===================== GRAPHS =====================
     def track_graph(self, figure):
         """If graph exists track its figure to be closed later."""
 
@@ -82,7 +94,7 @@ class UI_Commands():
                 pass
 
     def close_najviac_najmenej_graphs(self):
-        """Close najviac and najmenej graphs to save memory"""
+        """Close najviac and najmenej graphs to save memory."""
 
         try:
             close(self.graphs[0])
@@ -91,7 +103,7 @@ class UI_Commands():
             pass
 
     def close_graph_vyvoj_ceny(self):
-        '''close graph vyvoj_ceny to save memory'''
+        """close graph vyvoj_ceny to save memory."""
 
         for figure in self.graphs[2:]:
             try:
@@ -173,7 +185,7 @@ class UI_Commands():
                 if days_number_before != 0:
                     date_connection = '.'+x[1]+'.'+x[0][2:]
                     for date_number in range(
-                        int(x[2]), int(x[2])+days_number_before):
+                            int(x[2]), int(x[2])+days_number_before):
                         b += 1
                         if len(str(date_number+1)) == 1:
                             date_number_changed = '0'+str(date_number+1)
@@ -194,6 +206,7 @@ class UI_Commands():
                     price_graph.insert(i+b, price_connection)
                     date_info.insert(i+b, [['Žiadne objednávky\nv tento deň']])
 
+    # ===================== LIST AND TAB =====================
     def list_item_selected(self, list_widget, command):
         """
         Works with QListWidget. After clicking on
@@ -209,6 +222,7 @@ class UI_Commands():
 
         tab_widget.currentChanged.connect(command)
 
+    # ===================== DATES =====================
     def date_changed(self, edit, command):
         """
         Execute a command after user changes 
@@ -217,50 +231,20 @@ class UI_Commands():
 
         edit.dateChanged.connect(command)
 
+    def to_date_list(self, date_string):
+        """
+        Convert string of date in format: YYYY-MM-DD HH-mm-ss 
+        to list in format: ['YYYY', 'MM', 'DD'].
+        """
+
+        return date_string.split()[0].split('-')
+
     def get_date(self, edit):
         """Get python datetime from QDateEdit."""
 
         return edit.dateTime.toPyDateTime()
 
-    # def init_date_edits(self, date_edits: list):
-    #     """
-    #     Initialize valid dates in given date edits on first run.
-    #     """
-
-    #     self.date_limits(
-    #         date_edits[0], datetime.date(2022, 12, 12), datetime.date.today(), max_sub=1
-    #     )
-    #     self.date_limits(
-    #         date_edits[1], datetime.date(2022, 12, 12), datetime.date.today(), min_add=1
-    #     )
-    #     date_edits[1].setDate(datetime.date.today())
-
-    # def date_limits(
-    #     self, date_edit: QDateEdit,
-    #     date_min=datetime.date(2022, 12, 12),
-    #     date_max=datetime.date.today(),
-    #     min_add: int = 0, max_sub: int = 0
-    # ):
-    #     """Sets minimum and maximum date of given date_edit."""
-
-    #     min_date = date_min + datetime.timedelta(days=min_add)
-    #     date_edit.setMinimumDate(min_date)
-
-    #     max_date = date_max - datetime.timedelta(days=max_sub)
-    #     date_edit.setMaximumDate(max_date)
-
-    # def set_limits(self, date_edits: list):
-    #     self.date_limits(
-    #         date_edits[0],
-    #         date_max=date_edits[1].date().toPyDate(),
-    #         max_sub=1
-    #     )
-    #     self.date_limits(
-    #         date_edits[1],
-    #         date_min=date_edits[0].date().toPyDate(),
-    #         min_add=1
-    #     )
-
+    # ===================== POP-UPS =====================
     @staticmethod
     def receipt_msg(id: str, filepath, type: str = 'účtenku'):
         """Display message about created receipt."""
@@ -337,18 +321,22 @@ class Timer(QObject):
     but without freezing the main app thread (used with QThread).
     """
 
-    def __init__(self, data, period=5.0):
+    def __init__(self, data, period=5000):
         super(Timer, self).__init__()
         self.period = period
         self.data = list(data.values())
         self.versions = [file.version for file in self.data]
 
     def run(self):
-        while True:
-            self.update_vars()
-            time.sleep(self.period)
+        self.timer = QTimer()
+        self.timer.setInterval(self.period)
+        self.timer.timeout.connect(self.process)
+        self.timer.start()
 
-    def update_vars(self):
+    def finished(self):
+        self.timer.stop()
+
+    def process(self):
         for i, file in enumerate(self.data[:3]):
             self.update_var(file, i)
         self.update_stats()
@@ -358,8 +346,8 @@ class Timer(QObject):
         current_version = file.version
 
         if current_version != self.versions[i]:
-            file.read_data()
             self.versions[i] = current_version
+            file.read_data()
             file.changed.emit(file.data)
 
     def update_stats(self):
@@ -367,6 +355,6 @@ class Timer(QObject):
         current_version = self.data[-1].version
 
         if current_version != self.versions[-1]:
-            self.data[-1].read_data()
             self.versions[-1] = current_version
+            self.data[-1].read_data()
             self.data[-1].changed_list.emit(self.data[-1].data_list)
