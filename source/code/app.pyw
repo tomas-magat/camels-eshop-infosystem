@@ -9,7 +9,6 @@ import os
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5 import uic
-from PyQt5.QtCore import QThread
 
 from utils.ui_commands import UI_Commands, Timer
 from utils.file import DataFile
