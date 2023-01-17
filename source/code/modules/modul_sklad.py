@@ -5,7 +5,7 @@
 # creating objednavka_[id_transakcie].txt
 
 # TODO
-# done probably
+# tajna message pre picklemaster09
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
