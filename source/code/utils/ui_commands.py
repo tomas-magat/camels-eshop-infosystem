@@ -1,9 +1,7 @@
 # UI Commands Simplified
-import datetime
-
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from PyQt5.QtCore import QObject, QTimer, pyqtSignal
+from PyQt5.QtCore import QObject, QTimer
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.pyplot import close
 
@@ -103,7 +101,7 @@ class UI_Commands():
             pass
 
     def close_graph_vyvoj_ceny(self):
-        """close graph vyvoj_ceny to save memory."""
+        """Close graph vyvoj_ceny to save memory."""
 
         for figure in self.graphs[2:]:
             try:
@@ -122,6 +120,7 @@ class UI_Commands():
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
 
+    # ===================== LIST AND TAB ITEMS =====================
     def list_item_selected(self, list_widget, command):
         """
         Works with QListWidget. After clicking on
@@ -137,37 +136,12 @@ class UI_Commands():
 
         tab_widget.currentChanged.connect(command)
 
-    # ===================== DATES =====================
-    def date_changed(self, edit, command):
-        """
-        Execute a command after user changes 
-        datetime in QDateEdit widget.
-        """
-
-        edit.dateChanged.connect(command)
-
-    def to_date_list(self, date_string):
-        """
-        Convert string of date in format: YYYY-MM-DD HH-mm-ss 
-        to list in format: ['YYYY', 'MM', 'DD'].
-        """
-
-        return date_string.split()[0].split('-')
-
-    def get_date(self, edit):
-        """Get python datetime from QDateEdit."""
-
-        return edit.dateTime.toPyDateTime()
-
     # ===================== POP-UPS =====================
     @staticmethod
     def receipt_msg(id: str, filepath, type: str = 'účtenku'):
         """Display message about created receipt."""
 
-        receipt_icon = QIcon()
         msg = QMessageBox()
-        receipt_icon.addPixmap(QPixmap(find_icon('receipt.svg')),
-                               QIcon.Normal, QIcon.Off)
         msg.setWindowTitle(f"Sale {id} - confirmed")
         msg.setText('<b><p style="padding: 0px;  margin: 0px;">'
                     'Pokladničný doklad bol úspešne vygenerovaný.</p>' +
@@ -195,8 +169,7 @@ class UI_Commands():
 
         Message(message, QMessageBox.Warning, 'Warning', additional_text)
 
-    @staticmethod
-    def confirm(page, message: str, ok_command):
+    def confirm(self, page, message: str, ok_command):
         """Display message to confirm the action."""
 
         question = QMessageBox(
@@ -207,13 +180,19 @@ class UI_Commands():
         )
         question.setDefaultButton(QMessageBox.No)
         question.setStyleSheet(
-            'background-color: rgb(248, 248, 248); font-weight: bold'
-        )
+            'background-color: rgb(248, 248, 248); font-weight: bold')
         question.exec_()
+        self.handle_reply(question, ok_command)
+
+    def handle_reply(self, question, command):
+        """
+        Execute given function if user presses
+        'Yes' button on a confirm message.
+        """
 
         reply = question.standardButton(question.clickedButton())
         if reply == QMessageBox.Yes:
-            ok_command()
+            command()
 
 
 class Message(QMessageBox):
