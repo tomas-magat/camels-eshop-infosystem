@@ -1,9 +1,7 @@
 # UI Commands Simplified
-import datetime
-
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from PyQt5.QtCore import QObject, QTimer, pyqtSignal
+from PyQt5.QtCore import QObject, QTimer
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.pyplot import close
 
@@ -103,7 +101,7 @@ class UI_Commands():
             pass
 
     def close_graph_vyvoj_ceny(self):
-        """close graph vyvoj_ceny to save memory."""
+        """Close graph vyvoj_ceny to save memory."""
 
         for figure in self.graphs[2:]:
             try:
@@ -122,91 +120,7 @@ class UI_Commands():
         graphics_view.setScene(scene)
         scene.addWidget(canvas)
 
-    def product_sorted_graph(self, main_list, x_date, price_graph, date_info):
-        """
-        Create 2 lists from statistiky.txt 
-        needed to plot the graph vyvoj_ceny
-        """
-        deka = main_list[0][0]
-        deta = deka.split()[0]
-        x_date_unedited = [deka.split()[0].split('-')]
-        price_graph_unedited = [0]
-        for i in main_list:
-            split_date = i[0].split()
-            if x_date_unedited[-1] != split_date[0].split('-'):
-                x_date_unedited += split_date[0].split('-'),
-                date_info += [i],
-            else:
-                date_info[-1] += [i]
-            if split_date[0] == deta:
-                if i[1] == 'N':
-                    price_graph_unedited[-1] -= int(i[4])*float(i[5])
-                else:
-                    price_graph_unedited[-1] += int(i[4])*float(i[5])
-            else:
-                deta = split_date[0]
-                if i[1] == 'N':
-                    price_graph_unedited += price_graph_unedited[-1] -\
-                        int(i[4])*float(i[5]),
-                else:
-                    price_graph_unedited += price_graph_unedited[-1] +\
-                        int(i[4])*float(i[5]),
-        for i in price_graph_unedited:
-            price_graph += round(i, 2),
-        for i in x_date_unedited:
-            x_date += i[2]+'.'+i[1]+'.'+i[0][2:],
-        b = 0
-        for i in range(len(x_date_unedited)-1):
-            d1 = datetime.date(
-                int(x_date_unedited[i][0]),
-                int(x_date_unedited[i][1]),
-                int(x_date_unedited[i][2]))
-            d2 = datetime.date(
-                int(x_date_unedited[i+1][0]),
-                int(x_date_unedited[i+1][1]),
-                int(x_date_unedited[i+1][2]))
-            x = x_date_unedited[i]
-            y = x_date_unedited[i+1]
-            price_connection = round(price_graph_unedited[i], 2)
-            if x[0] == y[0] and x[1] == y[1]:
-                date_connection = '.'+x[1]+'.'+x[0][2:]
-                for date_number in range(int(x[2])+1, int(y[2])):
-                    b += 1
-                    if len(str(date_number)) == 1:
-                        date_number_changed = '0'+str(date_number)
-                    else:
-                        date_number_changed = str(date_number)
-                    x_date.insert(i+b, date_number_changed+date_connection)
-                    price_graph.insert(i+b, price_connection)
-                    date_info.insert(i+b, [['Žiadne objednávky\nv tento deň']])
-            else:
-                days_number = (d2-d1).days-1
-                days_number_before = days_number-(int(y[2])-1)
-                if days_number_before != 0:
-                    date_connection = '.'+x[1]+'.'+x[0][2:]
-                    for date_number in range(
-                            int(x[2]), int(x[2])+days_number_before):
-                        b += 1
-                        if len(str(date_number+1)) == 1:
-                            date_number_changed = '0'+str(date_number+1)
-                        else:
-                            date_number_changed = str(date_number+1)
-                        x_date.insert(i+b, date_number_changed+date_connection)
-                        price_graph.insert(i+b, price_connection)
-                        date_info.insert(
-                            i+b, [['Žiadne objednávky\nv tento deň']])
-                date_connection = '.'+y[1]+'.'+y[0][2:]
-                for date_number in range(1, int(y[2])):
-                    b += 1
-                    if len(str(date_number)) == 1:
-                        date_number_changed = '0'+str(date_number)
-                    else:
-                        date_number_changed = str(date_number)
-                    x_date.insert(i+b, date_number_changed+date_connection)
-                    price_graph.insert(i+b, price_connection)
-                    date_info.insert(i+b, [['Žiadne objednávky\nv tento deň']])
-
-    # ===================== LIST AND TAB =====================
+    # ===================== LIST AND TAB ITEMS =====================
     def list_item_selected(self, list_widget, command):
         """
         Works with QListWidget. After clicking on
@@ -222,37 +136,12 @@ class UI_Commands():
 
         tab_widget.currentChanged.connect(command)
 
-    # ===================== DATES =====================
-    def date_changed(self, edit, command):
-        """
-        Execute a command after user changes 
-        datetime in QDateEdit widget.
-        """
-
-        edit.dateChanged.connect(command)
-
-    def to_date_list(self, date_string):
-        """
-        Convert string of date in format: YYYY-MM-DD HH-mm-ss 
-        to list in format: ['YYYY', 'MM', 'DD'].
-        """
-
-        return date_string.split()[0].split('-')
-
-    def get_date(self, edit):
-        """Get python datetime from QDateEdit."""
-
-        return edit.dateTime.toPyDateTime()
-
     # ===================== POP-UPS =====================
     @staticmethod
     def receipt_msg(id: str, filepath, type: str = 'účtenku'):
         """Display message about created receipt."""
 
-        receipt_icon = QIcon()
         msg = QMessageBox()
-        receipt_icon.addPixmap(QPixmap(find_icon('receipt.svg')),
-                               QIcon.Normal, QIcon.Off)
         msg.setWindowTitle(f"Sale {id} - confirmed")
         msg.setText('<b><p style="padding: 0px;  margin: 0px;">'
                     'Pokladničný doklad bol úspešne vygenerovaný.</p>' +
@@ -280,8 +169,7 @@ class UI_Commands():
 
         Message(message, QMessageBox.Warning, 'Warning', additional_text)
 
-    @staticmethod
-    def confirm(page, message: str, ok_command):
+    def confirm(self, page, message: str, ok_command):
         """Display message to confirm the action."""
 
         question = QMessageBox(
@@ -292,13 +180,19 @@ class UI_Commands():
         )
         question.setDefaultButton(QMessageBox.No)
         question.setStyleSheet(
-            'background-color: rgb(248, 248, 248); font-weight: bold'
-        )
+            'background-color: rgb(248, 248, 248); font-weight: bold')
         question.exec_()
+        self.handle_reply(question, ok_command)
+
+    def handle_reply(self, question, command):
+        """
+        Execute given function if user presses
+        'Yes' button on a confirm message.
+        """
 
         reply = question.standardButton(question.clickedButton())
         if reply == QMessageBox.Yes:
-            ok_command()
+            command()
 
 
 class Message(QMessageBox):

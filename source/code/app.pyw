@@ -1,9 +1,5 @@
 # This is the main file which imports all modules and
 # after executing displays an App window
-
-# TODO
-# refactor ui_commands.date_range
-
 import sys
 import os
 
