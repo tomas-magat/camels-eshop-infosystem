@@ -162,6 +162,7 @@ class Portal:
     def sort(self):
         self.update_sort_state()
         self.load_sorted_items()
+        self.commands.freeze_button(self.ui.sortButton)
 
     def update_sort_state(self):
         """Update sort button and change sort state."""

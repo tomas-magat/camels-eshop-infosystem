@@ -5,7 +5,7 @@
 # creating objednavka_[id_transakcie].txt
 
 # TODO
-# done probably
+# tajna message pre picklemaster09
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -137,6 +137,7 @@ class Sklad:
     # ==================== SORTING =======================
     def sort(self):
         self.update_sort_state()
+        self.commands.freeze_button(self.ui.sortButton_2)
 
     def update_sort_state(self):
         """Update sort button and change sort state."""
@@ -230,6 +231,9 @@ class Sklad:
         self.storage.version_changed(
             lambda: self.reload_items(self.goods.data))
 
+        self.storage.version_changed(
+            lambda: self.update_database(self.goods.data))
+
         self.prices.version_changed(
             lambda: self.reload_items(self.goods.data))
 
@@ -291,9 +295,10 @@ class Sklad:
 
     # =========================== ALERT =========================
     def alert(self):
-        print("1")
-        self.highlight_threshold = int(self.ui.Alert.text())
-        self.reload_items(self.result)
+        new_highlight = int(self.ui.Alert.text())
+        if new_highlight != self.highlight_threshold:
+            self.highlight_threshold = new_highlight
+            self.reload_items(self.result)
 
 
 class Cart:

@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
+
 from utils.tools import *
 
 
@@ -42,6 +43,7 @@ class Cenotvorba:
             lambda x: self.loadfile(self.items.data))
         self.ui.tabWidget_2.setCurrentIndex(0)
         self.update_category()
+        self.changed = False
 
     def switch_screen(self):
         self.commands.redirect(self.ui.cenotvorba)
@@ -74,7 +76,6 @@ class Cenotvorba:
             self.price_cards.append(item_card)
 
     def savefile(self):
-        self.changed = False
         for item in self.price_cards:
             prices = item.getPrices()
 
@@ -84,6 +85,7 @@ class Cenotvorba:
                     self.changed = True
 
         if self.changed:
+            self.changed = False
             self.prices.save_data()
 
     def search(self):

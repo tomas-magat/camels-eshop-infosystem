@@ -9,7 +9,6 @@ import os
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5 import uic
-from PyQt5.QtCore import QThread
 
 from utils.ui_commands import UI_Commands, Timer
 from utils.file import DataFile
@@ -67,12 +66,8 @@ class MainWindow:
             self.data[filename] = DataFile(filename)
 
     def auto_update(self):
-        self.thread = QThread()
         self.timer = Timer(self.data)
-        self.timer.moveToThread(self.thread)
-        self.thread.started.connect(self.timer.run)
-        self.thread.finished.connect(self.thread.deleteLater)
-        self.thread.start()
+        self.timer.run()
 
 
 if __name__ == '__main__':
