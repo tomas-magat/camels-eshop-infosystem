@@ -238,13 +238,11 @@ class Statistika:
         self.zisk_firmy_color()
     
     def product_sorted_graph(self, main_list, x_date, price_graph, date_info):
-        """
-        Create 2 lists from statistiky.txt 
-        needed to plot the graph vyvoj_ceny
-        """
-        deka = main_list[0][0]
-        deta = deka.split()[0]
-        x_date_unedited = [deka.split()[0].split('-')]
+
+        # Create 2 lists from statistiky.txt 
+        # needed to plot the graph vyvoj_ceny
+        deta = main_list[0][0].split()[0]
+        x_date_unedited = [deta.split('-')]
         price_graph_unedited = [0]
         for i in main_list:
             split_date = i[0].split()
