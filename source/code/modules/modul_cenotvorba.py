@@ -1,3 +1,5 @@
+import copy
+
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from utils.tools import *
@@ -35,15 +37,22 @@ class Cenotvorba:
             self.ui.tabWidget_2, self.update_category
         )
 
-        self.price_cards = []
+        self.init_data()
+        self.check_version()
+
+        self.ui.tabWidget_2.setCurrentIndex(0)
+        self.update_category()
+
+    def init_data(self):
         self.items = self.data['tovar']
         self.prices = self.data['cennik']
+        self.valid = {code: True for code in self.prices.data.keys()}
+        self.last_prices = copy.deepcopy(self.prices.data)
+
+    def check_version(self):
         self.items.version_changed(self.loadfile)
         self.prices.version_changed(
             lambda x: self.loadfile(self.items.data))
-        self.ui.tabWidget_2.setCurrentIndex(0)
-        self.update_category()
-        self.changed = False
 
     def switch_screen(self):
         self.commands.redirect(self.ui.cenotvorba)
@@ -66,28 +75,33 @@ class Cenotvorba:
             price = item_price
         else:
             price = ['----', '----']
-            item_card = ItemPriceCard(self, self.layouts[6],
-                                      value[0], code, price, value[1], )
-            self.price_cards.append(item_card)
+            ItemPriceCard(self, self.layouts[6],
+                          value[0], code, price, value[1], )
 
         if self.category != 6:
-            item_card = ItemPriceCard(self, self.layouts[self.category],
-                                      value[0], code, price, value[1])
-            self.price_cards.append(item_card)
+            ItemPriceCard(self, self.layouts[self.category],
+                          value[0], code, price, value[1])
 
     def savefile(self):
-        for item in self.price_cards:
-            prices = item.getPrices()
+        val = True
+        changed = False
+        for code, value in self.valid.items():
+            if value != True:
+                val = (value, self.items.data[code][0])
+            elif self.last_prices.get(code) != self.prices.data.get(code):
+                changed = True
 
-            if self.prices.data.get(item.code) != prices:
-                if '----' not in prices:
-                    if item.valid == [True, True]:
-                        self.prices.data[item.code] = prices
-                        self.changed = True
-
-        if self.changed:
-            self.changed = False
-            self.prices.save_data()
+        if val == True:
+            if changed:
+                self.prices.save_data()
+                self.last_prices = copy.deepcopy(self.prices.data)
+        else:
+            if val[0] == 0:
+                self.commands.error(
+                    f'Zadajte správnu kúpnu cenu - {val[1]}.')
+            else:
+                self.commands.error(
+                    f'Zadajte správnu predajnú cenu - {val[1]}.')
 
     def search(self):
         self.query = self.ui.searchField_2.text()
@@ -124,7 +138,7 @@ class ItemPriceCard(QtWidgets.QFrame):
     def __init__(self, page, layout, name: str, code: str,
                  price=['----', '----'], image: str = ''):
 
-        super(ItemPriceCard, self).__init__(layout.parent())
+        super().__init__()
 
         self.page = page
         self.ui = self.page.ui
@@ -135,40 +149,37 @@ class ItemPriceCard(QtWidgets.QFrame):
         self.name = camelify(name)
         self.display_name = name
         self.code = code
+        self.valid = self.page.valid
+        self.mod_prices = self.page.prices.data
         self.buy_price = str(price[0])
         self.sell_price = str(price[1])
         self.image = find_image(image)
-        self.valid = [True, True]
 
         self.draw_ui()
 
-    def getPrices(self):
-        if self.valid[0]:
-            self.buy_price = convert_price(self.lineEdit_4)
+    def modify_prices(self, i, price):
+        if i == 0:
+            self.buy_price = convert_price(price)
+            self.mod_prices[self.code][i] = self.buy_price
         else:
-            self.commands.error(
-                f'Zadajte správnu kúpnu cenu - {self.display_name}.')
-        if self.valid[1]:
-            self.sell_price = convert_price(self.lineEdit_5)
-        else:
-            self.commands.error(
-                f'Zadajte správnu predajnú cenu - {self.display_name}.')
-
-        return [self.buy_price, self.sell_price]
+            self.sell_price = convert_price(price)
+            self.mod_prices[self.code][i] = self.sell_price
 
     def validate_field(self, line_edit, i):
         try:
             text = re.sub(',|;', '.', line_edit.text())
-            float(text)
-            self.valid[i] = True
-            line_edit.setStyleSheet("")
+            price = float(text)
         except:
             if '----' not in line_edit.text():
-                self.valid[i] = False
+                self.valid[self.code] = i
                 line_edit.setStyleSheet("border: 1px solid red;")
             else:
-                self.valid[i] = True
+                self.valid[self.code] = True
                 line_edit.setStyleSheet("")
+        else:
+            self.valid[self.code] = True
+            line_edit.setStyleSheet("")
+            self.modify_prices(i, str(price))
 
     def draw_ui(self):
         self.setMinimumSize(QtCore.QSize(0, 60))

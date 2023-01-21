@@ -55,13 +55,13 @@ class DataFile(QObject):
         Update version number of the saved [filename].
         """
 
-        self.update_version()
-        self.changed.emit(self.data)
-
         scsv_data = self.dict_to_scsv(self.data)
 
         self.write(scsv_data)
         self.read()
+
+        self.update_version()
+        self.changed.emit(self.data)
 
     def save_list(self):
         """
@@ -70,13 +70,13 @@ class DataFile(QObject):
         Update version number of the saved [filename].
         """
 
-        self.update_version()
-        self.changed_list.emit(self.data_list)
-
         scsv_data = self.list_to_scsv(self.data_list)
 
         self.write(scsv_data)
         self.read()
+
+        self.update_version()
+        self.changed_list.emit(self.data_list)
 
     def write(self, data):
         """

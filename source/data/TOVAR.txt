@@ -1,10 +1,8 @@
 21
 1001;Čierne tričko;tricko.jpg
-1002;Biele tričko;bieletricko.jpg
 1003;Zelené tričko;greenshirt.jpg
 2001;Pánske nohavice;menpants.jpg
 2002;Modré džínsy;bluemenjeans.webp
-2003;Biele nohavice;whitepants.jpg
 2004;Šortky;shorts.jpg
 3001;Adidas biele;adidaswhite.webp
 3002;Adidas čiernobiele;tenisky.webp
@@ -15,8 +13,10 @@
 4002;Mikina YouNoob;younoobhoodie.jpg
 4003;Nike bunda;nike.png
 4004;Zelena mikina;hoodie.png
-5001;Opasok;leatherbelt.jpg
+5001;Opasok Kožený;leatherbelt.jpg
 5002;Pánska peňaženka;leatherwallet.jpg
 5003;Strieborné hodinky;silverwatch.png
 5004;Slnečné okuliare;sunglasses.webp
 1004;Modre tricko;modretricko.png
+2003;Biele nohavice;whitepants.jpg
+1002;Biele tričko;bieletricko.jpg

@@ -231,16 +231,16 @@ def validate_int(input_field, invalid_cmd=None):
         invalid_cmd()
 
 
-def convert_price(input_field):
+def convert_price(input_text):
     """
     Return input text if it is valid price format.
     """
 
     try:
-        text = re.sub(',|;', '.', input_field.text())
+        text = re.sub(',|;', '.', input_text)
         price = float(text)
     except:
-        if '-' in input_field.text():
+        if '-' in input_text:
             return '----'
 
     return '%.2f' % price

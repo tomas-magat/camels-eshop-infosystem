@@ -214,11 +214,6 @@ class ItemDetails(QtWidgets.QFrame):
 
     def submit(self):
         """Update listWidget with currently entered values."""
-        try:
-            self.commands.freeze_button(self.pushButton)
-        except:
-            pass
-
         new_name = self.lineEdit.text()
         new_code = self.lineEdit_2.text()
 
@@ -227,6 +222,7 @@ class ItemDetails(QtWidgets.QFrame):
             if self.adding:
                 self.create(new_code, new_name)
             else:
+                self.commands.freeze_button(self.pushButton)
                 self.update(new_code, new_name)
 
     def create(self, code, name):

@@ -231,6 +231,8 @@ class Sklad:
         self.storage.version_changed(
             lambda: self.reload_items(self.goods.data))
 
+        self.goods.version_changed(self.reload_items)
+
         self.storage.version_changed(
             lambda: self.update_database(self.goods.data))
 

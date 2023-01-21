@@ -62,7 +62,7 @@ class MainWindow:
             self.data[filename] = DataFile(filename)
 
     def auto_update(self):
-        self.timer = Timer(self.data)
+        self.timer = Timer(self.data, 3000)
         self.timer.run()
 
 
