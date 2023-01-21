@@ -861,6 +861,8 @@ Hrubý zisk za deň: %s€''' %
         a3.xaxis.set_major_locator(plt.MaxNLocator(5))
         horizontal_line = a3.axhline(color='k', lw=0.8, ls='--')
         vertical_line = a3.axvline(color='k', lw=0.8, ls='--')
+        horizontal_line.set_visible(False)
+        vertical_line.set_visible(False)
         x, y = line.get_data()
         self.last_index = None
 
