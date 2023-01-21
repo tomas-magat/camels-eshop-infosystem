@@ -81,8 +81,9 @@ class Cenotvorba:
 
             if self.prices.data.get(item.code) != prices:
                 if '----' not in prices:
-                    self.prices.data[item.code] = prices
-                    self.changed = True
+                    if item.valid == [True, True]:
+                        self.prices.data[item.code] = prices
+                        self.changed = True
 
         if self.changed:
             self.changed = False
@@ -145,11 +146,13 @@ class ItemPriceCard(QtWidgets.QFrame):
         if self.valid[0]:
             self.buy_price = convert_price(self.lineEdit_4)
         else:
-            self.commands.error('Zadajte správnu kúpnu cenu.')
+            self.commands.error(
+                f'Zadajte správnu kúpnu cenu - {self.display_name}.')
         if self.valid[1]:
             self.sell_price = convert_price(self.lineEdit_5)
         else:
-            self.commands.error('Zadajte správnu predajnú cenu.')
+            self.commands.error(
+                f'Zadajte správnu predajnú cenu - {self.display_name}.')
 
         return [self.buy_price, self.sell_price]
 
@@ -157,6 +160,8 @@ class ItemPriceCard(QtWidgets.QFrame):
         try:
             text = re.sub(',|;', '.', line_edit.text())
             float(text)
+            self.valid[i] = True
+            line_edit.setStyleSheet("")
         except:
             if '----' not in line_edit.text():
                 self.valid[i] = False
@@ -164,9 +169,6 @@ class ItemPriceCard(QtWidgets.QFrame):
             else:
                 self.valid[i] = True
                 line_edit.setStyleSheet("")
-        else:
-            self.valid[i] = True
-            line_edit.setStyleSheet("")
 
     def draw_ui(self):
         self.setMinimumSize(QtCore.QSize(0, 60))
