@@ -133,6 +133,12 @@ class Statistika:
                         new_statistiky_data += i,
             if new_statistiky_data:
                 self.change_graph_date(new_statistiky_data)
+            elif not self.statistiky:
+                scene = QGraphicsScene()
+                scene.addText(
+                    'Žiadne dáta v STATISTIKY.txt')
+                for i in self.list_kategorie:
+                    i.setScene(scene)
             else:
                 scene = QGraphicsScene()
                 scene.addText(
@@ -345,7 +351,6 @@ class Statistika:
         self.profLoss = 0
         self.top_day = 'Žiadne dáta v STATISTIKY.txt'
 
-
     def sklad_loop(self):
 
         # Make the loop necessary
@@ -355,9 +360,9 @@ class Statistika:
             for produkt_sklad in self.sklad:
                 self.celkovy_pocet_produktov_na_sklade += int(produkt_sklad[1])
                 if najviac_produkt == int(produkt_sklad[1]):
-                    self.najviac_mame_produkt += produkt_sklad,
+                    self.najviac_mame_produkt += (produkt_sklad,produkt_sklad[0]),
                 elif najviac_produkt < int(produkt_sklad[1]):
-                    self.najviac_mame_produkt = produkt_sklad,
+                    self.najviac_mame_produkt = (produkt_sklad,produkt_sklad[0]),
                     najviac_produkt = int(produkt_sklad[1])
 
 
@@ -372,12 +377,15 @@ class Statistika:
                     self.avPrice += int(objednavka[4])*float(objednavka[5])
                     ttt += 1
                     self.posledna_objednavka_P = objednavka.copy()
+                    self.posledna_objednavka_P[2] = self.posledna_objednavka_P[3]
                 else:
                     self.posledna_objednavka_N = objednavka.copy()
+                    self.posledna_objednavka_N[2] = self.posledna_objednavka_N[3]
 
             if ttt != 0:
                 self.avPrice /= ttt
                 self.avPrice = str(round(self.avPrice, 2))+'€'
+            
 
             
     def prof_loss_current_day(self):
@@ -491,15 +499,14 @@ class Statistika:
 
             if self.najviac_mame_produkt:
                 for i in range(len(self.najviac_mame_produkt)):
-                    if self.najviac_mame_produkt[i][0] == produkt_tovar[0]:
-                        self.najviac_mame_produkt[i][0] = produkt_tovar[1]
+                    if self.najviac_mame_produkt[i][1] == produkt_tovar[0]:
+                        self.najviac_mame_produkt[i][0][0] = produkt_tovar[1]
                         break
-
             if produkt_tovar[0] == self.posledna_objednavka_N[3]:
-                self.posledna_objednavka_N[3] = produkt_tovar[1]
+                self.posledna_objednavka_N[2] = produkt_tovar[1]
 
             if produkt_tovar[0] == self.posledna_objednavka_P[3]:
-                self.posledna_objednavka_P[3] = produkt_tovar[1]
+                self.posledna_objednavka_P[2] = produkt_tovar[1]
         self.most_product()
         self.last_order()
 
@@ -508,9 +515,9 @@ class Statistika:
         # Replace the code with the
         # name in the most we have product
         if self.sklad and self.najviac_mame_produkt:
-            nove_produkty = str(self.najviac_mame_produkt[0][1])+' ks'
+            nove_produkty = str(self.najviac_mame_produkt[0][0][1])+' ks'
             for i in self.najviac_mame_produkt:
-                nove_produkty += '\n'+i[0]
+                nove_produkty += '\n'+i[0][0]
             self.najviac_mame_produkt_ui = nove_produkty
 
     def last_order(self):
@@ -524,7 +531,7 @@ class Statistika:
                 '-'+self.posledna_objednavka_N[0].split()[0].split('-')[0] + \
                 ' '+self.posledna_objednavka_N[0].split()[1]
 
-            self.posledna_objednavka_N_ui = self.posledna_objednavka_N[3]+'\n' + \
+            self.posledna_objednavka_N_ui = self.posledna_objednavka_N[2]+'\n' + \
                 posledna_objednavka_date_N.split()[0].replace('-', '.')+' ' + \
                 posledna_objednavka_date_N.split()[1].replace('-', ':')+';' + \
                 self.posledna_objednavka_N[4]+'ks'+';' + \
@@ -537,7 +544,7 @@ class Statistika:
                 '-'+self.posledna_objednavka_P[0].split()[0].split('-')[0] + \
                 ' '+self.posledna_objednavka_P[0].split()[1]
 
-            self.posledna_objednavka_P_ui = self.posledna_objednavka_P[3]+'\n' + \
+            self.posledna_objednavka_P_ui = self.posledna_objednavka_P[2]+'\n' + \
                 posledna_objednavka_date_P.split()[0].replace('-', '.')+' ' + \
                 posledna_objednavka_date_P.split()[1].replace('-', ':')+';' + \
                 self.posledna_objednavka_P[4]+'ks'+';' + \
@@ -950,8 +957,6 @@ Pre detailnejšie zobrazenie vývoju zisku firmy pozri graf nižšie -->''')
         self.ui.label_16.setStyleSheet('color:'+self.funFactsColor)
         self.ui.label_14.setText(str(self.posledna_objednavka_P_ui))
         self.ui.label_14.setStyleSheet('color:%s' % self.funFactsColor)
-        self.ui.label_14.setToolTip('P - predaj firmy')
-        self.ui.label_13.setToolTip('P - predaj firmy')
         self.ui.label_3.setText(str(self.posledna_objednavka_N_ui))
         self.ui.label_3.setStyleSheet('color:%s' % self.funFactsColor)
         self.ui.camelLogo_2.setToolTip('')
