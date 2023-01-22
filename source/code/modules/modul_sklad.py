@@ -229,15 +229,15 @@ class Sklad:
     def versions_check(self):
         """Check for Datafile versions and update on change."""
         self.storage.version_changed(
-            lambda: self.reload_items(self.goods.data))
+            lambda: self.load_counts_items)
 
-        self.goods.version_changed(self.reload_items)
+        self.goods.version_changed(self.load_counts_items)
 
         self.storage.version_changed(
             lambda: self.update_database(self.goods.data))
 
         self.prices.version_changed(
-            lambda: self.reload_items(self.goods.data))
+            lambda: self.load_counts_items)
 
     # =================== UPDATE ORDER STATE ====================
     def automatic(self):
