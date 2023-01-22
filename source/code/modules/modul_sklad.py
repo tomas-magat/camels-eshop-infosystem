@@ -62,6 +62,7 @@ class Sklad:
         self.goods = self.data['tovar']
         self.prices = self.data['cennik']
         self.storage = self.data['sklad']
+        self.statistics = self.data['statistiky']
         self.versions_check()
         self.update_category()
 
@@ -294,6 +295,15 @@ class Sklad:
         self.storage.data[code] = [int(self.orderRules[index][2])]
         self.storage.save_data()
         self.commands.info(f'Tovar {item[0]} #{code} bol naskladnený.')
+        self.cart.purchase_message()
+        self.add_stats_for_automated(code, item, index)
+
+    def add_stats_for_automated(self, code, item, index):
+        """Add datapoint from transaction to STATISTIKY.txt."""
+        self.statistics.data_list.append([
+            now(), 'N', self.cart.id[1:], code,
+            str(int(self.orderRules[index][2])), str(self.prices.data.get(code)[0])])
+        self.statistics.save_list()
 
     # =========================== ALERT =========================
     def alert(self):
@@ -353,12 +363,12 @@ class Cart:
         and remove everything from the cart.
         """
         self.create_receipt()
-        self.add_stats()
         HowManyToBuy = self.page.ui.HowManyToBuy.text()
         CountWhenToBuy = self.page.ui.CountWhenToBuy.text()
 
         # MANUAL
         if self.page.order_mode == 3:
+            self.add_stats()
             self.update_storage()
             self.clear_cart()
             self.purchase_message()
