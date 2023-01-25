@@ -163,7 +163,7 @@ class ItemPriceCard(QtWidgets.QFrame):
             if self.buy_price != '----':
                 if self.mod_prices.get(self.code) == None:
                     self.mod_prices[self.code] = [
-                        price, (price*1.2)]
+                        convert_price(str(price)), convert_price(str(price*12))]
                 else:
                     self.mod_prices[self.code][i] = self.buy_price
         else:
@@ -171,7 +171,7 @@ class ItemPriceCard(QtWidgets.QFrame):
             if self.sell_price != '----':
                 if self.mod_prices.get(self.code) == None:
                     self.mod_prices[self.code] = [
-                        (price*0.83), price]
+                        convert_price(str(price*0.83)), convert_price(str(price))]
                 else:
                     self.mod_prices[self.code][i] = self.sell_price
 
