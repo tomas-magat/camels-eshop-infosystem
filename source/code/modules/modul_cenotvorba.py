@@ -159,11 +159,21 @@ class ItemPriceCard(QtWidgets.QFrame):
 
     def modify_prices(self, i, price):
         if i == 0:
-            self.buy_price = convert_price(price)
-            self.mod_prices[self.code][i] = self.buy_price
+            self.buy_price = convert_price(str(price))
+            if self.buy_price != '----':
+                if self.mod_prices.get(self.code) == None:
+                    self.mod_prices[self.code] = [
+                        price, (price*1.2)]
+                else:
+                    self.mod_prices[self.code][i] = self.buy_price
         else:
-            self.sell_price = convert_price(price)
-            self.mod_prices[self.code][i] = self.sell_price
+            self.sell_price = convert_price(str(price))
+            if self.sell_price != '----':
+                if self.mod_prices.get(self.code) == None:
+                    self.mod_prices[self.code] = [
+                        (price*0.83), price]
+                else:
+                    self.mod_prices[self.code][i] = self.sell_price
 
     def validate_field(self, line_edit, i):
         try:
@@ -179,7 +189,7 @@ class ItemPriceCard(QtWidgets.QFrame):
         else:
             self.valid[self.code] = True
             line_edit.setStyleSheet("")
-            self.modify_prices(i, str(price))
+            self.modify_prices(i, price)
 
     def draw_ui(self):
         self.setMinimumSize(QtCore.QSize(0, 60))
