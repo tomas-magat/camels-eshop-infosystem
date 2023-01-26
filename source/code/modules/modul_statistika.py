@@ -273,7 +273,7 @@ class Statistika:
         for i in price_graph_unedited:
             price_graph += round(i, 2),
         for i in x_date_unedited:
-            x_date += i[2]+'.'+i[1]+'.'+i[0][2:],
+            x_date += i[2]+'.'+i[1]+'.'+i[0],
         b = 0
         for i in range(len(x_date_unedited)-1):
             d1 = datetime.date(
@@ -284,46 +284,19 @@ class Statistika:
                 int(x_date_unedited[i+1][0]),
                 int(x_date_unedited[i+1][1]),
                 int(x_date_unedited[i+1][2]))
-            x = x_date_unedited[i]
-            y = x_date_unedited[i+1]
+            
             price_connection = round(price_graph_unedited[i], 2)
-            if x[0] == y[0] and x[1] == y[1]:
-                date_connection = '.'+x[1]+'.'+x[0][2:]
-                for date_number in range(int(x[2])+1, int(y[2])):
-                    b += 1
-                    if len(str(date_number)) == 1:
-                        date_number_changed = '0'+str(date_number)
-                    else:
-                        date_number_changed = str(date_number)
-                    x_date.insert(i+b, date_number_changed+date_connection)
-                    price_graph.insert(i+b, price_connection)
-                    date_info.insert(i+b, [['Žiadne objednávky\nv tento deň']])
-            else:
-                days_number = (d2-d1).days-1
-                days_number_before = days_number-(int(y[2])-1)
-                if days_number_before != 0:
-                    date_connection = '.'+x[1]+'.'+x[0][2:]
-                    for date_number in range(
-                        int(x[2]), int(x[2])+days_number_before):
-                        b += 1
-                        if len(str(date_number+1)) == 1:
-                            date_number_changed = '0'+str(date_number+1)
-                        else:
-                            date_number_changed = str(date_number+1)
-                        x_date.insert(i+b, date_number_changed+date_connection)
-                        price_graph.insert(i+b, price_connection)
-                        date_info.insert(
-                            i+b, [['Žiadne objednávky\nv tento deň']])
-                date_connection = '.'+y[1]+'.'+y[0][2:]
-                for date_number in range(1, int(y[2])):
-                    b += 1
-                    if len(str(date_number)) == 1:
-                        date_number_changed = '0'+str(date_number)
-                    else:
-                        date_number_changed = str(date_number)
-                    x_date.insert(i+b, date_number_changed+date_connection)
-                    price_graph.insert(i+b, price_connection)
-                    date_info.insert(i+b, [['Žiadne objednávky\nv tento deň']])
+            date_list = [
+                d1 + datetime.timedelta(days=x) for x in range((d2 - d1).days)]
+            date_str_list = [
+                '{}-{}-{}'.format(d.year, d.month, d.day) for d in date_list[1:]]
+            for date in date_str_list:
+                b += 1
+                date_s = date.split('-')
+                date_connection = date_s[2]+'.'+date_s[1]+'.'+date_s[0]
+                x_date.insert(i+b, date_connection)
+                price_graph.insert(i+b, price_connection)
+                date_info.insert(i+b, [['Žiadne objednávky\nv tento deň']])
 
 
     def Values(self):
