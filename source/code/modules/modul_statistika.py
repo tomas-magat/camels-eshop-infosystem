@@ -288,11 +288,9 @@ class Statistika:
             price_connection = round(price_graph_unedited[i], 2)
             date_list = [
                 d1 + datetime.timedelta(days=x) for x in range((d2 - d1).days)]
-            date_str_list = [
-                '{}-{}-{}'.format(d.year, d.month, d.day) for d in date_list[1:]]
-            for date in date_str_list:
+            for date in date_list[1:]:
                 b += 1
-                date_s = date.split('-')
+                date_s = str(date).split('-')
                 date_connection = date_s[2]+'.'+date_s[1]+'.'+date_s[0]
                 x_date.insert(i+b, date_connection)
                 price_graph.insert(i+b, price_connection)
